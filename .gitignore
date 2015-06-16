@@ -2,6 +2,12 @@
 Thumbs.db
 ehthumbs.db
 
+#manual
+.metadata/
+Servers/
+RemoteSystemsTempFiles/
+
+
 # Folder config file
 Desktop.ini
 
