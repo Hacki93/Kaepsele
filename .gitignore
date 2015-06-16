@@ -7,6 +7,7 @@ ehthumbs.db
 Servers/
 RemoteSystemsTempFiles/
 pom.properties
+.gitignore
 
 
 # Folder config file
