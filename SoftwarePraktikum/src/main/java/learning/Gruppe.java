@@ -1,6 +1,6 @@
 package learning;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import kommunikation.Benachrichtigung;
 
@@ -10,8 +10,7 @@ public class Gruppe {
 	public String klausurname;
 	public Fachrichtung fachrichtung;
 	public boolean freigegeben;
-	
-	public HashMap<Gruppe, Benutzer> mitglieder = new HashMap<Gruppe, Benutzer>();
+	public ArrayList<Benutzer> mitglieder;
 	
 	/**
 	 * 
@@ -48,7 +47,10 @@ public class Gruppe {
 	 * @param fachrichtung: Ist die Fachrichtung der Gruppe
 	 * @param Klausurname: Ist der Name der zu schreibende Klausur
 	 */
-	public void gruppeGenerieren(String name, Fachrichtung fachrichtung, String Klausurname){
+	public void gruppeGenerieren(String name, Fachrichtung fachrichtung, String klausurname){
+		this.name = name;
+		this.fachrichtung = fachrichtung;
+		this.klausurname = klausurname;
 	}
 	
 	/**

@@ -12,13 +12,14 @@ public class Benutzer extends Account {
 	private String beruf;
 	private String studiengang;
 	public ArrayList<Benutzer> freunde;
-	
-	private HashMap<Benutzer, Gruppe> gruppen = new HashMap<Benutzer, Gruppe>();
+	private ArrayList<Gruppe> gruppen;
 	
 	public void freundHinzufügen(Benutzer b){
+		freunde.add(b);
 	}
 	
 	public void gruppeBeitreten(Gruppe g){
+		gruppen.add(g);
 	}
 	
 	public Gruppe gruppeAnlegen(){
