@@ -65,11 +65,11 @@ public class Gruppe {
 	}
 	
 	public Quest questAntreten(){
-		return;
+		return null;
 	}
 	
 	public Teamcombat teamcombatAntreten(){
-		return;
+		return null;
 	}
 	
 	public String getName() {

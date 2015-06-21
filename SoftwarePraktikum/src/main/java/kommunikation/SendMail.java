@@ -13,12 +13,12 @@ import javax.mail.internet.MimeMessage;
  * 
  * @author Hannes
  *
- *Diese Klasse beinhaltet Methoden zum Senden einer Email
+ * Diese Klasse beinhaltet Methoden zum Senden einer Email
  */
 public class SendMail {
 
 	/**
-	 * Sendet eine Email über den vorkonfigurierten hannes-fischer.com Sender von info@kaepsele.de
+	 * Sendet eine Email &uuml;ber den vorkonfigurierten hannes-fischer.com Sender von info@kaepsele.de
 	 * 
 	 * @param recipientAdress Die Adresse des Empf&auml;ngers
 	 * @param subject Der Betreff der Nachricht
@@ -29,7 +29,7 @@ public class SendMail {
     }
 
     /**
-     * Sendet Email über gegebenen SMTP-Server
+     * Sendet Email &uuml;ber gegebenen SMTP-Server
      * 
      * @param smtpHost Der Hostname zum Server
      * @param username Der Benutzername zum SMTP-Account
