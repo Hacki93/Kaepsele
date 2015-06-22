@@ -15,31 +15,31 @@ import javax.mail.internet.MimeMessage;
  *
  * Diese Klasse beinhaltet Methoden zum Senden einer Email
  */
-public class SendMail {
+public class Email {
 
 	/**
 	 * Sendet eine Email &uuml;ber den vorkonfigurierten hannes-fischer.com Sender von info@kaepsele.de
 	 * 
 	 * @param recipientAdress Die Adresse des Empf&auml;ngers
-	 * @param subject Der Betreff der Nachricht
-	 * @param text Der Inhalt der Nachricht
+	 * @param betreff Der Betreff der Nachricht
+	 * @param inhalt Der Inhalt der Nachricht
 	 */
-    public void sendMail(String recipientAdress, String subject, String text) {
-        sendMail("smtp.strato.de", "kaepsele@hannes-fischer.com", "Kaepse1e", "info@kaepsele.de", recipientAdress, subject, text);
+    public void senden(String recipientAdress, String betreff, String inhalt) {
+        senden("smtp.strato.de", "kaepsele@hannes-fischer.com", "Kaepse1e", "info@kaepsele.de", recipientAdress, betreff, inhalt);
     }
 
     /**
      * Sendet Email &uuml;ber gegebenen SMTP-Server
      * 
      * @param smtpHost Der Hostname zum Server
-     * @param username Der Benutzername zum SMTP-Account
-     * @param password Das Passwort zum SMTP-Account
-     * @param senderAddress Die Emailadresse des Senders
-     * @param recipientAddress Die Email-Adresse des Empf&auml;ngers
-     * @param subject Der Betreff der Nachricht
-     * @param text Die Inhalt der Nachricht
+     * @param benutzername Der Benutzername zum SMTP-Account
+     * @param passwort Das Passwort zum SMTP-Account
+     * @param senderAdresse Die Emailadresse des Senders
+     * @param empfaengerAdresse Die Email-Adresse des Empf&auml;ngers
+     * @param betreff Der Betreff der Nachricht
+     * @param inhalt Die Inhalt der Nachricht
      */
-    public void sendMail(String smtpHost, String username, String password, String senderAddress, String recipientAddress, String subject, String text) {
+    private void senden(String smtpHost, String benutzername, String passwort, String senderAdresse, String empfaengerAdresse, String betreff, String inhalt) {
     	//SMTP-Connection konfigurieren
     	Properties properties = new Properties();
         properties.put("mail.smtp.host", smtpHost);
@@ -51,19 +51,19 @@ public class SendMail {
         Session session = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(username,password);
+                    return new PasswordAuthentication(benutzername,passwort);
                 }
             });
         try {
         	//Nachricht zusammenbauen
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(senderAddress));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientAddress));
-            message.setSubject(subject);
-            message.setText(text);
+            message.setFrom(new InternetAddress(senderAdresse));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(empfaengerAdresse));
+            message.setSubject(betreff);
+            message.setText(inhalt);
             //Nachricht senden
             Transport.send(message);
-
+            System.out.println("Kommunikation:Email:senden: Email wurde versendet");
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

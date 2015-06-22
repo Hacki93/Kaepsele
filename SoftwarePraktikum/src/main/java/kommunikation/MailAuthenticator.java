@@ -6,28 +6,28 @@ import javax.mail.PasswordAuthentication;
 /**
  * 
  * @author Hannes
- * Hilfsklasse, die der Session in SendMail einen MailAuthenticator (Speicherklasse für user und password) erstellt
+ * Hilfsklasse, die der Session in Email einen MailAuthenticator (Speicherklasse f&uuml;r benutzer und passwort) erstellt
  */
 public class MailAuthenticator extends Authenticator {
 
-        private final String user;
-        private final String password;
+        private final String benutzer;
+        private final String passwort;
 
         /**
          * Konstruktor, erstellt einen MailAuthenticator
-         * @param user Benutzername des SMPT-Accounts
-         * @param password Passwort des SMPT-Accounts
+         * @param benutzer Benutzername des SMPT-Accounts
+         * @param passwort Passwort des SMPT-Accounts
          */
-        public MailAuthenticator(String user, String password) {
-            this.user = user;
-            this.password = password;
+        public MailAuthenticator(String benutzer, String passwort) {
+            this.benutzer = benutzer;
+            this.passwort = passwort;
         }
  
         /**
          * Gibt basierend auf den eingegeben Logindaten eine PasswordAuthentication zur&uuml;ck
-         * @return PasswordAuthentication (Speicherklasse für user und password)
+         * @return PasswordAuthentication (Speicherklasse f&uuml;r user und password)
          */
         protected PasswordAuthentication getPasswordAuthentication() {
-            return new PasswordAuthentication(this.user, this.password);
+            return new PasswordAuthentication(this.benutzer, this.passwort);
         }
     }

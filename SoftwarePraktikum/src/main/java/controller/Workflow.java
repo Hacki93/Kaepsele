@@ -1,10 +1,14 @@
 package controller;
-import kommunikation.*;
+
+import learning.Benutzer;
 
 public class Workflow {
 
 	public static void main(String[] args) {
-		new SendMail().sendMail("fischer.hannes@gmx.net", "Ihre Registrierung bei Käpsele", "Sehr geehrte/r Hannes Fischer\n\nherzlich Willkommen bei Käpsele.de, Deinem interaktiven Lernportal!");
+		//Test
+		Benutzer hannes = new Benutzer("hannes", "1234", "Hannes Fischer", "mail@hannes-fischer.com");
+		Benutzer chris  = new Benutzer("chris", "penis", "Christoph Jachmann", "christoph.jachmann@gmail.com");
+		chris.freundHinzufügen(hannes);
 	}
 
 }
