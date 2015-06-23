@@ -6,8 +6,8 @@ import kommunikation.Benachrichtigung;
 
 public class Account extends Observable{
 
-	private String benutzername;
-	private String passwort;
+	public String benutzername;
+	protected String passwort;
 	
 	public void login(){
 	}
