@@ -9,12 +9,14 @@ public Quest(){
 	fragen = new ArrayList<Frage>();
 }
 
+
 public ArrayList<Frage> starten(){
 	return fragen; 
 }
 
 public void addFrage(Frage frage){
 	fragen.add(frage);
+	this.punktzahl = this.punktzahl + 3; 
 }
 
 public Frage getNaechsteFrage(){
