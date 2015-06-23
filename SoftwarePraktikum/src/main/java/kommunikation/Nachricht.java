@@ -19,6 +19,7 @@ public class Nachricht {
 	private Date datum;
 	private Object adressat;
 	private Object sender;
+	private int typ;
 	
 	public static final int FREUNDHINZUGEFUEGT = 0;
 	public static final int GRUPPENEINLADUNG = 1;
@@ -47,6 +48,7 @@ public class Nachricht {
 		datum = new Date();
 		this.sender = sender;
 		this.adressat = adressat;
+		this.typ = typ;
 	}
 	
 	/**
