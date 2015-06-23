@@ -15,6 +15,7 @@ public class Gruppe extends Observable {
 	public ArrayList<Benutzer> mitglieder;
 	Benachrichtigung benachrichtigung;
 	Fragenpool fragenpool;
+	Pinnwand pinnwand;
 	
 	/**
 	 * Konstruktor, der eine neue Gruppe erstellt
@@ -31,6 +32,7 @@ public class Gruppe extends Observable {
 		Benachrichtigung benachrichtigung = new Benachrichtigung();
 		this.addObserver(benachrichtigung);
 		fragenpool = new Fragenpool();
+		pinnwand = new Pinnwand();
 	}
 	
 	/**
@@ -57,7 +59,7 @@ public class Gruppe extends Observable {
 	/**
 	 * Es wird der Moderator der Gruppe benachrichtigt
 	 * 
-	 * @param b
+	 * @param nachricht
 	 */
 	public void moderatorBenachrichtigen(Nachricht nachricht){
 	}
@@ -70,6 +72,24 @@ public class Gruppe extends Observable {
 		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.GRUPPENEINLADUNG);
 		setChanged();
 		notifyObservers(nachricht);
+	}
+	
+	/**
+	 * F&uuml;gt einen Benutzer in die Mitgliederliste der Gruppe hinzu
+	 * @param benutzer der hinzugef&uuml;gte Benutzer
+	 */
+	public void mitgliedHinzufügen(Benutzer benutzer){
+		mitglieder.add(benutzer);
+		pinnwand.erlaubteBenutzer.add(benutzer);
+	}
+	
+	/**
+	 * l&ouml;scht einen Benutzer aus der Mitgliederliste der Gruppe
+	 * @param benutzer der gel&ouml;tschte Benutzer
+	 */
+	public void mitgliedLöschen(Benutzer benutzer){
+		mitglieder.remove(benutzer);
+		pinnwand.erlaubteBenutzer.remove(benutzer);
 	}
 	
 	public void frageErstellen(boolean mcfrage){
