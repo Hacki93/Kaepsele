@@ -3,7 +3,11 @@ package learning;
 import java.util.ArrayList;
 
 public class Quest extends Challenge {
-public ArrayList<Frage> fragen;
+private ArrayList<Frage> fragen;
+
+public Quest(){
+	fragen = new ArrayList<Frage>();
+}
 
 public ArrayList<Frage> starten(){
 	return fragen; 

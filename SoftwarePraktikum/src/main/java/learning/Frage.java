@@ -20,7 +20,7 @@ public Frage(Benutzer ersteller, String titel, String text, int loesung){
 	
 	antworten = new ArrayList<String>();
 	anhang = new ArrayList<Medium>();
-	
+		
 }
 
 
