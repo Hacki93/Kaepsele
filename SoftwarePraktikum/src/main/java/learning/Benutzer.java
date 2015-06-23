@@ -71,6 +71,10 @@ public class Benutzer extends Account {
 		notifyObservers(nachricht);
 	}
 	
+	public void freundLöschen(Benutzer benutzer){
+		freunde.remove(benutzer);
+	}
+	
 	public String getEmailAdresse(){
 		return emailAdresse;
 	}

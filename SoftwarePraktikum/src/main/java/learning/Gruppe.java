@@ -36,7 +36,7 @@ public class Gruppe extends Observable {
 	 * @return Anzahl der Mitglieder in einer Gruppe
 	 */
 	public int anzahl(){
-		return 0;
+		return mitglieder.size();
 	}
 
 	public void setFachrichtung(Fachrichtung fachrichtung) {
