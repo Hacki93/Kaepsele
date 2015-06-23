@@ -14,6 +14,7 @@ public class Gruppe extends Observable {
 	public boolean freigegeben;
 	public ArrayList<Benutzer> mitglieder;
 	Benachrichtigung benachrichtigung;
+	Fragenpool fragenpool;
 	
 	/**
 	 * Konstruktor, der eine neue Gruppe erstellt
@@ -29,6 +30,7 @@ public class Gruppe extends Observable {
 		mitglieder = new ArrayList<Benutzer>();
 		Benachrichtigung benachrichtigung = new Benachrichtigung();
 		this.addObserver(benachrichtigung);
+		fragenpool = new Fragenpool();
 	}
 	
 	/**
