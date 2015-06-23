@@ -2,61 +2,47 @@ package learning;
 
 import java.util.ArrayList;
 
-public class Frage {
-	public int punktzahl; 
+public class Frage{
+	public static final int punktzahl = 3; 
 	public Benutzer ersteller;
 	public ArrayList<Medium> anhang; 
 	public int id;
 	public String titel; 
 	public String text;
+	public ArrayList<String> antworten; 
+	public int loesung; 
+
+public Frage(Benutzer ersteller, String titel, String text, int loesung){
+	this.ersteller = ersteller;
+	this.titel = titel; 
+	this.text = text; 
+	this.loesung = loesung;
 	
+	antworten = new ArrayList<String>();
+	anhang = new ArrayList<Medium>();
 	
-	public int getPunktzahl() {
+}
+
+
+public ArrayList<String> getAntworten(){
+	return antworten;
+}
+
+public void addAntworten(String antwort){
+	antworten.add(antwort);
+}
+
+public int korrigiere(int antwort){
+	if (antwort == this.loesung){
 		return punktzahl;
 	}
-	
-	public void setPunktzahl(int punktzahl) {
-		this.punktzahl = punktzahl;
+	else {
+		return 0;
 	}
-	
-	public Benutzer getErsteller() {
-		return ersteller;
-	}
-	
-	public void setErsteller(Benutzer ersteller) {
-		this.ersteller = ersteller;
-	}
-	
-	public ArrayList<Medium> getAnhang() {
-		return anhang;
-	}
-	
-	public void setAnhang(ArrayList<Medium> anhang) {
-		this.anhang = anhang;
-	}
-	
-	public int getId() {
-		return id;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public String getTitel() {
-		return titel;
-	}
-	
-	public void setTitel(String titel) {
-		this.titel = titel;
-	}
-	
-	public String getText() {
-		return text;
-	}
-	
-	public void setText(String text) {
-		this.text = text;
-	} 
-
 }
+
+public int getLoesung(){
+	return loesung;
+}
+}
+
