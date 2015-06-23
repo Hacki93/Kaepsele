@@ -1,8 +1,10 @@
 package learning;
 
+import java.util.Observable;
+
 import kommunikation.Benachrichtigung;
 
-public class Account {
+public class Account extends Observable{
 
 	private String benutzername;
 	private String passwort;

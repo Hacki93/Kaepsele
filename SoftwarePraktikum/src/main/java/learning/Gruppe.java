@@ -1,21 +1,39 @@
 package learning;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Observable;
 
 import kommunikation.Benachrichtigung;
+import kommunikation.Nachricht;
 
-public class Gruppe {
+public class Gruppe extends Observable {
 
 	public String name;
 	public String klausurname;
 	public Fachrichtung fachrichtung;
 	public boolean freigegeben;
+	public ArrayList<Benutzer> mitglieder;
+	Benachrichtigung benachrichtigung;
 	
-	public HashMap<Gruppe, Benutzer> mitglieder = new HashMap<Gruppe, Benutzer>();
+	/**
+	 * Konstruktor, der eine neue Gruppe erstellt
+	 * 
+	 * @param name: Ist der Name der Gruppe
+	 * @param fachrichtung: Ist die Fachrichtung der Gruppe
+	 * @param Klausurname: Ist der Name der zu schreibende Klausur
+	 */
+	public Gruppe(String name, Fachrichtung fachrichtung, String klausurname){
+		this.name = name;
+		this.fachrichtung = fachrichtung;
+		this.klausurname = klausurname;
+		mitglieder = new ArrayList<Benutzer>();
+		Benachrichtigung benachrichtigung = new Benachrichtigung();
+		this.addObserver(benachrichtigung);
+	}
 	
 	/**
 	 * 
-	 * @return Anzahl der Mitlgieder in einer Gruppe
+	 * @return Anzahl der Mitglieder in einer Gruppe
 	 */
 	public int anzahl(){
 		return 0;
@@ -27,10 +45,11 @@ public class Gruppe {
 
 	/**
 	 * Es werden Mitglieder der Gruppe benachrichtigt
-	 * 
-	 * @param b
+	 * @param nachricht Die Nachricht für die Gruppenmitglieder
 	 */
-	private void mitgliederBenachrichitgen(Benachrichtigung b){
+	private void mitgliederBenachrichtigen(Nachricht nachricht) {
+		setChanged();
+		notifyObservers(nachricht);
 	}
 	
 	/**
@@ -38,36 +57,28 @@ public class Gruppe {
 	 * 
 	 * @param b
 	 */
-	public void moderatorBenachrichtigen(Benachrichtigung b){
+	public void moderatorBenachrichtigen(Nachricht nachricht){
 	}
 	
 	/**
-	 * Es wird eine neue Gruppe erstellt
-	 * 
-	 * @param name: Ist der Name der Gruppe
-	 * @param fachrichtung: Ist die Fachrichtung der Gruppe
-	 * @param Klausurname: Ist der Name der zu schreibende Klausur
+	 * Es wird ein Benutzer eingeladen
+	 * @param benutzer Der Benutzer der in die Gruppe eingeladen wird
 	 */
-	public void gruppeGenerieren(String name, Fachrichtung fachrichtung, String Klausurname){
-	}
-	
-	/**
-	 * Es wird ein Bneutzer eingeladen
-	 * 
-	 * @param b ist der Benutzer der in die Gruppe eingeladen wird
-	 */
-	public void einladen(Benutzer b){	
+	public void einladen(Benutzer benutzer) {
+		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.GRUPPENEINLADUNG);
+		setChanged();
+		notifyObservers(nachricht);
 	}
 	
 	public void frageErstellen(boolean mcfrage){
 	}
 	
 	public Quest questAntreten(){
-		return;
+		return null;
 	}
 	
 	public Teamcombat teamcombatAntreten(){
-		return;
+		return null;
 	}
 	
 	public String getName() {
