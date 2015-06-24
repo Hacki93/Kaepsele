@@ -1,14 +1,25 @@
 package controller;
 
-import learning.Benutzer;
+import learning.Fachrichtung;
+import datenhaltung.Datenbank;
+import datenhaltung.Employee;
 
+/**
+ * @author Hannes
+ *
+ */
 public class Workflow {
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		//Test
-		Benutzer hannes = new Benutzer("hannes", "1234", "Hannes Fischer", "mail@hannes-fischer.com");
-		Benutzer chris  = new Benutzer("chris", "penis", "Christoph Jachmann", "christoph.jachmann@gmail.com");
-		chris.freundHinzufügen(hannes);
+		Datenbank datenbank = new Datenbank();
+		Fachrichtung med = new Fachrichtung("Medizin", false);
+		Fachrichtung bc  = new Fachrichtung("Biochemie", true);
+		for(Object o: datenbank.tabelleAusgeben("Fachrichtung")) {
+			System.out.println();
+		}
 	}
 
 }

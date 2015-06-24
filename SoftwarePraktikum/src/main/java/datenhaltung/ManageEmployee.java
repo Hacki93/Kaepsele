@@ -1,14 +1,12 @@
 package datenhaltung;
 
 import java.util.List; 
-import java.util.Date;
 import java.util.Iterator; 
 import org.hibernate.HibernateException; 
 import org.hibernate.Session; 
 import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 public class ManageEmployee {
 	
@@ -16,31 +14,29 @@ public class ManageEmployee {
    
    public static void main(String[] args) {
       try{
-         factory = new AnnotationConfiguration().configure().
-                   //addPackage("com.xyz") //add package if used.
-                   addAnnotatedClass(Employee.class).buildSessionFactory();
+         factory = new AnnotationConfiguration().configure().addAnnotatedClass(Employee.class).buildSessionFactory();
+         //addPackage("com.xyz" before add...) //add package if used.
       }catch (Throwable ex) { 
          System.err.println("Failed to create sessionFactory object." + ex);
          throw new ExceptionInInitializerError(ex); 
       }
-      ManageEmployee ME = new ManageEmployee();
-
-      /* Add few employee records in database */
-      Integer empID1 = ME.addEmployee("Zara", "Ali", 1000);
-      Integer empID2 = ME.addEmployee("Daisy", "Das", 5000);
-      Integer empID3 = ME.addEmployee("John", "Paul", 10000);
+      
+      ManageEmployee employees = new ManageEmployee();
+      Integer empID1 = employees.addEmployee("Zara", "Ali", 1000);
+      Integer empID2 = employees.addEmployee("Daisy", "Das", 5000);
+      Integer empID3 = employees.addEmployee("John", "Paul", 10000);
 
       /* List down all the employees */
-      ME.listEmployees();
+      employees.listEmployees();
 
       /* Update employee's records */
-      ME.updateEmployee(empID1, 5000);
+      employees.updateEmployee(empID1, 5000);
 
       /* Delete an employee from the database */
-      ME.deleteEmployee(empID2);
+      employees.deleteEmployee(empID2);
 
       /* List down new list of the employees */
-      ME.listEmployees();
+      employees.listEmployees();
    }
    /* Method to CREATE an employee in the database */
    public Integer addEmployee(String fname, String lname, int salary){
@@ -63,6 +59,7 @@ public class ManageEmployee {
       }
       return employeeID;
    }
+   
    /* Method to  READ all the employees */
    public void listEmployees( ){
       Session session = factory.openSession();
@@ -84,6 +81,7 @@ public class ManageEmployee {
          session.close(); 
       }
    }
+   
    /* Method to UPDATE salary for an employee */
    public void updateEmployee(Integer EmployeeID, int salary ){
       Session session = factory.openSession();
@@ -102,6 +100,7 @@ public class ManageEmployee {
          session.close(); 
       }
    }
+   
    /* Method to DELETE an employee from the records */
    public void deleteEmployee(Integer EmployeeID){
       Session session = factory.openSession();
