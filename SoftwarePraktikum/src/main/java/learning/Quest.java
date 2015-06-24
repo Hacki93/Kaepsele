@@ -7,11 +7,15 @@ private ArrayList<Frage> fragen;
 private ArrayList<Integer> antworten;
 private int zaehlerFragen = 0;
 private int zaehlerAntworten = 0;
+private int erreichbarePunktzahl = 30; 
 
 public Quest(){
 	fragen = new ArrayList<Frage>();
 }
 
+public int getErreichbarePunktzahl(){
+	return erreichbarePunktzahl;
+}
 
 public ArrayList<Frage> starten(){
 	return fragen; 
@@ -38,10 +42,10 @@ public int getNaechsteAntwort(){
 }
 
 public int korrigiere(){
-	while (fragen.isEmpty() == false){
-		int lösung = getNaechsteFrage().getLoesung();
+	while (zaehlerFragen < 10){
+		int loesung = getNaechsteFrage().getLoesung();
 		int antwort = getNaechsteAntwort();
-		if(lösung == antwort){
+		if(loesung == antwort){
 			this.erreichtePunktzahl = this.erreichtePunktzahl + 3; 
 		}
 		else{

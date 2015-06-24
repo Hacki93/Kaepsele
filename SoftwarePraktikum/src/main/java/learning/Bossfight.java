@@ -7,10 +7,10 @@ public class Bossfight extends Challenge {
 	private Medium anhang;
 	private ArrayList<String> antworten;
 	
-	public Bossfight(Benutzer bearbeiter, Medium anhang, int punktzahl){
+	public Bossfight(Benutzer bearbeiter, Medium anhang, int erreichbarePunktzahl){
 		this.bearbeiter = bearbeiter; 
 		this.anhang = anhang; 
-		this.erreichtePunktzahl = punktzahl;
+		this.erreichbarePunktzahl = erreichbarePunktzahl;
 		datum = new Date();
 		antworten = new ArrayList<String>();
 	}
@@ -28,12 +28,12 @@ public class Bossfight extends Challenge {
 		antworten.add(antwort);
 	}
 	
-	public void korrigieren(){
-		
+	public void korrigieren(int punktzahl){
+		erreichtePunktzahl = erreichtePunktzahl + punktzahl;
 	}
 	
 	public boolean bestanden(){
-		if (this.korrigiere() > (0.8 * this.erreichtePunktzahl)){
+		if (erreichtePunktzahl >= (0.8 * this.erreichbarePunktzahl)){
 			return true;
 		}
 		else{
