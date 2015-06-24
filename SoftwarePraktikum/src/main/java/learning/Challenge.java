@@ -5,7 +5,8 @@ import java.util.Date;
 public class Challenge {
 public Date datum; 
 public Benutzer bearbeiter; 
-public int punktzahl;
+public int erreichbarePunktzahl;
+protected int erreichtePunktzahl;
 public int id; 
 
 

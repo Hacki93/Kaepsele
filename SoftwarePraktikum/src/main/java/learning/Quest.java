@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Quest extends Challenge {
 private ArrayList<Frage> fragen;
 private ArrayList<Integer> antworten;
+private int zaehlerFragen = 0;
+private int zaehlerAntworten = 0;
 
 public Quest(){
 	fragen = new ArrayList<Frage>();
@@ -20,8 +22,8 @@ public void addFrage(Frage frage){
 }
 
 public Frage getNaechsteFrage(){
-	Frage frage = fragen.get(0);
-	fragen.remove(0);
+	Frage frage = fragen.get(zaehlerFragen);
+	zaehlerFragen++;
 	return frage;
 }
 
@@ -30,8 +32,8 @@ public void antwortSpeicher(int antwort){
 }
 
 public int getNaechsteAntwort(){
-	int antwort = antworten.get(0);
-	antworten.remove(0);
+	int antwort = antworten.get(zaehlerAntworten);
+	zaehlerAntworten++;
 	return antwort;
 }
 
@@ -40,12 +42,12 @@ public int korrigiere(){
 		int lösung = getNaechsteFrage().getLoesung();
 		int antwort = getNaechsteAntwort();
 		if(lösung == antwort){
-			this.punktzahl = this.punktzahl + 3; 
+			this.erreichtePunktzahl = this.erreichtePunktzahl + 3; 
 		}
 		else{
 			continue;
 		}
 	}
-	return punktzahl; 
+	return erreichtePunktzahl; 
 }
 }
