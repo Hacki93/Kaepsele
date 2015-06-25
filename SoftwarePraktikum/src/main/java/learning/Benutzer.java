@@ -42,6 +42,7 @@ public class Benutzer extends Account {
 		erstelltAm = new Date();
 		benachrichtigung = new Benachrichtigung();
 		pinnwand = new Pinnwand();
+		pinnwand.erlaubteBenutzer.add(this);
 		this.addObserver(benachrichtigung);
 	}
 	
@@ -82,6 +83,18 @@ public class Benutzer extends Account {
 	}
 	
 	/**
+	 * Erstellt eine neue Gruppe
+	 * @param name : Ist der Name der Gruppe
+	 * @param fachrichtung : Ist die Fachrichtung der Gruppe
+	 * @param klausurname : Ist die Klausur auf die in der Gruppe gelernt wird
+	 */
+	public void gruppeErstellen(String name, Fachrichtung fachrichtung, String klausurname){
+		Gruppe gruppe = new Gruppe(name, fachrichtung, klausurname);
+		this.gruppen.add(gruppe);
+		gruppe.mitgliedHinzufügen(this);
+	}
+	
+	/**
 	 * Eine Gruppe wird in die eigene Gruppenliste hinzugef&uuml;gt
 	 * @param gruppe die hinzugef&uuml;gte Gruppe
 	 */
@@ -89,6 +102,7 @@ public class Benutzer extends Account {
 		if(gruppe.anzahl() < 15){
 		gruppen.add(gruppe);
 		gruppe.mitgliedHinzufügen(this);
+		gruppe.pinnwand.erlaubteBenutzer.add(this);
 		return true;
 		}
 		else{
@@ -105,6 +119,89 @@ public class Benutzer extends Account {
 	public void gruppeVerlassen(Gruppe gruppe){
 		gruppen.remove(gruppe);
 		gruppe.mitgliedLöschen(this);
+		gruppe.pinnwand.erlaubteBenutzer.remove(this);
+	}
+	
+	/**
+	 * Ein Beitrag auf einer Pinnwand eines Benutzers schreiben
+	 * @param inhalt : Ist der Inhalt des Pinnwandbeitrags
+	 * @param titel : Ist der Titel des Pinnwandbeitrags
+	 * @param benutzer : Ist der Besitzer der Pinnwand
+	 * @return true, falls der Eintrag geschrieben wurde
+	 */
+	public boolean themaSchreiben(String inhalt, String titel, Benutzer benutzer){
+		if (benutzer.pinnwand.erlaubteBenutzer.contains(this)) {
+			Thema thema = new Thema(inhalt, titel, this);
+			benutzer.pinnwand.inhaltHinzufügen(thema);
+			return true;
+		}
+		else{
+			// Der Benutzer befindet sich nicht in der Liste der erlaubten Benutzer
+			// Benutzer wird informiert, dass er keinen Pinnwandbeitrag bei diesem Benutzer schreiben darf
+			return false;
+		}
+	}
+	
+	/**
+	 * Einen Kommentar zu einem Pinnwandbeitrag schreiben
+	 * @param inhalt : Ist der Inhalt des Kommentars
+	 * @param titel : Ist der Titel des Kommentars
+	 * @param benutzer : Ist der Besitzer der Pinnwand
+	 * @param thema : Ist der Pinnwandbeitrag der kommentiert wird
+	 * @return true , falls der Kommentar geschrieben wurde
+	 */
+	public boolean kommentarSchreiben(String inhalt, String titel, Benutzer benutzer, Thema thema){
+		if (benutzer.pinnwand.erlaubteBenutzer.contains(this)){
+			Kommentar kommentar = new Kommentar(inhalt, titel, this);
+			thema.kommentieren(kommentar);
+			return true;
+		}
+		else{
+			// Der Benutzer befindet sich nicht in der Liste der erlaubten Benutzer
+			// Benutzer wird informiert, dass er keinen Kommentar bei diesem Benutzers schreiben darf
+			return false;
+		}
+	}
+	
+	/**
+	 * Ein Beitrag auf die Pinnwand einer Gruppe schreiben
+	 * @param inhalt : Ist der Inhalt des Kommentars
+	 * @param titel : Ist der Titel des Kommentars
+	 * @param gruppe : Ist die Gruppe in der der Beitrag geschrieben wird
+	 * @return 	true, falls der Beitrag geschrieben wurde
+	 */
+	public boolean gruppenThemaSchreiben(String inhalt, String titel, Gruppe gruppe){
+		if (gruppe.pinnwand.erlaubteBenutzer.contains(this)){
+			Thema thema = new Thema(inhalt, titel, this);
+			gruppe.pinnwand.inhaltHinzufügen(thema);
+			return true;
+		}
+		else{
+			// Der Benutzer befindet sich nicht in der Liste der erlaubten Benutzer
+			// Benutzer wird informiert, dass er keinen Pinnwandbeitrag bei dieser Gruppe schreiben darf
+			return false;
+		}
+	}
+	
+	/**
+	 * Einen Kommentar in einer Gruppe schreiben
+	 * @param inhalt : Ist der Inhalt des Kommentars
+	 * @param titel : Ist der Titel des Kommentars
+	 * @param gruppe : Ist die Gruppe in der der Beitrag geschrieben wird
+	 * @param thema : Ist der Pinnwandbeitrag der Kommentiert wird
+	 * @return true, falls der Kommentar geschrieben wurde
+	 */
+	public boolean gruppenKommentarSchreiben(String inhalt, String titel, Gruppe gruppe, Thema thema){
+		if (gruppe.pinnwand.erlaubteBenutzer.contains(this)){
+			Kommentar kommentar = new Kommentar(inhalt, titel, this);
+			thema.kommentieren(kommentar);
+			return true;
+		}
+		else{
+			// Der Benutzer befindet sich nicht in der Liste der erlaubten Benutzer
+			// Benutzer wird informiert, dass er keinen Kommentar in dieser Gruppe schreiben darf
+			return false;
+		}
 	}
 	
 	public String getEmailAdresse(){

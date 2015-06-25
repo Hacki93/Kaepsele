@@ -38,4 +38,17 @@ public class Thema extends Inhalt{
 	public void kommentarLöschen(Kommentar kommentar){
 		kommentare.remove(kommentar);
 	}
+	
+	/**
+	 * Bewertung eines Inhalts
+	 * @param wertung kann positiv oder negativ sein
+	 */
+	public void bewerten(boolean wertung){
+		if(wertung == true){
+			bewertung++;
+		}
+		else if(wertung == false){
+			bewertung--;
+		}
+	}
 }

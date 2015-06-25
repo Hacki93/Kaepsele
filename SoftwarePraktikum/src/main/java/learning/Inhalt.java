@@ -2,7 +2,7 @@ package learning;
 
 import java.util.Date;
 
-public class Inhalt {
+public class Inhalt implements Comparable<Inhalt>{
 
 	public Benutzer autor;
 	public int bewertung;
@@ -23,6 +23,20 @@ public class Inhalt {
 		else if(wertung == false){
 			bewertung--;
 		}
+	}
+	
+	@Override
+	public int compareTo(Inhalt inhalt) {
+		if (inhalt.getBewertung() == 0 && this.getBewertung() == 0){
+			return 0;
+		}
+		if (this.getBewertung() == 0){
+			return 1;
+		}
+		if (inhalt.getBewertung() == 0){
+			return -1;
+		}
+		return inhalt.getBewertung() - this.getBewertung();
 	}
 
 	public Benutzer getAutor() {
