@@ -24,4 +24,8 @@ xmlns:mvc="http://www.springframework.org/schema/mvc"
 	<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
 		<property name="templateEngine" ref="templateEngine" />
 	</bean>
+	
+	<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
+    <mvc:annotation-driven/>
+	
 </beans>
