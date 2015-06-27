@@ -1,7 +1,9 @@
 package learning;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Stack;
 
 public class Thema extends Inhalt{
 
@@ -40,15 +42,31 @@ public class Thema extends Inhalt{
 	}
 	
 	/**
-	 * Bewertung eines Inhalts
-	 * @param wertung kann positiv oder negativ sein
+	 * Sortiert die Kommentare nach dem neusten Datum
+	 * @return die sortierte Kommentarliste
 	 */
-	public void bewerten(boolean wertung){
-		if(wertung == true){
-			bewertung++;
-		}
-		else if(wertung == false){
-			bewertung--;
-		}
+	public ArrayList<Kommentar> sortiereNachDatum(){
+		Stack<Kommentar> tempStack = new Stack<Kommentar>();
+		
+		for(int i = 1; i < this.kommentare.size(); i++){
+			for(int j = 0; j < this.kommentare.size() - 1; j++){
+				if (this.kommentare.get(j).getDatum().compareTo(this.kommentare.get(j+1).getDatum()) < 0){
+					tempStack.push(this.kommentare.get(j));
+					this.kommentare.set(j, this.kommentare.get(j+1));
+					this.kommentare.set(j+1, tempStack.pop());
+				}
+			}
+		}	
+		return this.kommentare;
 	}
+	
+	/**
+	 * Sortiert die Kommentare nach den besten Bewertungen
+	 * @return sortierte Kommentarliste
+	 */
+	public ArrayList<Kommentar> sortiereNachBewertung(){
+		Collections.sort(this.kommentare);
+		return this.kommentare;
+	}
+
 }

@@ -35,15 +35,15 @@ public class Pinnwand{
 	
 	/**
 	 * Sortiert die Pinnwand nach den neuesten Einträgen
+	 * @return die sortierte Themenliste
 	 */
 	public ArrayList<Thema> sortiereNachDatum(){
 		Stack<Thema> tempStack = new Stack<Thema>();
-		ArrayList<Thema> tempArray = new ArrayList<Thema>();
+		
 		for(int i = 1; i < this.themen.size(); i++){
 			for(int j = 0; j < this.themen.size() - 1; j++){
 				if (this.themen.get(j).getDatum().compareTo(this.themen.get(j+1).getDatum()) < 0){
 					tempStack.push(this.themen.get(j));
-					tempArray.add(this.themen.get(j));
 					this.themen.set(j, this.themen.get(j+1));
 					this.themen.set(j+1, tempStack.pop());
 				}
@@ -54,6 +54,7 @@ public class Pinnwand{
 	
 	/**
 	 * Sortiert die Pinnwand nach den besten Bewertungen
+	 * @return die sortierte Themenliste
 	 */
 	public ArrayList<Thema> sortiereNachBewertung(){
 		Collections.sort(this.themen);
