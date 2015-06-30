@@ -92,6 +92,7 @@ public class Benutzer extends Account {
 		Gruppe gruppe = new Gruppe(name, fachrichtung, klausurname);
 		this.gruppen.add(gruppe);
 		gruppe.mitgliedHinzufügen(this);
+		gruppe.moderatoren.add(this);
 	}
 	
 	/**
