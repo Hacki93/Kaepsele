@@ -24,9 +24,8 @@ public class Fachrichtung {
 	@Column(name = "freigegeben")
 	public boolean freigegeben;
 	
-	public Fachrichtung(String name, boolean freigegeben) {
-		this.name = name;
-		this.freigegeben = freigegeben;
+	public Fachrichtung() {
+		freigegeben = false;
 	}
 	
 	public String getName() {
