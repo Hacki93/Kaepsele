@@ -16,6 +16,7 @@ public class Gruppe extends Observable {
 	Benachrichtigung benachrichtigung;
 	Fragenpool fragenpool;
 	Pinnwand pinnwand;
+	Mediathek mediathek;
 	
 	/**
 	 * Konstruktor, der eine neue Gruppe erstellt
@@ -33,6 +34,7 @@ public class Gruppe extends Observable {
 		this.addObserver(benachrichtigung);
 		fragenpool = new Fragenpool();
 		pinnwand = new Pinnwand();
+		mediathek = new Mediathek();
 	}
 	
 	/**
