@@ -13,9 +13,11 @@ public class Gruppe extends Observable {
 	public Fachrichtung fachrichtung;
 	public boolean freigegeben;
 	public ArrayList<Benutzer> mitglieder;
+	public ArrayList<Benutzer> moderatoren;
 	Benachrichtigung benachrichtigung;
 	Fragenpool fragenpool;
 	Pinnwand pinnwand;
+	Mediathek mediathek;
 	
 	/**
 	 * Konstruktor, der eine neue Gruppe erstellt
@@ -29,10 +31,12 @@ public class Gruppe extends Observable {
 		this.fachrichtung = fachrichtung;
 		this.klausurname = klausurname;
 		mitglieder = new ArrayList<Benutzer>();
+		moderatoren = new ArrayList<Benutzer>();
 		Benachrichtigung benachrichtigung = new Benachrichtigung();
 		this.addObserver(benachrichtigung);
 		fragenpool = new Fragenpool();
 		pinnwand = new Pinnwand();
+		mediathek = new Mediathek();
 	}
 	
 	/**

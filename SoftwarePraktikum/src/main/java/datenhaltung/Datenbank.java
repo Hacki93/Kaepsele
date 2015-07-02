@@ -1,7 +1,6 @@
 package datenhaltung;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -11,22 +10,25 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 /**
- * Die Klasse Datenbank stellt die unterste Schicht der Kommunikation Portal <-> Datenbank da. Auf dieser Schicht werden die
- * direkten Quests auf der Datenbank durchgef&uuml;hrt, die vorher durch die benutzerfreundlichere Klasse "DatenbankenAbfrage"
- * zusammengestellt wurden. Die einzelnen Tabellen in der Datenbank m&uuml;ssen dabei bereits manuell erstellt worden sein.
+ * Die Klasse Datenbank stellt die &uuml;ber der Session die n&auml;chste Schicht der Kommunikation Portal <-> Datenbank da. 
+ * Auf dieser Schicht werden die direkten Quests auf der Datenbank durchgef&uuml;hrt. Pro Klassenobjekt wird dabei eine Datenbank
+ * incl SessionFactory erstellt, die w&auml;hrend des gesamten Lebenszyklus der Software erhalten bleibt. Datenbanken werden auf
+ * der n&auml;chsth&ouml;heren Schicht "DatenbankenVerwaltung" zusammengefasst, verwaltet und angesprochen.
  * @author Hannes
- *
  */
+@SuppressWarnings("deprecation")
 public class Datenbank {
 	
 	 private static SessionFactory factory; 
+	 private Class klasse;
 	   
 	   /**
-	    * Konstruktor, der die Schnittstelle mitsamt persistenter SessionFactory erstellt.
+	    * Konstruktor, der die Schnittstelle mitsamt persistenter SessionFactory erstellt
 	    */
-	   public Datenbank() {
+	   public Datenbank(Class klasse) {
+		   this.klasse = klasse;
 	      try{
-	         factory = new AnnotationConfiguration().configure().addAnnotatedClass(Employee.class).buildSessionFactory();
+	         factory = new AnnotationConfiguration().configure().addAnnotatedClass(klasse).buildSessionFactory();
 	         //Erinnerung: addPackage("com.xyz" before add...) add package if used.
 	      }catch (Throwable ex) { 
 	         System.err.println("Datenhaltung:Datenbank:Datenbank: sessionFactoryObject konnte nicht erstellt werden" + ex);
@@ -39,6 +41,7 @@ public class Datenbank {
 	    * @return Die generierte ID
 	    */
 	   public int eintragHinzufuegen(Object eintrag){
+		  System.out.println("Eintrag wird in Datenbank hinzugefügt: "+klasse.getName());
 	      Session session = factory.openSession();
 	      Transaction transaction = null;
 	      int id = 0;
@@ -46,6 +49,7 @@ public class Datenbank {
 	         transaction = session.beginTransaction();
 	         id = (int) session.save(eintrag); 
 	         transaction.commit();
+	         System.out.println("Eintrag hinzugefügt");
 	      }catch (HibernateException e) {
 	         if (transaction != null) {
 	        	 transaction.rollback();
@@ -59,14 +63,15 @@ public class Datenbank {
 	   
 	   /**
 	    * Gibt alle Eintraege aus der Tabelle zur&uuml;ck
+	    * @return Alle Eintr&auml;ge der tabelle
 	    */
-	   public List<Object> tabelleAusgeben(String tabellenName){
+	   public List<Object> tabelleAusgeben(){
 	      Session session = factory.openSession();
 	      Transaction transaction = null;
 	      List<Object> eintraege = new ArrayList<Object>();
 	      try {
 	         transaction = session.beginTransaction();
-	         eintraege = session.createQuery("FROM "+tabellenName).list(); 
+	         eintraege = session.createQuery("FROM "+klasse.getName()).list(); 
 	         transaction.commit();
 	      } catch (HibernateException e) {
 	         if (transaction!=null) {
@@ -80,16 +85,38 @@ public class Datenbank {
 	   }
 	   
 	   /**
-	    * Aktualisiert einen Eintrag der Tabelle
+	    * Gibt einen Eintrag zur&uuml;ck
+	    * @param id Die ID des Eintrags
+	    * @return Der Eintrag
 	    */
-	   public void eintragAktualisieren(Integer EmployeeID, int salary ){
+	   public Object eintragAusgeben(int id) {
+		   Session session = factory.openSession();
+		      Transaction tx = null;
+		      Object obj = new Object();
+		      try{
+		         tx = session.beginTransaction();
+		         obj = session.get(klasse, id); 
+		         tx.commit();
+		      }catch (HibernateException e) {
+		         if (tx!=null) tx.rollback();
+		         e.printStackTrace(); 
+		      }finally {
+		         session.close(); 
+		      }
+		        return obj;
+		   }
+
+	   
+	   /**
+	    * Aktualisiert einen Eintrag der Tabelle
+	    * @param obj Der aktualisierte Eintrag
+	    */
+	   public void eintragAktualisieren(Object obj ){
 	      Session session = factory.openSession();
 	      Transaction tx = null;
 	      try{
 	         tx = session.beginTransaction();
-	         Employee employee = (Employee)session.get(Employee.class, EmployeeID); 
-	         employee.setSalary( salary );
-			 session.update(employee); 
+			 session.update(obj); 
 	         tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();
@@ -101,14 +128,15 @@ public class Datenbank {
 	   
 	   /**
 	    * Entfernt einen Eintrag aus der Tabelle
+	    * @param id Die ID des zu entfernenden Eintrags
 	    */
-	   public void eintragEntfernen(Integer EmployeeID){
+	   public void eintragEntfernen(Integer id){
 	      Session session = factory.openSession();
 	      Transaction tx = null;
 	      try{
 	         tx = session.beginTransaction();
-	         Employee employee = (Employee)session.get(Employee.class, EmployeeID); 
-	         session.delete(employee); 
+	         Object obj = session.get(klasse, id); 
+	         session.delete(obj); 
 	         tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();

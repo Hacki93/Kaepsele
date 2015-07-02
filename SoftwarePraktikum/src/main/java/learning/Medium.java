@@ -8,8 +8,18 @@ public class Medium {
 	public boolean öffentlich;
 	public int id;
 	
-	public boolean dateiLöschen(){
-		return true;
+	/**
+	 * Konstruktor eines Mediums
+	 * @param name ist der Name des Mediums
+	 * @param pfad ist der Pfad des Mediums
+	 * @param typ ist der Typ des Mediums
+	 * @param öffentlich ob das Medium öffentlich ist
+	 */
+	public Medium(String name, String pfad, int typ, boolean öffentlich){
+		this.name = name;
+		this.pfad = pfad;
+		this.typ = typ;
+		this.öffentlich = öffentlich;
 	}
 
 	public String getName() {
