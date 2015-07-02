@@ -8,17 +8,17 @@ public class Teamcombat {
 	public Date ablaufdatum; 
 	public Gruppe herausforderer; 
 	public Gruppe herausgeforderter; 
-	public Quest questFürHerausforderer;
-	public Quest questFürHerausgeforderter;
+	public Quest questFuerHerausforderer;
+	public Quest questFuerHerausgeforderter;
 	public Gruppe gewinner; 
 	public int id; 
 	
 	
 	
-	public void herausfordern(Gruppe herausgeforderter){
+	public void herausfordern(Gruppe herausforderer, Gruppe herausgeforderter){
 		this.herausgeforderter = herausgeforderter;
-		questFürHerausforderer = this.herausgeforderter.fragenpool.getQuest();
-		questFürHerausgeforderter = this.herausforderer.fragenpool.getQuest();
+		questFuerHerausforderer = this.herausgeforderter.fragenpool.getQuest();
+		questFuerHerausgeforderter = this.herausforderer.fragenpool.getQuest();
 //		Nachricht nachricht = new Nachricht(this.herausforderer, this.herausgeforderter, 4);
 //		gruppeBenachrichtigen(herausgeforderter, nachricht);
 	}
@@ -37,11 +37,11 @@ public class Teamcombat {
 	}
 
 	public Quest getQuestFürHerausforderer() {
-		return questFürHerausforderer;
+		return questFuerHerausforderer;
 	}
 
 	public Quest getQuestFürHerausgeforderter() {
-		return questFürHerausgeforderter;
+		return questFuerHerausgeforderter;
 	}
 
 	public int getId() {
