@@ -15,7 +15,7 @@ public class Teamcombat {
 	
 	
 	
-	public void herausfordern(Gruppe herausforderer, Gruppe herausgeforderter){
+	public Teamcombat(Gruppe herausforderer, Gruppe herausgeforderter){
 		this.herausgeforderter = herausgeforderter;
 		questFuerHerausforderer = this.herausgeforderter.fragenpool.getQuest();
 		questFuerHerausgeforderter = this.herausforderer.fragenpool.getQuest();

@@ -96,15 +96,19 @@ public class Gruppe extends Observable {
 		pinnwand.erlaubteBenutzer.remove(benutzer);
 	}
 	
-	public void frageErstellen(boolean mcfrage){
+	public void frageErstellen(Benutzer ersteller, String titel, String text, int loesung){
+		Frage frage = new Frage(ersteller, titel, text, loesung);
+		this.fragenpool.addFrage(frage);
 	}
 	
 	public Quest questAntreten(){
-		return null;
+		Quest quest = this.fragenpool.getQuest();
+		return quest;
 	}
 	
-	public Teamcombat teamcombatAntreten(){
-		return null;
+	public Teamcombat teamcombatAntreten(Gruppe herausgeforderter){
+		Teamcombat teamcombat = new Teamcombat(this, herausgeforderter);
+		return teamcombat;
 	}
 	
 	public String getName() {
