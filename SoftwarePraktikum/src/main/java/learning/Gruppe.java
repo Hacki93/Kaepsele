@@ -83,8 +83,7 @@ public class Gruppe {
 	 *            Der Benutzer der in die Gruppe eingeladen wird
 	 */
 	public void einladen(Benutzer benutzer) {
-		Nachricht nachricht = new Nachricht(this, benutzer,
-				Nachricht.GRUPPENEINLADUNG);
+		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.GRUPPENEINLADUNG, this);
 		benutzer.benachrichtigen(nachricht);
 	}
 
@@ -142,7 +141,7 @@ public class Gruppe {
 		Teamcombat teamcombat = new Teamcombat(this, herausgeforderter);
 		this.teamcombats.add(teamcombat);
 		herausgeforderter.teamcombats.add(teamcombat);
-		Nachricht nachricht = new Nachricht(this, herausgeforderter, 4);
+		Nachricht nachricht = new Nachricht(this, herausgeforderter, 4, teamcombat);
 		herausgeforderter.benachrichtigen(nachricht);
 		this.benachrichtigen(nachricht);
 	}

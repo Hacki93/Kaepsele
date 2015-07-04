@@ -54,7 +54,7 @@ public class Benutzer extends Account {
 		System.out.println("Learning:Benutzer:freundHinzufügen: Freund wurde hinzugefügt");
 		freunde.add(benutzer);
 		pinnwand.erlaubteBenutzer.add(benutzer);
-		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.FREUNDHINZUGEFUEGT);
+		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.FREUNDHINZUGEFUEGT, this);
 		benutzer.benachrichtigen(nachricht);
 	}
 	

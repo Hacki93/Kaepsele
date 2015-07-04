@@ -33,7 +33,7 @@ public class Bossfight extends Challenge {
 
 	public void korrigieren(Benutzer moderator, int punktzahl) {
 		erreichtePunktzahl = erreichtePunktzahl + punktzahl;
-		Nachricht nachricht = new Nachricht(moderator, bearbeiter, Nachricht.AUFGABEBEWERTET);
+		Nachricht nachricht = new Nachricht(moderator, bearbeiter, Nachricht.AUFGABEBEWERTET, this);
 		bearbeiter.benachrichtigen(nachricht);
 	}
 
@@ -41,7 +41,7 @@ public class Bossfight extends Challenge {
 		Random rand = new Random();
 		int index = rand.nextInt(gruppe.moderatoren.size());
 		Benutzer moderator = gruppe.moderatoren.get(index); 
-		Nachricht nachricht = new Nachricht(bearbeiter, moderator, Nachricht.AUFGABEKORRIGIEREN);
+		Nachricht nachricht = new Nachricht(bearbeiter, moderator, Nachricht.AUFGABEKORRIGIEREN, this);
 		moderator.benachrichtigen(nachricht);
 	}
 
