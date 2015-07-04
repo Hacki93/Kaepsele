@@ -45,9 +45,10 @@ public class Benachrichtigung implements Observer {
 		Nachricht nachricht = (Nachricht)inhalt;
 		if(observable instanceof Benutzer) {
 			benutzerBenachrichtigen(((Benutzer)nachricht.getAdressat()), nachricht);
-		} else if (observable instanceof Gruppe) {
-			gruppeBenachrichtigen(((Gruppe)nachricht.getAdressat()), nachricht);
-		}
+		} 
+//		else if (observable instanceof Gruppe) {
+//			gruppeBenachrichtigen(((Gruppe)nachricht.getAdressat()), nachricht);
+//		}
 		
 	}
 	

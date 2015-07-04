@@ -58,6 +58,12 @@ public class Benutzer extends Account {
 		benutzer.benachrichtigen(nachricht);
 	}
 	
+	/**
+	 * Speichert eine Benachrichtigung in der Liste nachrichten
+	 * Wenn die Nachricht auch eine Handlung erfordert wird die Nachricht zusaetzlich in der Liste 
+	 * aufgaben gespeichert
+	 * @param nachricht
+	 */
 	public void benachrichtigen(Nachricht nachricht){
 		if (nachricht.isHandlungErforderlich()){
 			aufgaben.add(nachricht);
@@ -65,10 +71,18 @@ public class Benutzer extends Account {
 		nachrichten.add(nachricht);
 	}
 	
+	/**
+	 * Loescht eine bestimmte Nachricht aus der Liste nachrichten
+	 * @param nachricht
+	 */
 	public void nachrichtEntfernen(Nachricht nachricht){
 		nachrichten.remove(nachricht);
 	}
 	
+	/**
+	 * Loescht eine bestimmte Nachricht aus der Liste aufgaben
+	 * @param nachricht
+	 */
 	public void aufgabeErledigt(Nachricht nachricht){
 		aufgaben.remove(nachricht);
 	}
@@ -77,7 +91,7 @@ public class Benutzer extends Account {
 	 * l&ouml;scht einen Benutzer aus der eigenen Freundesliste
 	 * @param benutzer der gel&ouml;tschte Benutzer
 	 */
-	public void freundLöschen(Benutzer benutzer){
+	public void freundLoeschen(Benutzer benutzer){
 		freunde.remove(benutzer);
 		pinnwand.erlaubteBenutzer.remove(benutzer);
 	}
@@ -91,7 +105,7 @@ public class Benutzer extends Account {
 	public void gruppeErstellen(String name, Fachrichtung fachrichtung, String klausurname){
 		Gruppe gruppe = new Gruppe(name, fachrichtung, klausurname);
 		this.gruppen.add(gruppe);
-		gruppe.mitgliedHinzufügen(this);
+		gruppe.mitgliedHinzufuegen(this);
 		gruppe.moderatoren.add(this);
 	}
 	
@@ -102,7 +116,7 @@ public class Benutzer extends Account {
 	public boolean gruppeBeitreten(Gruppe gruppe){
 		if(gruppe.anzahl() < 15){
 		gruppen.add(gruppe);
-		gruppe.mitgliedHinzufügen(this);
+		gruppe.mitgliedHinzufuegen(this);
 		gruppe.pinnwand.erlaubteBenutzer.add(this);
 		return true;
 		}
@@ -119,7 +133,7 @@ public class Benutzer extends Account {
 	 */
 	public void gruppeVerlassen(Gruppe gruppe){
 		gruppen.remove(gruppe);
-		gruppe.mitgliedLöschen(this);
+		gruppe.mitgliedLoeschen(this);
 		gruppe.pinnwand.erlaubteBenutzer.remove(this);
 	}
 	

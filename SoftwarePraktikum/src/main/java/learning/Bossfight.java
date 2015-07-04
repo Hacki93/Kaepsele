@@ -2,14 +2,18 @@ package learning;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
+
+import kommunikation.Nachricht;
 
 public class Bossfight extends Challenge {
 	private Medium anhang;
 	private ArrayList<String> antworten;
-	
-	public Bossfight(Benutzer bearbeiter, Medium anhang, int erreichbarePunktzahl){
-		this.bearbeiter = bearbeiter; 
-		this.anhang = anhang; 
+
+	public Bossfight(Benutzer bearbeiter, Medium anhang,
+		int erreichbarePunktzahl) {
+		this.bearbeiter = bearbeiter;
+		this.anhang = anhang;
 		this.erreichbarePunktzahl = erreichbarePunktzahl;
 		datum = new Date();
 		antworten = new ArrayList<String>();
@@ -19,27 +23,32 @@ public class Bossfight extends Challenge {
 		return anhang;
 	}
 
-	
-	public Medium starten(){
+	public Medium starten() {
 		return anhang;
 	}
-	
-	public void addAntwort(String antwort){
+
+	public void addAntwort(String antwort) {
 		antworten.add(antwort);
 	}
-	
-	public void korrigieren(int punktzahl){
+
+	public void korrigieren(Benutzer moderator, int punktzahl) {
 		erreichtePunktzahl = erreichtePunktzahl + punktzahl;
+		Nachricht nachricht = new Nachricht(moderator, bearbeiter, Nachricht.AUFGABEBEWERTET);
+		bearbeiter.benachrichtigen(nachricht);
 	}
-	
-	public void beenden(){
-		
+
+	public void beenden(Gruppe gruppe) {
+		Random rand = new Random();
+		int index = rand.nextInt(gruppe.moderatoren.size());
+		Benutzer moderator = gruppe.moderatoren.get(index); 
+		Nachricht nachricht = new Nachricht(bearbeiter, moderator, Nachricht.AUFGABEKORRIGIEREN);
+		moderator.benachrichtigen(nachricht);
 	}
-	public boolean bestanden(){
-		if (erreichtePunktzahl >= (0.8 * this.erreichbarePunktzahl)){
+
+	public boolean bestanden() {
+		if (erreichtePunktzahl >= (0.8 * this.erreichbarePunktzahl)) {
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
 	}

@@ -18,7 +18,7 @@ public class Account extends Observable{
 	public void registrieren(){
 	}
 	
-	public void benachritigen(Nachricht b){
+	public void benachritigen(Nachricht nachricht){
 	}
 
 	public String getBenutzername() {

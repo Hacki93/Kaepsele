@@ -28,8 +28,23 @@ public class Teamcombat {
 		questFuerHerausgeforderter = this.herausforderer.fragenpool.getQuest();
 	}
 
+	
+	/**
+	 * Wertet den Teamcombat aus und gibt die Gewinnergruppe zurueck
+	 * @return Gewinnergruppe
+	 */
 	public Gruppe auswerten(){
-		return null;
+		int herausforderer = questFuerHerausforderer.korrigiere();
+		int herausgeforderter = questFuerHerausgeforderter.korrigiere();
+		if (herausforderer > herausgeforderter){
+			return this.herausforderer;
+		} else if (herausforderer < herausgeforderter){
+			return this.herausgeforderter;
+		} else{
+			//Welche Gruppe wird bei unentschieden ausgegeben?
+			System.out.println("Unentschieden");
+			return null;
+		}
 	}
 
 	public Date getAblaufdatum() {
@@ -42,14 +57,19 @@ public class Teamcombat {
 	}
 	
 	/**
-	 * erstellt einen Quest fuer die Herausforder-Gruppe 
+	 * erstellt einen Quest fuer die herausfordernde Gruppe 
 	 * aus dem Fragenpool der herausgeforderten Gruppe  
-	 * @return
+	 * @return QuestFuerHerausforderer
 	 */
 	public Quest getQuestFuerHerausforderer() {
 		return questFuerHerausforderer;
 	}
 
+	/**
+	 * erstellt einen Quest fuer die herausgeforderte Gruppe
+	 * aus dem Fragenpool der hausfordernden Gruppe
+	 * @return QuestFuerHerausgeforderter
+	 */
 	public Quest getQuestFuerHerausgeforderter() {
 		return questFuerHerausgeforderter;
 	}

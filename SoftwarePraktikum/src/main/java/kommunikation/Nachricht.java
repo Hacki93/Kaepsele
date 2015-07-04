@@ -56,7 +56,7 @@ public class Nachricht {
 				handlungErforderlich = true;
 				break;
 		case 4: titel = "Herausforderung zum Teamcombat"; 
-				inhalt = "Deine Gruppe " + ((Gruppe)adressat).getName() + " wurde von der Gruppe " + ((Gruppe)sender).getName() + " herausgefordert";
+				inhalt = "Gruppe " + ((Gruppe)sender).getName() + " hat " + ((Gruppe)adressat).getName() + " herausgefordert";
 				handlungErforderlich = true;
 				break;
 		case 5: titel = "Dein Bossfight wurde bewertet";
