@@ -13,8 +13,15 @@ public class Teamcombat {
 	public Gruppe gewinner; 
 	public int id; 
 	
+	//leerer Konstruktor
+	public Teamcombat(){}
 	
 	
+	/**
+	 * Legt einen neuen Teamcombat an
+	 * @param herausforderer
+	 * @param herausgeforderter
+	 */
 	public Teamcombat(Gruppe herausforderer, Gruppe herausgeforderter){
 		this.herausgeforderter = herausgeforderter;
 		questFuerHerausforderer = this.herausgeforderter.fragenpool.getQuest();
@@ -35,12 +42,17 @@ public class Teamcombat {
 	public Gruppe getHerausforderer() {
 		return herausforderer;
 	}
-
-	public Quest getQuestFürHerausforderer() {
+	
+	/**
+	 * erstellt einen Quest fuer die Herausforder-Gruppe 
+	 * aus dem Fragenpool der herausgeforderten Gruppe  
+	 * @return
+	 */
+	public Quest getQuestFuerHerausforderer() {
 		return questFuerHerausforderer;
 	}
 
-	public Quest getQuestFürHerausgeforderter() {
+	public Quest getQuestFuerHerausgeforderter() {
 		return questFuerHerausgeforderter;
 	}
 

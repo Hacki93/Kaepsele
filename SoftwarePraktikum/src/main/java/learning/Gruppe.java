@@ -96,8 +96,8 @@ public class Gruppe extends Observable {
 		pinnwand.erlaubteBenutzer.remove(benutzer);
 	}
 	
-	public void frageErstellen(Benutzer ersteller, String titel, String text, int loesung){
-		Frage frage = new Frage(ersteller, titel, text, loesung);
+	public void frageErstellen(String titel, String text, int loesung){
+		Frage frage = new Frage(titel, text, loesung);
 		this.fragenpool.addFrage(frage);
 	}
 	
