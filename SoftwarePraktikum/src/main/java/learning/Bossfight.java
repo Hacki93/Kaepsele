@@ -32,6 +32,9 @@ public class Bossfight extends Challenge {
 		erreichtePunktzahl = erreichtePunktzahl + punktzahl;
 	}
 	
+	public void beenden(){
+		
+	}
 	public boolean bestanden(){
 		if (erreichtePunktzahl >= (0.8 * this.erreichbarePunktzahl)){
 			return true;

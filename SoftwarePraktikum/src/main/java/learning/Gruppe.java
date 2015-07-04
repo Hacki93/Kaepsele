@@ -6,7 +6,7 @@ import java.util.Observable;
 import kommunikation.Benachrichtigung;
 import kommunikation.Nachricht;
 
-public class Gruppe extends Observable {
+public class Gruppe {
 
 	public String name;
 	public String klausurname;
@@ -14,7 +14,6 @@ public class Gruppe extends Observable {
 	public boolean freigegeben;
 	public ArrayList<Benutzer> mitglieder;
 	public ArrayList<Benutzer> moderatoren;
-	Benachrichtigung benachrichtigung;
 	Fragenpool fragenpool;
 	Pinnwand pinnwand;
 	Mediathek mediathek;
@@ -32,8 +31,6 @@ public class Gruppe extends Observable {
 		this.klausurname = klausurname;
 		mitglieder = new ArrayList<Benutzer>();
 		moderatoren = new ArrayList<Benutzer>();
-		Benachrichtigung benachrichtigung = new Benachrichtigung();
-		this.addObserver(benachrichtigung);
 		fragenpool = new Fragenpool();
 		pinnwand = new Pinnwand();
 		mediathek = new Mediathek();
@@ -55,17 +52,20 @@ public class Gruppe extends Observable {
 	 * Es werden Mitglieder der Gruppe benachrichtigt
 	 * @param nachricht Die Nachricht für die Gruppenmitglieder
 	 */
-	private void mitgliederBenachrichtigen(Nachricht nachricht) {
-		setChanged();
-		notifyObservers(nachricht);
+	private void benachrichtigen(Nachricht nachricht) {
+		for (Benutzer mitglied : mitglieder){
+			mitglied.benachrichtigen(nachricht);
+		}
 	}
 	
 	/**
 	 * Es wird der Moderator der Gruppe benachrichtigt
-	 * 
 	 * @param nachricht
 	 */
 	public void moderatorBenachrichtigen(Nachricht nachricht){
+		for (Benutzer moderator: moderatoren){
+			moderator.benachrichtigen(nachricht);
+		}
 	}
 	
 	/**
@@ -74,8 +74,7 @@ public class Gruppe extends Observable {
 	 */
 	public void einladen(Benutzer benutzer) {
 		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.GRUPPENEINLADUNG);
-		setChanged();
-		notifyObservers(nachricht);
+		benutzer.benachrichtigen(nachricht);
 	}
 	
 	/**
@@ -108,6 +107,8 @@ public class Gruppe extends Observable {
 	
 	public Teamcombat teamcombatAntreten(Gruppe herausgeforderter){
 		Teamcombat teamcombat = new Teamcombat(this, herausgeforderter);
+		Nachricht nachricht = new Nachricht(this, herausgeforderter, 4);
+		herausgeforderter.benachrichtigen(nachricht);
 		return teamcombat;
 	}
 	

@@ -26,8 +26,6 @@ public class Teamcombat {
 		this.herausgeforderter = herausgeforderter;
 		questFuerHerausforderer = this.herausgeforderter.fragenpool.getQuest();
 		questFuerHerausgeforderter = this.herausforderer.fragenpool.getQuest();
-//		Nachricht nachricht = new Nachricht(this.herausforderer, this.herausgeforderter, 4);
-//		gruppeBenachrichtigen(herausgeforderter, nachricht);
 	}
 
 	public Gruppe auswerten(){

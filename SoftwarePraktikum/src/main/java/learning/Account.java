@@ -2,7 +2,7 @@ package learning;
 
 import java.util.Observable;
 
-import kommunikation.Benachrichtigung;
+import kommunikation.Nachricht;
 
 public class Account extends Observable{
 
@@ -18,7 +18,7 @@ public class Account extends Observable{
 	public void registrieren(){
 	}
 	
-	public void benachritigen(Benachrichtigung b){
+	public void benachritigen(Nachricht b){
 	}
 
 	public String getBenutzername() {

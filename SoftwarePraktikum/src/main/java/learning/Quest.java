@@ -31,7 +31,7 @@ public Frage getNaechsteFrage(){
 	return frage;
 }
 
-public void antwortSpeicher(int antwort){
+public void antwortSpeichern(int antwort){
 	antworten.add(antwort);
 }
 

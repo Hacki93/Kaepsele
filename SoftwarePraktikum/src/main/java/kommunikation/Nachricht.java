@@ -7,87 +7,94 @@ import learning.Gruppe;
 
 /**
  * Diese Klasse stellt den Datentyp Nachricht dar
+ * 
  * @author Hannes
  *
  */
 public class Nachricht {
-	
+
 	private String titel;
 	private String inhalt;
 	boolean handlungErforderlich;
-	boolean erledigt;
 	private Date datum;
 	private Object adressat;
 	private Object sender;
 	private int typ;
-	
+
 	public static final int FREUNDHINZUGEFUEGT = 0;
 	public static final int GRUPPENEINLADUNG = 1;
 	public static final int AUFGABEKORRIGIEREN = 2;
 	public static final int BEITRITTSANFRAGE = 3;
 	public static final int TEAMHERAUSFORDERUNG = 4;
 	public static final int AUFGABEBEWERTET = 5;
-	
+	public static final int GRUPPEVOLL = 6;
+
 	/**
 	 * Konstruktor mit dem die Nachricht angelegt wird
-	 * @param titel Der Titel der Nachricht
-	 * @param inhalt Der Inhalt der Nachricht
-	 * @param handlungErforderlich true, falls die Nachricht eine Interaktion erfordert
+	 * 
+	 * @param titel
+	 *            Der Titel der Nachricht
+	 * @param inhalt
+	 *            Der Inhalt der Nachricht
+	 * @param handlungErforderlich
+	 *            true, falls die Nachricht eine Interaktion erfordert
 	 */
-	public Nachricht(Object sender, Benutzer adressat, int typ) {
-		if(typ == FREUNDHINZUGEFUEGT) {
-			titel = "Du hast einen neuen Freund";
-			inhalt = ((Benutzer)sender).getName() + " hat Dich zu seiner Freundesliste hinzugefügt.";
-		} else if (typ == GRUPPENEINLADUNG) {
-			titel ="Du wurdest in eine Gruppe eingeladen";
-			inhalt = "Du wurdest in die Gruppe \"" + ((Gruppe)sender).getName() + "\" eingeladen";
-		} else if (typ == AUFGABEKORRIGIEREN) {
-			titel = "Bitte korrigiere Deine Aufgabe";
-			inhalt = ((Benutzer)sender).getName() + " hat eine von Dir gestellt Aufgabe bearbeitet.\nBitte korrigiere und bewerte diese Aufgabe zeitnah, damit "+((Benutzer)sender).getName()+ " sein Ergebnis erhält.";
+	public Nachricht(Object sender, Object adressat, int typ) {
+		switch(typ){
+		case 0: titel = "Du hast einen neuen Freund";
+				inhalt = ((Benutzer)sender).getName() + " hat Dich zu seiner Freundesliste hinzugefügt";
+				break;
+		case 1: titel ="Du wurdest in eine Gruppe eingeladen";
+				inhalt = "Du wurdest in die Gruppe \"" + ((Gruppe)sender).getName() + "\" eingeladen";
+				break; 
+		case 2: titel = "Bitte korrigiere Deine Aufgabe";
+				inhalt = ((Benutzer)sender).getName() + " hat eine von Dir gestellt Aufgabe bearbeitet.\nBitte korrigiere und bewerte diese Aufgabe zeitnah, damit "+((Benutzer)sender).getName()+ " sein Ergebnis erhält.";
+				handlungErforderlich = true;
+				break;
+		case 3: titel = ((Benutzer)sender).getName() + "möchte der Gruppe beitreten";
+				inhalt = ((Benutzer)sender).getName() + "hat eine Beitrittsanfrage an deine Gruppe " + ((Gruppe)adressat).getName() + " gestellt";
+				handlungErforderlich = true;
+				break;
+		case 4: titel = "Herausforderung zum Teamcombat"; 
+				inhalt = "Deine Gruppe " + ((Gruppe)adressat).getName() + " wurde von der Gruppe " + ((Gruppe)sender).getName() + " herausgefordert";
+				handlungErforderlich = true;
+				break;
+		case 5: titel = "Dein Bossfight wurde bewertet";
+				inhalt = "Dein Bossfight wurde bewertet";
+				break;	
 		}
+		
 		datum = new Date();
 		this.sender = sender;
 		this.adressat = adressat;
 		this.typ = typ;
 	}
-	
-	/**
-	 * Gibt zur&uuml;ck, ob eine Nachricht erledigt wurde, falls sie eine Interaktion erfodert
-	 * @return true, falls interagiert wurde oder keine Interaktion erforderlich ist
-	 */
-	public boolean isErledigt() {
-		if (handlungErforderlich) {
-			return erledigt;
-		}
-		return true;
+
+	public boolean isHandlungErforderlich() {
+		return handlungErforderlich;
 	}
-	
-	/**
-	 * Setzt die Interaktion einer Nachricht auf erledigt
-	 * @param isErledigt true, falls interagiert wurde
-	 */
-	public void setErledigt(boolean isErledigt) {
-		erledigt = isErledigt;
-	}
-	
+
 	/**
 	 * Gibt den Titel der Nachricht zur&uuml;ck
+	 * 
 	 * @return Der Titel der Nachricht
 	 */
 	public String getTitel() {
 		return titel;
 	}
-	
+
 	/**
 	 * Gibt den Inhalt der Nachricht zur&uuml;ck
+	 * 
 	 * @return Der Inhalt der Nachricht
 	 */
 	public String getInhalt() {
 		return inhalt;
 	}
-	
+
 	/**
 	 * Gibt das Erstelldatum der Nachricht zur&uuml;ck
+	 * 
 	 * @return Das Erstelldatum der Nachricht
 	 */
 	public Date getDate() {
@@ -96,18 +103,20 @@ public class Nachricht {
 
 	/**
 	 * Gibt den Adressaten der Nachricht zu&uuml;ck
+	 * 
 	 * @return Der Adressat der Nachricht
 	 */
 	public Object getAdressat() {
 		return adressat;
 	}
-	
+
 	/**
 	 * Gibt den Sender der Nachricht zur&uuml;ck
+	 * 
 	 * @return Der Sender der Nachricht
 	 */
-	public Object getSender(){
+	public Object getSender() {
 		return sender;
 	}
-	
+
 }

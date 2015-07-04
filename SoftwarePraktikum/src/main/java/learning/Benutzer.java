@@ -19,7 +19,7 @@ public class Benutzer extends Account {
 	public ArrayList<Benutzer> freunde;
 	private ArrayList<Gruppe> gruppen;
 	private ArrayList<Nachricht> nachrichten;
-	Benachrichtigung benachrichtigung;
+	private ArrayList<Nachricht> aufgaben;
 	Pinnwand pinnwand;
 	
 	/**
@@ -38,27 +38,13 @@ public class Benutzer extends Account {
 		freunde = new ArrayList<Benutzer>();
 		gruppen = new ArrayList<Gruppe>();
 		nachrichten = new ArrayList<Nachricht>();
+		aufgaben = new ArrayList<Nachricht>();
 		rang = 1;
 		erstelltAm = new Date();
-		benachrichtigung = new Benachrichtigung();
 		pinnwand = new Pinnwand();
 		pinnwand.erlaubteBenutzer.add(this);
-		this.addObserver(benachrichtigung);
 	}
 	
-	/**
-	 * Gibt eine Liste der noch zu erledigenden Benachrichtigungen aus
-	 * @return Liste alle Nachrichten, die noch eine Interaktion erfodern
-	 */
-	public ArrayList<Nachricht> getNichtErledigteAufgaben() {
-		ArrayList<Nachricht> nichtErledigteNachrichten = new ArrayList<Nachricht>();
-		for(Nachricht nachricht : nachrichten) {
-			if(!nachricht.isErledigt()) {
-				nichtErledigteNachrichten.add(nachricht);
-			}
-		}
-		return nichtErledigteNachrichten;
-	}
 	
 	/**
 	 * F&uuml;gt einen Benutzer zur eigenen Freundesliste hinzu und benachrichtigt ihn dar&uuml;ber
@@ -69,8 +55,22 @@ public class Benutzer extends Account {
 		freunde.add(benutzer);
 		pinnwand.erlaubteBenutzer.add(benutzer);
 		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.FREUNDHINZUGEFUEGT);
-		setChanged();
-		notifyObservers(nachricht);
+		benutzer.benachrichtigen(nachricht);
+	}
+	
+	public void benachrichtigen(Nachricht nachricht){
+		if (nachricht.isHandlungErforderlich()){
+			aufgaben.add(nachricht);
+		}
+		nachrichten.add(nachricht);
+	}
+	
+	public void nachrichtEntfernen(Nachricht nachricht){
+		nachrichten.remove(nachricht);
+	}
+	
+	public void aufgabeErledigt(Nachricht nachricht){
+		aufgaben.remove(nachricht);
 	}
 	
 	/**
@@ -259,6 +259,14 @@ public class Benutzer extends Account {
 
 	public void setStudiengang(String studiengang) {
 		this.studiengang = studiengang;
+	}
+	
+	public ArrayList<Nachricht> getNachrichten(){
+		return nachrichten;
+	}
+	
+	public ArrayList<Nachricht> getAufgaben(){
+		return aufgaben;
 	}
 	
 }
