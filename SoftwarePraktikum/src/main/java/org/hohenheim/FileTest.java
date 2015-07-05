@@ -3,7 +3,7 @@ package org.hohenheim;
 import org.springframework.web.multipart.MultipartFile;
 
 
-public class File { 
+public class FileTest { 
 
 	MultipartFile file; 
 

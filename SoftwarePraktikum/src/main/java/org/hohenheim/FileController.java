@@ -1,5 +1,8 @@
 package org.hohenheim;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,18 +29,32 @@ public class FileController {
 
 	@RequestMapping(method = RequestMethod.GET) 
 	public String getForm(Model model) { 
-		File fileModel = new File(); 
+		FileTest fileModel = new FileTest(); 
 		model.addAttribute("file", fileModel); 
 		return "file"; 
 	} 
 
 	@RequestMapping(method = RequestMethod.POST) 
-	public String fileUploaded(Model model, @Validated File file, BindingResult result) { 
+	public String fileUploaded(Model model, @Validated FileTest file, BindingResult result) { 
 		String returnVal = "successFile"; 
+		
+		
 		if (result.hasErrors()) { 
 			returnVal = "file"; 
 		} else {             
-			MultipartFile multipartFile = file.getFile(); 
+			MultipartFile multipartFile = file.getFile();
+			
+			String orgName = multipartFile.getOriginalFilename();
+			String filePath = "C:/Program Files/apache-tomcat-8.0.23/webapps/uploads/" + orgName;
+			File dest = new File(filePath);
+			
+			try {
+				multipartFile.transferTo(dest);
+			} catch (IllegalStateException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
 		} 
 		return returnVal; 
 	} 
