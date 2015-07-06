@@ -278,6 +278,64 @@ public class Benutzer extends Account implements java.io.Serializable{
 		}
 	}
 	
+	/**
+	 * Der Moderator einer Gruppe kann Themen auf der Pinnwand löschen
+	 * @param thema : Ist das Thema das gel&oumlscht wird
+	 * @param gruppe : Ist die Gruppe in der das Thema gel&oumlscht wird
+	 * @return true, falls das Thema gel&oumlscht wurde
+	 */
+	public boolean gruppenThemaLöschen(Thema thema, Gruppe gruppe){
+		if(gruppe.moderatoren.contains(this)){
+			gruppe.pinnwand.inhaltLöschen(thema);
+			for(Kommentar kommentar : thema.kommentare){
+				thema.kommentarLöschen(kommentar);
+			}
+			return true;
+		}
+		else{
+			// Der Benutzer ist kein Moderator in dieser Gruppe
+			// Benutzer wird informiert, dass er in dieser Gruppe kein Moderator ist
+			return false;
+		}
+	}
+	
+	/**
+	 * Der Moderator einer Gruppe kann einen Kommentar zu eiem Thema löschen
+	 * @param thema : Unter diesem Thema befindet sich der zu l&oumlschende Kommentar
+	 * @param gruppe : Ist die Gruppe in der der Kommentar gel&oumlscht wird
+	 * @param kommentar : Ist der Kommentar der gel&oumlscht wird
+	 * @return true, falls der Kommentar gel&oumlscht wurde
+	 */
+	public boolean gruppenKommentarLöschen(Thema thema, Gruppe gruppe, Kommentar kommentar){
+		if(gruppe.moderatoren.contains(this)){
+			thema.kommentarLöschen(kommentar);
+			return true;
+		}
+		else{
+			// Der Benutzer ist kein Moderator in dieser Gruppe
+			// Benutzer wird informiert, dass er in dieser Gruppe kein Moderator ist
+			return false;
+		}
+	}
+	
+	/**
+	 * Der Moderator einer Gruppe kann ein Medium aus der Mediathek löschen
+	 * @param medium : Ist das Medium das gel&oumlscht wird
+	 * @param gruppe : Ist die Gruppe in dem das Medium liegt
+	 * @return true, falls das Medium gel&oumlscht wurde
+	 */
+	public boolean gruppenMediumLöschen(Medium medium, Gruppe gruppe){
+		if(gruppe.moderatoren.contains(this)){
+			gruppe.mediathek.mediumLöschen(medium);
+			return true;
+		}
+		else{
+			// Der Benutzer ist kein Moderator in dieser Gruppe
+			// Benutzer wird informiert, dass er in dieser Gruppe kein Moderator ist
+			return false;
+		}
+	}
+	
 	public String getEmailAdresse(){
 		return emailAdresse;
 	}

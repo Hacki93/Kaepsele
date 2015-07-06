@@ -4,8 +4,7 @@ public class Medium implements java.io.Serializable {
 
 	public String name;
 	public String pfad;
-	public int typ;
-	public boolean öffentlich;
+	public String typ;
 	public int id;
 	
 	/**
@@ -13,13 +12,11 @@ public class Medium implements java.io.Serializable {
 	 * @param name ist der Name des Mediums
 	 * @param pfad ist der Pfad des Mediums
 	 * @param typ ist der Typ des Mediums
-	 * @param öffentlich ob das Medium öffentlich ist
 	 */
-	public Medium(String name, String pfad, int typ, boolean öffentlich){
+	public Medium(String name, String pfad, String typ){
 		this.name = name;
 		this.pfad = pfad;
 		this.typ = typ;
-		this.öffentlich = öffentlich;
 	}
 
 	public String getName() {
@@ -38,20 +35,12 @@ public class Medium implements java.io.Serializable {
 		this.pfad = pfad;
 	}
 
-	public int getTyp() {
+	public String getTyp() {
 		return typ;
 	}
 
-	public void setTyp(int typ) {
+	public void setTyp(String typ) {
 		this.typ = typ;
-	}
-
-	public boolean isÖffentlich() {
-		return öffentlich;
-	}
-
-	public void setÖffentlich(boolean öffentlich) {
-		this.öffentlich = öffentlich;
 	}
 
 	public int getId() {

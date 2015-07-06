@@ -27,9 +27,21 @@ public class Admin extends Account implements java.io.Serializable{
 		long inaktiveZeit = heute.getTime() - gruppe.pinnwand.themen.get(0).erstelltAm.getTime();
 		
 		if (inaktiveZeit > zweiMonate){
+			// löschen der Gruppenmitglieder 
 			for(Benutzer benutzer : gruppe.getMitglieder()){
 				benutzer.gruppeVerlassen(gruppe);
 			}
+			// löschen der Pinnwand
+			for(Thema thema : gruppe.pinnwand.themen){
+				gruppe.pinnwand.inhaltLöschen(thema);
+				for(Kommentar kommentar : thema.kommentare){
+					thema.kommentarLöschen(kommentar);
+				}
+			}
+			//löschen der Mediathek
+			for(Medium medium : gruppe.mediathek.medien){
+				gruppe.mediathek.mediumLöschen(medium);
+			} 
 			return true;
 		}
 		else{

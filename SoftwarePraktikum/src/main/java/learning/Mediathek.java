@@ -43,17 +43,4 @@ public class Mediathek implements java.io.Serializable{
 		this.medien.remove(medium);
 	}
 	
-	/**
-	 * Gibt an ob ein Medium &oumlffentlich ist
-	 * @param id welches Medium &uumlberpr&uumlft werden soll
-	 * @return true, falls das Medium öffentlich ist
-	 */
-	public boolean isÖffentlich(int id){
-		for (Medium medium : this.medien){
-			if (medium.getId() == id){
-				return medium.isÖffentlich();
-			}
-		}
-		return false;
-	}
 }
