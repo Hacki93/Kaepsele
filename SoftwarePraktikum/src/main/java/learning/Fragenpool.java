@@ -11,7 +11,7 @@ import java.util.Random;
  * @author Lena
  *
  */
-public class Fragenpool {
+public class Fragenpool implements java.io.Serializable{
 	private ArrayList<Frage> fragen;
 
 	public Fragenpool() {

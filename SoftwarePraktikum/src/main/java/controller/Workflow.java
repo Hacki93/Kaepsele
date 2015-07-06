@@ -1,5 +1,7 @@
 package controller;
 
+import org.hibernate.cfg.Configuration;
+
 import datenhaltung.DatenbankenVerwaltung;
 
 /**
@@ -23,7 +25,9 @@ public class Workflow {
 	 * Initialisierung s&auml;mtlicher Datenbankprozesse
 	 */
 	private void initiiereDatenbanken(){
-		dbv = new DatenbankenVerwaltung();
+		Configuration configuration = new Configuration().configure();
+//   	 configuration.addAnnotatedClass(bc.getClass());
+		DatenbankenVerwaltung dbv = new DatenbankenVerwaltung(configuration);
 	}
 	
 	private void ladeObjektStruktur(){

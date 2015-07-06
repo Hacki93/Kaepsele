@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author Lena
  *
  */
-public class Quest extends Challenge {
+public class Quest extends Challenge implements java.io.Serializable{
 	private ArrayList<Frage> fragen;
 	private ArrayList<Integer> antworten;
 	private int zaehlerFragen = 0;

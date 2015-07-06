@@ -1,9 +1,13 @@
 package learning;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -12,11 +16,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "FACHRICHTUNG")
-public class Fachrichtung {
+public class Fachrichtung implements java.io.Serializable{
 
 	@Id @GeneratedValue
-	@Column(name = "id")
-	public int id;
+	@Column(name = "fachrichtung_id")
+	public int fachrichtung_id;
 	
 	@Column(name = "name")
 	public String name;
@@ -24,8 +28,12 @@ public class Fachrichtung {
 	@Column(name = "freigegeben")
 	public boolean freigegeben;
 	
+	@OneToMany(mappedBy="fachrichtung")
+	Set<Gruppe> gruppen;
+	
 	public Fachrichtung() {
 		freigegeben = false;
+		gruppen = new HashSet<Gruppe>();
 	}
 	
 	public String getName() {
@@ -36,11 +44,19 @@ public class Fachrichtung {
 		this.name = name;
 	}
 	
-	public boolean isFreigegeben() {
+	public boolean getFreigegeben() {
 		return freigegeben;
 	}
 	
 	public void setFreigegeben(boolean freigegeben) {
 		this.freigegeben = freigegeben;
+	}
+	
+	public Set<Gruppe> getGruppen() {
+		return gruppen;
+	}
+	
+	public void setGruppen(HashSet<Gruppe> gruppen) {
+		this.gruppen = gruppen;
 	}
 }

@@ -1,7 +1,7 @@
 package learning;
 import java.util.Date;
 
-public class Admin extends Account{
+public class Admin extends Account implements java.io.Serializable{
 
 	/**
 	 * Es kann eine Gruppe gelöscht werden wenn sie mindestens 2 Monate inaktiv ist
@@ -27,7 +27,7 @@ public class Admin extends Account{
 		long inaktiveZeit = heute.getTime() - gruppe.pinnwand.themen.get(0).erstelltAm.getTime();
 		
 		if (inaktiveZeit > zweiMonate){
-			for(Benutzer benutzer : gruppe.mitglieder){
+			for(Benutzer benutzer : gruppe.getMitglieder()){
 				benutzer.gruppeVerlassen(gruppe);
 			}
 			return true;
@@ -39,7 +39,7 @@ public class Admin extends Account{
 	
 	public boolean fachrichtungFreigeben(Fachrichtung k){
 		k.setFreigegeben(true);
-		return k.isFreigegeben();
+		return k.getFreigegeben();
 	}
 	
 	public boolean gruppeFreigeben(Gruppe g){

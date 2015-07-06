@@ -1,6 +1,6 @@
 package learning;
 
-public class Medium {
+public class Medium implements java.io.Serializable {
 
 	public String name;
 	public String pfad;

@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Stack;
 
-public class Thema extends Inhalt{
+public class Thema extends Inhalt implements java.io.Serializable{
 
 	public ArrayList<Kommentar> kommentare;
 	

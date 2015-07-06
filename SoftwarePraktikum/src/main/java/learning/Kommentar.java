@@ -2,7 +2,7 @@ package learning;
 
 import java.util.Date;
 
-public class Kommentar extends Inhalt{
+public class Kommentar extends Inhalt implements java.io.Serializable{
 
 	/**
 	 * Konstruktor für ein neuen Kommentar zu einem Pinnwandbeitrag (Inhalt)

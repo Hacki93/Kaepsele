@@ -2,7 +2,7 @@ package learning;
 
 import java.util.Date;
 
-public class Inhalt implements Comparable<Inhalt>{
+public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 
 	public Benutzer autor;
 	public int bewertung;

@@ -7,7 +7,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
 
 /**
  * Die Klasse Datenbank stellt die &uuml;ber der Session die n&auml;chste Schicht der Kommunikation Portal <-> Datenbank da. 
@@ -19,21 +21,16 @@ import org.hibernate.cfg.AnnotationConfiguration;
 @SuppressWarnings("deprecation")
 public class Datenbank {
 	
-	 private static SessionFactory factory; 
-	 private Class klasse;
-	   
+	private SessionFactory factory; 
+	private Class klasse;
+	
 	   /**
 	    * Konstruktor, der die Schnittstelle mitsamt persistenter SessionFactory erstellt
 	    */
-	   public Datenbank(Class klasse) {
+	   public Datenbank(Class klasse, SessionFactory factory) {
 		   this.klasse = klasse;
-	      try{
-	         factory = new AnnotationConfiguration().configure().addAnnotatedClass(klasse).buildSessionFactory();
-	         //Erinnerung: addPackage("com.xyz" before add...) add package if used.
-	      }catch (Throwable ex) { 
-	         System.err.println("Datenhaltung:Datenbank:Datenbank: sessionFactoryObject konnte nicht erstellt werden" + ex);
-	         throw new ExceptionInInitializerError(ex); 
-	      }
+		   this.factory = factory;
+		   System.out.println("Datenbank wird erstellt");
 	   }
 	   
 	   /**
@@ -41,7 +38,7 @@ public class Datenbank {
 	    * @return Die generierte ID
 	    */
 	   public int eintragHinzufuegen(Object eintrag){
-		  System.out.println("Eintrag wird in Datenbank hinzugefügt: "+klasse.getName());
+		  System.out.println("Befehl zum Hinzufügen wird auf Datenbank ausgeführt");
 	      Session session = factory.openSession();
 	      Transaction transaction = null;
 	      int id = 0;
@@ -49,7 +46,6 @@ public class Datenbank {
 	         transaction = session.beginTransaction();
 	         id = (int) session.save(eintrag); 
 	         transaction.commit();
-	         System.out.println("Eintrag hinzugefügt");
 	      }catch (HibernateException e) {
 	         if (transaction != null) {
 	        	 transaction.rollback();

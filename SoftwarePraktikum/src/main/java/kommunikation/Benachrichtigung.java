@@ -18,7 +18,7 @@ public class Benachrichtigung implements Observer {
 	 * @param nachricht Die Nachricht, die versendet werden soll
 	 */
 	public static void gruppeBenachrichtigen(Gruppe gruppe, Nachricht nachricht) {
-		for (Benutzer benutzer : gruppe.mitglieder) {
+		for (Benutzer benutzer : gruppe.getMitglieder()) {
 			benutzerBenachrichtigen(benutzer, nachricht);
 		}
 	}

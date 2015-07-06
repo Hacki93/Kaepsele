@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 
-public class Pinnwand{
+public class Pinnwand implements java.io.Serializable{
 
 	public ArrayList<Thema> themen;
 	public ArrayList<Benutzer> erlaubteBenutzer;

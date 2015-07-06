@@ -6,7 +6,7 @@ import java.util.Random;
 
 import kommunikation.Nachricht;
 
-public class Bossfight extends Challenge {
+public class Bossfight extends Challenge implements java.io.Serializable{
 	private Medium anhang;
 	private ArrayList<String> antworten;
 

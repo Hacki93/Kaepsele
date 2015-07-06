@@ -2,7 +2,7 @@ package learning;
 
 import java.util.ArrayList;
 
-public class Mediathek {
+public class Mediathek implements java.io.Serializable{
 
 	public ArrayList<Medium> medien;
 	

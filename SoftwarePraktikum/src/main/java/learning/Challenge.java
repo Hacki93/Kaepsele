@@ -2,7 +2,7 @@ package learning;
 
 import java.util.Date;
 
-public class Challenge {
+public class Challenge implements java.io.Serializable{
 public Date datum; 
 public Benutzer bearbeiter; 
 public int erreichbarePunktzahl;

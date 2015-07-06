@@ -4,7 +4,7 @@ import java.util.Observable;
 
 import kommunikation.Nachricht;
 
-public class Account extends Observable{
+public class Account extends Observable implements java.io.Serializable{
 
 	public String benutzername;
 	protected String passwort;

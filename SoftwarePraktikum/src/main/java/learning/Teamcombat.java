@@ -4,7 +4,7 @@ import java.util.Date;
 
 import kommunikation.Nachricht;
 
-public class Teamcombat {
+public class Teamcombat implements java.io.Serializable{
 	public Date ablaufdatum; 
 	public Gruppe herausforderer; 
 	public Gruppe herausgeforderter; 

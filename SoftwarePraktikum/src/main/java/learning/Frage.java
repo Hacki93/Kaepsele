@@ -4,7 +4,7 @@ package learning;
 import java.util.ArrayList;
 
 
-public class Frage{
+public class Frage implements java.io.Serializable{
 	public static final int punktzahl = 3; 
 	public ArrayList<Medium> anhang; 
 	public int id;

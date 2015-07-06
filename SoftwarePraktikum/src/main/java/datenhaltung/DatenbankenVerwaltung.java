@@ -3,6 +3,10 @@ package datenhaltung;
 import java.util.HashMap;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+
 /**
  * Die Klasse DatenbankVerwaltung erstellt und verwaltet alle Datenbanken und bietet Methoden an, die
  * von den einzelnen Klassen zur Speicherung ihrerselbst verwendet werden k&ouml;nnen
@@ -12,12 +16,28 @@ import java.util.List;
 public class DatenbankenVerwaltung {
 	
 	private HashMap<Class, Datenbank> datenbanken; 
+	private SessionFactory factory;
+	
+	/**
+	 * Gibt die Anzahl der gespeicherten Datenbanken aus
+	 * @return Anzahlt der gespeicherten Datenbanken
+	 */
+	public int getSize() {
+		return datenbanken.size();
+	}
 	
 	/**
 	 * Konstruktor, der die DatenbankVerwaltung initiiert
 	 */
-	public DatenbankenVerwaltung() {
+	public DatenbankenVerwaltung(Configuration configuration) {
 		datenbanken = new HashMap<Class, Datenbank>();
+	      try{	    	 
+	    	 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+	    	 factory = configuration.buildSessionFactory(builder.build());
+	      }catch (Throwable ex) { 
+	         ex.printStackTrace();
+	      }
+	      System.out.println("SessionFactory erfolgreich erstellt.");
 	}
 	
 	/**
@@ -26,8 +46,9 @@ public class DatenbankenVerwaltung {
 	 */
 	public void addDatenbank(Class klasse) {
 		if(!datenbanken.containsKey(klasse)) {
-			Datenbank db = new Datenbank(klasse);
+			Datenbank db = new Datenbank(klasse, factory);
 			datenbanken.put(klasse, db);
+			System.out.println("Datenbank für Instanzen des Objekts "+klasse.getName()+" erstellt.");
 		}
 	}
 	
@@ -36,11 +57,12 @@ public class DatenbankenVerwaltung {
 	 * @param klasse Die Tabelle, in die der Eintrag hinzugef&uuml;gt werden soll
 	 * @param eintrag Der Tabelleneintrag, der hinzugef&uuml;gt werden soll
 	 */
-	public void eintragHinzufuegen(Class klasse, Object eintrag){
+	public void eintragHinzufuegen(Class klasse, Object eintrag) {
+		System.out.println("Eintrag in Datenbank "+klasse.getName()+" wird hinzugefügt");
 		Datenbank db;
 		if(!datenbanken.containsKey(klasse)) {
 			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
-			db = new Datenbank(klasse);
+			db = new Datenbank(klasse, factory);
 			datenbanken.put(klasse, db);
 		} else {
 			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
@@ -58,7 +80,7 @@ public class DatenbankenVerwaltung {
 		Datenbank db;
 		if(!datenbanken.containsKey(klasse)) {
 			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
-			db = new Datenbank(klasse);
+			db = new Datenbank(klasse, factory);
 			datenbanken.put(klasse, db);
 		} else {
 			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
@@ -76,7 +98,7 @@ public class DatenbankenVerwaltung {
 		Datenbank db;
 		if(!datenbanken.containsKey(klasse)) {
 			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
-			db = new Datenbank(klasse);
+			db = new Datenbank(klasse, factory);
 			datenbanken.put(klasse, db);
 		} else {
 			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
@@ -95,7 +117,7 @@ public class DatenbankenVerwaltung {
 		Datenbank db;
 		if(!datenbanken.containsKey(klasse)) {
 			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
-			db = new Datenbank(klasse);
+			db = new Datenbank(klasse, factory);
 			datenbanken.put(klasse, db);
 		} else {
 			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
@@ -113,7 +135,7 @@ public class DatenbankenVerwaltung {
 		Datenbank db;
 		if(!datenbanken.containsKey(klasse)) {
 			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
-			db = new Datenbank(klasse);
+			db = new Datenbank(klasse, factory);
 			datenbanken.put(klasse, db);
 		} else {
 			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());

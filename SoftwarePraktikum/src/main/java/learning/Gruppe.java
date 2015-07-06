@@ -1,39 +1,89 @@
 package learning;
 
 import java.util.ArrayList;
-import java.util.Observable;
+import java.util.HashSet;
+import java.util.Set;
 
-import kommunikation.Benachrichtigung;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import kommunikation.Nachricht;
 
-public class Gruppe {
+@Entity
+@Table(name = "GRUPPE")
+public class Gruppe implements java.io.Serializable {
 
+	@Id @GeneratedValue
+	@Column(name = "gruppen_id")
+	public int gruppen_id;
+	
+	@Column(name = "name")
 	public String name;
+	
+	@Column(name = "klausurname")
 	public String klausurname;
+	
+    @ManyToOne
+    @JoinColumn(name="fachrichtung_id")
 	public Fachrichtung fachrichtung;
+	
+	@Column(name = "freigegeben")
 	public boolean freigegeben;
-	public ArrayList<Benutzer> mitglieder;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "GRUPPEN_MITGLIEDER", joinColumns =
+	@JoinColumn(name = "gruppen_id"),  inverseJoinColumns =
+	@JoinColumn(name = "benutzer_id"))
+	private Set<Benutzer> mitglieder;
+	
+	@Transient
 	public ArrayList<Benutzer> moderatoren;
+	
+	@Transient
 	Fragenpool fragenpool;
+	
+	@Transient
 	Pinnwand pinnwand;
+	
+	@Transient
 	Mediathek mediathek;
+	
+	@Transient
 	private ArrayList<Teamcombat> teamcombats;
 
 	/**
+	 * Konstruktor f&uuml;r Hibernate
+	 */
+	public Gruppe(){
+		mitglieder = new HashSet<Benutzer>();
+		moderatoren = new ArrayList<Benutzer>();
+		fragenpool = new Fragenpool();
+		pinnwand = new Pinnwand();
+		mediathek = new Mediathek();
+		teamcombats = new ArrayList<Teamcombat>();
+	}
+	
+	/**
 	 * Konstruktor, der eine neue Gruppe erstellt
 	 * 
-	 * @param name
-	 *            : Ist der Name der Gruppe
-	 * @param fachrichtung
-	 *            : Ist die Fachrichtung der Gruppe
-	 * @param Klausurname
-	 *            : Ist der Name der zu schreibende Klausur
+	 * @param name Der Name der Gruppe
+	 * @param fachrichtung Die Fachrichtung der Gruppe
+	 * @param Klausurname Der Name der zu schreibende Klausur
 	 */
 	public Gruppe(String name, Fachrichtung fachrichtung, String klausurname) {
 		this.name = name;
-		this.fachrichtung = fachrichtung;
+		setFachrichtung(fachrichtung);
 		this.klausurname = klausurname;
-		mitglieder = new ArrayList<Benutzer>();
+		mitglieder = new HashSet<Benutzer>();
 		moderatoren = new ArrayList<Benutzer>();
 		fragenpool = new Fragenpool();
 		pinnwand = new Pinnwand();
@@ -51,6 +101,7 @@ public class Gruppe {
 
 	public void setFachrichtung(Fachrichtung fachrichtung) {
 		this.fachrichtung = fachrichtung;
+		fachrichtung.gruppen.add(this);
 	}
 
 	/**
@@ -188,6 +239,14 @@ public class Gruppe {
 
 	public void setFreigegeben(boolean freigegeben) {
 		this.freigegeben = freigegeben;
+	}
+	
+	public Set<Benutzer> getMitglieder() {
+		return mitglieder;
+	}
+	
+	public void setMitglieder(HashSet<Benutzer> benutzer) {
+		this.mitglieder = benutzer;
 	}
 
 }

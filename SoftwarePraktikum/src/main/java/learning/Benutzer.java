@@ -2,25 +2,79 @@ package learning;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import kommunikation.Benachrichtigung;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import kommunikation.Nachricht;
 
-public class Benutzer extends Account {
+@Entity
+@Table(name = "BENUTZER")
+public class Benutzer extends Account implements java.io.Serializable{
 
+	@Id @GeneratedValue
+	@Column(name = "benutzer_id")
+	public int benutzer_id;
+	
+	@Column(name = "erstelltAm")
 	public Date erstelltAm;
+	
+	@Column(name = "name")
 	public String name;
+	
+	@Column(name = "rang")
 	public int rang;
+	
+	@Column(name = "geburtsdatum")
 	private Date geburtsdatum;
+	
+	@Column(name = "adresse")
 	private String adresse;
+	
+	@Column(name = "emailAdresse")
 	private String emailAdresse;
+	
+	@Column(name = "beruf")
 	private String beruf;
+	
+	@Column(name = "studiengang")
 	private String studiengang;
-	public ArrayList<Benutzer> freunde;
-	private ArrayList<Gruppe> gruppen;
+	
+	@Transient
+	public Set<Benutzer> freunde;
+	
+	@ManyToMany(mappedBy = "mitglieder")
+	private Set<Gruppe> gruppen;
+	
+	@Transient
 	private ArrayList<Nachricht> nachrichten;
+	
+	@Transient
 	private ArrayList<Nachricht> aufgaben;
-	Pinnwand pinnwand;
+	
+	@Transient
+	private Pinnwand pinnwand;
+	
+	/**
+	 * Konstruktor f&uuml;r Hibernate
+	 */
+	public Benutzer(){
+		freunde = new HashSet<Benutzer>();
+		gruppen = new HashSet<Gruppe>();
+		nachrichten = new ArrayList<Nachricht>();
+		aufgaben = new ArrayList<Nachricht>();
+		pinnwand = new Pinnwand();
+	}
 	
 	/**
 	 * Legt einen Benutzer mit den minimal erforderlichen Daten an.
@@ -35,8 +89,8 @@ public class Benutzer extends Account {
 		this.benutzername = benutzername;
 		this.name = name;
 		this.emailAdresse = emailAdresse;
-		freunde = new ArrayList<Benutzer>();
-		gruppen = new ArrayList<Gruppe>();
+		freunde = new HashSet<Benutzer>();
+		gruppen = new HashSet<Gruppe>();
 		nachrichten = new ArrayList<Nachricht>();
 		aufgaben = new ArrayList<Nachricht>();
 		rang = 1;
@@ -53,6 +107,10 @@ public class Benutzer extends Account {
 	public void freundHinzufügen(Benutzer benutzer){
 		System.out.println("Learning:Benutzer:freundHinzufügen: Freund wurde hinzugefügt");
 		freunde.add(benutzer);
+		benutzer.freunde.add(this);
+		for(Benutzer b : freunde) {
+			System.out.println(b.name);
+		}
 		pinnwand.erlaubteBenutzer.add(benutzer);
 		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.FREUNDHINZUGEFUEGT, this);
 		benutzer.benachrichtigen(nachricht);
@@ -102,11 +160,12 @@ public class Benutzer extends Account {
 	 * @param fachrichtung : Ist die Fachrichtung der Gruppe
 	 * @param klausurname : Ist die Klausur auf die in der Gruppe gelernt wird
 	 */
-	public void gruppeErstellen(String name, Fachrichtung fachrichtung, String klausurname){
+	public Gruppe gruppeErstellen(String name, Fachrichtung fachrichtung, String klausurname){
 		Gruppe gruppe = new Gruppe(name, fachrichtung, klausurname);
-		this.gruppen.add(gruppe);
+		gruppen.add(gruppe);
 		gruppe.mitgliedHinzufuegen(this);
 		gruppe.moderatoren.add(this);
+		return gruppe;
 	}
 	
 	/**
@@ -283,4 +342,11 @@ public class Benutzer extends Account {
 		return aufgaben;
 	}
 	
+	public Set<Gruppe> getGruppen(){
+		return gruppen;
+	}
+	
+	public void setGruppen(HashSet<Gruppe> gruppen) {
+		this.gruppen = gruppen;
+	}
 }
