@@ -1,144 +1,149 @@
 package datenhaltung;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 
 /**
- * Die Klasse Datenbank stellt die &uuml;ber der Session die n&auml;chste Schicht der Kommunikation Portal <-> Datenbank da. 
- * Auf dieser Schicht werden die direkten Quests auf der Datenbank durchgef&uuml;hrt. Pro Klassenobjekt wird dabei eine Datenbank
- * incl SessionFactory erstellt, die w&auml;hrend des gesamten Lebenszyklus der Software erhalten bleibt. Datenbanken werden auf
- * der n&auml;chsth&ouml;heren Schicht "DatenbankenVerwaltung" zusammengefasst, verwaltet und angesprochen.
+ * Die Klasse DatenbankVerwaltung erstellt und verwaltet alle Datenbanken und bietet Methoden an, die
+ * von den einzelnen Klassen zur Speicherung ihrerselbst verwendet werden k&ouml;nnen
  * @author Hannes
+ *
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings("rawtypes")
 public class Datenbank {
 	
-	private SessionFactory factory; 
-	private Class klasse;
-	
-	   /**
-	    * Konstruktor, der die Schnittstelle mitsamt persistenter SessionFactory erstellt
-	    */
-	   public Datenbank(Class klasse, SessionFactory factory) {
-		   this.klasse = klasse;
-		   this.factory = factory;
-		   System.out.println("Datenbank wird erstellt");
-	   }
-	   
-	   /**
-	    * F&uuml;gt der Tabelle einen weiteren Eintrag hinzu.
-	    * @return Die generierte ID
-	    */
-	   public int eintragHinzufuegen(Object eintrag){
-		  System.out.println("Befehl zum Hinzufügen wird auf Datenbank ausgeführt");
-	      Session session = factory.openSession();
-	      Transaction transaction = null;
-	      int id = 0;
-	      try{
-	         transaction = session.beginTransaction();
-	         id = (int) session.save(eintrag); 
-	         transaction.commit();
-	      }catch (HibernateException e) {
-	         if (transaction != null) {
-	        	 transaction.rollback();
-	         }
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	      }
-	      return id;
-	   }
-	   
-	   /**
-	    * Gibt alle Eintraege aus der Tabelle zur&uuml;ck
-	    * @return Alle Eintr&auml;ge der tabelle
-	    */
-	   public List<Object> tabelleAusgeben(){
-	      Session session = factory.openSession();
-	      Transaction transaction = null;
-	      List<Object> eintraege = new ArrayList<Object>();
-	      try {
-	         transaction = session.beginTransaction();
-	         eintraege = session.createQuery("FROM "+klasse.getName()).list(); 
-	         transaction.commit();
-	      } catch (HibernateException e) {
-	         if (transaction!=null) {
-	        	 transaction.rollback();
-	         }
-	         e.printStackTrace(); 
-	      } finally {
-	         session.close(); 
-	      }
-	      return eintraege;
-	   }
-	   
-	   /**
-	    * Gibt einen Eintrag zur&uuml;ck
-	    * @param id Die ID des Eintrags
-	    * @return Der Eintrag
-	    */
-	   public Object eintragAusgeben(int id) {
-		   Session session = factory.openSession();
-		      Transaction tx = null;
-		      Object obj = new Object();
-		      try{
-		         tx = session.beginTransaction();
-		         obj = session.get(klasse, id); 
-		         tx.commit();
-		      }catch (HibernateException e) {
-		         if (tx!=null) tx.rollback();
-		         e.printStackTrace(); 
-		      }finally {
-		         session.close(); 
-		      }
-		        return obj;
-		   }
 
-	   
-	   /**
-	    * Aktualisiert einen Eintrag der Tabelle
-	    * @param obj Der aktualisierte Eintrag
-	    */
-	   public void eintragAktualisieren(Object obj ){
-	      Session session = factory.openSession();
-	      Transaction tx = null;
-	      try{
-	         tx = session.beginTransaction();
-			 session.update(obj); 
-	         tx.commit();
-	      }catch (HibernateException e) {
-	         if (tx!=null) tx.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
+	private HashMap<Class, Tabelle> datenbanken; 
+	private SessionFactory factory;
+	
+	/**
+	 * Gibt die Anzahl der gespeicherten Datenbanken aus
+	 * @return Anzahlt der gespeicherten Datenbanken
+	 */
+	public int getSize() {
+		return datenbanken.size();
+	}
+	
+	/**
+	 * Konstruktor, der die DatenbankVerwaltung initiiert
+	 */
+	public Datenbank(Configuration configuration) {
+		datenbanken = new HashMap<Class, Tabelle>();
+	      try{	    	 
+	    	 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+	    	 factory = configuration.buildSessionFactory(builder.build());
+	      }catch (Throwable ex) { 
+	         ex.printStackTrace();
 	      }
-	   }
-	   
-	   /**
-	    * Entfernt einen Eintrag aus der Tabelle
-	    * @param id Die ID des zu entfernenden Eintrags
-	    */
-	   public void eintragEntfernen(Integer id){
-	      Session session = factory.openSession();
-	      Transaction tx = null;
-	      try{
-	         tx = session.beginTransaction();
-	         Object obj = session.get(klasse, id); 
-	         session.delete(obj); 
-	         tx.commit();
-	      }catch (HibernateException e) {
-	         if (tx!=null) tx.rollback();
-	         e.printStackTrace(); 
-	      }finally {
-	         session.close(); 
-	      }
-	   }
+	      System.out.println("SessionFactory erfolgreich erstellt.");
+	}
+	
+	/**
+	 * Erstellt eine neue Datenbankenverbindung zu einer MySQL-Tabelle, falls die Verbindung noch nicht existiert
+	 * @param klasse Die MySQL-Tabelle, die mit dem entsprechenden Objekt verbunden werden soll
+	 */
+	public void tabelleHinzufuegen(Class klasse) {
+		if(!datenbanken.containsKey(klasse)) {
+			Tabelle db = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, db);
+			System.out.println("Datenbank für Instanzen des Objekts "+klasse.getName()+" erstellt.");
+		}
+	}
+	
+	/**
+	 * F&uuml;gt einen Eintrag in die entsprechende Datenbank hinzu
+	 * @param klasse Die Tabelle, in die der Eintrag hinzugef&uuml;gt werden soll
+	 * @param eintrag Der Tabelleneintrag, der hinzugef&uuml;gt werden soll
+	 */
+	public int eintragHinzufuegen(Class klasse, Object eintrag) {
+		System.out.println("Eintrag in Datenbank "+klasse.getName()+" wird hinzugefügt");
+		Tabelle db;
+		if(!datenbanken.containsKey(klasse)) {
+			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
+			db = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, db);
+		} else {
+			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
+			db = datenbanken.get(klasse);
+		}
+		return db.eintragHinzufuegen(eintrag);
+	}
+	
+	/**
+	 * Entfernt einen Eintrag aus der entsprechenden Datenbank
+	 * @param klasse Die Tabelle, aus der der Eintrag entfernt werden soll
+	 * @param id Die ID des zu entfernenden Objekts
+	 */
+	public void eintragEntfernen(Class klasse, int id) {
+		Tabelle db;
+		if(!datenbanken.containsKey(klasse)) {
+			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
+			db = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, db);
+		} else {
+			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
+			db = datenbanken.get(klasse);
+		}
+		db.eintragEntfernen(id);
+	}
+	
+	/**
+	 * Aktualisiert einen Eintrag in der Tabelle
+	 * @param klasse Die Tabelle, die den zu aktualisierenden Eintrag enth&uml;lt
+	 * @param eintrag Der aktualisierte Eintrag
+	 */
+	public void eintragAktualisieren(Class klasse, Object eintrag) {
+		Tabelle db;
+		if(!datenbanken.containsKey(klasse)) {
+			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
+			db = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, db);
+		} else {
+			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
+			db = datenbanken.get(klasse);
+		}
+		db.eintragAktualisieren(eintrag);
+	}
+	
+	/**
+	 * Gibt einen Eintrag aus der entsprechenden Datenbank aus
+	 * @param klasse Die Tabelle, aus der der Eintrag ausgegeben werden soll
+	 * @param id Die ID des auszugebenden Eintrags
+	 * @return Der ausgegebene Eintrag
+	 */
+	public Object eintragAusgeben(Class klasse, int id) {
+		Tabelle db;
+		if(!datenbanken.containsKey(klasse)) {
+			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
+			db = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, db);
+		} else {
+			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
+			db = datenbanken.get(klasse);
+		}
+		return db.eintragAusgeben(id);
+	}
+	
+	/**
+	 * Gibt alle Eintr&auml;ge einer Tabelle zur&uuml;ck
+	 * @param klasse Die auszulesende Tabelle
+	 * @return Alle Eintr&auml;ge
+	 */
+	public List<Object> tabelleAusgeben(Class klasse) {
+		Tabelle db;
+		if(!datenbanken.containsKey(klasse)) {
+			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
+			db = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, db);
+		} else {
+			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
+			db = datenbanken.get(klasse);
+		}
+		return db.tabelleAusgeben();
+	}
+	
 }

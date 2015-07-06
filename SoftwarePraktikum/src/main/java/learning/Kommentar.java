@@ -2,8 +2,46 @@ package learning;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "KOMMENTAR")
+@PrimaryKeyJoinColumn(name="kommentar_id", referencedColumnName = "inhalt_id")
 public class Kommentar extends Inhalt implements java.io.Serializable{
 
+	@ManyToOne
+	@JoinColumn(name="thema_id")
+	private Thema thema;
+	
+	/**
+	 * Konstruktor f&uuml; Hibernate
+	 */
+	public Kommentar() {}
+	
+	public Thema getThema(){
+		return thema;
+	}
+	
+	public void setThema(Thema thema){
+		this.thema = thema;
+	}
+	
+//	public int getId(){
+//		return kommentar_id;
+//	}
+//	
+//	public void setId(int id){
+//		kommentar_id = id;
+//	}
+	
 	/**
 	 * Konstruktor für ein neuen Kommentar zu einem Pinnwandbeitrag (Inhalt)
 	 * 
@@ -16,6 +54,6 @@ public class Kommentar extends Inhalt implements java.io.Serializable{
 		this.titel = titel;
 		this.autor= autor;
 		bewertung = 0;
-		erstelltAm = new Date();
+		datum = new Date();
 	}
 }

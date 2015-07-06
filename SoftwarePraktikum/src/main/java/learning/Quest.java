@@ -2,21 +2,43 @@ package learning;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 /**
  * Stellt den Datentyp Quest dar
  * 
  * @author Lena
  *
  */
-public class Quest extends Challenge implements java.io.Serializable{
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "QUEST")
+@PrimaryKeyJoinColumn(name="quest_id", referencedColumnName = "challenge_id")
+public class Quest extends Challenge implements java.io.Serializable {
+	
+	@Transient
 	private ArrayList<Frage> fragen;
+	
+	@Transient
 	private ArrayList<Integer> antworten;
-	private int zaehlerFragen = 0;
-	private int zaehlerAntworten = 0;
+	
+	@Column(name="zaehlerFragen")
+	private int zaehlerFragen;
+	
+	@Column(name="zaehlerAntworten")
+	private int zaehlerAntworten;
+	
+	@Transient
 	private int erreichbarePunktzahl = 30;
 
 	public Quest() {
 		fragen = new ArrayList<Frage>();
+		zaehlerAntworten = 0;
+		zaehlerFragen = 0;
 	}
 
 	public int getErreichbarePunktzahl() {

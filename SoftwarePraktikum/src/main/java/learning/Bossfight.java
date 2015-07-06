@@ -4,12 +4,30 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import kommunikation.Nachricht;
 
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "BOSSFIGHT")
+@PrimaryKeyJoinColumn(name="bossfight_id", referencedColumnName = "challenge_id")
 public class Bossfight extends Challenge implements java.io.Serializable{
+	
+	@Transient
 	private Medium anhang;
+	
+	@Transient
 	private ArrayList<String> antworten;
 
+	/**
+	 * Konstruktor f&uuml;r Hibernate
+	 */
+	public Bossfight(){}
+	
 	public Bossfight(Benutzer bearbeiter, Medium anhang,
 		int erreichbarePunktzahl) {
 		this.bearbeiter = bearbeiter;

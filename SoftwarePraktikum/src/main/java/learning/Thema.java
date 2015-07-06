@@ -1,14 +1,52 @@
 package learning;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "THEMA")
+@PrimaryKeyJoinColumn(name="thema_id", referencedColumnName = "inhalt_id")
 public class Thema extends Inhalt implements java.io.Serializable{
 
-	public ArrayList<Kommentar> kommentare;
+//	@Id @GeneratedValue
+//	@Column(name = "thema_id")
+//	public int thema_id;
 	
+    @OneToMany(mappedBy="thema")
+	private Set<Kommentar> kommentare;
+	
+    /**
+     * Konstruktor f&uuml;r Hibernate
+     */
+    public Thema(){
+    	kommentare = new HashSet<Kommentar>();
+    }
+    
+    public Set<Kommentar> getKommentare(){ 
+    	return kommentare;
+    }
+    
+    public void setKommentare(Set<Kommentar> kommentare){
+    	this.kommentare = kommentare;
+    }
+    
+//    public int getId(){
+//    	return thema_id;
+//    }
+//    
+//    public void setId(int id){
+//    	thema_id = id;
+//    }
+    
 	/**
 	 * Konstruktor für ein neuen Pinnwandbeitrag
 	 * 
@@ -21,8 +59,8 @@ public class Thema extends Inhalt implements java.io.Serializable{
 		this.titel = titel;
 		this.autor= autor;
 		bewertung = 0;
-		erstelltAm = new Date();
-		kommentare = new ArrayList<Kommentar>();
+		datum = new Date();
+		kommentare = new HashSet<Kommentar>();
 	}
 	
 	/**
@@ -41,32 +79,31 @@ public class Thema extends Inhalt implements java.io.Serializable{
 		kommentare.remove(kommentar);
 	}
 	
-	/**
-	 * Sortiert die Kommentare nach dem neusten Datum
-	 * @return die sortierte Kommentarliste
-	 */
-	public ArrayList<Kommentar> sortiereNachDatum(){
-		Stack<Kommentar> tempStack = new Stack<Kommentar>();
-		
-		for(int i = 1; i < this.kommentare.size(); i++){
-			for(int j = 0; j < this.kommentare.size() - 1; j++){
-				if (this.kommentare.get(j).getDatum().compareTo(this.kommentare.get(j+1).getDatum()) < 0){
-					tempStack.push(this.kommentare.get(j));
-					this.kommentare.set(j, this.kommentare.get(j+1));
-					this.kommentare.set(j+1, tempStack.pop());
-				}
-			}
-		}	
-		return this.kommentare;
-	}
+//	/**
+//	 * Sortiert die Kommentare nach dem neusten Datum
+//	 * @return die sortierte Kommentarliste
+//	 */
+//	public Set<Kommentar> sortiereNachDatum(){
+//		Stack<Kommentar> tempStack = new Stack<Kommentar>();
+//		for(int i = 1; i < this.kommentare.size(); i++){
+//			for(int j = 0; j < this.kommentare.size() - 1; j++){
+//				if (this.kommentare..get(j).getDatum().compareTo(this.kommentare.get(j+1).getDatum()) < 0){
+//					tempStack.push(this.kommentare.get(j));
+//					this.kommentare.set(j, this.kommentare.get(j+1));
+//					this.kommentare.set(j+1, tempStack.pop());
+//				}
+//			}
+//		}	
+//		return this.kommentare;
+//	}
 	
-	/**
-	 * Sortiert die Kommentare nach den besten Bewertungen
-	 * @return sortierte Kommentarliste
-	 */
-	public ArrayList<Kommentar> sortiereNachBewertung(){
-		Collections.sort(this.kommentare);
-		return this.kommentare;
-	}
+//	/**
+//	 * Sortiert die Kommentare nach den besten Bewertungen
+//	 * @return sortierte Kommentarliste
+//	 */
+//	public ArrayList<Kommentar> sortiereNachBewertung(){
+//		Collections.sort(this.kommentare);
+//		return this.kommentare;
+//	}
 
 }

@@ -1,6 +1,14 @@
 package learning;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "admin")
+@PrimaryKeyJoinColumn(name="admin_id", referencedColumnName = "account_id")
 public class Admin extends Account implements java.io.Serializable{
 
 	/**
@@ -15,16 +23,16 @@ public class Admin extends Account implements java.io.Serializable{
 		
 		// Prüfe ob aktuellster Kommentar nicht älter als zwei Monate ist
 		for (Thema thema : gruppe.pinnwand.themen){
-			thema.sortiereNachDatum();
-			long inaktiveZeit1 = heute.getTime() - thema.kommentare.get(0).erstelltAm.getTime();
-			if (inaktiveZeit1 < zweiMonate){
+//			thema.sortiereNachDatum();
+//			long inaktiveZeit1 = heute.getTime() - thema.kommentare.get(0).erstelltAm.getTime();
+//			if (inaktiveZeit1 < zweiMonate){
 				return false;
-			}
+//			}
 		}
 		
 		// Prüfe ob aktuellster Pinnwandbeitrag nicht älter als zwei Monate ist
 		gruppe.pinnwand.sortiereNachDatum();
-		long inaktiveZeit = heute.getTime() - gruppe.pinnwand.themen.get(0).erstelltAm.getTime();
+		long inaktiveZeit = heute.getTime() - gruppe.pinnwand.themen.get(0).getDatum().getTime();
 		
 		if (inaktiveZeit > zweiMonate){
 			// löschen der Gruppenmitglieder 
@@ -34,7 +42,7 @@ public class Admin extends Account implements java.io.Serializable{
 			// löschen der Pinnwand
 			for(Thema thema : gruppe.pinnwand.themen){
 				gruppe.pinnwand.inhaltLöschen(thema);
-				for(Kommentar kommentar : thema.kommentare){
+				for(Kommentar kommentar : thema.getKommentare()){
 					thema.kommentarLöschen(kommentar);
 				}
 			}

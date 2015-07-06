@@ -13,19 +13,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import kommunikation.Nachricht;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "BENUTZER")
+@PrimaryKeyJoinColumn(name="benutzer_id", referencedColumnName = "account_id")
 public class Benutzer extends Account implements java.io.Serializable{
 
-	@Id @GeneratedValue
-	@Column(name = "benutzer_id")
-	public int benutzer_id;
-	
 	@Column(name = "erstelltAm")
 	public Date erstelltAm;
 	
@@ -287,7 +286,7 @@ public class Benutzer extends Account implements java.io.Serializable{
 	public boolean gruppenThemaLöschen(Thema thema, Gruppe gruppe){
 		if(gruppe.moderatoren.contains(this)){
 			gruppe.pinnwand.inhaltLöschen(thema);
-			for(Kommentar kommentar : thema.kommentare){
+			for(Kommentar kommentar : thema.getKommentare()){
 				thema.kommentarLöschen(kommentar);
 			}
 			return true;

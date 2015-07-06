@@ -1,11 +1,16 @@
 package controller;
 
+import java.util.Date;
+
 import org.hibernate.cfg.Configuration;
 
 import learning.Benutzer;
 import learning.Fachrichtung;
 import learning.Gruppe;
-import datenhaltung.DatenbankenVerwaltung;
+import learning.Inhalt;
+import learning.Kommentar;
+import learning.Thema;
+import datenhaltung.Datenbank;
 
 public class TestKlasse {
 
@@ -33,30 +38,45 @@ public class TestKlasse {
 			lena.setEmailAdresse("lenamaier@web.de");
 			lena.setName("Lena Maier");
 			
+			hannes.freundHinzufügen(lena);
+			
 			Gruppe mbis = new Gruppe();
 			mbis.setName("MBIS");
 			
 			Fachrichtung fr = new Fachrichtung();
 			fr.setName("SWT");
-					
+			
+//			Thema thema = new Thema();
+//			thema.setBewertung(2);
+//			thema.setDatum(new Date());
+//			thema.setTitel("Thematitel");
+//			thema.setInhalt("Themainhalt");
+			
+//			Kommentar kommentar = new Kommentar();
+//			kommentar.setBewertung(0);
+//			kommentar.setInhalt("Kommentarinhalt");
+//			kommentar.setTitel("Kommentartitel");
+			
+//			thema.kommentieren(kommentar);
+			
 			Configuration configuration = new Configuration().configure();
        	    configuration.addAnnotatedClass(hannes.getClass());
        	    configuration.addAnnotatedClass(mbis.getClass());
        	    configuration.addAnnotatedClass(fr.getClass());
-			DatenbankenVerwaltung dbv = new DatenbankenVerwaltung(configuration);
+//       	    configuration.addAnnotatedClass(kommentar.getClass());
+//       	    configuration.addAnnotatedClass(thema.getClass());
+       	    configuration.addAnnotatedClass(new Inhalt().getClass());
+			Datenbank db = new Datenbank(configuration);
 			
+			db.tabelleHinzufuegen(hannes.getClass());
+//			db.tabelleHinzufuegen(thema.getClass());
 			
-			lena.gruppeBeitreten(mbis);
-			hannes.gruppeBeitreten(mbis);
-
-			mbis.setFachrichtung(fr);
-//			hannes.freundHinzufügen(lena);
+			db.eintragHinzufuegen(hannes.getClass(), hannes);
+			db.eintragHinzufuegen(lena.getClass(), lena);
 			
-			
-			dbv.addDatenbank(hannes.getClass());
-//			dbv.eintragHinzufuegen(hannes.getClass(), hannes);
-//			dbv.eintragHinzufuegen(lena.getClass(), lena);
-			dbv.eintragHinzufuegen(fr.getClass(), fr);
-			dbv.eintragHinzufuegen(mbis.getClass(), mbis);
+//			db.tabelleHinzufuegen(kommentar.getClass());
+//			db.tabelleHinzufuegen(thema.getClass());
+//			System.out.println("Kommentar: "+db.eintragHinzufuegen(kommentar.getClass(), kommentar));
+//			System.out.println("Thema: "+db.eintragHinzufuegen(thema.getClass(), thema));
 		}
 }

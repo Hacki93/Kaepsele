@@ -2,15 +2,46 @@ package learning;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.InheritanceType;
+
+@Entity
+@Table(name = "INHALT")
+@Inheritance(strategy=InheritanceType.JOINED)
 public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 
+	@Id @GeneratedValue
+	@Column(name = "inhalt_id")
+	public int inhalt_id;
+	
+	@Transient
 	public Benutzer autor;
+	
+	@Column(name = "bewertung")
 	public int bewertung;
+	
+	@Column(name = "inhalt")
 	public String inhalt;
-	public Date erstelltAm;
+	
+	@Column(name = "erstelltAm")
+	public Date datum;
+	
+	@Transient
 	public Medium anhang;
+	
+	@Column(name = "titel")
 	public String titel;
-	public int id;
+
+	/**
+	 * Konstruktor f&uuml;r Hibernate
+	 */
+	public Inhalt(){}
 	
 	/**
 	 * Bewertung eines Inhalts
@@ -64,11 +95,11 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 	}
 
 	public Date getDatum() {
-		return erstelltAm;
+		return datum;
 	}
 
 	public void setDatum(Date datum) {
-		erstelltAm = datum;
+		this.datum = datum;
 	}
 
 	public Medium getAnhang() {
@@ -88,11 +119,11 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 	}
 
 	public int getId() {
-		return id;
+		return inhalt_id;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.inhalt_id = id;
 	}
 	
 }
