@@ -1,6 +1,5 @@
 package learning;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -12,10 +11,10 @@ import java.util.Random;
  *
  */
 public class Fragenpool implements java.io.Serializable{
-	private ArrayList<Frage> fragen;
+	private HashSet<Frage> fragen;
 
 	public Fragenpool() {
-		fragen = new ArrayList<Frage>();
+		fragen = new HashSet<Frage>();
 	}
 
 	public void addFrage(Frage frage) {
@@ -24,6 +23,7 @@ public class Fragenpool implements java.io.Serializable{
 
 	public Quest getQuest() {
 		Quest quest = new Quest();
+		Frage[] fragen2 = (Frage[]) fragen.toArray();
 		int i = 0;
 		HashSet<Integer> zahlen = new HashSet<Integer>();
 		Random r = new Random();
@@ -33,7 +33,7 @@ public class Fragenpool implements java.io.Serializable{
 				continue;
 			}
 			zahlen.add(z);
-			Frage frage = fragen.get(z);
+			Frage frage = fragen2[z];
 			quest.addFrage(frage);
 			i++;
 		}

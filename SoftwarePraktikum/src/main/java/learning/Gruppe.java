@@ -169,8 +169,8 @@ public class Gruppe implements java.io.Serializable {
 	 * @param text
 	 * @param loesung
 	 */
-	public void frageErstellen(String titel, String text, int loesung) {
-		Frage frage = new Frage(titel, text, loesung);
+	public void frageErstellen(String titel, String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesung) {
+		Frage frage = new Frage(titel, text, antwortmoeglichkeiten, loesung);
 		this.fragenpool.addFrage(frage);
 	}
 

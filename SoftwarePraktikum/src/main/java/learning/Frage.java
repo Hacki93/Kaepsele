@@ -16,7 +16,7 @@ public class Frage implements java.io.Serializable {
 	public Frage() {
 	}
 
-	public Frage(String titel, String text, HashSet<String> loesung) {
+	public Frage(String titel, String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesung) {
 		this.titel = titel;
 		this.text = text;
 		this.loesung = loesung;
