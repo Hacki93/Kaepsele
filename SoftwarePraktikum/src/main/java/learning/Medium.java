@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.web.multipart.MultipartFile;
+
 @Entity
 @Table(name = "MEDIUM")
 public class Medium implements java.io.Serializable {
@@ -28,6 +30,8 @@ public class Medium implements java.io.Serializable {
 	@ManyToOne
     @JoinColumn(name="mediathek_id")
 	Mediathek mediathek;
+	
+	MultipartFile file;
 		
 	/**
 	 * Konstruktor f&uuml;r Hibernate
@@ -77,5 +81,13 @@ public class Medium implements java.io.Serializable {
 	public void setId(int id) {
 		medium_id = id;
 	}
+	
+	public MultipartFile getFile() {
+		return file; 
+		} 
+
+	public void setFile(MultipartFile file) { 
+		this.file = file; 
+		}
 
 }
