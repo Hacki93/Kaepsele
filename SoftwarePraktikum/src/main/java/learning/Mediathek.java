@@ -3,8 +3,10 @@ package learning;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -22,12 +24,12 @@ public class Mediathek implements java.io.Serializable{
 	@Column(name = "mediathek_id")
 	public int mediathek_id;
 	
-	@OneToMany(mappedBy="mediathek")
+	@OneToMany(mappedBy="mediathek", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Set<Medium> medien;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
-	Mediathek gruppe;
+	Gruppe gruppe;
 	
 	/**
 	 * Konstruktor der Mediathek

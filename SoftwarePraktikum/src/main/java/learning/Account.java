@@ -1,7 +1,5 @@
 package learning;
 
-import java.util.Observable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,13 +7,18 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import java.math.BigInteger;
+import java.security.*;
 
 import kommunikation.Nachricht;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "Account")
 @Inheritance(strategy=InheritanceType.JOINED)
-public class Account extends Observable implements java.io.Serializable{
+public class Account implements java.io.Serializable{
 
 	@Id @GeneratedValue
 	@Column(name = "account_id")
@@ -27,32 +30,95 @@ public class Account extends Observable implements java.io.Serializable{
 	@Column(name = "passwort")
 	protected String passwort;
 	
-	public void login(){
+	@Transient
+	boolean loggedIn;
+	
+	/**
+	 * &Uuml;berpr&uuml;ft, ob das eingegebene Passwort zum Benutzer passt
+	 * @param angegebenesPasswort Das eingegebene Passwort
+	 * @return true, falls das Passwort korrekt ist
+	 */
+	public boolean login(String angegebenesPasswort){
+		if(hashPasswort(angegebenesPasswort).equals(passwort)){
+			loggedIn = true;
+			return true;
+		}
+		loggedIn = false;
+		return false;
 	}
 	
 	public void logout(){		
+		loggedIn = false;
 	}
 	
-	public void registrieren(){
+	/**
+	 * Legt Benutzername und Passwort an
+	 * @param angegebenerBenutzername Der Benutzername
+	 * @param angegebenesPasswort Das Passwort
+	 */
+	public void registrieren(String angegebenerBenutzername, String angegebenesPasswort){
+		setBenutzername(angegebenerBenutzername);
+		setPasswort(angegebenesPasswort);
 	}
 	
-	public void benachritigen(Nachricht nachricht){
+	/**
+	 * Benachrichtigt den Benutzer
+	 * @param nachricht Der Inhalt der Nachricht
+	 */
+	public void benachrichtigen(Nachricht nachricht){
+		//TODO!
 	}
 
+	/**
+	 * Gibt den Benutzernamen zur&uuml;ck
+	 * @return Der Benutzername
+	 */
 	public String getBenutzername() {
 		return benutzername;
 	}
 
-	public void setBenutzername(String benutzername) {
+	/**
+	 * Private Hilfsmethode zum Setzen von Benutzernamen durch Hiberante/Registrierung
+	 * @param benutzername Der Benutzername
+	 */
+	protected void setBenutzername(String benutzername) {
 		this.benutzername = benutzername;
 	}
 
-	public String getPasswort() {
+	/**
+	 * Private Hilfsmethode zum Setzen von Passwort durch Hiberante/Registrierung
+	 * @param benutzername Das Passwort
+	 */
+	private String getPasswort() {
 		return passwort;
 	}
 
-	public void setPasswort(String passwort) {
-		this.passwort = passwort;
+	/**
+	 * Einmaliges Setzen eines Passworts ohne Angabe des alten Passworts
+	 * @param passwort
+	 */
+	protected void setPasswort(String passwort) {
+		this.passwort = hashPasswort(passwort);
 	}
 	
+	/**
+	 * Transformiert das Passwort von Klartext in einen MD5-Hash, der nur schwer
+	 * r&uuml;cktransformierbar ist
+	 * @param klarTextPasswort Das Passwort im Klartext
+	 * @return Das Passwort als MD5-Hash
+	 */
+	public static String hashPasswort(String klarTextPasswort) {
+		String hashedPasswort = "";
+		try {
+			MessageDigest m = MessageDigest.getInstance("MD5");
+			m.reset();
+			m.update(klarTextPasswort.getBytes());
+			byte[] digest = m.digest();
+			BigInteger bigInt = new BigInteger(1,digest);
+			hashedPasswort = bigInt.toString(16);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return hashedPasswort; 
+	}
 }

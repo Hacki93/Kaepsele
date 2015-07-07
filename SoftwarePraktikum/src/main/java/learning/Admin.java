@@ -32,7 +32,7 @@ public class Admin extends Account implements java.io.Serializable{
 		
 		// Prüfe ob aktuellster Pinnwandbeitrag nicht älter als zwei Monate ist
 		gruppe.pinnwand.sortiereNachDatum();
-		long inaktiveZeit = heute.getTime() - gruppe.pinnwand.themen.get(0).getDatum().getTime();
+		long inaktiveZeit = 0; //  TODO!
 		
 		if (inaktiveZeit > zweiMonate){
 			// löschen der Gruppenmitglieder 
@@ -41,7 +41,7 @@ public class Admin extends Account implements java.io.Serializable{
 			}
 			// löschen der Pinnwand
 			for(Thema thema : gruppe.pinnwand.themen){
-				gruppe.pinnwand.inhaltLöschen(thema);
+				gruppe.pinnwand.themaEntfernen(thema);
 				for(Kommentar kommentar : thema.getKommentare()){
 					thema.kommentarLöschen(kommentar);
 				}

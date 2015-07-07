@@ -1,14 +1,17 @@
 package controller;
 
+
 import java.util.Date;
 
 import org.hibernate.cfg.Configuration;
 
+import learning.Account;
 import learning.Benutzer;
 import learning.Fachrichtung;
 import learning.Gruppe;
 import learning.Inhalt;
 import learning.Kommentar;
+import learning.Pinnwand;
 import learning.Thema;
 import datenhaltung.Datenbank;
 
@@ -18,13 +21,12 @@ public class TestKlasse {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		datenbankenTest();
-		
 		}
 
 		public static void datenbankenTest(){
 			Benutzer hannes = new Benutzer();
 			hannes.setAdresse("Bühlenstr. 100, 71088 Holzgerlingen");
-			hannes.setBenutzername("hannes");
+			hannes.registrieren("hannes", "spiegelei");
 			hannes.setRang(1000);
 			hannes.setBeruf("Student");
 			hannes.setEmailAdresse("mail@hannes-fischer.com");
@@ -32,51 +34,45 @@ public class TestKlasse {
 
 			Benutzer lena = new Benutzer();
 			lena.setAdresse("Schopfloch");
-			lena.setBenutzername("lenchen");
+			lena.registrieren("lenchen", "12345678");
 			lena.setRang(2);
 			lena.setBeruf("Student");
 			lena.setEmailAdresse("lenamaier@web.de");
-			lena.setName("Lena Maier");
+			lena.setName("Lena Maier");		
 			
-			hannes.freundHinzufügen(lena);
+			Fachrichtung wi = new Fachrichtung();
+			wi.setName("Wirtschaftsinformatik");
+			wi.setFreigegeben(false);
 			
 			Gruppe mbis = new Gruppe();
-			mbis.setName("MBIS");
+			mbis.setName("Management betrieblicher Informationssysteme");
+			mbis.setKlausurname("MBIS 1");
+			mbis.setFachrichtung(wi);		
 			
-			Fachrichtung fr = new Fachrichtung();
-			fr.setName("SWT");
+			Kommentar kommentar = new Kommentar();
+			kommentar.setBewertung(0);
+			kommentar.setInhalt("Kommentarinhalt");
+			kommentar.setTitel("Kommentartitel");
 			
-//			Thema thema = new Thema();
-//			thema.setBewertung(2);
-//			thema.setDatum(new Date());
-//			thema.setTitel("Thematitel");
-//			thema.setInhalt("Themainhalt");
+			Thema thema = new Thema();
+			thema.setAutor(hannes);
+			thema.setBewertung(2);
+			thema.setDatum(new Date());
+			thema.setTitel("Thematitel");
+			thema.setInhalt("Themainhalt");			
+			thema.kommentieren(kommentar);
 			
-//			Kommentar kommentar = new Kommentar();
-//			kommentar.setBewertung(0);
-//			kommentar.setInhalt("Kommentarinhalt");
-//			kommentar.setTitel("Kommentartitel");
+			Pinnwand pw = new Pinnwand();
+			pw.themaHinzufügen(thema);
+			mbis.setPinnwand(pw);
 			
-//			thema.kommentieren(kommentar);
-			
-			Configuration configuration = new Configuration().configure();
-       	    configuration.addAnnotatedClass(hannes.getClass());
-       	    configuration.addAnnotatedClass(mbis.getClass());
-       	    configuration.addAnnotatedClass(fr.getClass());
-//       	    configuration.addAnnotatedClass(kommentar.getClass());
-//       	    configuration.addAnnotatedClass(thema.getClass());
-       	    configuration.addAnnotatedClass(new Inhalt().getClass());
-			Datenbank db = new Datenbank(configuration);
-			
-			db.tabelleLaden(hannes.getClass());
-//			db.tabelleHinzufuegen(thema.getClass());
-			
+			Datenbank db = new Datenbank();
 			db.eintragHinzufuegen(hannes.getClass(), hannes);
 			db.eintragHinzufuegen(lena.getClass(), lena);
-			
-//			db.tabelleHinzufuegen(kommentar.getClass());
-//			db.tabelleHinzufuegen(thema.getClass());
-//			System.out.println("Kommentar: "+db.eintragHinzufuegen(kommentar.getClass(), kommentar));
-//			System.out.println("Thema: "+db.eintragHinzufuegen(thema.getClass(), thema));
+			db.eintragHinzufuegen(wi.getClass(), wi);
+			db.eintragHinzufuegen(mbis.getClass(), mbis);
+			db.eintragHinzufuegen(kommentar.getClass(), kommentar);
+			db.eintragHinzufuegen(thema.getClass(), thema);
+			db.eintragHinzufuegen(pw.getClass(), pw);
 		}
 }

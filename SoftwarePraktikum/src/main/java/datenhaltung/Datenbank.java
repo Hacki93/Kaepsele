@@ -3,6 +3,19 @@ package datenhaltung;
 import java.util.HashMap;
 import java.util.List;
 
+import learning.Account;
+import learning.Admin;
+import learning.Benutzer;
+import learning.Bossfight;
+import learning.Challenge;
+import learning.Gruppe;
+import learning.Inhalt;
+import learning.Kommentar;
+import learning.Mediathek;
+import learning.Medium;
+import learning.Quest;
+import learning.Thema;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -31,15 +44,67 @@ public class Datenbank {
 	/**
 	 * Konstruktor, der die DatenbankVerwaltung initiiert
 	 */
-	public Datenbank(Configuration configuration) {
+	public Datenbank() {
 		datenbanken = new HashMap<Class, Tabelle>();
-	      try{	    	 
-	    	 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-	    	 factory = configuration.buildSessionFactory(builder.build());
-	      }catch (Throwable ex) { 
-	         ex.printStackTrace();
-	      }
-	      System.out.println("SessionFactory erfolgreich erstellt.");
+	    try{	    	 
+	         Configuration configuration = getConfiguration();
+	         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+	         factory = configuration.buildSessionFactory(builder.build());
+	    }catch (Throwable ex) { 
+	    	ex.printStackTrace();
+	    }
+	    System.out.println("SessionFactory erfolgreich erstellt.");
+	    tabellenEinbinden();
+	}
+	
+	/**
+	 * Ansteuern s&auml;mtlicher Tabellen
+	 */
+	private void tabellenEinbinden(){
+		tabelleLaden(new Account().getClass());
+		tabelleLaden(new Admin().getClass());
+		tabelleLaden(new Benutzer().getClass());
+		tabelleLaden(new Bossfight().getClass());
+		tabelleLaden(new Challenge().getClass());
+//		tabelleLaden(new Fachrichtung().getClass());
+//		tabelleLaden(new Frage().getClass());
+//		tabelleLaden(new Fragenpool().getClass());
+		tabelleLaden(new Gruppe().getClass());
+		tabelleLaden(new Inhalt().getClass());
+		tabelleLaden(new Kommentar().getClass());
+		tabelleLaden(new Mediathek().getClass());
+		tabelleLaden(new Medium().getClass());
+//		tabelleLaden(new Pinnwand().getClass());
+		tabelleLaden(new Quest().getClass());
+//		tabelleLaden(new Teamcombat().getClass());
+		tabelleLaden(new Thema().getClass());
+	}
+	
+	/**
+	 * L&aauml;dt das Mapping aller relevanter Klassen
+	 * @return Die Mappingkonfiguration
+	 */
+	private Configuration getConfiguration(){
+		//Konfiguriere Mapping für alle vorhandenen Tabellen, reine Relationstabellen müssen nicht geladen werden.
+		Configuration configuration = new Configuration().configure();
+    	configuration.addAnnotatedClass(new Account().getClass());
+    	configuration.addAnnotatedClass(new Admin().getClass());
+    	configuration.addAnnotatedClass(new Benutzer().getClass());
+    	configuration.addAnnotatedClass(new Bossfight().getClass());
+    	configuration.addAnnotatedClass(new Challenge().getClass());
+//    	configuration.addAnnotatedClass(new Fachrichtung().getClass());
+//    	configuration.addAnnotatedClass(new Frage().getClass());
+//    	configuration.addAnnotatedClass(new Fragenpool().getClass());
+    	configuration.addAnnotatedClass(new Gruppe().getClass());
+    	configuration.addAnnotatedClass(new Inhalt().getClass());
+    	configuration.addAnnotatedClass(new Kommentar().getClass());
+    	configuration.addAnnotatedClass(new Mediathek().getClass());
+    	configuration.addAnnotatedClass(new Medium().getClass());
+//    	configuration.addAnnotatedClass(new Pinnwand().getClass());
+    	configuration.addAnnotatedClass(new Quest().getClass());
+//    	configuration.addAnnotatedClass(new Teamcombat().getClass());
+    	configuration.addAnnotatedClass(new Thema().getClass());
+    	return configuration;
 	}
 	
 	/**

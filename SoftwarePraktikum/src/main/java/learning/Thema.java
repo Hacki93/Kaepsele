@@ -6,7 +6,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -17,12 +21,12 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name="thema_id", referencedColumnName = "inhalt_id")
 public class Thema extends Inhalt implements java.io.Serializable{
 
-//	@Id @GeneratedValue
-//	@Column(name = "thema_id")
-//	public int thema_id;
-	
-    @OneToMany(mappedBy="thema")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="thema")
 	private Set<Kommentar> kommentare;
+    
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name="pinnwand_id")
+    private Pinnwand pinnwand;
 	
     /**
      * Konstruktor f&uuml;r Hibernate
@@ -39,13 +43,6 @@ public class Thema extends Inhalt implements java.io.Serializable{
     	this.kommentare = kommentare;
     }
     
-//    public int getId(){
-//    	return thema_id;
-//    }
-//    
-//    public void setId(int id){
-//    	thema_id = id;
-//    }
     
 	/**
 	 * Konstruktor für ein neuen Pinnwandbeitrag

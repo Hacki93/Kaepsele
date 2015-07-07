@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -52,7 +53,7 @@ public class Benutzer extends Account implements java.io.Serializable{
 	@Transient
 	public Set<Benutzer> freunde;
 	
-	@ManyToMany(mappedBy = "mitglieder")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "mitglieder")
 	private Set<Gruppe> gruppen;
 	
 	@Transient
@@ -205,7 +206,7 @@ public class Benutzer extends Account implements java.io.Serializable{
 	public boolean themaSchreiben(String inhalt, String titel, Benutzer benutzer){
 		if (benutzer.pinnwand.erlaubteBenutzer.contains(this)) {
 			Thema thema = new Thema(inhalt, titel, this);
-			benutzer.pinnwand.inhaltHinzufügen(thema);
+			benutzer.pinnwand.themaHinzufügen(thema);
 			return true;
 		}
 		else{
@@ -246,7 +247,7 @@ public class Benutzer extends Account implements java.io.Serializable{
 	public boolean gruppenThemaSchreiben(String inhalt, String titel, Gruppe gruppe){
 		if (gruppe.pinnwand.erlaubteBenutzer.contains(this)){
 			Thema thema = new Thema(inhalt, titel, this);
-			gruppe.pinnwand.inhaltHinzufügen(thema);
+			gruppe.pinnwand.themaHinzufügen(thema);
 			return true;
 		}
 		else{
@@ -285,7 +286,7 @@ public class Benutzer extends Account implements java.io.Serializable{
 	 */
 	public boolean gruppenThemaLöschen(Thema thema, Gruppe gruppe){
 		if(gruppe.moderatoren.contains(this)){
-			gruppe.pinnwand.inhaltLöschen(thema);
+			gruppe.pinnwand.themaEntfernen(thema);
 			for(Kommentar kommentar : thema.getKommentare()){
 				thema.kommentarLöschen(kommentar);
 			}
@@ -332,6 +333,24 @@ public class Benutzer extends Account implements java.io.Serializable{
 			// Der Benutzer ist kein Moderator in dieser Gruppe
 			// Benutzer wird informiert, dass er in dieser Gruppe kein Moderator ist
 			return false;
+		}
+	}
+	
+	/**
+	 * Gibt die Bezeichnung des Rangs zur&uuml;ck
+	 * @return Die Bezeichnung des Rangs
+	 */
+	public String getRangName() {
+		if(rang == 0) {
+			return "Seggl";
+		} else if (rang == 1) {
+			return "Dackel";
+		} else if (rang < 3) {
+			return "Kerle";			
+		} else if (rang < 5) {
+			return "Hauptkerle";
+		} else {
+			return "Käpsele";
 		}
 	}
 	

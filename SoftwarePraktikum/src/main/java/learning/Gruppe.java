@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
@@ -34,14 +35,15 @@ public class Gruppe implements java.io.Serializable {
 	@Column(name = "klausurname")
 	public String klausurname;
 	
-    @ManyToOne
-    @JoinColumn(name="fachrichtung_id")
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinColumn(name="fachrichtung_id")
+	@Transient
 	public Fachrichtung fachrichtung;
 	
 	@Column(name = "freigegeben")
 	public boolean freigegeben;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "GRUPPEN_MITGLIEDER", joinColumns =
 	@JoinColumn(name = "gruppen_id"),  inverseJoinColumns =
 	@JoinColumn(name = "benutzer_id"))
@@ -50,13 +52,13 @@ public class Gruppe implements java.io.Serializable {
 	@Transient
 	public ArrayList<Benutzer> moderatoren;
 	
-	@OneToOne(mappedBy="gruppe")
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
 	Fragenpool fragenpool;
 	
-	@OneToOne(mappedBy="gruppe")
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
 	Pinnwand pinnwand;
 	
-	@OneToOne(mappedBy="gruppe")
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
 	Mediathek mediathek;
 	
 	@Transient
@@ -250,5 +252,20 @@ public class Gruppe implements java.io.Serializable {
 	public void setMitglieder(HashSet<Benutzer> benutzer) {
 		this.mitglieder = benutzer;
 	}
+	
+	public void setMediathek(Mediathek mediathek) {
+		this.mediathek = mediathek;
+	}
 
+	public Mediathek getMediathek() {
+		return mediathek;
+	}
+
+	public void setPinnwand(Pinnwand pinnwand) {
+		this.pinnwand = pinnwand;
+	}
+
+	public Pinnwand getPinnwand() {
+		return pinnwand;
+	}
 }

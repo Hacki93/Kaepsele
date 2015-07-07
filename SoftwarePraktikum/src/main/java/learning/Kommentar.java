@@ -2,8 +2,10 @@ package learning;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -17,7 +19,7 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name="kommentar_id", referencedColumnName = "inhalt_id")
 public class Kommentar extends Inhalt implements java.io.Serializable{
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="thema_id")
 	private Thema thema;
 	
@@ -33,14 +35,6 @@ public class Kommentar extends Inhalt implements java.io.Serializable{
 	public void setThema(Thema thema){
 		this.thema = thema;
 	}
-	
-//	public int getId(){
-//		return kommentar_id;
-//	}
-//	
-//	public void setId(int id){
-//		kommentar_id = id;
-//	}
 	
 	/**
 	 * Konstruktor für ein neuen Kommentar zu einem Pinnwandbeitrag (Inhalt)

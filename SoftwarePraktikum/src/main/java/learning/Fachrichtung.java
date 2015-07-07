@@ -3,8 +3,10 @@ package learning;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -28,7 +30,7 @@ public class Fachrichtung implements java.io.Serializable{
 	@Column(name = "freigegeben")
 	public boolean freigegeben;
 	
-	@OneToMany(mappedBy="fachrichtung")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="fachrichtung")
 	Set<Gruppe> gruppen;
 	
 	public Fachrichtung() {
