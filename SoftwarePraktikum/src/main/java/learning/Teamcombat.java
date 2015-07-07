@@ -37,14 +37,12 @@ public class Teamcombat implements java.io.Serializable{
 		int herausforderer = questFuerHerausforderer.korrigiere();
 		int herausgeforderter = questFuerHerausgeforderter.korrigiere();
 		if (herausforderer > herausgeforderter){
+			gewinner = this.herausforderer;
 			return this.herausforderer;
-		} else if (herausforderer < herausgeforderter){
+		} else {
+			gewinner = this.herausgeforderter;
 			return this.herausgeforderter;
-		} else{
-			//Welche Gruppe wird bei unentschieden ausgegeben?
-			System.out.println("Unentschieden");
-			return null;
-		}
+		} 
 	}
 
 	public Date getAblaufdatum() {
