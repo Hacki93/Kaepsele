@@ -1,11 +1,38 @@
 package learning;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "MEDIUM")
 public class Medium implements java.io.Serializable {
 
+	@Id @GeneratedValue
+	@Column(name = "medium_id")
+	public int medium_id;
+	
+	@Column(name = "name")
 	public String name;
+	
+	@Column(name = "pfad")
 	public String pfad;
+	
+	@Column(name = "typ")
 	public String typ;
-	public int id;
+	
+	@ManyToOne
+    @JoinColumn(name="mediathek_id")
+	Mediathek mediathek;
+		
+	/**
+	 * Konstruktor f&uuml;r Hibernate
+	 */
+	public Medium(){}
 	
 	/**
 	 * Konstruktor eines Mediums
@@ -44,11 +71,11 @@ public class Medium implements java.io.Serializable {
 	}
 
 	public int getId() {
-		return id;
+		return medium_id;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		medium_id = id;
 	}
 
 }

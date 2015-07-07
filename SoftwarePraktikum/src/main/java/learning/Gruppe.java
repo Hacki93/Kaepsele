@@ -13,6 +13,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -48,13 +50,13 @@ public class Gruppe implements java.io.Serializable {
 	@Transient
 	public ArrayList<Benutzer> moderatoren;
 	
-	@Transient
+	@OneToOne(mappedBy="gruppe")
 	Fragenpool fragenpool;
 	
-	@Transient
+	@OneToOne(mappedBy="gruppe")
 	Pinnwand pinnwand;
 	
-	@Transient
+	@OneToOne(mappedBy="gruppe")
 	Mediathek mediathek;
 	
 	@Transient

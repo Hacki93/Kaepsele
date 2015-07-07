@@ -46,7 +46,7 @@ public class Datenbank {
 	 * Erstellt eine neue Datenbankenverbindung zu einer MySQL-Tabelle, falls die Verbindung noch nicht existiert
 	 * @param klasse Die MySQL-Tabelle, die mit dem entsprechenden Objekt verbunden werden soll
 	 */
-	public void tabelleHinzufuegen(Class klasse) {
+	public void tabelleLaden(Class klasse) {
 		if(!datenbanken.containsKey(klasse)) {
 			Tabelle db = new Tabelle(klasse, factory);
 			datenbanken.put(klasse, db);

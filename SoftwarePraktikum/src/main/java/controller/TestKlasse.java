@@ -68,7 +68,7 @@ public class TestKlasse {
        	    configuration.addAnnotatedClass(new Inhalt().getClass());
 			Datenbank db = new Datenbank(configuration);
 			
-			db.tabelleHinzufuegen(hannes.getClass());
+			db.tabelleLaden(hannes.getClass());
 //			db.tabelleHinzufuegen(thema.getClass());
 			
 			db.eintragHinzufuegen(hannes.getClass(), hannes);

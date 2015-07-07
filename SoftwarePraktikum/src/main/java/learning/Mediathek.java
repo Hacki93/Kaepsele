@@ -1,16 +1,39 @@
 package learning;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "MEDIATHEK")
 public class Mediathek implements java.io.Serializable{
 
-	public ArrayList<Medium> medien;
+	@Id @GeneratedValue
+	@Column(name = "mediathek_id")
+	public int mediathek_id;
+	
+	@OneToMany(mappedBy="mediathek")
+	public Set<Medium> medien;
+	
+	@OneToOne
+	@PrimaryKeyJoinColumn
+	Mediathek gruppe;
 	
 	/**
 	 * Konstruktor der Mediathek
 	 */
 	public Mediathek(){
-		medien = new ArrayList<Medium>();
+		medien = new HashSet<Medium>();
 	}
 	
 	/**
@@ -43,4 +66,19 @@ public class Mediathek implements java.io.Serializable{
 		this.medien.remove(medium);
 	}
 	
+	public Set<Medium> getMedien(){
+		return medien;
+	}
+	
+	public void setMedien(Set<Medium> medien){
+		this.medien = medien;
+	}
+	
+	public int getId(){
+		return mediathek_id;
+	}
+	
+	public void setId(int id){
+		mediathek_id = id;
+	}
 }
