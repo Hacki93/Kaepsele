@@ -1,6 +1,6 @@
 package learning;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,28 +17,21 @@ import javax.persistence.Transient;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "QUEST")
-@PrimaryKeyJoinColumn(name="quest_id", referencedColumnName = "challenge_id")
+@PrimaryKeyJoinColumn(name = "quest_id", referencedColumnName = "challenge_id")
 public class Quest extends Challenge implements java.io.Serializable {
-	
+
 	@Transient
-	private ArrayList<Frage> fragen;
-	
+	private HashSet<Frage> fragen;
+
 	@Transient
-	private ArrayList<Integer> antworten;
+	private int erreichbarePunktzahl;
 	
-	@Column(name="zaehlerFragen")
-	private int zaehlerFragen;
-	
-	@Column(name="zaehlerAntworten")
-	private int zaehlerAntworten;
-	
-	@Transient
-	private int erreichbarePunktzahl = 30;
+	private int erreichtePunktzahl;
 
 	public Quest() {
-		fragen = new ArrayList<Frage>();
-		zaehlerAntworten = 0;
-		zaehlerFragen = 0;
+		fragen = new HashSet<Frage>();
+		erreichbarePunktzahl = 0;
+		erreichtePunktzahl = 0;
 	}
 
 	public int getErreichbarePunktzahl() {
@@ -47,22 +40,8 @@ public class Quest extends Challenge implements java.io.Serializable {
 
 	public void addFrage(Frage frage) {
 		fragen.add(frage);
-	}
-
-	public Frage getNaechsteFrage() {
-		Frage frage = fragen.get(zaehlerFragen);
-		zaehlerFragen++;
-		return frage;
-	}
-
-	public void antwortSpeichern(int antwort) {
-		antworten.add(antwort);
-	}
-
-	public int getNaechsteAntwort() {
-		int antwort = antworten.get(zaehlerAntworten);
-		zaehlerAntworten++;
-		return antwort;
+		erreichbarePunktzahl = erreichbarePunktzahl + 3
+				* frage.getLoesung().size();
 	}
 
 	/**
@@ -70,14 +49,8 @@ public class Quest extends Challenge implements java.io.Serializable {
 	 * zurueck
 	 */
 	public int korrigiere() {
-		while (zaehlerFragen < 10) {
-			int loesung = getNaechsteFrage().getLoesung();
-			int antwort = getNaechsteAntwort();
-			if (loesung == antwort) {
-				this.erreichtePunktzahl = this.erreichtePunktzahl + 3;
-			} else {
-				continue;
-			}
+		for (Frage f : fragen) {
+			erreichtePunktzahl = erreichtePunktzahl + f.korrigiere();
 		}
 		return erreichtePunktzahl;
 	}

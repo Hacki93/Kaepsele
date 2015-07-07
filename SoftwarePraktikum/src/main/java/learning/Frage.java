@@ -1,50 +1,77 @@
 package learning;
 
+import java.util.HashSet;
 
-import java.util.ArrayList;
-
-
-public class Frage implements java.io.Serializable{
-	public static final int punktzahl = 3; 
-	public ArrayList<Medium> anhang; 
+public class Frage implements java.io.Serializable {
+	public HashSet<Medium> anhang;
 	public int id;
-	public String titel; 
+	public String titel;
 	public String text;
-	public ArrayList<String> antworten; 
-	public int loesung; 
-	
-public Frage(){}
+	public HashSet<String> antwortmoeglichkeiten;
+	public HashSet<String> antworten;
 
-public Frage(String titel, String text, int loesung){
-	this.titel = titel; 
-	this.text = text; 
-	this.loesung = loesung;
-	
-	antworten = new ArrayList<String>();
-	anhang = new ArrayList<Medium>();
-		
-}
+	public HashSet<String> loesung;
 
-
-public ArrayList<String> getAntworten(){
-	return antworten;
-}
-
-public void addAntworten(String antwort){
-	antworten.add(antwort);
-}
-
-public int korrigiere(int antwort){
-	if (antwort == this.loesung){
-		return punktzahl;
+	// leerer Konstruktor
+	public Frage() {
 	}
-	else {
-		return 0;
+
+	public Frage(String titel, String text, HashSet<String> loesung) {
+		this.titel = titel;
+		this.text = text;
+		this.loesung = loesung;
+
+		antwortmoeglichkeiten = new HashSet<String>();
+		antworten = new HashSet<String>();
+		anhang = new HashSet<Medium>();
+	}
+
+	public HashSet<String> getAntwortmoeglichkeiten() {
+		return antwortmoeglichkeiten;
+	}
+
+	public void addAntwortmoeglichkeiten(String antwort) {
+		antwortmoeglichkeiten.add(antwort);
+	}
+
+	/**
+	 * Vergleicht die gegebenen Antworten mit der Loesung und gibt die
+	 * entsprechende Punktzahl zurueck
+	 * 
+	 * @return erreichte Punktzahl
+	 */
+	public int korrigiere() {
+		HashSet<String> loesung2 = this.loesung;
+		int punkte = 0;
+		for (String a : antworten) {
+			if (loesung2.contains(a)) {
+				punkte = punkte + 3;
+				loesung2.remove(a);
+			} else {
+				punkte = punkte - 3;
+			}
+		}
+
+		if (loesung2.size() > 0) {
+			punkte = punkte - 3 * loesung2.size();
+		}
+
+		if (punkte < 0) {
+			return 0;
+		} else {
+			return punkte;
+		}
+	}
+
+	public HashSet<String> getLoesung() {
+		return loesung;
+	}
+
+	public void addAntworten(HashSet<String> antworten) {
+		this.antworten = antworten;
+	}
+
+	public HashSet<String> getAntworten() {
+		return antworten;
 	}
 }
-
-public int getLoesung(){
-	return loesung;
-}
-}
-
