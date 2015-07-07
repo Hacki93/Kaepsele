@@ -1,4 +1,4 @@
-package org.hohenheim;
+package controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +12,6 @@ public class GreetingController {
 	@RequestMapping(method=RequestMethod.GET)
 	public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
 		model.addAttribute("name", name);
-		return "medium";
+		return "index";
 	}
 }
