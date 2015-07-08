@@ -7,7 +7,7 @@
 <body>
 	<p th:text="${name} + ' isnt a Kaepsele'" />
 	
-	<form action="#" th:action="@{/medium}" th:object="${benutzer}" method="post">
+	<form action="#" th:action="@{/login}" th:object="${benutzer}" method="post">
 	<input type="text" th:field="*{benutzername}"/>
  	<input type="password" th:field="*{passwort}"/>
 	<input type="submit" value="Einloggen" /> 
