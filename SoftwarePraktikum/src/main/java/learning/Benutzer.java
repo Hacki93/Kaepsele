@@ -50,11 +50,21 @@ public class Benutzer extends Account implements java.io.Serializable{
 	@Column(name = "studiengang")
 	private String studiengang;
 	
-	@Transient
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "FREUNDE", joinColumns =
+	@JoinColumn(name = "benutzer_id"),  inverseJoinColumns =
+	@JoinColumn(name = "freunde_id"))
 	public Set<Benutzer> freunde;
+
+	//Hilfskollektion zur Umsetzung eines Many-To-Many Self-Joins
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "freunde")
+	public Set<Benutzer> freunde2;
 	
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "mitglieder")
 	private Set<Gruppe> gruppen;
+	
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "moderatoren")
+	private Set<Gruppe> moderierteGruppen;
 	
 	@Transient
 	private ArrayList<Nachricht> nachrichten;
@@ -108,9 +118,6 @@ public class Benutzer extends Account implements java.io.Serializable{
 		System.out.println("Learning:Benutzer:freundHinzufügen: Freund wurde hinzugefügt");
 		freunde.add(benutzer);
 		benutzer.freunde.add(this);
-		for(Benutzer b : freunde) {
-			System.out.println(b.name);
-		}
 		pinnwand.erlaubteBenutzer.add(benutzer);
 		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.FREUNDHINZUGEFUEGT, this);
 		benutzer.benachrichtigen(nachricht);
@@ -165,6 +172,7 @@ public class Benutzer extends Account implements java.io.Serializable{
 		gruppen.add(gruppe);
 		gruppe.mitgliedHinzufuegen(this);
 		gruppe.moderatoren.add(this);
+		moderierteGruppen.add(gruppe);
 		return gruppe;
 	}
 	

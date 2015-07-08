@@ -27,10 +27,10 @@ public class Tabelle {
 	   /**
 	    * Konstruktor, der die Schnittstelle mitsamt persistenter SessionFactory erstellt
 	    */
-	   public Tabelle(Class klasse, SessionFactory factory) {
+	public Tabelle(Class klasse, SessionFactory factory) {
 		   this.klasse = klasse;
 		   this.factory = factory;
-		   System.out.println("Datenbank wird erstellt");
+		   System.out.println("Datenbank wird erstellt für "+klasse.getName());
 	   }
 	   
 	   /**
@@ -113,6 +113,7 @@ public class Tabelle {
 	      try{
 	         tx = session.beginTransaction();
 			 session.update(obj); 
+			 System.out.println("Objekt aktualisiert");
 	         tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();

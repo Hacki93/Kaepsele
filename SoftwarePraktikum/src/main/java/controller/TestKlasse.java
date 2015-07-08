@@ -20,10 +20,15 @@ public class TestKlasse {
 	// Klasse zum Testen von Codebausteinen
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		datenbankenTest();
+		dbSchreiben();
+		dbLesen();
 		}
+	
+	public static void dbLesen(){
+		
+	}
 
-		public static void datenbankenTest(){
+		public static void dbSchreiben(){
 			Benutzer hannes = new Benutzer();
 			hannes.setAdresse("Bühlenstr. 100, 71088 Holzgerlingen");
 			hannes.registrieren("hannes", "spiegelei");
@@ -31,6 +36,7 @@ public class TestKlasse {
 			hannes.setBeruf("Student");
 			hannes.setEmailAdresse("mail@hannes-fischer.com");
 			hannes.setName("Hannes Fischer");
+			hannes.setStudiengang("Wirtschaftsinformatik B.Sc.");
 
 			Benutzer lena = new Benutzer();
 			lena.setAdresse("Schopfloch");
@@ -39,6 +45,7 @@ public class TestKlasse {
 			lena.setBeruf("Student");
 			lena.setEmailAdresse("lenamaier@web.de");
 			lena.setName("Lena Maier");		
+			lena.setStudiengang("Wirtschaftsinformatik B.Sc.");
 			
 			Fachrichtung wi = new Fachrichtung();
 			wi.setName("Wirtschaftsinformatik");
@@ -47,7 +54,6 @@ public class TestKlasse {
 			Gruppe mbis = new Gruppe();
 			mbis.setName("Management betrieblicher Informationssysteme");
 			mbis.setKlausurname("MBIS 1");
-			mbis.setFachrichtung(wi);		
 			
 			Kommentar kommentar = new Kommentar();
 			kommentar.setBewertung(0);
@@ -66,13 +72,20 @@ public class TestKlasse {
 			pw.themaHinzufügen(thema);
 			mbis.setPinnwand(pw);
 			
+			mbis.setFachrichtung(wi);		
+			mbis.mitgliedHinzufuegen(lena);
+			mbis.mitgliedHinzufuegen(hannes);
+			
 			Datenbank db = new Datenbank();
-//			db.eintragHinzufuegen(hannes.getClass(), hannes);
-//			db.eintragHinzufuegen(lena.getClass(), lena);
-//			db.eintragHinzufuegen(wi.getClass(), wi);
-//			db.eintragHinzufuegen(mbis.getClass(), mbis);
-//			db.eintragHinzufuegen(kommentar.getClass(), kommentar);
-//			db.eintragHinzufuegen(thema.getClass(), thema);
-//			db.eintragHinzufuegen(pw.getClass(), pw);
+			db.eintragHinzufuegen(hannes.getClass(), hannes);
+			db.eintragHinzufuegen(lena.getClass(), lena);
+			db.eintragHinzufuegen(wi.getClass(), wi);
+			db.eintragHinzufuegen(mbis.getClass(), mbis);
+			db.eintragHinzufuegen(kommentar.getClass(), kommentar);
+			db.eintragHinzufuegen(thema.getClass(), thema);
+			db.eintragHinzufuegen(pw.getClass(), pw);
+			
+			lena.setRang(5);
+			db.eintragAktualisieren(lena.getClass(), lena);
 		}
 }

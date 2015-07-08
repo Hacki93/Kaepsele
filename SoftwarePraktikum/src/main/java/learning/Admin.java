@@ -1,10 +1,14 @@
 package learning;
-import java.util.Date;
 
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+/**
+ * Die Klasse Admin stellt eine Spezialisierung von Account dar. Sie bietet Haupts&auml;lich Methoden
+ * zur Verwaltung von Benutzern und Gruppen dar.
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "admin")
@@ -12,9 +16,9 @@ import javax.persistence.Table;
 public class Admin extends Account implements java.io.Serializable{
 
 	/**
-	 * Es kann eine Gruppe gelöscht werden wenn sie mindestens 2 Monate inaktiv ist
-	 * @param gruppe die gel&oumlscht werden soll
-	 * @return true, falls die Gruppe gelöscht wurde
+	 * Es kann eine Gruppe gel&ouml;scht werden, wenn sie mindestens 2 Monate inaktiv ist
+	 * @param gruppe Gruppe, die gel&ouml;scht werden soll
+	 * @return true, falls die Gruppe gel&ouml;scht wurde
 	 */
 	public boolean gruppeLöschen(Gruppe gruppe){
 		// aktuelles Datum
@@ -57,13 +61,19 @@ public class Admin extends Account implements java.io.Serializable{
 		}
 	}
 	
-	public boolean fachrichtungFreigeben(Fachrichtung k){
-		k.setFreigegeben(true);
-		return k.getFreigegeben();
+	/**
+	 * Setzt das freigegeben-flag einer Fachrichtung auf true
+	 * @param fachrichtung Fachrichtung, die freigegeben werden soll
+	 */
+	public void fachrichtungFreigeben(Fachrichtung fachrichtung){
+		fachrichtung.setFreigegeben(true);
 	}
 	
-	public boolean gruppeFreigeben(Gruppe g){
-		g.setFreigegeben(true);
-		return g.isFreigegeben();
+	/**
+	 * Setzt das freigegeben-flag einer Gruppe auf true
+	 * @param gruppe Gruppe, die freigegeben werden soll
+	 */
+	public void gruppeFreigeben(Gruppe gruppe){
+		gruppe.setFreigegeben(true);
 	}
 }

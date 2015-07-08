@@ -35,9 +35,8 @@ public class Gruppe implements java.io.Serializable {
 	@Column(name = "klausurname")
 	public String klausurname;
 	
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinColumn(name="fachrichtung_id")
-	@Transient
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="fachrichtung_id")
 	public Fachrichtung fachrichtung;
 	
 	@Column(name = "freigegeben")
@@ -49,8 +48,11 @@ public class Gruppe implements java.io.Serializable {
 	@JoinColumn(name = "benutzer_id"))
 	private Set<Benutzer> mitglieder;
 	
-	@Transient
-	public ArrayList<Benutzer> moderatoren;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "GRUPPEN_MODERATOREN", joinColumns =
+	@JoinColumn(name = "gruppen_id"),  inverseJoinColumns =
+	@JoinColumn(name = "benutzer_id"))
+	public Set<Benutzer> moderatoren;
 	
 //	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
 	@Transient
@@ -70,7 +72,7 @@ public class Gruppe implements java.io.Serializable {
 	 */
 	public Gruppe(){
 		mitglieder = new HashSet<Benutzer>();
-		moderatoren = new ArrayList<Benutzer>();
+		moderatoren = new HashSet<Benutzer>();
 		fragenpool = new Fragenpool();
 		pinnwand = new Pinnwand();
 		mediathek = new Mediathek();
@@ -89,7 +91,7 @@ public class Gruppe implements java.io.Serializable {
 		setFachrichtung(fachrichtung);
 		this.klausurname = klausurname;
 		mitglieder = new HashSet<Benutzer>();
-		moderatoren = new ArrayList<Benutzer>();
+		moderatoren = new HashSet<Benutzer>();
 		fragenpool = new Fragenpool();
 		pinnwand = new Pinnwand();
 		mediathek = new Mediathek();

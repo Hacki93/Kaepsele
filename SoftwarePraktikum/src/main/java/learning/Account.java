@@ -8,12 +8,15 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
 import java.math.BigInteger;
 import java.security.*;
 
 import kommunikation.Nachricht;
 
+/**
+ * Die Klasse Account stellt eine abtrakte Generalisierung von Admin und Benutzer dar.
+ * In ihr werden haupts&auml;chlich die Methoden zum An- und Abmelden verwaltet.
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "Account")
@@ -21,7 +24,7 @@ import kommunikation.Nachricht;
 public class Account implements java.io.Serializable{
 
 	@Id @GeneratedValue
-	@Column(name = "account_id")
+	@Column(name = "account_id", unique=true, nullable=false)
 	public int account_id;
 	
 	@Column(name = "benutzername")
@@ -48,6 +51,9 @@ public class Account implements java.io.Serializable{
 //		return false;
 	}
 	
+	/**
+	 * Meldet den Benutzer ab
+	 */
 	public void logout(){		
 		loggedIn = false;
 	}
@@ -95,7 +101,7 @@ public class Account implements java.io.Serializable{
 	}
 
 	/**
-	 * Einmaliges Setzen eines Passworts ohne Angabe des alten Passworts
+	 * Setzen eines Passworts ohne Angabe des alten Passworts
 	 * @param passwort
 	 */
 	public void setPasswort(String passwort) {

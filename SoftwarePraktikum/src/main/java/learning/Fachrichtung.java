@@ -15,7 +15,6 @@ import javax.persistence.Transient;
 
 /**
  * Die Klasse Fachrichtung stellt eine Speicherklasse dar.
- * @author Hannes
  */
 @SuppressWarnings("serial")
 @Entity
@@ -32,8 +31,7 @@ public class Fachrichtung implements java.io.Serializable{
 	@Column(name = "freigegeben")
 	public boolean freigegeben;
 	
-//	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="fachrichtung")
-	@Transient
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="fachrichtung")
 	Set<Gruppe> gruppen;
 	
 	public Fachrichtung() {
