@@ -12,6 +12,6 @@ public class AnmeldenController{
 	@RequestMapping(method=RequestMethod.GET)
 	public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
 		model.addAttribute("name", name);
-		return "Anmelden";
+		return "index3";
 	}
 }
