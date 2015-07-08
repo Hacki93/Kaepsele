@@ -58,7 +58,7 @@ public class Bossfight extends Challenge implements java.io.Serializable{
 	public void beenden(Gruppe gruppe) {
 		Random rand = new Random();
 		int index = rand.nextInt(gruppe.moderatoren.size());
-		Benutzer moderator = gruppe.moderatoren.get(index); 
+		Benutzer moderator = (Benutzer) gruppe.moderatoren.toArray()[0];
 		Nachricht nachricht = new Nachricht(bearbeiter, moderator, Nachricht.AUFGABEKORRIGIEREN, this);
 		moderator.benachrichtigen(nachricht);
 	}

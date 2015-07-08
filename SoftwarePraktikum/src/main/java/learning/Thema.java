@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name="thema_id", referencedColumnName = "inhalt_id")
 public class Thema extends Inhalt implements java.io.Serializable{
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="thema")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="thema")
 	private Set<Kommentar> kommentare;
     
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -66,6 +66,7 @@ public class Thema extends Inhalt implements java.io.Serializable{
 	 */
 	public void kommentieren(Kommentar kommentar){
 		kommentare.add(kommentar);
+		kommentar.setThema(this);
 	}
 	
 	/**
