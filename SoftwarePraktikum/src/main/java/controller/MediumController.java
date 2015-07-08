@@ -35,83 +35,83 @@ public class MediumController {
 		binder.setValidator(validator); 
 	} 
 	
-	@RequestMapping (value = "/medium", method = RequestMethod.GET)
-	public String getForm(Model model) {
-		Medium mediumModel = new Medium();
-		model.addAttribute("medium", mediumModel);
-		return "medium";
-	}
-	
-	@RequestMapping (value = "/medium", method = RequestMethod.POST)
-	public String mediumHochladen(Model model, @Validated Medium medium, BindingResult result, HttpServletRequest request) {
-		String ergebnisStatus = "erfolgmedium";
-		
-		if(result.hasErrors()){
-			ergebnisStatus = "medium";
-		}
-		else{
-			MultipartFile multipartMedium = medium.getFile();
-			
-			ServletContext context = request.getServletContext();
-	        String projektPfad = context.getRealPath("");
-	        String [] pfad = projektPfad.split("Kaepsele");
-			String orgName = multipartMedium.getOriginalFilename();
-			String speicherort = pfad[0] + "/Kaepsele/SoftwarePraktikum/Klausuren/" + orgName;
-			File desk = new File(speicherort);
-			
-			try{
-				multipartMedium.transferTo(desk);
-			}
-			catch(IllegalStateException | IOException e){
-				e.printStackTrace();
-			}
-		}
-		return ergebnisStatus;
-	}
-	
-	@RequestMapping(value = "/mediumrunterladen", method = RequestMethod.GET)
-	public @ResponseBody void mediumRunterladen(HttpServletRequest request, HttpServletResponse response) {
-		
-		// get absolute path of the application
-		ServletContext context = request.getServletContext();
-        String projektPfad = context.getRealPath("");
-        String [] pfad = projektPfad.split("Kaepsele");
-        String mediumPfad = pfad[0] + "/Kaepsele/SoftwarePraktikum/Klausuren/Entwurf.pdf";
-
-		File ladeMedium = new File(mediumPfad);
-		FileInputStream inputStream = null;
-		OutputStream outStream = null;
-		
-		try {
-			inputStream = new FileInputStream(ladeMedium);
- 
-			response.setContentLength((int) ladeMedium.length());
-			response.setContentType(context.getMimeType("C:/JavaHonk/CustomJar.jar"));			
- 
-			// response header
-			String headerKey = "Content-Disposition";
-			String headerValue = String.format("attachment; filename=\"%s\"",ladeMedium.getName());
-			response.setHeader(headerKey, headerValue);
- 
-			// Write response
-			outStream = response.getOutputStream();
-			IOUtils.copy(inputStream, outStream);
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		} 
-		finally {
-			try {
-				if (null != inputStream)
-					inputStream.close();
-				if (null != inputStream)
-					outStream.close();
-			} 
-			catch (IOException e) {
-				e.printStackTrace();
-			}
- 
-		}
-	}
+//	@RequestMapping (value = "/medium", method = RequestMethod.GET)
+//	public String getForm(Model model) {
+//		Medium mediumModel = new Medium();
+//		model.addAttribute("medium", mediumModel);
+//		return "medium";
+//	}
+//	
+//	@RequestMapping (value = "/medium", method = RequestMethod.POST)
+//	public String mediumHochladen(Model model, @Validated Medium medium, BindingResult result, HttpServletRequest request) {
+//		String ergebnisStatus = "erfolgmedium";
+//		
+//		if(result.hasErrors()){
+//			ergebnisStatus = "medium";
+//		}
+//		else{
+//			MultipartFile multipartMedium = medium.getFile();
+//			
+//			ServletContext context = request.getServletContext();
+//	        String projektPfad = context.getRealPath("");
+//	        String [] pfad = projektPfad.split("Kaepsele");
+//			String orgName = multipartMedium.getOriginalFilename();
+//			String speicherort = pfad[0] + "/Kaepsele/SoftwarePraktikum/Klausuren/" + orgName;
+//			File desk = new File(speicherort);
+//			
+//			try{
+//				multipartMedium.transferTo(desk);
+//			}
+//			catch(IllegalStateException | IOException e){
+//				e.printStackTrace();
+//			}
+//		}
+//		return ergebnisStatus;
+//	}
+//	
+//	@RequestMapping(value = "/mediumrunterladen", method = RequestMethod.GET)
+//	public @ResponseBody void mediumRunterladen(HttpServletRequest request, HttpServletResponse response) {
+//		
+//		// get absolute path of the application
+//		ServletContext context = request.getServletContext();
+//        String projektPfad = context.getRealPath("");
+//        String [] pfad = projektPfad.split("Kaepsele");
+//        String mediumPfad = pfad[0] + "/Kaepsele/SoftwarePraktikum/Klausuren/Entwurf.pdf";
+//
+//		File ladeMedium = new File(mediumPfad);
+//		FileInputStream inputStream = null;
+//		OutputStream outStream = null;
+//		
+//		try {
+//			inputStream = new FileInputStream(ladeMedium);
+// 
+//			response.setContentLength((int) ladeMedium.length());
+//			response.setContentType(context.getMimeType("C:/JavaHonk/CustomJar.jar"));			
+// 
+//			// response header
+//			String headerKey = "Content-Disposition";
+//			String headerValue = String.format("attachment; filename=\"%s\"",ladeMedium.getName());
+//			response.setHeader(headerKey, headerValue);
+// 
+//			// Write response
+//			outStream = response.getOutputStream();
+//			IOUtils.copy(inputStream, outStream);
+//		} 
+//		catch (Exception e) {
+//			e.printStackTrace();
+//		} 
+//		finally {
+//			try {
+//				if (null != inputStream)
+//					inputStream.close();
+//				if (null != inputStream)
+//					outStream.close();
+//			} 
+//			catch (IOException e) {
+//				e.printStackTrace();
+//			}
+// 
+//		}
+//	}
 	
 }

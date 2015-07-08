@@ -67,12 +67,12 @@ public class TestKlasse {
 			mbis.setPinnwand(pw);
 			
 			Datenbank db = new Datenbank();
-			db.eintragHinzufuegen(hannes.getClass(), hannes);
-			db.eintragHinzufuegen(lena.getClass(), lena);
-			db.eintragHinzufuegen(wi.getClass(), wi);
-			db.eintragHinzufuegen(mbis.getClass(), mbis);
-			db.eintragHinzufuegen(kommentar.getClass(), kommentar);
-			db.eintragHinzufuegen(thema.getClass(), thema);
-			db.eintragHinzufuegen(pw.getClass(), pw);
+//			db.eintragHinzufuegen(hannes.getClass(), hannes);
+//			db.eintragHinzufuegen(lena.getClass(), lena);
+//			db.eintragHinzufuegen(wi.getClass(), wi);
+//			db.eintragHinzufuegen(mbis.getClass(), mbis);
+//			db.eintragHinzufuegen(kommentar.getClass(), kommentar);
+//			db.eintragHinzufuegen(thema.getClass(), thema);
+//			db.eintragHinzufuegen(pw.getClass(), pw);
 		}
 }

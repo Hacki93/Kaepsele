@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +32,7 @@ public class Medium implements java.io.Serializable {
     @JoinColumn(name="mediathek_id")
 	Mediathek mediathek;
 	
+	@Transient
 	MultipartFile file;
 		
 	/**

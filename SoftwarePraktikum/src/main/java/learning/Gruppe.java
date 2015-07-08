@@ -52,7 +52,8 @@ public class Gruppe implements java.io.Serializable {
 	@Transient
 	public ArrayList<Benutzer> moderatoren;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
+//	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
+	@Transient
 	Fragenpool fragenpool;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")

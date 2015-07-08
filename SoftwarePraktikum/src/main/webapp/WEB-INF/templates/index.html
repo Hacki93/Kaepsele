@@ -6,10 +6,11 @@
 </head>
 <body>
 	<p th:text="${name} + ' isnt a Kaepsele'" />
-	<form action="#" th:action="@{/medium"} th:objects="${benutzer}" method="post">
-	<p>Benutzername: <input type="text" th:field="*{benutzername}"/></p>
-	<p>Passwort: <input type="password" th:field="*{passwort}"/></p>
-	<p><input type="submit" value="einloggen"/> 
+	
+	<form action="#" th:action="@{/medium}" th:object="${benutzer}" method="post">
+	<input type="text" th:field="*{benutzername}"/>
+ 	<input type="password" th:field="*{passwort}"/>
+	<input type="submit" value="Einloggen" /> 
 	</form>
 </body>
 </html>

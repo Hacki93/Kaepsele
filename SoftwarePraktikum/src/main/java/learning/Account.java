@@ -28,7 +28,7 @@ public class Account implements java.io.Serializable{
 	public String benutzername;
 	
 	@Column(name = "passwort")
-	protected String passwort;
+	public String passwort;
 	
 	@Transient
 	boolean loggedIn;
@@ -39,7 +39,7 @@ public class Account implements java.io.Serializable{
 	 * @return true, falls das Passwort korrekt ist
 	 */
 	public boolean login(String angegebenesPasswort){
-		if(hashPasswort(angegebenesPasswort).equals(passwort)){
+		if(passwort.equals(angegebenesPasswort)){
 			loggedIn = true;
 			return true;
 		}
@@ -81,7 +81,7 @@ public class Account implements java.io.Serializable{
 	 * Private Hilfsmethode zum Setzen von Benutzernamen durch Hiberante/Registrierung
 	 * @param benutzername Der Benutzername
 	 */
-	protected void setBenutzername(String benutzername) {
+	public void setBenutzername(String benutzername) {
 		this.benutzername = benutzername;
 	}
 
@@ -89,7 +89,7 @@ public class Account implements java.io.Serializable{
 	 * Private Hilfsmethode zum Setzen von Passwort durch Hiberante/Registrierung
 	 * @param benutzername Das Passwort
 	 */
-	private String getPasswort() {
+	public String getPasswort() {
 		return passwort;
 	}
 
@@ -97,7 +97,7 @@ public class Account implements java.io.Serializable{
 	 * Einmaliges Setzen eines Passworts ohne Angabe des alten Passworts
 	 * @param passwort
 	 */
-	protected void setPasswort(String passwort) {
+	public void setPasswort(String passwort) {
 		this.passwort = hashPasswort(passwort);
 	}
 	

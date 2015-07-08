@@ -8,11 +8,13 @@ import learning.Admin;
 import learning.Benutzer;
 import learning.Bossfight;
 import learning.Challenge;
+import learning.Fachrichtung;
 import learning.Gruppe;
 import learning.Inhalt;
 import learning.Kommentar;
 import learning.Mediathek;
 import learning.Medium;
+import learning.Pinnwand;
 import learning.Quest;
 import learning.Thema;
 
@@ -66,7 +68,7 @@ public class Datenbank {
 		tabelleLaden(new Benutzer().getClass());
 		tabelleLaden(new Bossfight().getClass());
 		tabelleLaden(new Challenge().getClass());
-//		tabelleLaden(new Fachrichtung().getClass());
+		tabelleLaden(new Fachrichtung().getClass());
 //		tabelleLaden(new Frage().getClass());
 //		tabelleLaden(new Fragenpool().getClass());
 		tabelleLaden(new Gruppe().getClass());
@@ -74,7 +76,7 @@ public class Datenbank {
 		tabelleLaden(new Kommentar().getClass());
 		tabelleLaden(new Mediathek().getClass());
 		tabelleLaden(new Medium().getClass());
-//		tabelleLaden(new Pinnwand().getClass());
+		tabelleLaden(new Pinnwand().getClass());
 		tabelleLaden(new Quest().getClass());
 //		tabelleLaden(new Teamcombat().getClass());
 		tabelleLaden(new Thema().getClass());
@@ -92,7 +94,7 @@ public class Datenbank {
     	configuration.addAnnotatedClass(new Benutzer().getClass());
     	configuration.addAnnotatedClass(new Bossfight().getClass());
     	configuration.addAnnotatedClass(new Challenge().getClass());
-//    	configuration.addAnnotatedClass(new Fachrichtung().getClass());
+    	configuration.addAnnotatedClass(new Fachrichtung().getClass());
 //    	configuration.addAnnotatedClass(new Frage().getClass());
 //    	configuration.addAnnotatedClass(new Fragenpool().getClass());
     	configuration.addAnnotatedClass(new Gruppe().getClass());
@@ -100,7 +102,7 @@ public class Datenbank {
     	configuration.addAnnotatedClass(new Kommentar().getClass());
     	configuration.addAnnotatedClass(new Mediathek().getClass());
     	configuration.addAnnotatedClass(new Medium().getClass());
-//    	configuration.addAnnotatedClass(new Pinnwand().getClass());
+    	configuration.addAnnotatedClass(new Pinnwand().getClass());
     	configuration.addAnnotatedClass(new Quest().getClass());
 //    	configuration.addAnnotatedClass(new Teamcombat().getClass());
     	configuration.addAnnotatedClass(new Thema().getClass());
