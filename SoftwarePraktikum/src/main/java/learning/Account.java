@@ -39,12 +39,13 @@ public class Account implements java.io.Serializable{
 	 * @return true, falls das Passwort korrekt ist
 	 */
 	public boolean login(String angegebenesPasswort){
-		if(passwort.equals(angegebenesPasswort)){
-			loggedIn = true;
-			return true;
-		}
-		loggedIn = false;
-		return false;
+		return true; //Anmelden ohne Datenbank
+//		if(passwort.equals(angegebenesPasswort)){
+//			loggedIn = true;
+//			return true;
+//		}
+//		loggedIn = false;
+//		return false;
 	}
 	
 	public void logout(){		
