@@ -26,6 +26,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
 		<property name="templateEngine" ref="templateEngine" />
 	</bean>
+	<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
+	<mvc:annotation-driven/>
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>

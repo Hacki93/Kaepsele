@@ -15,6 +15,7 @@ import datenhaltung.Datenbank;
 public class GreetingController {
 	
 	Datenbank db;
+	Benutzer angemeldeterBenutzer;
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String greeting( Model model) {
@@ -29,8 +30,9 @@ public class GreetingController {
 			Benutzer b = (Benutzer) obj;
 			if(b.getBenutzername().equals(benutzer.getBenutzername())) {
 				if(b.login(benutzer.getPasswort())){
+					angemeldeterBenutzer = b;
 					System.out.println("Angemeldet");
-					return "medium";
+					return "Startseite";
 				}
 				System.out.println("Passwort falsch");
 				return "index";
