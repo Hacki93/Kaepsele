@@ -43,7 +43,7 @@ public class MediumController {
 	}
 	
 	@RequestMapping (value = "/medium", method = RequestMethod.POST)
-	public String mediumHochladen(Model model, @Validated Medium medium, BindingResult result) {
+	public String mediumHochladen(Model model, @Validated Medium medium, BindingResult result, HttpServletRequest request) {
 		String ergebnisStatus = "erfolgmedium";
 		
 		if(result.hasErrors()){
@@ -52,8 +52,11 @@ public class MediumController {
 		else{
 			MultipartFile multipartMedium = medium.getFile();
 			
+			ServletContext context = request.getServletContext();
+	        String projektPfad = context.getRealPath("");
+	        String [] pfad = projektPfad.split("Kaepsele");
 			String orgName = multipartMedium.getOriginalFilename();
-			String speicherort = "C:/Program Files/apache-tomcat-8.0.23/webapps/uploads/" + orgName;
+			String speicherort = pfad[0] + "/Kaepsele/SoftwarePraktikum/Klausuren/" + orgName;
 			File desk = new File(speicherort);
 			
 			try{
@@ -68,9 +71,14 @@ public class MediumController {
 	
 	@RequestMapping(value = "/mediumrunterladen", method = RequestMethod.GET)
 	public @ResponseBody void mediumRunterladen(HttpServletRequest request, HttpServletResponse response) {
-		ServletContext context = request.getServletContext();
 		
-		File ladeMedium = new File("C:/Program Files/apache-tomcat-8.0.23/webapps/uploads/Übungsblatt_2_Projektplan.pdf");
+		// get absolute path of the application
+		ServletContext context = request.getServletContext();
+        String projektPfad = context.getRealPath("");
+        String [] pfad = projektPfad.split("Kaepsele");
+        String mediumPfad = pfad[0] + "/Kaepsele/SoftwarePraktikum/Klausuren/Entwurf.pdf";
+
+		File ladeMedium = new File(mediumPfad);
 		FileInputStream inputStream = null;
 		OutputStream outStream = null;
 		
