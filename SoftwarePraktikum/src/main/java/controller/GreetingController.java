@@ -31,7 +31,7 @@ public class GreetingController {
 	Benutzer angemeldeterBenutzer;
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
-	public String greeting( Model model) {
+	public String greeting(Model model) {
 	    db = new Datenbank();
 		model.addAttribute("benutzer", new Benutzer());
 		return "Anmelden";
@@ -45,7 +45,7 @@ public class GreetingController {
 				if(b.login(benutzer.getPasswort())){
 					angemeldeterBenutzer = b;
 					System.out.println("Angemeldet");
-					return "Startseite";
+					return "index2";
 				}
 				System.out.println("Passwort falsch");
 				return "Anmelden";
@@ -53,6 +53,27 @@ public class GreetingController {
 		}
 		System.out.println("Benutzer nicht gefunden");
 		return "Anmelden";
+	}
+	
+	@RequestMapping(value="/Profile")
+	public String getProfil(Model model){
+		String benutzername = angemeldeterBenutzer.getBenutzername();
+		String name = angemeldeterBenutzer.getName();
+		String studiengang = angemeldeterBenutzer.getStudiengang();
+		String beruf = angemeldeterBenutzer.getBeruf();
+		String adresse = angemeldeterBenutzer.getAdresse();
+		String email = angemeldeterBenutzer.getEmailAdresse();
+		int rang = angemeldeterBenutzer.getRang();
+
+		model.addAttribute("rang", rang);	
+		model.addAttribute("name", name);
+		model.addAttribute("studiengang", studiengang);
+		model.addAttribute("beruf", beruf);
+		model.addAttribute("adresse", adresse);
+		model.addAttribute("email", email);
+		model.addAttribute("benutzername", benutzername);
+
+		return "Profile";
 	}
 	
 	@RequestMapping (value = "/medium", method = RequestMethod.GET)
