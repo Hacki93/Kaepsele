@@ -63,21 +63,11 @@ public class TestKlasse {
 		gruppe2.frageErstellen(titel, frage, a, l);
 		gruppe2.frageErstellen(titel, frage, a, l);
 		gruppe2.frageErstellen(titel, frage, a, l);
-		System.out.println("Frage hinzugefügt");
-		Nachricht nachricht = new Nachricht(gruppe1, gruppe2, 4, gruppe2);
-//		for (Frage f:gruppe2.fragenpool.fragen){
-//		System.out.println(f.titel);
-//		}
-		
+		System.out.println("Frage hinzugefügt");		
 		gruppe1.teamcombatAntreten(gruppe2);
-//		HashSet<Integer> zahl = new HashSet<Integer>();
-//		zahl.add(4);
-//		if (zahl.contains(3)){
-//			System.out.println("true");
-//		} else {
-//			System.out.println("false");
-//		}
-		System.out.println("Teamcombat angetreten");
+		
+		HashSet<Integer> zahl = new HashSet<Integer>();
+		zahl.add(4);
 		for (Nachricht n:hannes.getNachrichten()){
 			System.out.println(n.getTitel());
 		}

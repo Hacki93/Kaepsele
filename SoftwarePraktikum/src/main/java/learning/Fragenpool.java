@@ -12,7 +12,7 @@ import java.util.Random;
  *
  */
 public class Fragenpool implements java.io.Serializable{
-	private HashSet<Frage> fragen;
+	public HashSet<Frage> fragen;
 
 	public Fragenpool() {
 		fragen = new HashSet<Frage>();
@@ -24,23 +24,13 @@ public class Fragenpool implements java.io.Serializable{
 
 	public Quest getQuest() {
 		Quest quest = new Quest();
-		ArrayList<Frage> fragen2 = new ArrayList<Frage>();
-		for (Frage f: fragen){
-			fragen2.add(f);
+		ArrayList<Frage> fragenliste = new ArrayList<Frage>();
+		for (Frage f : fragen){
+			fragenliste.add(f);
 		}
-		
-		int i = 0;
-		HashSet<Integer> zahlen = new HashSet<Integer>();
-		Random r = new Random();
-		while (i <= 10) {
-			int z = r.nextInt(fragen.size());
-			if (zahlen.contains(z)) {
-				continue;
-			}
-			zahlen.add(z);
-			Frage frage = fragen2.get(z);
-			quest.addFrage(frage);
-			i++;
+		while(quest.fragen.size()<10) {
+			int zufallsindex = (int) (Math.random()*fragen.size());
+			quest.addFrage(fragenliste.get(zufallsindex));
 		}
 		return quest;
 	}

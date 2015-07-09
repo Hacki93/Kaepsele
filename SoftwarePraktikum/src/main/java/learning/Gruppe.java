@@ -56,7 +56,7 @@ public class Gruppe implements java.io.Serializable {
 	
 //	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
 	@Transient
-	Fragenpool fragenpool;
+	public Fragenpool fragenpool;
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
 	Pinnwand pinnwand;
@@ -172,10 +172,10 @@ public class Gruppe implements java.io.Serializable {
 	 * 
 	 * @param titel
 	 * @param text
-	 * @param loesung
+	 * @param loesungen
 	 */
-	public void frageErstellen(String titel, String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesung) {
-		Frage frage = new Frage(titel, text, antwortmoeglichkeiten, loesung);
+	public void frageErstellen(String titel, String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesungen) {
+		Frage frage = new Frage(titel, text, antwortmoeglichkeiten, loesungen);
 		this.fragenpool.addFrage(frage);
 	}
 
@@ -199,7 +199,7 @@ public class Gruppe implements java.io.Serializable {
 		Teamcombat teamcombat = new Teamcombat(this, herausgeforderter);
 		this.teamcombats.add(teamcombat);
 		herausgeforderter.teamcombats.add(teamcombat);
-		Nachricht nachricht = new Nachricht(this, herausgeforderter, 4, teamcombat);
+		Nachricht nachricht = new Nachricht(this, herausgeforderter, Nachricht.TEAMHERAUSFORDERUNG, teamcombat);
 		herausgeforderter.benachrichtigen(nachricht);
 		this.benachrichtigen(nachricht);
 	}

@@ -22,7 +22,7 @@ import javax.persistence.Transient;
 public class Quest extends Challenge implements java.io.Serializable {
 
 	@Transient
-	private HashSet<Frage> fragen;
+	public HashSet<Frage> fragen;
 
 	@Transient
 	private int erreichbarePunktzahl;
@@ -43,10 +43,10 @@ public class Quest extends Challenge implements java.io.Serializable {
 	}
 
 	public void addFrage(Frage frage) {
-		fragen.add(frage);
-		fragenArray.add(frage);
-		erreichbarePunktzahl = erreichbarePunktzahl + 3
-				* frage.getLoesung().size();
+		if(fragen.add(frage)){
+			fragenArray.add(frage);
+			erreichbarePunktzahl = erreichbarePunktzahl + 3	* frage.getLoesung().size();
+		}
 	}
 
 	/**

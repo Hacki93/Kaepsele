@@ -7,9 +7,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.cfg.Configuration;
 
 /**
  * Die Klasse Datenbank stellt die &uuml;ber der Session die n&auml;chste Schicht der Kommunikation Portal <-> Datenbank da. 
