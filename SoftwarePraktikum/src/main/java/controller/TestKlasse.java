@@ -2,12 +2,16 @@ package controller;
 
 
 import java.util.Date;
+import java.util.HashSet;
+
+import kommunikation.Nachricht;
 
 import org.hibernate.cfg.Configuration;
 
 import learning.Account;
 import learning.Benutzer;
 import learning.Fachrichtung;
+import learning.Frage;
 import learning.Gruppe;
 import learning.Inhalt;
 import learning.Kommentar;
@@ -20,8 +24,63 @@ public class TestKlasse {
 	// Klasse zum Testen von Codebausteinen
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		dbSchreiben();
-		dbLesen();
+//		dbSchreiben();
+//		dbLesen();
+		
+		Gruppe gruppe1 = new Gruppe();
+		Gruppe gruppe2 = new Gruppe(); 
+		Benutzer lena = new Benutzer(); 
+		Benutzer hannes = new Benutzer();
+		Benutzer chris = new Benutzer(); 
+		Benutzer kevin = new Benutzer(); 
+		
+		HashSet<String> a = new HashSet<String>();
+		HashSet<String> l = new HashSet<String>();
+		String frage = "Frage";
+		String titel = "Titel";
+		gruppe1.mitgliedHinzufuegen(lena);
+		gruppe1.mitgliedHinzufuegen(hannes);
+		gruppe2.mitgliedHinzufuegen(kevin);
+		gruppe2.mitgliedHinzufuegen(chris);
+		gruppe1.frageErstellen(titel, frage, a, l);
+		gruppe1.frageErstellen(titel, frage, a, l);
+		gruppe1.frageErstellen(titel, frage, a, l);
+		gruppe1.frageErstellen(titel, frage, a, l);
+		gruppe1.frageErstellen(titel, frage, a, l);
+		gruppe1.frageErstellen(titel, frage, a, l);
+		gruppe1.frageErstellen(titel, frage, a, l);
+		gruppe1.frageErstellen(titel, frage, a, l);
+		gruppe1.frageErstellen(titel, frage, a, l);
+		gruppe1.frageErstellen(titel, frage, a, l);
+		
+		gruppe2.frageErstellen(titel, frage, a, l);
+		gruppe2.frageErstellen(titel, frage, a, l);
+		gruppe2.frageErstellen(titel, frage, a, l);
+		gruppe2.frageErstellen(titel, frage, a, l);
+		gruppe2.frageErstellen(titel, frage, a, l);
+		gruppe2.frageErstellen(titel, frage, a, l);
+		gruppe2.frageErstellen(titel, frage, a, l);
+		gruppe2.frageErstellen(titel, frage, a, l);
+		gruppe2.frageErstellen(titel, frage, a, l);
+		gruppe2.frageErstellen(titel, frage, a, l);
+		System.out.println("Frage hinzugefügt");
+		Nachricht nachricht = new Nachricht(gruppe1, gruppe2, 4, gruppe2);
+//		for (Frage f:gruppe2.fragenpool.fragen){
+//		System.out.println(f.titel);
+//		}
+		
+		gruppe1.teamcombatAntreten(gruppe2);
+//		HashSet<Integer> zahl = new HashSet<Integer>();
+//		zahl.add(4);
+//		if (zahl.contains(3)){
+//			System.out.println("true");
+//		} else {
+//			System.out.println("false");
+//		}
+		System.out.println("Teamcombat angetreten");
+		for (Nachricht n:hannes.getNachrichten()){
+			System.out.println(n.getTitel());
+		}
 		}
 	
 	public static void dbLesen(){

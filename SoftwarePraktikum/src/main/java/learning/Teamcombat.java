@@ -24,6 +24,7 @@ public class Teamcombat implements java.io.Serializable{
 	 */
 	public Teamcombat(Gruppe herausforderer, Gruppe herausgeforderter){
 		this.herausgeforderter = herausgeforderter;
+		this.herausforderer = herausforderer;
 		questFuerHerausforderer = this.herausgeforderter.fragenpool.getQuest();
 		questFuerHerausgeforderter = this.herausforderer.fragenpool.getQuest();
 	}
