@@ -1,7 +1,9 @@
 package learning;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -28,7 +30,7 @@ public class Medium implements java.io.Serializable {
 	@Column(name = "typ")
 	public String typ;
 	
-	@ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="mediathek_id")
 	Mediathek mediathek;
 	

@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @SuppressWarnings("serial")
 @Entity
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name="thema_id", referencedColumnName = "inhalt_id")
 public class Thema extends Inhalt implements java.io.Serializable{
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="thema")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="thema")
 	private Set<Kommentar> kommentare;
     
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -43,6 +44,13 @@ public class Thema extends Inhalt implements java.io.Serializable{
     	this.kommentare = kommentare;
     }
     
+    public Pinnwand getPinnwand(){
+    	return pinnwand;
+    }
+    
+    public void setPinnwand(Pinnwand pinnwand){
+    	this.pinnwand = pinnwand;
+    }
     
 	/**
 	 * Konstruktor für ein neuen Pinnwandbeitrag
