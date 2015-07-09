@@ -39,7 +39,10 @@ public class Account implements java.io.Serializable{
 	@Transient
 	boolean loggedIn;
 	
+	@Transient 
 	HashSet<Nachricht> nachrichten; 
+	
+	@Transient 
 	HashSet<Nachricht> aufgaben; 
 	
 	@Column(name = "emailAdresse")
@@ -52,13 +55,12 @@ public class Account implements java.io.Serializable{
 	 * @return true, falls das Passwort korrekt ist
 	 */
 	public boolean login(String angegebenesPasswort){
-		return true; //Anmelden ohne Datenbank
-//		if(passwort.equals(angegebenesPasswort)){
-//			loggedIn = true;
-//			return true;
-//		}
-//		loggedIn = false;
-//		return false;
+		if(passwort.equals(angegebenesPasswort)){
+			loggedIn = true;
+			return true;
+		}
+		loggedIn = false;
+		return false;
 	}
 	
 	/**
@@ -86,8 +88,6 @@ public class Account implements java.io.Serializable{
 		if (nachricht.isHandlungErforderlich()){
 			aufgaben.add(nachricht);
 		}
-		String anschreiben = "Hallo "+((Benutzer)nachricht.getAdressat()).getName()+",\n\n";
-		new Email().senden(this.getEmailAdresse(), nachricht.getTitel(), anschreiben+nachricht.getInhalt());
 		nachrichten.add(nachricht);
 	}
 

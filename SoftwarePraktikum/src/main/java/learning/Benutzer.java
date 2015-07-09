@@ -18,6 +18,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import kommunikation.Email;
 import kommunikation.Nachricht;
 
 @SuppressWarnings("serial")
@@ -114,6 +115,19 @@ public class Benutzer extends Account implements java.io.Serializable{
 		benutzer.benachrichtigen(nachricht);
 	}
 	
+	/**
+	 * Benachrichtigt den Benutzer
+	 * @param nachricht Der Inhalt der Nachricht
+	 */
+	public void benachrichtigen(Nachricht nachricht){
+		if (nachricht.isHandlungErforderlich()){
+			aufgaben.add(nachricht);
+		}
+		String anschreiben = "Hallo "+((Benutzer)nachricht.getAdressat()).getName()+",\n\n";
+		new Email().senden(this.getEmailAdresse(), nachricht.getTitel(), anschreiben+nachricht.getInhalt());
+		nachrichten.add(nachricht);
+	}
+
 		
 	/**
 	 * Loescht eine bestimmte Nachricht aus der Liste nachrichten

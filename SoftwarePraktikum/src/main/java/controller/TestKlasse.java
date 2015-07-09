@@ -16,6 +16,8 @@ import learning.Gruppe;
 import learning.Inhalt;
 import learning.Kommentar;
 import learning.Pinnwand;
+import learning.Quest;
+import learning.Teamcombat;
 import learning.Thema;
 import datenhaltung.Datenbank;
 
@@ -24,53 +26,69 @@ public class TestKlasse {
 	// Klasse zum Testen von Codebausteinen
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		dbSchreiben();
+		dbSchreiben();
 //		dbLesen();
 		
-		Gruppe gruppe1 = new Gruppe();
-		Gruppe gruppe2 = new Gruppe(); 
-		Benutzer lena = new Benutzer(); 
-		Benutzer hannes = new Benutzer();
-		Benutzer chris = new Benutzer(); 
-		Benutzer kevin = new Benutzer(); 
-		
-		HashSet<String> a = new HashSet<String>();
-		HashSet<String> l = new HashSet<String>();
-		String frage = "Frage";
-		String titel = "Titel";
-		gruppe1.mitgliedHinzufuegen(lena);
-		gruppe1.mitgliedHinzufuegen(hannes);
-		gruppe2.mitgliedHinzufuegen(kevin);
-		gruppe2.mitgliedHinzufuegen(chris);
-		gruppe1.frageErstellen(titel, frage, a, l);
-		gruppe1.frageErstellen(titel, frage, a, l);
-		gruppe1.frageErstellen(titel, frage, a, l);
-		gruppe1.frageErstellen(titel, frage, a, l);
-		gruppe1.frageErstellen(titel, frage, a, l);
-		gruppe1.frageErstellen(titel, frage, a, l);
-		gruppe1.frageErstellen(titel, frage, a, l);
-		gruppe1.frageErstellen(titel, frage, a, l);
-		gruppe1.frageErstellen(titel, frage, a, l);
-		gruppe1.frageErstellen(titel, frage, a, l);
-		
-		gruppe2.frageErstellen(titel, frage, a, l);
-		gruppe2.frageErstellen(titel, frage, a, l);
-		gruppe2.frageErstellen(titel, frage, a, l);
-		gruppe2.frageErstellen(titel, frage, a, l);
-		gruppe2.frageErstellen(titel, frage, a, l);
-		gruppe2.frageErstellen(titel, frage, a, l);
-		gruppe2.frageErstellen(titel, frage, a, l);
-		gruppe2.frageErstellen(titel, frage, a, l);
-		gruppe2.frageErstellen(titel, frage, a, l);
-		gruppe2.frageErstellen(titel, frage, a, l);
-		System.out.println("Frage hinzugefügt");		
-		gruppe1.teamcombatAntreten(gruppe2);
-		
-		HashSet<Integer> zahl = new HashSet<Integer>();
-		zahl.add(4);
-		for (Nachricht n:hannes.getNachrichten()){
-			System.out.println(n.getTitel());
-		}
+//		Gruppe gruppe1 = new Gruppe();
+//		gruppe1.setName("Gruppe 1");
+//		Gruppe gruppe2 = new Gruppe(); 
+//		gruppe2.setName("Gruppe2");
+//		Benutzer lena = new Benutzer("lena", "1234", "Lena Maier", "lenamai.er@web.de"); 
+//		Benutzer hannes = new Benutzer("hannes", "1234", "Hannes Fischer", "michael_stefan@hotmail.de");
+//		Benutzer chris = new Benutzer(); 
+//		Benutzer kevin = new Benutzer(); 
+//		
+//		lena.setEmailAdresse("lenamai.er@web.de");
+//		chris.setEmailAdresse("lenamai.er@web.de");
+//		kevin.setEmailAdresse("lenamai.er@web.de");
+//		
+//		HashSet<String> a = new HashSet<String>();
+//		HashSet<String> l = new HashSet<String>();
+//		String frage = "Frage";
+//		String titel = "Titel";
+//		String titel2 = "Anderer titel";
+//		gruppe1.mitgliedHinzufuegen(lena);
+//		gruppe1.mitgliedHinzufuegen(hannes);
+//		gruppe2.mitgliedHinzufuegen(kevin);
+//		gruppe2.mitgliedHinzufuegen(chris);
+//		gruppe1.frageErstellen(titel, frage, a, l);
+//		gruppe1.frageErstellen(titel, frage, a, l);
+//		gruppe1.frageErstellen(titel, frage, a, l);
+//		gruppe1.frageErstellen(titel, frage, a, l);
+//		gruppe1.frageErstellen(titel, frage, a, l);
+//		gruppe1.frageErstellen(titel, frage, a, l);
+//		gruppe1.frageErstellen(titel, frage, a, l);
+//		gruppe1.frageErstellen(titel, frage, a, l);
+//		gruppe1.frageErstellen(titel, frage, a, l);
+//		gruppe1.frageErstellen(titel, frage, a, l);
+//		
+//		gruppe2.frageErstellen("andererTitel", frage, a, l);
+//		gruppe2.frageErstellen(titel2, frage, a, l);
+//		gruppe2.frageErstellen(titel2, frage, a, l);
+//		gruppe2.frageErstellen(titel2, frage, a, l);
+//		gruppe2.frageErstellen(titel2, frage, a, l);
+//		gruppe2.frageErstellen(titel2, frage, a, l);
+//		gruppe2.frageErstellen(titel2, frage, a, l);
+//		gruppe2.frageErstellen(titel2, frage, a, l);
+//		gruppe2.frageErstellen(titel2, frage, a, l);
+//		gruppe2.frageErstellen(titel2, frage, a, l);
+//		System.out.println("Frage hinzugefügt");		
+//		gruppe1.teamcombatAntreten(gruppe2);
+//		
+////		for (Nachricht n:hannes.getNachrichten()){
+////			Teamcombat t = (Teamcombat) n.getAnhang();
+////			t.
+////		}
+//		
+//		Quest quest = gruppe2.teamcombatBearbeiten(0);
+//		Frage frage2 = quest.getNaechsteFrage();
+//		System.out.println(frage2.titel);
+//		HashSet<String> antworten = new HashSet<String>();
+//		antworten.add("Hallo");
+//		frage2.addAntworten(antworten);
+//		Quest quest1 = gruppe1.teamcombatBearbeiten(0);
+//		Frage frage1 = quest1.getNaechsteFrage(); 
+//		System.out.println(frage1.titel);
 		}
 	
 	public static void dbLesen(){

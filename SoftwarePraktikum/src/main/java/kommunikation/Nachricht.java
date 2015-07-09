@@ -22,6 +22,8 @@ public class Nachricht {
 	private int typ;
 	private Object anhang;
 
+	
+
 	public static final int FREUNDHINZUGEFUEGT = 0;
 	public static final int GRUPPENEINLADUNG = 1;
 	public static final int AUFGABEKORRIGIEREN = 2;
@@ -127,6 +129,10 @@ public class Nachricht {
 	public Object getAdressat() {
 		return adressat;
 	}
+	
+	public void setAdressat(Object adressat){
+		this.adressat = adressat;
+	}
 
 	/**
 	 * Gibt den Sender der Nachricht zur&uuml;ck
@@ -135,6 +141,14 @@ public class Nachricht {
 	 */
 	public Object getSender() {
 		return sender;
+	}
+	
+	public Object getAnhang() {
+		return anhang;
+	}
+
+	public void setAnhang(Object anhang) {
+		this.anhang = anhang;
 	}
 
 }

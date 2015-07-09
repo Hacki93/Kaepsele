@@ -119,6 +119,7 @@ public class Gruppe implements java.io.Serializable {
 	 */
 	private void benachrichtigen(Nachricht nachricht) {
 		for (Benutzer mitglied : mitglieder) {
+			nachricht.setAdressat(mitglied);
 			mitglied.benachrichtigen(nachricht);
 		}
 	}
