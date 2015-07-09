@@ -16,20 +16,17 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "MEDIATHEK")
 public class Mediathek implements java.io.Serializable{
 
 	@Id @GeneratedValue
 	@Column(name = "mediathek_id")
-	public int mediathek_id;
+	private int mediathek_id;
 	
 	@OneToMany(mappedBy="mediathek", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	public Set<Medium> medien;
-	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
-	Gruppe gruppe;
 	
 	/**
 	 * Konstruktor der Mediathek

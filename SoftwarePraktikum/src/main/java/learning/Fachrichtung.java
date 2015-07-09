@@ -31,12 +31,12 @@ public class Fachrichtung implements java.io.Serializable{
 	@Column(name = "freigegeben")
 	public boolean freigegeben;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="fachrichtung")
-	Set<Gruppe> gruppen;
-	
+//	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="fachrichtung")
+//	Set<Gruppe> gruppen;
+//	
 	public Fachrichtung() {
 		freigegeben = false;
-		gruppen = new HashSet<Gruppe>();
+//		gruppen = new HashSet<Gruppe>();
 	}
 	
 	public String getName() {
@@ -55,11 +55,11 @@ public class Fachrichtung implements java.io.Serializable{
 		this.freigegeben = freigegeben;
 	}
 	
-	public Set<Gruppe> getGruppen() {
-		return gruppen;
-	}
-	
-	public void setGruppen(HashSet<Gruppe> gruppen) {
-		this.gruppen = gruppen;
-	}
+//	public Set<Gruppe> getGruppen() {
+//		return gruppen;
+//	}
+//	
+//	public void setGruppen(HashSet<Gruppe> gruppen) {
+//		this.gruppen = gruppen;
+//	}
 }

@@ -27,11 +27,7 @@ public class Pinnwand implements java.io.Serializable{
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="pinnwand")
 	public Set<Thema> themen;
-	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
-	Gruppe gruppe;
-	
+		
 	@Transient
 	public ArrayList<Benutzer> erlaubteBenutzer;
 	

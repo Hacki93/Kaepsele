@@ -9,6 +9,7 @@ import learning.Benutzer;
 import learning.Bossfight;
 import learning.Challenge;
 import learning.Fachrichtung;
+import learning.Fragenpool;
 import learning.Gruppe;
 import learning.Inhalt;
 import learning.Kommentar;
@@ -25,8 +26,6 @@ import org.hibernate.cfg.Configuration;
 /**
  * Die Klasse DatenbankVerwaltung erstellt und verwaltet alle Datenbanken und bietet Methoden an, die
  * von den einzelnen Klassen zur Speicherung ihrerselbst verwendet werden k&ouml;nnen
- * @author Hannes
- *
  */
 @SuppressWarnings("rawtypes")
 public class Datenbank {
@@ -70,7 +69,7 @@ public class Datenbank {
 		tabelleLaden(new Challenge().getClass());
 		tabelleLaden(new Fachrichtung().getClass());
 //		tabelleLaden(new Frage().getClass());
-//		tabelleLaden(new Fragenpool().getClass());
+		tabelleLaden(new Fragenpool().getClass());
 		tabelleLaden(new Gruppe().getClass());
 		tabelleLaden(new Inhalt().getClass());
 		tabelleLaden(new Kommentar().getClass());
@@ -96,7 +95,7 @@ public class Datenbank {
     	configuration.addAnnotatedClass(new Challenge().getClass());
     	configuration.addAnnotatedClass(new Fachrichtung().getClass());
 //    	configuration.addAnnotatedClass(new Frage().getClass());
-//    	configuration.addAnnotatedClass(new Fragenpool().getClass());
+    	configuration.addAnnotatedClass(new Fragenpool().getClass());
     	configuration.addAnnotatedClass(new Gruppe().getClass());
     	configuration.addAnnotatedClass(new Inhalt().getClass());
     	configuration.addAnnotatedClass(new Kommentar().getClass());

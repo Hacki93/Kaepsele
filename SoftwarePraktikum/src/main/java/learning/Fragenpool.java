@@ -4,14 +4,27 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 /**
  * stellt den Datentyp Fragenpool dar, indem Fragen gespeichert werden und
  * Quests erzeugt werden koennen
- * 
- * @author Lena
- *
  */
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "FRAGENPOOL")
 public class Fragenpool implements java.io.Serializable{
+
+	@Id @GeneratedValue
+	@Column(name = "fragenpool_id")
+	public int fragenpool_id;
+	
+	@Transient
 	public HashSet<Frage> fragen;
 
 	public Fragenpool() {

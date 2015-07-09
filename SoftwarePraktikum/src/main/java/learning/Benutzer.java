@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -64,8 +65,9 @@ public class Benutzer extends Account implements java.io.Serializable{
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "moderatoren")
 	private Set<Gruppe> moderierteGruppen;
 	
-	@Transient
-	private Pinnwand pinnwand;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="pinnwand_id")
+    private Pinnwand pinnwand;
 	
 	/**
 	 * Konstruktor f&uuml;r Hibernate

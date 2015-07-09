@@ -54,14 +54,16 @@ public class Gruppe implements java.io.Serializable {
 	@JoinColumn(name = "benutzer_id"))
 	public Set<Benutzer> moderatoren;
 	
-//	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
-	@Transient
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="fragenpool_id")
 	public Fragenpool fragenpool;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="pinnwand_id")
 	Pinnwand pinnwand;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="mediathek_id")
 	Mediathek mediathek;
 	
 	@Transient
@@ -77,6 +79,7 @@ public class Gruppe implements java.io.Serializable {
 		pinnwand = new Pinnwand();
 		mediathek = new Mediathek();
 		teamcombats = new ArrayList<Teamcombat>();
+		fachrichtung = new Fachrichtung();
 	}
 	
 	/**
@@ -108,7 +111,7 @@ public class Gruppe implements java.io.Serializable {
 
 	public void setFachrichtung(Fachrichtung fachrichtung) {
 		this.fachrichtung = fachrichtung;
-		fachrichtung.gruppen.add(this);
+//		fachrichtung.gruppen.add(this);
 	}
 
 	/**
