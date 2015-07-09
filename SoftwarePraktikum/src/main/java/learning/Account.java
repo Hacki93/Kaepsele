@@ -8,9 +8,12 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
 import java.math.BigInteger;
 import java.security.*;
+import java.util.HashSet;
 
+import kommunikation.Email;
 import kommunikation.Nachricht;
 
 /**
@@ -36,6 +39,13 @@ public class Account implements java.io.Serializable{
 	@Transient
 	boolean loggedIn;
 	
+	HashSet<Nachricht> nachrichten; 
+	HashSet<Nachricht> aufgaben; 
+	
+	@Column(name = "emailAdresse")
+	String emailAdresse;
+	
+
 	/**
 	 * &Uuml;berpr&uuml;ft, ob das eingegebene Passwort zum Benutzer passt
 	 * @param angegebenesPasswort Das eingegebene Passwort
@@ -73,7 +83,12 @@ public class Account implements java.io.Serializable{
 	 * @param nachricht Der Inhalt der Nachricht
 	 */
 	public void benachrichtigen(Nachricht nachricht){
-		//TODO!
+		if (nachricht.isHandlungErforderlich()){
+			aufgaben.add(nachricht);
+		}
+		String anschreiben = "Hallo "+((Benutzer)nachricht.getAdressat()).getName()+",\n\n";
+		new Email().senden(this.getEmailAdresse(), nachricht.getTitel(), anschreiben+nachricht.getInhalt());
+		nachrichten.add(nachricht);
 	}
 
 	/**
@@ -127,5 +142,13 @@ public class Account implements java.io.Serializable{
 			ex.printStackTrace();
 		}
 		return hashedPasswort; 
+	}
+	
+	public String getEmailAdresse() {
+		return emailAdresse;
+	}
+
+	public void setEmailAdresse(String emailAdresse) {
+		this.emailAdresse = emailAdresse;
 	}
 }

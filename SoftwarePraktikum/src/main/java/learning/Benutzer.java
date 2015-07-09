@@ -41,9 +41,6 @@ public class Benutzer extends Account implements java.io.Serializable{
 	@Column(name = "adresse")
 	private String adresse;
 	
-	@Column(name = "emailAdresse")
-	private String emailAdresse;
-	
 	@Column(name = "beruf")
 	private String beruf;
 	
@@ -67,12 +64,6 @@ public class Benutzer extends Account implements java.io.Serializable{
 	private Set<Gruppe> moderierteGruppen;
 	
 	@Transient
-	private ArrayList<Nachricht> nachrichten;
-	
-	@Transient
-	private ArrayList<Nachricht> aufgaben;
-	
-	@Transient
 	private Pinnwand pinnwand;
 	
 	/**
@@ -81,8 +72,8 @@ public class Benutzer extends Account implements java.io.Serializable{
 	public Benutzer(){
 		freunde = new HashSet<Benutzer>();
 		gruppen = new HashSet<Gruppe>();
-		nachrichten = new ArrayList<Nachricht>();
-		aufgaben = new ArrayList<Nachricht>();
+		nachrichten = new HashSet<Nachricht>();
+		aufgaben = new HashSet<Nachricht>();
 		pinnwand = new Pinnwand();
 	}
 	
@@ -101,8 +92,8 @@ public class Benutzer extends Account implements java.io.Serializable{
 		this.emailAdresse = emailAdresse;
 		freunde = new HashSet<Benutzer>();
 		gruppen = new HashSet<Gruppe>();
-		nachrichten = new ArrayList<Nachricht>();
-		aufgaben = new ArrayList<Nachricht>();
+		nachrichten = new HashSet<Nachricht>();
+		aufgaben = new HashSet<Nachricht>();
 		rang = 1;
 		erstelltAm = new Date();
 		pinnwand = new Pinnwand();
@@ -123,19 +114,7 @@ public class Benutzer extends Account implements java.io.Serializable{
 		benutzer.benachrichtigen(nachricht);
 	}
 	
-	/**
-	 * Speichert eine Benachrichtigung in der Liste nachrichten
-	 * Wenn die Nachricht auch eine Handlung erfordert wird die Nachricht zusaetzlich in der Liste 
-	 * aufgaben gespeichert
-	 * @param nachricht
-	 */
-	public void benachrichtigen(Nachricht nachricht){
-		if (nachricht.isHandlungErforderlich()){
-			aufgaben.add(nachricht);
-		}
-		nachrichten.add(nachricht);
-	}
-	
+		
 	/**
 	 * Loescht eine bestimmte Nachricht aus der Liste nachrichten
 	 * @param nachricht
@@ -362,14 +341,6 @@ public class Benutzer extends Account implements java.io.Serializable{
 		}
 	}
 	
-	public String getEmailAdresse(){
-		return emailAdresse;
-	}
-	
-	public void setEmailAdresse(String emailAdresse){
-		this.emailAdresse = emailAdresse;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -418,11 +389,11 @@ public class Benutzer extends Account implements java.io.Serializable{
 		this.studiengang = studiengang;
 	}
 	
-	public ArrayList<Nachricht> getNachrichten(){
+	public HashSet<Nachricht> getNachrichten(){
 		return nachrichten;
 	}
 	
-	public ArrayList<Nachricht> getAufgaben(){
+	public HashSet<Nachricht> getAufgaben(){
 		return aufgaben;
 	}
 	
