@@ -34,7 +34,7 @@ public class GreetingController {
 	public String greeting( Model model) {
 	    db = new Datenbank();
 		model.addAttribute("benutzer", new Benutzer());
-		return "index";
+		return "Anmelden";
 	}
 	
 	@RequestMapping(value= "/login", method = RequestMethod.POST)
@@ -48,11 +48,11 @@ public class GreetingController {
 					return "Startseite";
 				}
 				System.out.println("Passwort falsch");
-				return "index";
+				return "Anmelden";
 			}
 		}
 		System.out.println("Benutzer nicht gefunden");
-		return "index";
+		return "Anmelden";
 	}
 	
 	@RequestMapping (value = "/medium", method = RequestMethod.GET)
