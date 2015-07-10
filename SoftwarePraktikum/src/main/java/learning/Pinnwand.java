@@ -3,6 +3,7 @@ package learning;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 import javax.persistence.CascadeType;
@@ -27,7 +28,7 @@ public class Pinnwand implements java.io.Serializable{
 	public int pinnwand_id;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="pinnwand")
-	public HashSet<Thema> themen;
+	public Set<Thema> themen;
 		
 	@Transient
 	public ArrayList<Benutzer> erlaubteBenutzer;

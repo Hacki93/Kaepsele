@@ -28,10 +28,10 @@ public class TestKlasse {
 
 	// Klasse zum Testen von Codebausteinen
 	public static void main(String[] args) {
-//		dbSchreiben();
+		dbSchreiben();
 //		lena();
-//		System.exit(0);
 //		sortierTest();
+		System.exit(0);
 		}
 	
 	public static void lena(){
