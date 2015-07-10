@@ -1,8 +1,9 @@
 package learning;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.Stack;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,7 +27,7 @@ public class Pinnwand implements java.io.Serializable{
 	public int pinnwand_id;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="pinnwand")
-	public Set<Thema> themen;
+	public HashSet<Thema> themen;
 		
 	@Transient
 	public ArrayList<Benutzer> erlaubteBenutzer;
@@ -60,19 +61,23 @@ public class Pinnwand implements java.io.Serializable{
 	 * @return die sortierte Themenliste
 	 */
 	public ArrayList<Thema> sortiereNachDatum(){
-//		Stack<Thema> tempStack = new Stack<Thema>();
-//		
-//		for(int i = 1; i < this.themen.size(); i++){
-//			for(int j = 0; j < this.themen.size() - 1; j++){
-//				if (this.themen.get(j).getDatum().compareTo(this.themen.get(j+1).getDatum()) < 0){
-//					tempStack.push(this.themen.get(j));
-//					this.themen.set(j, this.themen.get(j+1));
-//					this.themen.set(j+1, tempStack.pop());
-//				}
-//			}
-//		}	
-//		return this.themen;
-		return null;
+		ArrayList<Thema> tempArrayList = new ArrayList<Thema>();
+		Stack<Thema> tempStack = new Stack<Thema>();
+		
+		for(Thema thema : this.themen){
+			tempArrayList.add(thema);
+		}
+		
+		for(int i = 1; i < tempArrayList.size(); i++){
+			for(int j = 0; j < tempArrayList.size() - 1; j++){
+				if (tempArrayList.get(j).getDatum().compareTo(tempArrayList.get(j+1).getDatum()) < 0){
+					tempStack.push(tempArrayList.get(j));
+					tempArrayList.set(j, tempArrayList.get(j+1));
+					tempArrayList.set(j+1, tempStack.pop());
+				}
+			}
+		}	
+		return tempArrayList;
 	}
 	
 	/**
@@ -80,9 +85,14 @@ public class Pinnwand implements java.io.Serializable{
 	 * @return die sortierte Themenliste
 	 */
 	public ArrayList<Thema> sortiereNachBewertung(){
-//		Collections.sort(this.themen);
-//		return this.themen;
-		return null;
+		ArrayList<Thema> tempArrayList = new ArrayList<Thema>();
+		
+		for(Thema thema : this.themen){
+			tempArrayList.add(thema);
+		}
+		
+		Collections.sort(tempArrayList);
+		return tempArrayList;
 	}
 
 }

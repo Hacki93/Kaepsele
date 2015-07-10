@@ -39,7 +39,7 @@ public class Kommentar extends Inhalt implements java.io.Serializable{
 	 * @param titel: Ist der Titel des Kommentars
 	 * @param autor: Ist der Autor des Kommentars
 	 */
-	public Kommentar(String inhalt, String titel, Benutzer autor){
+	public Kommentar(String titel, String inhalt, Benutzer autor){
 		this.inhalt = inhalt;
 		this.titel = titel;
 		this.autor= autor;

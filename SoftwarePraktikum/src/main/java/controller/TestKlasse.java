@@ -1,6 +1,7 @@
 package controller;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -27,10 +28,10 @@ public class TestKlasse {
 
 	// Klasse zum Testen von Codebausteinen
 	public static void main(String[] args) {
-		dbSchreiben();
+//		dbSchreiben();
 //		lena();
-		System.exit(0);
-
+//		System.exit(0);
+//		sortierTest();
 		}
 	
 	public static void lena(){
@@ -165,4 +166,84 @@ public class TestKlasse {
 			db.eintragAktualisieren(mbis.getClass(), mbis);
 			db.eintragAktualisieren(med.getClass(), med);
 			}
+
+		public static void sortierTest(){
+			Pinnwand pinnwand = new Pinnwand();
+			
+			Benutzer hannes = new Benutzer();
+			
+			Thema thema1 = new Thema("Frage1", "wie alt bist du?", hannes);
+			Thema thema2 = new Thema("Frage2", "wie alt bist du?", hannes);
+			Thema thema3 = new Thema("Frage3", "wie alt bist du?", hannes);
+			Thema thema4 = new Thema("Frage4", "wie alt bist du?", hannes);
+			
+			pinnwand.themen.add(thema1);
+			pinnwand.themen.add(thema2);
+			pinnwand.themen.add(thema3);
+			pinnwand.themen.add(thema4);
+			
+			thema1.setBewertung(100);		
+			thema2.setBewertung(200);	
+			thema3.setBewertung(5);	
+			thema4.setBewertung(400);	
+			
+			System.out.println("unsortiert:");
+			for(Thema thema : pinnwand.themen){
+				System.out.println(thema.getBewertung());
+			}
+			
+			ArrayList<Thema> sortiert = new ArrayList<Thema>();
+			sortiert = pinnwand.sortiereNachBewertung();
+			
+			System.out.println("Nach Bewertung sortiert:");
+			for(Thema thema : sortiert){
+				System.out.println(thema.getBewertung());
+			}
+			
+			thema1.datum.setTime(3000);
+			thema2.datum.setTime(20);
+			thema3.datum.setTime(500000);
+			thema4.datum.setTime(40);
+			
+			System.out.println("unsortiert:");
+			for(Thema thema : pinnwand.themen){
+				System.out.println(thema.getBewertung());
+			}
+			
+			ArrayList<Thema> sortiertDatum = new ArrayList<Thema>();
+			sortiertDatum = pinnwand.sortiereNachDatum();
+		
+			System.out.println("Nach Datum sortiert:");
+			for(Thema thema : sortiertDatum){
+				System.out.println(thema.getBewertung());
+			}
+			
+			Kommentar kommentar1 = new Kommentar("Antwort1", "12 Jahre", hannes);
+			Kommentar kommentar2 = new Kommentar("Antwort2", "12 Jahre", hannes);
+			Kommentar kommentar3 = new Kommentar("Antwort3", "12 Jahre", hannes);
+			Kommentar kommentar4 = new Kommentar("Antwort4", "12 Jahre", hannes);
+			
+			thema1.kommentieren(kommentar1);
+			thema1.kommentieren(kommentar2);
+			thema1.kommentieren(kommentar3);
+			thema1.kommentieren(kommentar4);
+			
+			kommentar1.datum.setTime(49494);
+			kommentar2.datum.setTime(4);
+			kommentar3.datum.setTime(494);
+			kommentar4.datum.setTime(111111494);
+			
+			System.out.println("unsortiert:");
+			for(Kommentar kommentar : thema1.getKommentare()){
+				System.out.println(kommentar.getTitel());
+			}
+			
+			ArrayList<Kommentar> sortiertDatum2 = new ArrayList<Kommentar>();
+			sortiertDatum2 = thema1.sortiereNachDatum();
+			
+			System.out.println("sortiert:");
+			for(Kommentar kommentar : sortiertDatum2){
+				System.out.println(kommentar.getTitel());
+			}
+		}
 }

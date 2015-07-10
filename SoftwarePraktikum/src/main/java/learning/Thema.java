@@ -1,5 +1,6 @@
 package learning;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -85,31 +86,43 @@ public class Thema extends Inhalt implements java.io.Serializable{
 		kommentare.remove(kommentar);
 	}
 	
-//	/**
-//	 * Sortiert die Kommentare nach dem neusten Datum
-//	 * @return die sortierte Kommentarliste
-//	 */
-//	public Set<Kommentar> sortiereNachDatum(){
-//		Stack<Kommentar> tempStack = new Stack<Kommentar>();
-//		for(int i = 1; i < this.kommentare.size(); i++){
-//			for(int j = 0; j < this.kommentare.size() - 1; j++){
-//				if (this.kommentare..get(j).getDatum().compareTo(this.kommentare.get(j+1).getDatum()) < 0){
-//					tempStack.push(this.kommentare.get(j));
-//					this.kommentare.set(j, this.kommentare.get(j+1));
-//					this.kommentare.set(j+1, tempStack.pop());
-//				}
-//			}
-//		}	
-//		return this.kommentare;
-//	}
+	/**
+	 * Sortiert die Kommentare nach dem neusten Datum
+	 * @return die sortierte Kommentarliste
+	 */
+	public ArrayList<Kommentar> sortiereNachDatum(){
+		ArrayList<Kommentar> tempArrayList = new ArrayList<Kommentar>();
+		Stack<Kommentar> tempStack = new Stack<Kommentar>();
+		
+		for(Kommentar kommentar : this.kommentare){
+			tempArrayList.add(kommentar);
+		}
+		
+		for(int i = 1; i < tempArrayList.size(); i++){
+			for(int j = 0; j < tempArrayList.size() - 1; j++){
+				if (tempArrayList.get(j).getDatum().compareTo(tempArrayList.get(j+1).getDatum()) > 0){
+					tempStack.push(tempArrayList.get(j));
+					tempArrayList.set(j, tempArrayList.get(j+1));
+					tempArrayList.set(j+1, tempStack.pop());
+				}
+			}
+		}		
+		return tempArrayList;
+	}
 	
-//	/**
-//	 * Sortiert die Kommentare nach den besten Bewertungen
-//	 * @return sortierte Kommentarliste
-//	 */
-//	public ArrayList<Kommentar> sortiereNachBewertung(){
-//		Collections.sort(this.kommentare);
-//		return this.kommentare;
-//	}
+	/**
+	 * Sortiert die Kommentare nach den besten Bewertungen
+	 * @return sortierte Kommentarliste
+	 */
+	public ArrayList<Kommentar> sortiereNachBewertung(){
+		ArrayList<Kommentar> tempArrayList = new ArrayList<Kommentar>();
+		
+		for(Kommentar kommentar : this.kommentare){
+			tempArrayList.add(kommentar);
+		}
+		
+		Collections.sort(tempArrayList);
+		return tempArrayList;
+	}
 
 }
