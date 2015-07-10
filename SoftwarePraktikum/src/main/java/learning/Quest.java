@@ -27,42 +27,51 @@ public class Quest extends Challenge implements java.io.Serializable {
 	@Transient
 	private int erreichbarePunktzahl;
 
-	private int erreichtePunktzahl;
-
-	private ArrayList<Frage> fragenArray;
-
+	/**
+	 * Erstellt einen Quest
+	 */
 	public Quest() {
 		fragen = new HashSet<Frage>();
 		erreichbarePunktzahl = 0;
 		erreichtePunktzahl = 0;
-		fragenArray = new ArrayList<Frage>();
 	}
 
 	public int getErreichbarePunktzahl() {
 		return erreichbarePunktzahl;
 	}
 
+	/**
+	 * F&uumlgt dem Quest eine Frage hinzu und gleicht die erreichbare Punktzahl
+	 * an
+	 * 
+	 * @param frage
+	 */
 	public void addFrage(Frage frage) {
-		if(fragen.add(frage)){
-			fragenArray.add(frage);
-			erreichbarePunktzahl = erreichbarePunktzahl + 3	* frage.getLoesung().size();
+		if (fragen.add(frage)) {
+			erreichbarePunktzahl = erreichbarePunktzahl + 3
+					* frage.getLoesung().size();
 		}
 	}
 
 	/**
-	 * gibt die naechste Frage des Quests zurueck
+	 * gibt eine unbearbeitete Frage des Quests zur&uumlck
 	 * 
-	 * @return naechste Frage des Quests
+	 * @return n&aumlchste Frage des Quests
 	 */
 	public Frage getNaechsteFrage() {
-		Frage frage = fragenArray.get(0);
-		fragenArray.remove(0);
+		Frage frage = null;
+		for (Frage f : fragen) {
+			if (!f.isBearbeitet()) {
+				frage = f;
+			}
+		}
+		frage.setBearbeitet(true);
 		return frage;
 	}
 
 	/**
 	 * wertet den bearbeiteten Quest aus und gibt die erreichte Punktzahl
-	 * zurueck
+	 * zur&uumlck
 	 */
 	public int korrigiere() {
 		for (Frage f : fragen) {

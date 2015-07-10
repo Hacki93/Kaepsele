@@ -4,6 +4,7 @@ import java.util.Date;
 
 import learning.Benutzer;
 import learning.Gruppe;
+import learning.Teamcombat;
 
 /**
  * Diese Klasse stellt den Datentyp Nachricht dar
@@ -30,7 +31,7 @@ public class Nachricht {
 	public static final int BEITRITTSANFRAGE = 3;
 	public static final int TEAMHERAUSFORDERUNG = 4;
 	public static final int AUFGABEBEWERTET = 5;
-	public static final int GRUPPEVOLL = 6;
+
 
 	/**
 	 * Konstruktor mit dem die Nachricht angelegt wird
@@ -58,9 +59,9 @@ public class Nachricht {
 					+ ((Gruppe) sender).getName() + "\" eingeladen";
 			break;
 		case 2:
-			titel = "Bitte korrigiere Deine Aufgabe";
+			titel = "Bitte korrigiere den Bossfight";
 			inhalt = ((Benutzer) sender).getName()
-					+ " hat eine von Dir gestellte Aufgabe bearbeitet.\nBitte korrigiere und bewerte diese Aufgabe zeitnah, damit "
+					+ " hat einen Bossfight bearbeitet.\nBitte korrigiere und bewerte diesen Bossfight zeitnah, damit "
 					+ ((Benutzer) sender).getName() + " sein Ergebnis erhält.";
 			handlungErforderlich = true;
 			break;
@@ -70,12 +71,11 @@ public class Nachricht {
 			inhalt = ((Benutzer) sender).getName()
 					+ "hat eine Beitrittsanfrage an deine Gruppe "
 					+ ((Gruppe) adressat).getName() + " gestellt";
-			handlungErforderlich = true;
 			break;
 		case 4:
 			titel = "Herausforderung zum Teamcombat";
-			inhalt = "Gruppe " + ((Gruppe) sender).getName() + " hat "
-					+ ((Gruppe) adressat).getName() + " herausgefordert";
+			inhalt = ((Gruppe) sender).getName() + " hat "
+					+ ((Gruppe)adressat).getName() + " herausgefordert";
 			handlungErforderlich = true;
 			break;
 		case 5:
@@ -87,6 +87,14 @@ public class Nachricht {
 		datum = new Date();
 		this.sender = sender;
 		this.adressat = adressat;
+		this.typ = typ;
+	}
+
+	public int getTyp() {
+		return typ;
+	}
+
+	public void setTyp(int typ) {
 		this.typ = typ;
 	}
 

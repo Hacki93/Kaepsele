@@ -1,7 +1,7 @@
 package learning;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Random;
 
 import javax.persistence.Entity;
@@ -14,61 +14,103 @@ import kommunikation.Nachricht;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "BOSSFIGHT")
-@PrimaryKeyJoinColumn(name="bossfight_id", referencedColumnName = "challenge_id")
-public class Bossfight extends Challenge implements java.io.Serializable{
-	
+@PrimaryKeyJoinColumn(name = "bossfight_id", referencedColumnName = "challenge_id")
+public class Bossfight extends Challenge implements java.io.Serializable {
+
 	@Transient
 	private Medium anhang;
-	
+
 	@Transient
-	private ArrayList<String> antworten;
+	private HashSet<String> antworten;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
 	 */
-	public Bossfight(){}
-	
+	public Bossfight() {
+	}
+
+	/**
+	 * Legt einen neuen Bossfight an
+	 * 
+	 * @param bearbeiter
+	 *            Bearbeiter des Bossfights
+	 * @param anhang
+	 *            Klausur auf die sich Bossfight bezieht
+	 * @param erreichbarePunktzahl
+	 *            erreichbare Punktzahl
+	 * @param gruppe
+	 *            Gruppe zu der der Bossfight geh&oumlrt
+	 */
 	public Bossfight(Benutzer bearbeiter, Medium anhang,
-		int erreichbarePunktzahl) {
+			int erreichbarePunktzahl, Gruppe gruppe) {
 		this.bearbeiter = bearbeiter;
 		this.anhang = anhang;
 		this.erreichbarePunktzahl = erreichbarePunktzahl;
+		this.gruppe = gruppe;
 		datum = new Date();
-		antworten = new ArrayList<String>();
+		antworten = new HashSet<String>();
 	}
 
-	public Medium getAnhang() {
-		return anhang;
-	}
-
+	/**
+	 * gibt den Anhang des Bossfights zur&uumlck
+	 * 
+	 * @return Klausur
+	 */
 	public Medium starten() {
 		return anhang;
 	}
 
+	/**
+	 * speichert die Antworten des Bearbeiters
+	 * 
+	 * @param antwort
+	 */
 	public void addAntwort(String antwort) {
 		antworten.add(antwort);
 	}
 
+	/**
+	 * Setzt die erreichte Punktzahl des Bossfights und benachrichtigt den
+	 * Bearbeiter dar&uumlber
+	 * 
+	 * @param moderator
+	 * @param punktzahl
+	 */
 	public void korrigieren(Benutzer moderator, int punktzahl) {
 		erreichtePunktzahl = erreichtePunktzahl + punktzahl;
-		Nachricht nachricht = new Nachricht(moderator, bearbeiter, Nachricht.AUFGABEBEWERTET, this);
+		Nachricht nachricht = new Nachricht(moderator, bearbeiter,
+				Nachricht.AUFGABEBEWERTET, this);
 		bearbeiter.benachrichtigen(nachricht);
 	}
 
-	public void beenden(Gruppe gruppe) {
-		Random rand = new Random();
-		int index = rand.nextInt(gruppe.moderatoren.size());
+	/**
+	 * Beendet den Bossfight und benachrichtigt einen Moderator dar&uumlber
+	 */
+	public void beenden() {
 		Benutzer moderator = (Benutzer) gruppe.moderatoren.toArray()[0];
-		Nachricht nachricht = new Nachricht(bearbeiter, moderator, Nachricht.AUFGABEKORRIGIEREN, this);
+		while (moderator.equals(bearbeiter)) {
+			moderator = (Benutzer) gruppe.moderatoren.toArray()[0];
+		}
+		Nachricht nachricht = new Nachricht(bearbeiter, moderator,
+				Nachricht.AUFGABEKORRIGIEREN, this);
 		moderator.benachrichtigen(nachricht);
 	}
 
+	/**
+	 * pr&uumlft, ob ein Bossfight bestanden wurde
+	 * 
+	 * @return
+	 */
 	public boolean bestanden() {
 		if (erreichtePunktzahl >= (0.8 * this.erreichbarePunktzahl)) {
+			bearbeiter.rangErhoehen();
 			return true;
 		} else {
 			return false;
 		}
 	}
 
+	public Medium getAnhang() {
+		return anhang;
+	}
 }

@@ -32,6 +32,9 @@ public class Challenge implements java.io.Serializable{
 	@Column(name = "erreichtePunktzahl")
 	protected int erreichtePunktzahl;
 	
+	@Transient
+	protected Gruppe gruppe; 
+	
 	
 	public Benutzer getBearbeiter() {
 		return bearbeiter;

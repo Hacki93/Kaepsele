@@ -28,9 +28,10 @@ public class TestKlasse {
 
 	// Klasse zum Testen von Codebausteinen
 	public static void main(String[] args) {
-		dbSchreiben();
-//		lena();
+//		dbSchreiben();
+		lena();
 //		sortierTest();
+//		zeitTest();
 		System.exit(0);
 		}
 	
@@ -40,7 +41,7 @@ public class TestKlasse {
 		Gruppe gruppe2 = new Gruppe(); 
 		gruppe2.setName("Gruppe2");
 		Benutzer lena = new Benutzer("lena", "1234", "Lena Maier", "lenamai.er@web.de"); 
-		Benutzer hannes = new Benutzer("hannes", "1234", "Hannes Fischer", "michael_stefan@hotmail.de");
+		Benutzer hannes = new Benutzer("hannes", "1234", "Hannes Fischer", "lenamai.er@web.de");
 		Benutzer chris = new Benutzer(); 
 		Benutzer kevin = new Benutzer(); 
 		
@@ -85,16 +86,74 @@ public class TestKlasse {
 //			Teamcombat t = (Teamcombat) n.getAnhang();
 //			t.
 //		}
+		Quest quest = new Quest();
 		
-		Quest quest = gruppe2.teamcombatBearbeiten(0);
-		Frage frage2 = quest.getNaechsteFrage();
-		System.out.println(frage2.titel);
+		for (Nachricht n :lena.getAufgaben()){
+			quest = (Quest)lena.aufgabeBearbeiten(n);
+		}
+		
 		HashSet<String> antworten = new HashSet<String>();
-		antworten.add("Hallo");
-		frage2.addAntworten(antworten);
-		Quest quest1 = gruppe1.teamcombatBearbeiten(0);
-		Frage frage1 = quest1.getNaechsteFrage(); 
-		System.out.println(frage1.titel);
+		antworten.add("Du da");
+		Frage frage1 = quest.getNaechsteFrage();
+		frage1.addAntworten(antworten);
+		System.out.println("Lena hat antworten hinzugefügt");
+		
+		for (Nachricht n :lena.getAufgaben()){
+			quest = (Quest)lena.aufgabeBearbeiten(n);
+			for  (Frage f:quest.fragen){
+				for (String s:f.antworten){
+					System.out.println(s);
+				}
+			}
+		}
+		
+		Quest quest2 = new Quest(); 
+		for (Nachricht n: hannes.getAufgaben()){
+			quest2 = (Quest)hannes.aufgabeBearbeiten(n);
+		}
+		
+		
+		HashSet<String> antworten2 = new HashSet<String>();
+		antworten2.add("Ich bins"); 
+		Frage frage2 = quest2.getNaechsteFrage();
+		frage2.addAntworten(antworten2);
+		
+		System.out.println("Hannes hat antworten hinzugefügt");
+		for (Nachricht n :lena.getAufgaben()){
+			quest = (Quest)lena.aufgabeBearbeiten(n);
+			for  (Frage f:quest.fragen){
+				for (String s:f.antworten){
+					System.out.println(s);
+				}
+			}
+		}
+		
+		
+		
+		System.out.println("hannes quest");
+		
+		for (Nachricht n :hannes.getAufgaben()){
+			quest = (Quest)hannes.aufgabeBearbeiten(n);
+			for  (Frage f:quest.fragen){
+				for (String s:f.antworten){
+					System.out.println(s);
+				}
+			}
+		}
+		
+		
+	}
+	
+	public static void zeitTest(){
+			      try { 
+			         System.out.println(new Date( ) + "\n"); 
+			         Thread.sleep(3*10*100); 
+			         System.out.println(new Date( ) + "\n"); 
+			      } catch (Exception e) { 
+			          System.out.println("Got an exception!"); 
+			      }
+			   
+			
 	}
 
 		public static void dbSchreiben(){

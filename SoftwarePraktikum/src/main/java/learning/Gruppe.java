@@ -2,6 +2,7 @@ package learning;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -67,7 +68,7 @@ public class Gruppe implements java.io.Serializable {
 	Mediathek mediathek;
 	
 	@Transient
-	private ArrayList<Teamcombat> teamcombats;
+	private HashSet<Teamcombat> teamcombats;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
@@ -78,7 +79,7 @@ public class Gruppe implements java.io.Serializable {
 		fragenpool = new Fragenpool();
 		pinnwand = new Pinnwand();
 		mediathek = new Mediathek();
-		teamcombats = new ArrayList<Teamcombat>();
+		teamcombats = new HashSet<Teamcombat>();
 		fachrichtung = new Fachrichtung();
 	}
 	
@@ -98,7 +99,7 @@ public class Gruppe implements java.io.Serializable {
 		fragenpool = new Fragenpool();
 		pinnwand = new Pinnwand();
 		mediathek = new Mediathek();
-		teamcombats = new ArrayList<Teamcombat>();
+		teamcombats = new HashSet<Teamcombat>();
 	}
 
 	/**
@@ -122,7 +123,6 @@ public class Gruppe implements java.io.Serializable {
 	 */
 	private void benachrichtigen(Nachricht nachricht) {
 		for (Benutzer mitglied : mitglieder) {
-			nachricht.setAdressat(mitglied);
 			mitglied.benachrichtigen(nachricht);
 		}
 	}
@@ -164,7 +164,7 @@ public class Gruppe implements java.io.Serializable {
 	 * l&ouml;scht einen Benutzer aus der Mitgliederliste der Gruppe
 	 * 
 	 * @param benutzer
-	 *            der gel&ouml;tschte Benutzer
+	 *            der gel&ouml;schte Benutzer
 	 */
 	public void mitgliedLoeschen(Benutzer benutzer) {
 		mitglieder.remove(benutzer);
@@ -184,7 +184,7 @@ public class Gruppe implements java.io.Serializable {
 	}
 
 	/**
-	 * Es wird automatisch ein Quest erzeugt und zurueckgegeben
+	 * Es wird automatisch ein Quest erzeugt und zur&uumlckgegeben
 	 * 
 	 * @return Quest
 	 */
@@ -208,20 +208,8 @@ public class Gruppe implements java.io.Serializable {
 		this.benachrichtigen(nachricht);
 	}
 
-	/**
-	 * gibt den passenden Quest des Teamcombats zurueck, so dass dieser
-	 * bearbeitet werden kann
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public Quest teamcombatBearbeiten(int i) {
-		Teamcombat teamcombat = teamcombats.get(i);
-		if (this.equals(teamcombat.getHerausforderer())) {
-			return teamcombat.questFuerHerausforderer;
-		} else {
-			return teamcombat.questFuerHerausgeforderter;
-		}
+	public void setMitglieder(Set<Benutzer> mitglieder) {
+		this.mitglieder = mitglieder;
 	}
 
 	public String getName() {

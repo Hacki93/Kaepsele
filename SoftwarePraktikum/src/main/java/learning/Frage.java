@@ -9,34 +9,37 @@ public class Frage implements java.io.Serializable {
 	public String text;
 	public HashSet<String> antwortmoeglichkeiten;
 	public HashSet<String> antworten;
-
+	private boolean bearbeitet;
 	public HashSet<String> loesung;
 
 	// leerer Konstruktor
 	public Frage() {
 	}
 
-	public Frage(String titel, String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesung) {
+	/**
+	 * Erstellt eine Frage
+	 * 
+	 * @param titel
+	 *            Titel der Frage
+	 * @param text
+	 *            Fragentext
+	 * @param antwortmoeglichkeiten
+	 * @param loesung
+	 */
+	public Frage(String titel, String text,
+			HashSet<String> antwortmoeglichkeiten, HashSet<String> loesung) {
 		this.titel = titel;
 		this.text = text;
 		this.loesung = loesung;
-
+		bearbeitet = false;
 		antwortmoeglichkeiten = new HashSet<String>();
 		antworten = new HashSet<String>();
 		anhang = new HashSet<Medium>();
 	}
 
-	public HashSet<String> getAntwortmoeglichkeiten() {
-		return antwortmoeglichkeiten;
-	}
-
-	public void addAntwortmoeglichkeiten(String antwort) {
-		antwortmoeglichkeiten.add(antwort);
-	}
-
 	/**
-	 * Vergleicht die gegebenen Antworten mit der Loesung und gibt die
-	 * entsprechende Punktzahl zurueck
+	 * Vergleicht die gegebenen Antworten mit der L&oumlsung und gibt die
+	 * entsprechende Punktzahl zur&uumlck
 	 * 
 	 * @return erreichte Punktzahl
 	 */
@@ -73,5 +76,21 @@ public class Frage implements java.io.Serializable {
 
 	public HashSet<String> getAntworten() {
 		return antworten;
+	}
+
+	public boolean isBearbeitet() {
+		return bearbeitet;
+	}
+
+	public void setBearbeitet(boolean bearbeitet) {
+		this.bearbeitet = bearbeitet;
+	}
+
+	public HashSet<String> getAntwortmoeglichkeiten() {
+		return antwortmoeglichkeiten;
+	}
+
+	public void addAntwortmoeglichkeiten(String antwort) {
+		antwortmoeglichkeiten.add(antwort);
 	}
 }
