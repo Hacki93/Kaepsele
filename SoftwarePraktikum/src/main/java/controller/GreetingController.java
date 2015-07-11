@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -44,33 +45,38 @@ public class GreetingController {
 			if(b.getBenutzername().equals(benutzer.getBenutzername())) {
 				if(b.login(benutzer.getPasswort())){
 					angemeldeterBenutzer = b;
-					System.out.println("Angemeldet");
 					return "index2";
 				}
-				System.out.println("Passwort falsch");
+				model.addAttribute("nachricht", "Passwort falsch");
 				return "Anmelden";
 			}
 		}
-		System.out.println("Benutzer nicht gefunden");
+		model.addAttribute("nachricht", "Benutzername nicht vorhanden");
 		return "Anmelden";
 	}
 	
 	@RequestMapping(value="/Profile")
 	public String getProfil(Model model){
+		SimpleDateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy");
+		
 		String benutzername = angemeldeterBenutzer.getBenutzername();
 		String name = angemeldeterBenutzer.getName();
 		String studiengang = angemeldeterBenutzer.getStudiengang();
 		String beruf = angemeldeterBenutzer.getBeruf();
 		String adresse = angemeldeterBenutzer.getAdresse();
-		String email = angemeldeterBenutzer.getEmailAdresse();
-		int rang = angemeldeterBenutzer.getRang();
+		String emailAdresse = angemeldeterBenutzer.getEmailAdresse();
+		int rangpunkte = angemeldeterBenutzer.getRang();
+		String geburtsdatum = simpleDate.format(angemeldeterBenutzer.getGeburtsdatum());
+		String rang = angemeldeterBenutzer.getRangName();
 
-		model.addAttribute("rang", rang);	
+		model.addAttribute("rang", rang);
+		model.addAttribute("geburtsdatum", geburtsdatum);
+		model.addAttribute("rangpunkte", rangpunkte);	
 		model.addAttribute("name", name);
 		model.addAttribute("studiengang", studiengang);
 		model.addAttribute("beruf", beruf);
 		model.addAttribute("adresse", adresse);
-		model.addAttribute("email", email);
+		model.addAttribute("emailAdresse", emailAdresse);
 		model.addAttribute("benutzername", benutzername);
 
 		return "Profile";

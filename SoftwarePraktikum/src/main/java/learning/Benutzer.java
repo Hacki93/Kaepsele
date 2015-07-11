@@ -1,5 +1,7 @@
 package learning;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -93,6 +95,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 */
 	public Benutzer(String benutzername, String passwort, String name,
 			String emailAdresse) {
+				
 		this.passwort = passwort;
 		this.benutzername = benutzername;
 		this.name = name;
@@ -102,9 +105,19 @@ public class Benutzer extends Account implements java.io.Serializable {
 		nachrichten = new HashSet<Nachricht>();
 		aufgaben = new HashSet<Nachricht>();
 		rang = 0;
-		erstelltAm = new Date();
 		pinnwand = new Pinnwand();
 		pinnwand.erlaubteBenutzer.add(this);
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date();
+		String dateString;
+		dateString = formatter.format(date);
+		try {
+			this.setErstelltAm(formatter.parse(dateString));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -520,5 +533,13 @@ public class Benutzer extends Account implements java.io.Serializable {
 
 	public void setGruppen(HashSet<Gruppe> gruppen) {
 		this.gruppen = gruppen;
+	}
+	
+	public Date getErstelltAm() {
+		return erstelltAm;
+	}
+
+	public void setErstelltAm(Date erstelltAm) {
+		this.erstelltAm = erstelltAm;
 	}
 }

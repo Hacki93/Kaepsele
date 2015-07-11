@@ -108,32 +108,36 @@
 									<tbody>
 										<tr>
 											<td><strong>Rang:</strong></td>
-											<td><strong>K&auml;psele</strong></td>
+											<td><b th:text= "${rang}"></b></td>
 										</tr>
 										<tr>
-											<td>Punktzahl:</td>
-											<td th:text= "${rang}"/>
+											<td><strong>Punktzahl:</strong></td>
+											<td><b th:text= "${rangpunkte}"></b></td>
 										</tr>
 										<tr>
-											<td>Lernt seit:</td>
-											<td>07.07.2015</td>
+											<td><strong>Lernt seit:</strong></td>
+											<td><b th:text= "${erstelltAm}"></b></td>
 										</tr>
 
 										<tr>
 										<tr>
 											<td>E-Mail Adresse:</td>
-											<td th:text= "${email}"/>
+											<td th:text= "${emailAdresse}"/>
 										</tr>
 										<tr>
 											<td>Wohnort:</td>
 											<td th:text= "${adresse}"/>
 										</tr>
 										<tr>
+											<td>Geburtsdatum:</td>
+											<td th:text= "${geburtsdatum}"/>
+										</tr>
+										<tr>
 											<td>Beruf:</td>
 											<td th:text="${beruf}"/>
 										</tr>
-										<td>Studiengang:</td>
-										<td th:text= "${studiengang}"/>
+											<td>Studiengang:</td>
+											<td th:text= "${studiengang}"/>
 										</tr>
 
 									</tbody>

@@ -1,6 +1,8 @@
 package controller;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -28,8 +30,8 @@ public class TestKlasse {
 
 	// Klasse zum Testen von Codebausteinen
 	public static void main(String[] args) {
-//		dbSchreiben();
-		lena();
+		dbSchreiben();
+//		lena();
 //		sortierTest();
 //		zeitTest();
 		System.exit(0);
@@ -165,6 +167,13 @@ public class TestKlasse {
 			hannes.setEmailAdresse("mail@hannes-fischer.com");
 			hannes.setName("Hannes Fischer");
 			hannes.setStudiengang("Wirtschaftsinformatik B.Sc.");
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				hannes.setGeburtsdatum(formatter.parse("01/01/1995"));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			Benutzer lena = new Benutzer();
 			lena.setAdresse("Schopfloch");

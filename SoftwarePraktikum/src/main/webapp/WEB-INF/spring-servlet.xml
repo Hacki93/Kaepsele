@@ -52,12 +52,4 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="validation" />
 	</bean>
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/templates/</value>
-		</property>
-		<property name="suffix">
-			<value>.html</value>
-		</property>
-	</bean>
 </beans>

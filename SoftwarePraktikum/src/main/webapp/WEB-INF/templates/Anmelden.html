@@ -6,13 +6,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Getting Started:Serving Web Content</title>
 	<link href="resources/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
-	 <link href="resources/Anmelden.css" rel="stylesheet" />
+	 <link href="resources/css/Anmelden.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container">
         <div class="card card-container">
             <img id="profile-img" class="profile-img-card" src="resources/img/Logo2.jpg" />
             <p id="profile-name" class="profile-name-card"></p>
+            <span style="color: red;" th:text = "${nachricht}"></span>
             <form action="#" th:action="@{/login}" th:object="${benutzer}" method="post" class="form-signin">
                 <span id="reauth-email" class="reauth-email"></span>
                  <input type="text" th:field="*{benutzername}" id="inputEmail" class="form-control" placeholder="Benutzername"/>
@@ -26,6 +27,6 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="resources/js/bootstrap.js"></script>
-    <script src="resources/Anmelden.js"></script>
+    <script src="resources/js/Anmelden.js"></script>
 </body>
 </html>
