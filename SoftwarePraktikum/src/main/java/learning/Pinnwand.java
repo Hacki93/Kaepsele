@@ -12,6 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -30,15 +33,18 @@ public class Pinnwand implements java.io.Serializable{
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="pinnwand")
 	public Set<Thema> themen;
 		
-	@Transient
-	public ArrayList<Benutzer> erlaubteBenutzer;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "PINNWAND_ERLAUBTEBENUTZER", joinColumns =
+	@JoinColumn(name = "pinnwand_id"),  inverseJoinColumns =
+	@JoinColumn(name = "benutzer_id"))
+	public Set<Benutzer> erlaubteBenutzer;
 	
 	/**
 	 * Konstruktor, der eine neue Pinnwand erstellt
 	 */
 	public Pinnwand(){
 		themen = new HashSet<Thema>();
-		erlaubteBenutzer = new ArrayList<Benutzer>();
+		erlaubteBenutzer = new HashSet<Benutzer>();
 	}
 	
 	/**
@@ -56,6 +62,14 @@ public class Pinnwand implements java.io.Serializable{
 	
 	public Set<Thema> getThemen(){
 		return themen;
+	}
+	
+	public void setErlaubteBenutzer(Set<Benutzer> benutzer){
+		erlaubteBenutzer = benutzer;
+	}
+	
+	public Set<Benutzer> getErlaubteBenutzer(){
+		return erlaubteBenutzer;
 	}
 	
 	/**

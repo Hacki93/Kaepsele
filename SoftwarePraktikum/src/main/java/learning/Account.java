@@ -10,10 +10,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import java.math.BigInteger;
-import java.security.*;
-import java.util.HashSet;
+import java.security.MessageDigest;
+import java.util.Set;
 
-import kommunikation.Email;
 import kommunikation.Nachricht;
 
 /**
@@ -40,10 +39,10 @@ public class Account implements java.io.Serializable{
 	boolean loggedIn;
 	
 	@Transient 
-	HashSet<Nachricht> nachrichten; 
+	Set<Nachricht> nachrichten; 
 	
 	@Transient 
-	HashSet<Nachricht> aufgaben; 
+	Set<Nachricht> aufgaben; 
 	
 	@Column(name = "emailAdresse")
 	String emailAdresse;

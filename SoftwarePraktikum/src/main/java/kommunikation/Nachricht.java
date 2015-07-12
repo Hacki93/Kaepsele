@@ -2,25 +2,50 @@ package kommunikation;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import learning.Benutzer;
 import learning.Gruppe;
-import learning.Teamcombat;
 
 /**
  * Diese Klasse stellt den Datentyp Nachricht dar
- * 
- * @author Hannes
- *
  */
-public class Nachricht {
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "NACHRICHT")
+public class Nachricht implements java.io.Serializable{
 
+	@Id @GeneratedValue
+	@Column(name = "nachricht_id")
+	public int nachricht_id;
+	
+	@Column(name = "titel")
 	private String titel;
+	
+	@Column(name = "inhalt")
 	private String inhalt;
+	
+	@Column(name = "handlungErforderlich")
 	boolean handlungErforderlich;
+	
+	@Column(name = "datum")
 	private Date datum;
-	private Object adressat;
-	private Object sender;
+	
+	@Column(name = "typ")
 	private int typ;
+	
+	@Transient
+	private Object adressat;
+	
+	@Transient
+	private Object sender;
+	
+	@Transient
 	private Object anhang;
 
 	
@@ -32,7 +57,11 @@ public class Nachricht {
 	public static final int TEAMHERAUSFORDERUNG = 4;
 	public static final int AUFGABEBEWERTET = 5;
 
-
+	/**
+	 * Konstruktor f&uuml;r Hibernate
+	 */
+	public Nachricht(){	}
+	
 	/**
 	 * Konstruktor mit dem die Nachricht angelegt wird
 	 * 

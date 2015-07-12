@@ -1,6 +1,7 @@
 package learning;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,6 +70,9 @@ public class Gruppe implements java.io.Serializable {
 	
 	@Transient
 	public HashSet<Teamcombat> teamcombats;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
+	Set<Bossfight> bossfights;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
@@ -81,6 +85,7 @@ public class Gruppe implements java.io.Serializable {
 		mediathek = new Mediathek();
 		teamcombats = new HashSet<Teamcombat>();
 		fachrichtung = new Fachrichtung();
+		bossfights = new HashSet<Bossfight>();
 	}
 	
 	/**
@@ -96,10 +101,11 @@ public class Gruppe implements java.io.Serializable {
 		this.klausurname = klausurname;
 		mitglieder = new HashSet<Benutzer>();
 		moderatoren = new HashSet<Benutzer>();
-		fragenpool = new Fragenpool();
-		pinnwand = new Pinnwand();
-		mediathek = new Mediathek();
+		fragenpool = new Fragenpool(); //löschen
+		pinnwand = new Pinnwand();  //löschen
+		mediathek = new Mediathek(); //löschen
 		teamcombats = new HashSet<Teamcombat>();
+		bossfights = new HashSet<Bossfight>();
 	}
 
 	/**
@@ -109,10 +115,24 @@ public class Gruppe implements java.io.Serializable {
 	public int anzahl() {
 		return mitglieder.size();
 	}
+	
+	public void addBossfight(Bossfight bossfight){
+		bossfights.add(bossfight);
+		bossfight.setGruppe(this);
+	}
+	
+	public Bossfight bossfightAntreten(){
+		ArrayList<Bossfight> fights = new ArrayList<Bossfight>();
+		for (Bossfight bf : fights) {
+			fights.add(bf);
+		}
+		int zufallsindex = (int) (Math.random() * fights.size());
+		return fights.get(zufallsindex);
+	}
 
 	public void setFachrichtung(Fachrichtung fachrichtung) {
 		this.fachrichtung = fachrichtung;
-//		fachrichtung.gruppen.add(this);
+		fachrichtung.gruppen.add(this);
 	}
 
 	/**
@@ -195,8 +215,8 @@ public class Gruppe implements java.io.Serializable {
 	 * @param text
 	 * @param loesungen
 	 */
-	public void frageErstellen(String titel, String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesungen) {
-		Frage frage = new Frage(titel, text, antwortmoeglichkeiten, loesungen);
+	public void frageErstellen(String titel, String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesungen, Benutzer autor) {
+		Frage frage = new Frage(titel, text, antwortmoeglichkeiten, loesungen, autor);
 		this.fragenpool.addFrage(frage);
 	}
 
@@ -205,8 +225,9 @@ public class Gruppe implements java.io.Serializable {
 	 * 
 	 * @return Quest
 	 */
-	public Quest questAntreten() {
+	public Quest questAntreten(Benutzer bearbeiter) {
 		Quest quest = this.fragenpool.getQuest();
+		quest.setBenutzer(bearbeiter);
 		return quest;
 	}
 

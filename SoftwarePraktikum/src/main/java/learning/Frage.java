@@ -12,11 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.hibernate.annotations.CollectionType;
 
 @SuppressWarnings("serial")
 @Entity
@@ -56,6 +54,10 @@ public class Frage implements java.io.Serializable {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="benutzer_id")
 	public Benutzer benutzer; //Autor
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="fragenpool_id")
+	public Fragenpool fragenpool;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
@@ -76,10 +78,11 @@ public class Frage implements java.io.Serializable {
 	 * @param antwortmoeglichkeiten Die Antwortm&ouml;glichkeiten
 	 * @param loesung Die korrekten L&ouml;sungen
 	 */
-	public Frage(String titel, String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesung) {
+	public Frage(String titel, String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesung, Benutzer autor) {
 		this.titel = titel;
 		this.text = text;
 		this.loesung = loesung;
+		this.benutzer = autor;
 		bearbeitet = false;
 		antwortmoeglichkeiten = new HashSet<String>();
 		antworten = new HashSet<String>();
@@ -178,5 +181,13 @@ public class Frage implements java.io.Serializable {
 	
 	public String getTitel(){
 		return titel;
+	}
+	
+	public void setFragenpool(Fragenpool fragenpool){
+		this.fragenpool = fragenpool;
+	}
+	
+	public Fragenpool getFragenpool(){
+		return fragenpool;
 	}
 }

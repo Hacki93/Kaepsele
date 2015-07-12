@@ -1,9 +1,15 @@
 package learning;
 
 import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -20,8 +26,11 @@ import javax.persistence.Transient;
 @PrimaryKeyJoinColumn(name = "quest_id", referencedColumnName = "challenge_id")
 public class Quest extends Challenge implements java.io.Serializable {
 
-	@Transient
-	public HashSet<Frage> fragen;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "QUEST_FRAGEN", joinColumns =
+	@JoinColumn(name = "quest_id"),  inverseJoinColumns =
+	@JoinColumn(name = "frage_id"))
+	public Set<Frage> fragen;
 
 	/**
 	 * Erstellt einen Quest
@@ -73,5 +82,13 @@ public class Quest extends Challenge implements java.io.Serializable {
 			erreichtePunktzahl = erreichtePunktzahl + f.korrigiere();
 		}
 		return erreichtePunktzahl;
+	}
+	
+	public Set<Frage> getFragen(){
+		return fragen;
+	}
+	
+	public void setFragen(Set<Frage> fragen){
+		this.fragen = fragen;
 	}
 }

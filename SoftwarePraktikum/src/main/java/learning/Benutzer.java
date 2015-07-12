@@ -2,7 +2,6 @@ package learning;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,8 +10,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -20,7 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import kommunikation.Email;
 import kommunikation.Nachricht;
@@ -53,7 +49,9 @@ public class Benutzer extends Account implements java.io.Serializable {
 	private String studiengang;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "FREUNDE", joinColumns = @JoinColumn(name = "benutzer_id"), inverseJoinColumns = @JoinColumn(name = "freunde_id"))
+	@JoinTable(name = "FREUNDE", joinColumns = 
+	@JoinColumn(name = "benutzer_id"), inverseJoinColumns = 
+	@JoinColumn(name = "freunde_id"))
 	public Set<Benutzer> freunde;
 
 	// Hilfskollektion zur Umsetzung eines Many-To-Many Self-Joins
@@ -70,6 +68,9 @@ public class Benutzer extends Account implements java.io.Serializable {
 	@JoinColumn(name = "pinnwand_id")
 	public Pinnwand pinnwand;
 	
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "erlaubteBenutzer")
+	public Set<Pinnwand> erlaubtePinnwaende;
+	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="benutzer")
 	public Set<Inhalt> inhalte;
 
@@ -82,25 +83,22 @@ public class Benutzer extends Account implements java.io.Serializable {
 		nachrichten = new HashSet<Nachricht>();
 		aufgaben = new HashSet<Nachricht>();
 		pinnwand = new Pinnwand();
+		pinnwand.erlaubteBenutzer.add(this);
 		moderierteGruppen = new HashSet<Gruppe>();
+		erlaubtePinnwaende = new HashSet<Pinnwand>();
+		erlaubtePinnwaende.add(pinnwand);
 	}
 
 	/**
 	 * Legt einen Benutzer mit den minimal erforderlichen Daten an. Automatisch
 	 * erzeugbare Informationen werden automatisch generiert
 	 * 
-	 * @param benutzername
-	 *            Der Benutzername
-	 * @param passwort
-	 *            Das Passowrt
-	 * @param name
-	 *            Der angezeigte echte Name
-	 * @param emailAdresse
-	 *            Die Emailadresse
+	 * @param benutzername Der Benutzername
+	 * @param passwort Das Passwort
+	 * @param name Der angezeigte echte Name
+	 * @param emailAdresse Die Emailadresse
 	 */
-	public Benutzer(String benutzername, String passwort, String name,
-			String emailAdresse) {
-				
+	public Benutzer(String benutzername, String passwort, String name, String emailAdresse) {	
 		this.passwort = passwort;
 		this.benutzername = benutzername;
 		this.name = name;
@@ -113,15 +111,14 @@ public class Benutzer extends Account implements java.io.Serializable {
 		rang = 0;
 		pinnwand = new Pinnwand();
 		pinnwand.erlaubteBenutzer.add(this);
+		erlaubtePinnwaende = new HashSet<Pinnwand>();
+		erlaubtePinnwaende.add(pinnwand);
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		Date date = new Date();
-		String dateString;
-		dateString = formatter.format(date);
+		String dateString = formatter.format(new Date());
 		try {
 			this.setErstelltAm(formatter.parse(dateString));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -130,25 +127,21 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 * F&uuml;gt einen Benutzer zur eigenen Freundesliste hinzu und
 	 * benachrichtigt ihn dar&uuml;ber
 	 * 
-	 * @param benutzer
-	 *            Der hinzugef&uuml;gte Benutzer
+	 * @param benutzer Der hinzuzuf&uuml;gende Benutzer
 	 */
 	public void freundHinzufügen(Benutzer benutzer) {
-		System.out
-				.println("Learning:Benutzer:freundHinzufügen: Freund wurde hinzugefügt");
 		freunde.add(benutzer);
 		benutzer.freunde.add(this);
 		pinnwand.erlaubteBenutzer.add(benutzer);
-		Nachricht nachricht = new Nachricht(this, benutzer,
-				Nachricht.FREUNDHINZUGEFUEGT, this);
+		benutzer.pinnwand.erlaubteBenutzer.add(this);
+		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.FREUNDHINZUGEFUEGT, this);
 		benutzer.benachrichtigen(nachricht);
 	}
 
 	/**
 	 * Benachrichtigt den Benutzer
 	 * 
-	 * @param nachricht
-	 *            Der Inhalt der Nachricht
+	 * @param nachricht Der Inhalt der Nachricht
 	 */
 	public void benachrichtigen(Nachricht nachricht) {
 		if (nachricht.isHandlungErforderlich()) {
@@ -161,7 +154,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	}
 
 	/**
-	 * L&oumlscht eine bestimmte Nachricht aus der Liste nachrichten
+	 * L&oumlscht eine bestimmte Nachricht aus der Liste Nachrichten
 	 * 
 	 * @param nachricht
 	 */
@@ -172,9 +165,8 @@ public class Benutzer extends Account implements java.io.Serializable {
 	/**
 	 * Erm&oumlglicht es, &uumlber eine Aufgabe direkt zu einem bestimmten Objekt zu gelangen
 	 * 
-	 * @param aufgabe
-	 *            Die Aufgabe, die bearbeitet werden soll
-	 * @return gibt das Objekt zur&uumlck, das bearbeitet werden soll
+	 * @param aufgabe Die Aufgabe, die bearbeitet werden soll
+	 * @return Das Objekt, das bearbeitet werden soll
 	 */
 	public Object aufgabeBearbeiten(Nachricht aufgabe) {
 		if (aufgabe.getTyp() == Nachricht.AUFGABEKORRIGIEREN) {
@@ -198,8 +190,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 * L&oumlscht eine Aufgabe die sich auf ein bestimmtes Objekt bezieht aus der
 	 * Liste aufgaben 
 	 * 
-	 * @param objekt
-	 *            Objekt (z.B Teamcombat) auf das sich die Aufgabe bezieht
+	 * @param objekt Objekt (z.B Teamcombat) auf das sich die Aufgabe bezieht
 	 */
 	public void aufgabeErledigt(Object objekt) {
 		for (Nachricht n : aufgaben) {
@@ -525,11 +516,11 @@ public class Benutzer extends Account implements java.io.Serializable {
 		this.studiengang = studiengang;
 	}
 
-	public HashSet<Nachricht> getNachrichten() {
+	public Set<Nachricht> getNachrichten() {
 		return nachrichten;
 	}
 
-	public HashSet<Nachricht> getAufgaben() {
+	public Set<Nachricht> getAufgaben() {
 		return aufgaben;
 	}
 
@@ -547,5 +538,21 @@ public class Benutzer extends Account implements java.io.Serializable {
 
 	public void setErstelltAm(Date erstelltAm) {
 		this.erstelltAm = erstelltAm;
+	}
+	
+	public Pinnwand getPinnwand(){
+		return pinnwand;
+	}
+	
+	public void setPinnwand(Pinnwand pinnwand){
+		this.pinnwand = pinnwand;
+	}
+	
+	public Set<Pinnwand> getErlaubtePinnwaende(){
+		return erlaubtePinnwaende;
+	}
+	
+	public void setErlaubtePinnwaende(Set<Pinnwand> pinnwand){
+		this.erlaubtePinnwaende = pinnwand;
 	}
 }

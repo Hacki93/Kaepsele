@@ -1,13 +1,20 @@
 package learning;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -25,8 +32,8 @@ public class Fragenpool implements java.io.Serializable {
 	@Column(name = "fragenpool_id")
 	public int fragenpool_id;
 
-	@Transient
-	public HashSet<Frage> fragen;
+	@OneToMany(mappedBy="fragenpool", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	public Set<Frage> fragen;
 	
 	@Transient
 	private static final int fragenanzahl = 1;
@@ -44,6 +51,7 @@ public class Fragenpool implements java.io.Serializable {
 	 */
 	public void addFrage(Frage frage) {
 		fragen.add(frage);
+		frage.setFragenpool(this);
 	}
 
 	/**
@@ -54,6 +62,7 @@ public class Fragenpool implements java.io.Serializable {
 	 */
 	public Quest getQuest() {
 		Quest quest = new Quest();
+		quest.setDatum(new Date());
 		ArrayList<Frage> fragenliste = new ArrayList<Frage>();
 		for (Frage f : fragen) {
 			fragenliste.add(f);
@@ -61,6 +70,7 @@ public class Fragenpool implements java.io.Serializable {
 		while (quest.fragen.size() < fragenanzahl) {
 			int zufallsindex = (int) (Math.random() * fragen.size());
 			quest.addFrage(fragenliste.get(zufallsindex));
+			System.out.println("Frage \""+fragenliste.get(zufallsindex).getTitel() +"\" zu Quest hinzugefügt");
 		}
 		return quest;
 	}

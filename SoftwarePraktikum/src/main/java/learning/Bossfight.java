@@ -3,11 +3,15 @@ package learning;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -25,33 +29,31 @@ public class Bossfight extends Challenge implements java.io.Serializable {
     @JoinColumn(name="medium_id")
 	private Medium medium;
 
-	@Transient
-	private HashSet<String> antworten;
+	@ElementCollection(targetClass = String.class)
+	@CollectionTable(name="BOSSFIGHT_ANTWORTEN", joinColumns=@JoinColumn(name="bossfight_id"))
+	private Set<String> antworten;
 	
-	@Transient
-	protected Gruppe gruppe; 
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="gruppe_id")
+	public Gruppe gruppe;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
 	 */
 	public Bossfight() {
+		antworten = new HashSet<String>();
 	}
 
 	/**
 	 * Legt einen neuen Bossfight an
 	 * 
-	 * @param bearbeiter
-	 *            Bearbeiter des Bossfights
-	 * @param medium
-	 *            Klausur auf die sich Bossfight bezieht
-	 * @param erreichbarePunktzahl
-	 *            erreichbare Punktzahl
-	 * @param gruppe
-	 *            Gruppe zu der der Bossfight geh&oumlrt
+	 * @param bearbeiter Der Bearbeiter des Bossfights
+	 * @param medium Die Klausur, auf die sich Bossfight bezieht
+	 * @param erreichbarePunktzahl Die erreichbare Punktzahl
+	 * @param gruppe Gruppe zu der der Bossfight geh&oumlrt
 	 */
-	public Bossfight(Benutzer bearbeiter, Medium medium,
-			int erreichbarePunktzahl, Gruppe gruppe) {
-		this.bearbeiter = bearbeiter;
+	public Bossfight(Benutzer bearbeiter, Medium medium, int erreichbarePunktzahl, Gruppe gruppe) {
+		this.benutzer = bearbeiter;
 		this.medium = medium;
 		this.erreichbarePunktzahl = erreichbarePunktzahl;
 		this.gruppe = gruppe;
@@ -86,9 +88,8 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	 */
 	public void korrigieren(Benutzer moderator, int punktzahl) {
 		erreichtePunktzahl = erreichtePunktzahl + punktzahl;
-		Nachricht nachricht = new Nachricht(moderator, bearbeiter,
-				Nachricht.AUFGABEBEWERTET, this);
-		bearbeiter.benachrichtigen(nachricht);
+		Nachricht nachricht = new Nachricht(moderator, benutzer, Nachricht.AUFGABEBEWERTET, this);
+		benutzer.benachrichtigen(nachricht);
 	}
 
 	/**
@@ -96,10 +97,10 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	 */
 	public void beenden() {
 		Benutzer moderator = (Benutzer) gruppe.moderatoren.toArray()[0];
-		while (moderator.equals(bearbeiter)) {
+		while (moderator.equals(benutzer)) {
 			moderator = (Benutzer) gruppe.moderatoren.toArray()[0];
 		}
-		Nachricht nachricht = new Nachricht(bearbeiter, moderator,
+		Nachricht nachricht = new Nachricht(benutzer, moderator,
 				Nachricht.AUFGABEKORRIGIEREN, this);
 		moderator.benachrichtigen(nachricht);
 	}
@@ -111,7 +112,7 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	 */
 	public boolean bestanden() {
 		if (erreichtePunktzahl >= (0.8 * this.erreichbarePunktzahl)) {
-			bearbeiter.rangErhoehen();
+			benutzer.rangErhoehen();
 			return true;
 		} else {
 			return false;
@@ -124,5 +125,13 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	
 	public void setMedium(Medium medium) {
 		this.medium = medium;
+	}
+	
+	public Gruppe getGruppe(){
+		return gruppe;
+	}
+	
+	public void setGruppe(Gruppe gruppe){
+		this.gruppe = gruppe;
 	}
 }

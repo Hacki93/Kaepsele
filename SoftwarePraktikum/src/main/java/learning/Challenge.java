@@ -2,12 +2,16 @@ package learning;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -23,21 +27,22 @@ public class Challenge implements java.io.Serializable{
 	@Column(name = "datum")
 	public Date datum; 
 	
-	@Transient
-	public Benutzer bearbeiter; 
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name="benutzer_id")
+	public Benutzer benutzer; //Bearbeiter 
 	
 	@Column(name = "erreichbarePunktzahl")
 	public int erreichbarePunktzahl;
-	
+
 	@Column(name = "erreichtePunktzahl")
 	protected int erreichtePunktzahl;
 		
-	public Benutzer getBearbeiter() {
-		return bearbeiter;
+	public Benutzer getBenutzer() {
+		return benutzer;
 	}
 	
-	public void setBearbeiter(Benutzer bearbeiter) {
-		this.bearbeiter = bearbeiter;
+	public void setBenutzer(Benutzer bearbeiter) {
+		this.benutzer = bearbeiter;
 	}
 	
 	public int getId() {

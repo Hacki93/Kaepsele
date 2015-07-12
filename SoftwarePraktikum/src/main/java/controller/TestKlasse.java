@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.HashSet;
 
 import kommunikation.Nachricht;
-
 import learning.Benutzer;
+import learning.Bossfight;
 import learning.Fachrichtung;
 import learning.Frage;
 import learning.Gruppe;
@@ -46,7 +46,7 @@ public class TestKlasse {
 				Mediathek mediathek = new Mediathek();
 				Fachrichtung wi		= new Fachrichtung();
 				Frage frage			= new Frage();
-				Quest quest			= new Quest();
+				Bossfight bossfight = new Bossfight();
 				
 				Datenbank db = new Datenbank();
 				
@@ -59,7 +59,8 @@ public class TestKlasse {
 				db.eintragHinzufuegen(mbis.getClass(), mbis);
 				db.eintragHinzufuegen(wi.getClass(), wi);
 				db.eintragHinzufuegen(frage.getClass(), frage);
-//				db.eintragHinzufuegen(quest.getClass(), quest);
+				db.eintragHinzufuegen(bossfight.getClass(), bossfight);
+				
 				
 				//Objekte füllen und verbinden
 				
@@ -85,6 +86,8 @@ public class TestKlasse {
 				wi.setName("Wirtschaftsinformatik");
 				wi.setFreigegeben(false);
 				
+				bossfight.addAntwort("42");
+				
 				mbis.setName("Management betrieblicher Informationssysteme");
 				mbis.setKlausurname("MBIS 1");
 				mbis.mitgliedHinzufuegen(lena);
@@ -94,6 +97,7 @@ public class TestKlasse {
 				mbis.pinnwand.themaHinzufügen(thema);
 				mbis.fragenpool.addFrage(frage);
 				mbis.setFachrichtung(wi);
+				mbis.addBossfight(bossfight);
 	
 				thema.setPinnwand(mbis.pinnwand);
 				thema.setBenutzer(hannes);
@@ -116,14 +120,16 @@ public class TestKlasse {
 	            medium.setPfad("/resources/media/lebenslauf.pdf");
 	            
 	            frage.setBearbeitet(false);
-	            frage.setText("Was gibt 2x3?");
-	            frage.setTitel("Algebra");
+	            frage.setText("Willst Du mit mir gehn?");
+	            frage.setTitel("Zettel");
 	            frage.addAntwortmoeglichkeiten("Vielleicht");
 	            frage.addAntwortmoeglichkeiten("Ja");
 	            frage.addAntwortmoeglichkeiten("Nein");
-	            frage.addLoesung("6");
+	            frage.addLoesung("Ja");
+	            frage.setBenutzer(lena);
 	            
-//	            quest = mbis.fragenpool.getQuest();
+	            Quest quest = mbis.questAntreten(hannes); //Quest wird dynamisch erzeugt und kann nicht als new Quest() angelegt werden!
+	            db.eintragHinzufuegen(quest.getClass(), quest);
 				
 				db.eintragAktualisieren(thema.getClass(), thema);
 				db.eintragAktualisieren(kommentar.getClass(), kommentar);
@@ -135,7 +141,8 @@ public class TestKlasse {
 				db.eintragAktualisieren(mbis.getClass(), mbis);
 				db.eintragAktualisieren(wi.getClass(), wi);
 				db.eintragAktualisieren(frage.getClass(), frage);
-//				db.eintragAktualisieren(quest.getClass(), quest);
+				db.eintragAktualisieren(quest.getClass(), quest);
+				db.eintragAktualisieren(bossfight.getClass(), bossfight);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -223,7 +230,6 @@ public class TestKlasse {
 			}
 		}
 		
-
 		public static void lena(){
 			Gruppe gruppe1 = new Gruppe();
 			gruppe1.setName("Gruppe 1");
@@ -247,27 +253,27 @@ public class TestKlasse {
 			gruppe1.mitgliedHinzufuegen(hannes);
 			gruppe2.mitgliedHinzufuegen(kevin);
 			gruppe2.mitgliedHinzufuegen(chris);
-			gruppe1.frageErstellen(titel, frage, a, l);
-			gruppe1.frageErstellen(titel, frage, a, l);
-			gruppe1.frageErstellen(titel, frage, a, l);
-			gruppe1.frageErstellen(titel, frage, a, l);
-			gruppe1.frageErstellen(titel, frage, a, l);
-			gruppe1.frageErstellen(titel, frage, a, l);
-			gruppe1.frageErstellen(titel, frage, a, l);
-			gruppe1.frageErstellen(titel, frage, a, l);
-			gruppe1.frageErstellen(titel, frage, a, l);
-			gruppe1.frageErstellen(titel, frage, a, l);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
 			
-			gruppe2.frageErstellen("andererTitel", frage, a, l);
-			gruppe2.frageErstellen(titel2, frage, a, l);
-			gruppe2.frageErstellen(titel2, frage, a, l);
-			gruppe2.frageErstellen(titel2, frage, a, l);
-			gruppe2.frageErstellen(titel2, frage, a, l);
-			gruppe2.frageErstellen(titel2, frage, a, l);
-			gruppe2.frageErstellen(titel2, frage, a, l);
-			gruppe2.frageErstellen(titel2, frage, a, l);
-			gruppe2.frageErstellen(titel2, frage, a, l);
-			gruppe2.frageErstellen(titel2, frage, a, l);
+			gruppe2.frageErstellen("andererTitel", frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
 			System.out.println("Frage hinzugefügt");		
 			gruppe1.teamcombatAntreten(gruppe2);
 			
@@ -332,8 +338,7 @@ public class TestKlasse {
 			
 			
 		}
-		
-		
+				
 		public static void zeitTest(){
 				      try { 
 				         System.out.println(new Date( ) + "\n"); 

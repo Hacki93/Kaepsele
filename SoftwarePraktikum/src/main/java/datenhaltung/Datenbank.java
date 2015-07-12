@@ -3,6 +3,7 @@ package datenhaltung;
 import java.util.HashMap;
 import java.util.List;
 
+import kommunikation.Nachricht;
 import learning.Account;
 import learning.Admin;
 import learning.Benutzer;
@@ -81,6 +82,7 @@ public class Datenbank {
 		tabelleLaden(new Quest().getClass());
 		tabelleLaden(new Teamcombat().getClass());
 		tabelleLaden(new Thema().getClass());
+		tabelleLaden(new Nachricht().getClass());
 	}
 	
 	/**
@@ -107,6 +109,7 @@ public class Datenbank {
     	configuration.addAnnotatedClass(new Quest().getClass());
     	configuration.addAnnotatedClass(new Teamcombat().getClass());
     	configuration.addAnnotatedClass(new Thema().getClass());
+    	configuration.addAnnotatedClass(new Nachricht().getClass());
     	return configuration;
 	}
 	
