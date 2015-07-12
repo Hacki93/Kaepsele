@@ -28,13 +28,13 @@ public class Account implements java.io.Serializable{
 
 	@Id @GeneratedValue
 	@Column(name = "account_id", unique=true, nullable=false)
-	public int account_id;
+	protected int account_id;
 	
 	@Column(name = "benutzername")
 	public String benutzername;
 	
 	@Column(name = "passwort")
-	public String passwort;
+	protected String passwort;
 	
 	@Transient
 	boolean loggedIn;

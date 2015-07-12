@@ -47,6 +47,15 @@ public class Pinnwand implements java.io.Serializable{
 	 */
 	public void themaHinzufügen(Thema thema){
 		themen.add(thema);
+		thema.setPinnwand(this);
+	}
+	
+	public void setThemen(Set<Thema> themen){
+		this.themen = themen;
+	}
+	
+	public Set<Thema> getThemen(){
+		return themen;
 	}
 	
 	/**

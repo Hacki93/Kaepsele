@@ -1,6 +1,5 @@
 package learning;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import javax.persistence.Column;
@@ -24,9 +23,6 @@ public class Quest extends Challenge implements java.io.Serializable {
 	@Transient
 	public HashSet<Frage> fragen;
 
-	@Transient
-	private int erreichbarePunktzahl;
-
 	/**
 	 * Erstellt einen Quest
 	 */
@@ -48,8 +44,7 @@ public class Quest extends Challenge implements java.io.Serializable {
 	 */
 	public void addFrage(Frage frage) {
 		if (fragen.add(frage)) {
-			erreichbarePunktzahl = erreichbarePunktzahl + 3
-					* frage.getLoesung().size();
+			erreichbarePunktzahl = erreichbarePunktzahl + 3	* frage.getLoesung().size();
 		}
 	}
 

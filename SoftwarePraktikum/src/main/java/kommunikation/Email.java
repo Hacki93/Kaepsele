@@ -25,7 +25,7 @@ public class Email {
 	 * @param inhalt Der Inhalt der Nachricht
 	 */
     public void senden(String recipientAdress, String betreff, String inhalt) {
-        senden("smtp.strato.de", "kaepsele@hannes-fischer.com", "Kaepse1e", "info@kaepsele.de", recipientAdress, betreff, inhalt);
+//        senden("smtp.strato.de", "kaepsele@hannes-fischer.com", "Kaepse1e", "info@kaepsele.de", recipientAdress, betreff, inhalt);
     }
 
     /**

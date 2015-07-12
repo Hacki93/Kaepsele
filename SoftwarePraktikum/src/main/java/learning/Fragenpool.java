@@ -27,6 +27,9 @@ public class Fragenpool implements java.io.Serializable {
 
 	@Transient
 	public HashSet<Frage> fragen;
+	
+	@Transient
+	private static final int fragenanzahl = 1;
 
 	/**
 	 * Erzeugt den Fragenpool einer Gruppe 
@@ -55,7 +58,7 @@ public class Fragenpool implements java.io.Serializable {
 		for (Frage f : fragen) {
 			fragenliste.add(f);
 		}
-		while (quest.fragen.size() < 10) {
+		while (quest.fragen.size() < fragenanzahl) {
 			int zufallsindex = (int) (Math.random() * fragen.size());
 			quest.addFrage(fragenliste.get(zufallsindex));
 		}

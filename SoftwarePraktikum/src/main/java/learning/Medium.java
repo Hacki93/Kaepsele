@@ -88,10 +88,19 @@ public class Medium implements java.io.Serializable {
 	
 	public MultipartFile getFile() {
 		return file; 
-		} 
+	} 
 
 	public void setFile(MultipartFile file) { 
-		this.file = file; 
-		}
+		this.file = file;
+		this.pfad = file.getOriginalFilename();
+	}
+	
+	public Mediathek getMediathek(){
+		return mediathek;
+	}
+	
+	public void setMediathek(Mediathek mediathek){
+		this.mediathek = mediathek;
+	}
 
 }

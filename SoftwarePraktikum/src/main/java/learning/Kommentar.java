@@ -42,7 +42,7 @@ public class Kommentar extends Inhalt implements java.io.Serializable{
 	public Kommentar(String titel, String inhalt, Benutzer autor){
 		this.inhalt = inhalt;
 		this.titel = titel;
-		this.autor= autor;
+		this.benutzer = autor;
 		bewertung = 0;
 		datum = new Date();
 	}

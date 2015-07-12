@@ -1,40 +1,90 @@
 package learning;
 
 import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.CollectionType;
+
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "FRAGE")
 public class Frage implements java.io.Serializable {
-	public HashSet<Medium> anhang;
-	public int id;
-	public String titel;
-	public String text;
-	public HashSet<String> antwortmoeglichkeiten;
-	public HashSet<String> antworten;
-	private boolean bearbeitet;
-	public HashSet<String> loesung;
 
-	// leerer Konstruktor
+	@Id
+	@GeneratedValue
+	@Column(name = "frage_id")
+	public int frage_id;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="medium_id")
+	public Medium medium;
+
+	@Column(name = "titel")
+	public String titel;
+	
+	@Column(name = "text")
+	public String text;
+	
+	@ElementCollection(targetClass = String.class)
+	@CollectionTable(name="FRAGE_ANTWORTMOEGLICHKEITEN", joinColumns=@JoinColumn(name="frage_id"))
+	public Set<String> antwortmoeglichkeiten;
+	
+	@ElementCollection(targetClass = String.class)
+	@CollectionTable(name="FRAGE_ANTWORTEN", joinColumns=@JoinColumn(name="frage_id"))
+	public Set<String> antworten;
+	
+	@Column(name = "bearbeitet")
+	private boolean bearbeitet;
+	
+	@ElementCollection(targetClass = String.class)
+	@CollectionTable(name="FRAGE_LOESUNG", joinColumns=@JoinColumn(name="frage_id"))
+	public Set<String> loesung;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="benutzer_id")
+	public Benutzer benutzer; //Autor
+
+	/**
+	 * Konstruktor f&uuml;r Hibernate
+	 */
 	public Frage() {
+		bearbeitet = false;
+		antwortmoeglichkeiten = new HashSet<String>();
+		antworten = new HashSet<String>();
+		loesung = new HashSet<String>();
+		medium = new Medium();
 	}
 
 	/**
 	 * Erstellt eine Frage
 	 * 
-	 * @param titel
-	 *            Titel der Frage
-	 * @param text
-	 *            Fragentext
-	 * @param antwortmoeglichkeiten
-	 * @param loesung
+	 * @param titel Titel der Frage
+	 * @param text Fragentext
+	 * @param antwortmoeglichkeiten Die Antwortm&ouml;glichkeiten
+	 * @param loesung Die korrekten L&ouml;sungen
 	 */
-	public Frage(String titel, String text,
-			HashSet<String> antwortmoeglichkeiten, HashSet<String> loesung) {
+	public Frage(String titel, String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesung) {
 		this.titel = titel;
 		this.text = text;
 		this.loesung = loesung;
 		bearbeitet = false;
 		antwortmoeglichkeiten = new HashSet<String>();
 		antworten = new HashSet<String>();
-		anhang = new HashSet<Medium>();
+		loesung = new HashSet<String>();
+		medium = new Medium();
 	}
 
 	/**
@@ -44,7 +94,7 @@ public class Frage implements java.io.Serializable {
 	 * @return erreichte Punktzahl
 	 */
 	public int korrigiere() {
-		HashSet<String> loesung2 = this.loesung;
+		Set<String> loesung2 = this.loesung;
 		int punkte = 0;
 		for (String a : antworten) {
 			if (loesung2.contains(a)) {
@@ -66,7 +116,7 @@ public class Frage implements java.io.Serializable {
 		}
 	}
 
-	public HashSet<String> getLoesung() {
+	public Set<String> getLoesung() {
 		return loesung;
 	}
 
@@ -74,7 +124,7 @@ public class Frage implements java.io.Serializable {
 		this.antworten = antworten;
 	}
 
-	public HashSet<String> getAntworten() {
+	public Set<String> getAntworten() {
 		return antworten;
 	}
 
@@ -86,11 +136,47 @@ public class Frage implements java.io.Serializable {
 		this.bearbeitet = bearbeitet;
 	}
 
-	public HashSet<String> getAntwortmoeglichkeiten() {
+	public Set<String> getAntwortmoeglichkeiten() {
 		return antwortmoeglichkeiten;
 	}
 
 	public void addAntwortmoeglichkeiten(String antwort) {
 		antwortmoeglichkeiten.add(antwort);
+	}
+	
+	public void addLoesung(String loesung) {
+		this.loesung.add(loesung);
+	}
+	
+	public void setMedium(Medium medium) {
+		this.medium = medium;
+	}
+	
+	public Medium getMedium(){
+		return medium;
+	}
+	
+	public void setBenutzer(Benutzer autor) {
+		benutzer = autor;
+	}
+	
+	public Benutzer getBenutzer() {
+		return benutzer;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+	public String getText(){
+		return text;
+	}
+	
+	public void setTitel(String titel) {
+		this.titel = titel;
+	}
+	
+	public String getTitel(){
+		return titel;
 	}
 }

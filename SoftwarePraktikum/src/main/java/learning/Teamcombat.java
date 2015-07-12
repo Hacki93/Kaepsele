@@ -6,20 +6,50 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import kommunikation.Nachricht;
 
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "TEAMCOMBAT")
 public class Teamcombat implements java.io.Serializable {
+	
+	@Id @GeneratedValue
+	@Column(name = "teamcombat_id")
+	public int teamcombat_id;
+	
+	@Column(name = "ablaufdatum")
 	public Date ablaufdatum;
+	
+	@Transient
 	public Gruppe herausforderer;
+	
+	@Transient
 	public Gruppe herausgeforderter;
+	
+	@Transient
 	public Quest questFuerHerausforderer;
+	
+	@Transient
 	public Quest questFuerHerausgeforderter;
+	
+	@Transient
 	public Gruppe gewinner;
-	public int id;
 
-	// leerer Konstruktor
-	public Teamcombat() {
-	}
+	/**
+	 * Konstruktor f&uuml;r Hibernate
+	 */
+	public Teamcombat() {}
 
 	/**
 	 * Legt einen neuen Teamcombat an
@@ -114,7 +144,7 @@ public class Teamcombat implements java.io.Serializable {
 	}
 
 	public int getId() {
-		return id;
+		return teamcombat_id;
 	}
 
 	public Gruppe getHerausgeforderter() {
@@ -154,7 +184,7 @@ public class Teamcombat implements java.io.Serializable {
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		teamcombat_id = id;
 	}
 
 	public Gruppe getHerausforderer() {

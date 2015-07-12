@@ -61,14 +61,14 @@ public class Gruppe implements java.io.Serializable {
 	
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="pinnwand_id")
-	Pinnwand pinnwand;
+	public Pinnwand pinnwand;
 	
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="mediathek_id")
-	Mediathek mediathek;
+	public Mediathek mediathek;
 	
 	@Transient
-	private HashSet<Teamcombat> teamcombats;
+	public HashSet<Teamcombat> teamcombats;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
@@ -151,24 +151,41 @@ public class Gruppe implements java.io.Serializable {
 
 	/**
 	 * F&uuml;gt einen Benutzer in die Mitgliederliste der Gruppe hinzu
-	 * 
-	 * @param benutzer
-	 *            der hinzugef&uuml;gte Benutzer
+	 * @param benutzer Der hinzuzuf&uuml;gende Benutzer
 	 */
 	public void mitgliedHinzufuegen(Benutzer benutzer) {
 		mitglieder.add(benutzer);
+		benutzer.gruppen.add(this);
 		pinnwand.erlaubteBenutzer.add(benutzer);
 	}
+	
 
 	/**
-	 * l&ouml;scht einen Benutzer aus der Mitgliederliste der Gruppe
-	 * 
-	 * @param benutzer
-	 *            der gel&ouml;schte Benutzer
+	 * L&ouml;scht einen Benutzer aus der Mitgliederliste der Gruppe
+	 * @param benutzer Der zu l&ouml;schende Benutzer
 	 */
 	public void mitgliedLoeschen(Benutzer benutzer) {
 		mitglieder.remove(benutzer);
+		benutzer.gruppen.remove(this);
 		pinnwand.erlaubteBenutzer.remove(benutzer);
+	}
+	
+	/**
+	 * F&uuml;gt einen Benutzer in die Moderatorenliste der Gruppe hinzu
+	 * @param benutzer Der hinzuzuf&uuml;gende Benutzer
+	 */
+	public void moderatorHinzufuegen(Benutzer benutzer) {
+		moderatoren.add(benutzer);
+		benutzer.moderierteGruppen.add(this);
+	}
+	
+	/**
+	 * L&ouml;scht einen Benutzer aus der Moderatorenliste der Gruppe
+	 * @param benutzer Der zu l&ouml;schende Benutzer
+	 */
+	public void moderatorLoeschen(Benutzer benutzer) {
+		moderatoren.remove(benutzer);
+		benutzer.moderierteGruppen.remove(this);
 	}
 
 	/**

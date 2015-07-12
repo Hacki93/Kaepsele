@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -60,14 +61,17 @@ public class Benutzer extends Account implements java.io.Serializable {
 	public Set<Benutzer> freunde2;
 
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "mitglieder")
-	private Set<Gruppe> gruppen;
+	public Set<Gruppe> gruppen;
 
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "moderatoren")
-	private Set<Gruppe> moderierteGruppen;
+	public Set<Gruppe> moderierteGruppen;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "pinnwand_id")
-	private Pinnwand pinnwand;
+	public Pinnwand pinnwand;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="benutzer")
+	public Set<Inhalt> inhalte;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
@@ -78,6 +82,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 		nachrichten = new HashSet<Nachricht>();
 		aufgaben = new HashSet<Nachricht>();
 		pinnwand = new Pinnwand();
+		moderierteGruppen = new HashSet<Gruppe>();
 	}
 
 	/**
@@ -104,6 +109,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 		gruppen = new HashSet<Gruppe>();
 		nachrichten = new HashSet<Nachricht>();
 		aufgaben = new HashSet<Nachricht>();
+		moderierteGruppen = new HashSet<Gruppe>();
 		rang = 0;
 		pinnwand = new Pinnwand();
 		pinnwand.erlaubteBenutzer.add(this);

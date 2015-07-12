@@ -23,17 +23,17 @@ public class Fachrichtung implements java.io.Serializable{
 
 	@Id @GeneratedValue
 	@Column(name = "fachrichtung_id")
-	public int fachrichtung_id;
+	private int fachrichtung_id;
 	
 	@Column(name = "name")
-	public String name;
+	private String name;
 	
 	@Column(name = "freigegeben")
-	public boolean freigegeben;
+	private boolean freigegeben;
 	
-//	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="fachrichtung")
-//	Set<Gruppe> gruppen;
-//	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="fachrichtung")
+	Set<Gruppe> gruppen;
+	
 	public Fachrichtung() {
 		freigegeben = false;
 //		gruppen = new HashSet<Gruppe>();

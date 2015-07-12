@@ -4,7 +4,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -17,11 +21,15 @@ import kommunikation.Nachricht;
 @PrimaryKeyJoinColumn(name = "bossfight_id", referencedColumnName = "challenge_id")
 public class Bossfight extends Challenge implements java.io.Serializable {
 
-	@Transient
-	private Medium anhang;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="medium_id")
+	private Medium medium;
 
 	@Transient
 	private HashSet<String> antworten;
+	
+	@Transient
+	protected Gruppe gruppe; 
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
@@ -34,17 +42,17 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	 * 
 	 * @param bearbeiter
 	 *            Bearbeiter des Bossfights
-	 * @param anhang
+	 * @param medium
 	 *            Klausur auf die sich Bossfight bezieht
 	 * @param erreichbarePunktzahl
 	 *            erreichbare Punktzahl
 	 * @param gruppe
 	 *            Gruppe zu der der Bossfight geh&oumlrt
 	 */
-	public Bossfight(Benutzer bearbeiter, Medium anhang,
+	public Bossfight(Benutzer bearbeiter, Medium medium,
 			int erreichbarePunktzahl, Gruppe gruppe) {
 		this.bearbeiter = bearbeiter;
-		this.anhang = anhang;
+		this.medium = medium;
 		this.erreichbarePunktzahl = erreichbarePunktzahl;
 		this.gruppe = gruppe;
 		datum = new Date();
@@ -57,7 +65,7 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	 * @return Klausur
 	 */
 	public Medium starten() {
-		return anhang;
+		return medium;
 	}
 
 	/**
@@ -110,7 +118,11 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 		}
 	}
 
-	public Medium getAnhang() {
-		return anhang;
+	public Medium getMedium() {
+		return medium;
+	}
+	
+	public void setMedium(Medium medium) {
+		this.medium = medium;
 	}
 }

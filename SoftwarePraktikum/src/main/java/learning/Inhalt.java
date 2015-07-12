@@ -2,15 +2,21 @@ package learning;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.InheritanceType;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "INHALT")
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -20,8 +26,9 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 	@Column(name = "inhalt_id")
 	public int inhalt_id;
 	
-	@Transient
-	public Benutzer autor;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="benutzer_id")
+	public Benutzer benutzer; //Autor
 	
 	@Column(name = "bewertung")
 	public int bewertung;
@@ -32,8 +39,9 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 	@Column(name = "erstelltAm")
 	public Date datum;
 	
-	@Transient
-	public Medium anhang;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="medium_id")
+	public Medium medium;
 	
 	@Column(name = "titel")
 	public String titel;
@@ -70,12 +78,12 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 		return inhalt.getBewertung() - this.getBewertung();
 	}
 
-	public Benutzer getAutor() {
-		return autor;
+	public Benutzer getBenutzer() {
+		return benutzer;
 	}
 
-	public void setAutor(Benutzer autor) {
-		this.autor = autor;
+	public void setBenutzer(Benutzer autor) {
+		this.benutzer = autor;
 	}
 
 	public int getBewertung() {
@@ -102,12 +110,12 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 		this.datum = datum;
 	}
 
-	public Medium getAnhang() {
-		return anhang;
+	public Medium getMedium() {
+		return medium;
 	}
 
-	public void setAnhang(Medium anhang) {
-		this.anhang = anhang;
+	public void setMedium(Medium medium) {
+		this.medium = medium;
 	}
 
 	public String getTitel() {

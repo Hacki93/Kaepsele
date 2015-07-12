@@ -24,11 +24,11 @@ import javax.persistence.Transient;
 public class Thema extends Inhalt implements java.io.Serializable{
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="thema")
-	private Set<Kommentar> kommentare;
+	public Set<Kommentar> kommentare;
     
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="pinnwand_id")
-    private Pinnwand pinnwand;
+    public Pinnwand pinnwand;
 	
     /**
      * Konstruktor f&uuml;r Hibernate
@@ -63,7 +63,7 @@ public class Thema extends Inhalt implements java.io.Serializable{
 	public Thema(String inhalt, String titel, Benutzer autor){
 		this.inhalt = inhalt;
 		this.titel = titel;
-		this.autor= autor;
+		this.benutzer = autor;
 		bewertung = 0;
 		datum = new Date();
 		kommentare = new HashSet<Kommentar>();

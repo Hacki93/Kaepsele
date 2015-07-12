@@ -55,6 +55,7 @@ public class Mediathek implements java.io.Serializable{
 	 */
 	public void mediumHinzufügen(Medium medium){
 		this.medien.add(medium);
+		medium.setMediathek(this);
 	}
 	
 	/**
