@@ -132,7 +132,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 * 
 	 * @param benutzer Der hinzuzuf&uuml;gende Benutzer
 	 */
-	public void freundHinzufügen(Benutzer benutzer) {
+	public void freundHinzufuegen(Benutzer benutzer) {
 		freunde.add(benutzer);
 		benutzer.freunde.add(this);
 		pinnwand.erlaubteBenutzer.add(benutzer);
@@ -209,7 +209,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 * @param benutzer
 	 *            der gel&ouml;tschte Benutzer
 	 */
-	public void freundLoeschen(Benutzer benutzer) {
+	public void freundEntfernen(Benutzer benutzer) {
 		freunde.remove(benutzer);
 		pinnwand.erlaubteBenutzer.remove(benutzer);
 	}
@@ -384,7 +384,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 *            : Ist die Gruppe in der das Thema gel&oumlscht wird
 	 * @return true, falls das Thema gel&oumlscht wurde
 	 */
-	public boolean gruppenThemaLöschen(Thema thema, Gruppe gruppe) {
+	public boolean gruppenThemaEntfernen(Thema thema, Gruppe gruppe) {
 		if (gruppe.moderatoren.contains(this)) {
 			gruppe.pinnwand.themaEntfernen(thema);
 			for (Kommentar kommentar : thema.getKommentare()) {
@@ -411,7 +411,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 *            : Ist der Kommentar der gel&oumlscht wird
 	 * @return true, falls der Kommentar gel&oumlscht wurde
 	 */
-	public boolean gruppenKommentarLöschen(Thema thema, Gruppe gruppe,
+	public boolean gruppenKommentarEntfernen(Thema thema, Gruppe gruppe,
 			Kommentar kommentar) {
 		if (gruppe.moderatoren.contains(this)) {
 			thema.kommentarLöschen(kommentar);
@@ -433,7 +433,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 *            : Ist die Gruppe in dem das Medium liegt
 	 * @return true, falls das Medium gel&oumlscht wurde
 	 */
-	public boolean gruppenMediumLöschen(Medium medium, Gruppe gruppe) {
+	public boolean gruppenMediumEntfernen(Medium medium, Gruppe gruppe) {
 		if (gruppe.moderatoren.contains(this)) {
 			gruppe.mediathek.mediumLöschen(medium);
 			return true;

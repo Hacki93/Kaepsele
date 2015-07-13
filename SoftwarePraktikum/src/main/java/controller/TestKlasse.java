@@ -83,7 +83,7 @@ public class TestKlasse {
 				lena.setStudiengang("Wirtschaftsinformatik B.Sc.");
 				lena.setGeburtsdatum(new SimpleDateFormat("dd/MM/yyyy").parse("31/12/1993"));
 				lena.setProfilbildURL("/Bild.png");
-				lena.freundHinzufügen(hannes);
+				lena.freundHinzufuegen(hannes);
 	
 				wi.setName("Wirtschaftsinformatik");
 				wi.setFreigegeben(false);
@@ -118,9 +118,8 @@ public class TestKlasse {
 				
 	            mediathek.mediumHinzufügen(medium);
 	            	
-	            medium.setName("Lebenslauf");
-	            medium.setTyp("PDF");
-	            medium.setPfad("/resources/media/lebenslauf.pdf");
+	            medium.setName("Entwurf");
+	            medium.setDateiname("Entwurf.pdf");
 	            
 	            frage.setBearbeitet(false);
 	            frage.setText("Willst Du mit mir gehn?");

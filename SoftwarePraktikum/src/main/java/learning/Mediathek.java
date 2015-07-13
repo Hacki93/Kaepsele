@@ -43,7 +43,7 @@ public class Mediathek implements java.io.Serializable{
 	public String getMedium(int id){
 		for (Medium medium : this.medien){
 			if (medium.getId() == id){
-				return medium.getPfad();
+				return medium.getDateiname();
 			}
 		}
 		return null;

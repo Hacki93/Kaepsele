@@ -24,11 +24,8 @@ public class Medium implements java.io.Serializable {
 	@Column(name = "name")
 	public String name;
 	
-	@Column(name = "pfad")
-	public String pfad;
-	
-	@Column(name = "typ")
-	public String typ;
+	@Column(name = "dateiname")
+	public String dateiname;
 	
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="mediathek_id")
@@ -50,8 +47,7 @@ public class Medium implements java.io.Serializable {
 	 */
 	public Medium(String name, String pfad, String typ){
 		this.name = name;
-		this.pfad = pfad;
-		this.typ = typ;
+		this.dateiname = pfad;
 	}
 
 	public String getName() {
@@ -62,20 +58,12 @@ public class Medium implements java.io.Serializable {
 		this.name = name;
 	}
 
-	public String getPfad() {
-		return pfad;
+	public String getDateiname() {
+		return dateiname;
 	}
 
-	public void setPfad(String pfad) {
-		this.pfad = pfad;
-	}
-
-	public String getTyp() {
-		return typ;
-	}
-
-	public void setTyp(String typ) {
-		this.typ = typ;
+	public void setDateiname(String pfad) {
+		this.dateiname = pfad;
 	}
 
 	public int getId() {
@@ -92,7 +80,7 @@ public class Medium implements java.io.Serializable {
 
 	public void setFile(MultipartFile file) { 
 		this.file = file;
-		this.pfad = file.getOriginalFilename();
+		this.dateiname = file.getOriginalFilename();
 	}
 	
 	public Mediathek getMediathek(){
