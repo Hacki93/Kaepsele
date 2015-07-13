@@ -47,9 +47,12 @@ public class Benutzer extends Account implements java.io.Serializable {
 
 	@Column(name = "studiengang")
 	private String studiengang;
+	
+	@Column(name = "profilbildurl")
+	private String profilbildurl;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "FREUNDE", joinColumns = 
+	@JoinTable(name = "BENUTZER_FREUNDE", joinColumns = 
 	@JoinColumn(name = "benutzer_id"), inverseJoinColumns = 
 	@JoinColumn(name = "freunde_id"))
 	public Set<Benutzer> freunde;
@@ -554,5 +557,13 @@ public class Benutzer extends Account implements java.io.Serializable {
 	
 	public void setErlaubtePinnwaende(Set<Pinnwand> pinnwand){
 		this.erlaubtePinnwaende = pinnwand;
+	}
+	
+	public void setProfilbildURL(String profilbildurl){
+		this.profilbildurl = profilbildurl;
+	}
+	
+	public String getProfilbildURL(){
+		return profilbildurl;
 	}
 }

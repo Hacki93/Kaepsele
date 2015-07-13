@@ -72,6 +72,7 @@ public class TestKlasse {
 				hannes.setName("Hannes Fischer");
 				hannes.setStudiengang("Wirtschaftsinformatik B.Sc.");
 				hannes.setGeburtsdatum(new SimpleDateFormat("dd/MM/yyyy").parse("01/26/1995"));
+				hannes.setProfilbildURL("/Bild.png");
 	
 				lena.setAdresse("Schopfloch");
 				lena.registrieren("lenchen", "12345678");
@@ -81,6 +82,7 @@ public class TestKlasse {
 				lena.setName("Lena Maier");		
 				lena.setStudiengang("Wirtschaftsinformatik B.Sc.");
 				lena.setGeburtsdatum(new SimpleDateFormat("dd/MM/yyyy").parse("31/12/1993"));
+				lena.setProfilbildURL("/Bild.png");
 				lena.freundHinzufügen(hannes);
 	
 				wi.setName("Wirtschaftsinformatik");
@@ -90,6 +92,7 @@ public class TestKlasse {
 				
 				mbis.setName("Management betrieblicher Informationssysteme");
 				mbis.setKlausurname("MBIS 1");
+				mbis.setProfilbildURL("/Gruppenbild.png");
 				mbis.mitgliedHinzufuegen(lena);
 				mbis.mitgliedHinzufuegen(hannes);
 				mbis.moderatorHinzufuegen(hannes);

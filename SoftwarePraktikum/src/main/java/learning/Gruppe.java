@@ -36,6 +36,9 @@ public class Gruppe implements java.io.Serializable {
 	
 	@Column(name = "klausurname")
 	public String klausurname;
+
+	@Column(name = "profilbildurl")
+	private String profilbildurl;
 	
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="fachrichtung_id")
@@ -301,4 +304,13 @@ public class Gruppe implements java.io.Serializable {
 	public Pinnwand getPinnwand() {
 		return pinnwand;
 	}
+	
+	public void setProfilbildURL(String profilbildurl){
+		this.profilbildurl = profilbildurl;
+	}
+	
+	public String getProfilbildURL(){
+		return profilbildurl;
+	}
 }
+
