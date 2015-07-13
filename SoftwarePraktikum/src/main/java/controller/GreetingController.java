@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import learning.Benutzer;
 import learning.Medium;
+import learning.Thema;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
@@ -62,7 +64,6 @@ public class GreetingController {
 	@RequestMapping(value="/Profile/{benutzername}")
 	public String getProfil(@PathVariable("benutzername") String benutzername, Model model){
 		Benutzer benutzer = new Benutzer();
-		
 		for(Object obj : db.tabelleAusgeben(benutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
 			if(b.getBenutzername().equals(benutzername)) {
@@ -72,6 +73,19 @@ public class GreetingController {
 				model.addAttribute("themen", profilBenutzer.pinnwand.themen);	
 			}
 		}
+		return "Profile";
+	}
+	
+	@RequestMapping(value="/sortiereLikes")
+	public String sortiereLikes(Model model){
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = profilBenutzer.pinnwand.sortiereNachBewertung();
+		for(Thema thema : themenList){
+			System.out.println(thema.getBewertung());
+		}
+		model.addAttribute("themen", themenList);
+		model.addAttribute("profilBenutzer", profilBenutzer);
+		model.addAttribute("rang", profilBenutzer.getRangName());
 		return "Profile";
 	}
 	

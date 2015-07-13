@@ -124,7 +124,7 @@
 							class="glyphicon glyphicon-envelope"></i></a> <a href="edit.html"
 							data-original-title="Beitrag schreiben" data-toggle="tooltip"
 							type="button" class="btn btn-sm btn-warning"><i
-							class="glyphicon glyphicon-edit"></i></a> <a href="#"
+							class="glyphicon glyphicon-edit"></i></a> <a href="/SoftwarePraktikum/sortiereLikes"
 							data-original-title="Nach Likes sortieren" data-toggle="tooltip"
 							type="button" class="btn btn-sm btn-info"><i
 							class="glyphicon glyphicon-star"></i></a> <a href="#"
@@ -149,10 +149,9 @@
 								 	<tr th:each="thema : ${themen}">
 										<td><b th:text="${thema.benutzer.benutzername}"></b><p th:text="${thema.datum}"/></td>
 										<td><b th:text="${thema.titel}"></b>
-										<p th:text="thema.inhalt"></p>
+										<p th:text="${thema.inhalt}"></p>
 										<b>Gef&auml;llt-mir-Angaben: </b><b th:text="${thema.bewertung}"></b>
-										</td>	
-										<td><div class="panel-footer">
+										<div class="panel-footer">
 												<a data-original-title="Gef&auml;llt mir"
 													data-toggle="tooltip" type="button"
 													class="btn btn-sm btn-primary"><i
@@ -160,8 +159,12 @@
 
 
 
-											</div></td>
+											</div>
+										</td>
+									<td></td>	
+										
 									</tr>
+									
 									
 									<!--bis hier -->
 								</tbody>

@@ -41,6 +41,9 @@ public class TestKlasse {
 				Benutzer lena 		= new Benutzer();
 				Gruppe mbis 		= new Gruppe();
 				Thema thema 		= new Thema();
+				Thema thema2		= new Thema();
+				Thema thema3		= new Thema();
+				Thema thema4		= new Thema();
 				Kommentar kommentar = new Kommentar();
 				Medium medium 		= new Medium();
 				Mediathek mediathek = new Mediathek();
@@ -52,6 +55,9 @@ public class TestKlasse {
 				
 				db.eintragHinzufuegen(medium.getClass(), medium);			
 				db.eintragHinzufuegen(thema.getClass(), thema);
+				db.eintragHinzufuegen(thema2.getClass(), thema2);
+				db.eintragHinzufuegen(thema3.getClass(), thema3);
+				db.eintragHinzufuegen(thema4.getClass(), thema4);
 				db.eintragHinzufuegen(kommentar.getClass(), kommentar);
 				db.eintragHinzufuegen(mediathek.getClass(), mediathek);
 				db.eintragHinzufuegen(hannes.getClass(), hannes);
@@ -73,6 +79,7 @@ public class TestKlasse {
 				hannes.setStudiengang("Wirtschaftsinformatik B.Sc.");
 				hannes.setGeburtsdatum(new SimpleDateFormat("dd/MM/yyyy").parse("01/26/1995"));
 				hannes.setProfilbildURL("/Bild.png");
+				hannes.freundHinzufuegen(lena);
 	
 				lena.setAdresse("Schopfloch");
 				lena.registrieren("lenchen", "12345678");
@@ -102,13 +109,31 @@ public class TestKlasse {
 				mbis.setFachrichtung(wi);
 				mbis.addBossfight(bossfight);
 	
-				thema.setPinnwand(mbis.pinnwand);
+				thema.setPinnwand(hannes.pinnwand);
 				thema.setBenutzer(hannes);
 				thema.setBewertung(5);
 				thema.setInhalt("Themeninhalt von Hannes");
 				thema.setTitel("Thementitel von Hannes");
 				thema.setMedium(medium);
 				thema.kommentieren(kommentar);
+				
+				thema2.setPinnwand(hannes.pinnwand);
+				thema2.setBenutzer(lena);
+				thema2.setBewertung(25);
+				thema2.setInhalt("Themeninhalt von Lena");
+				thema2.setTitel("Thementitel von Lena");
+				
+				thema3.setPinnwand(hannes.pinnwand);
+				thema3.setBenutzer(lena);
+				thema3.setBewertung(1);
+				thema3.setInhalt("Themeninhalt von Lena");
+				thema3.setTitel("Thementitel von Lena");
+				
+				thema4.setPinnwand(hannes.pinnwand);
+				thema4.setBenutzer(lena);
+				thema4.setBewertung(205);
+				thema4.setInhalt("Themeninhalt von Lena");
+				thema4.setTitel("Thementitel von Lena");
 				
 				kommentar.setBenutzer(lena);
 				kommentar.setBewertung(0);
@@ -134,6 +159,9 @@ public class TestKlasse {
 	            db.eintragHinzufuegen(quest.getClass(), quest);
 				
 				db.eintragAktualisieren(thema.getClass(), thema);
+				db.eintragAktualisieren(thema2.getClass(), thema2);
+				db.eintragAktualisieren(thema3.getClass(), thema3);
+				db.eintragAktualisieren(thema4.getClass(), thema4);
 				db.eintragAktualisieren(kommentar.getClass(), kommentar);
 				db.eintragAktualisieren(mediathek.getClass(), mediathek);
 				db.eintragAktualisieren(medium.getClass(), medium);	
@@ -184,52 +212,52 @@ public class TestKlasse {
 			for(Thema thema : sortiert){
 				System.out.println(thema.getBewertung());
 			}
-			
-			thema1.datum.setTime(3000);
-			thema2.datum.setTime(20);
-			thema3.datum.setTime(500000);
-			thema4.datum.setTime(40);
-			
-			System.out.println("unsortiert:");
-			for(Thema thema : pinnwand.themen){
-				System.out.println(thema.getBewertung());
-			}
-			
-			ArrayList<Thema> sortiertDatum = new ArrayList<Thema>();
-			sortiertDatum = pinnwand.sortiereNachDatum();
-		
-			System.out.println("Nach Datum sortiert:");
-			for(Thema thema : sortiertDatum){
-				System.out.println(thema.getBewertung());
-			}
-			
-			Kommentar kommentar1 = new Kommentar("Antwort1", "12 Jahre", hannes);
-			Kommentar kommentar2 = new Kommentar("Antwort2", "12 Jahre", hannes);
-			Kommentar kommentar3 = new Kommentar("Antwort3", "12 Jahre", hannes);
-			Kommentar kommentar4 = new Kommentar("Antwort4", "12 Jahre", hannes);
-			
-			thema1.kommentieren(kommentar1);
-			thema1.kommentieren(kommentar2);
-			thema1.kommentieren(kommentar3);
-			thema1.kommentieren(kommentar4);
-			
-			kommentar1.datum.setTime(49494);
-			kommentar2.datum.setTime(4);
-			kommentar3.datum.setTime(494);
-			kommentar4.datum.setTime(111111494);
-			
-			System.out.println("unsortiert:");
-			for(Kommentar kommentar : thema1.getKommentare()){
-				System.out.println(kommentar.getTitel());
-			}
-			
-			ArrayList<Kommentar> sortiertDatum2 = new ArrayList<Kommentar>();
-			sortiertDatum2 = thema1.sortiereNachDatum();
-			
-			System.out.println("sortiert:");
-			for(Kommentar kommentar : sortiertDatum2){
-				System.out.println(kommentar.getTitel());
-			}
+//			
+//			thema1.datum.setTime(3000);
+//			thema2.datum.setTime(20);
+//			thema3.datum.setTime(500000);
+//			thema4.datum.setTime(40);
+//			
+//			System.out.println("unsortiert:");
+//			for(Thema thema : pinnwand.themen){
+//				System.out.println(thema.getBewertung());
+//			}
+//			
+//			ArrayList<Thema> sortiertDatum = new ArrayList<Thema>();
+//			sortiertDatum = pinnwand.sortiereNachDatum();
+//		
+//			System.out.println("Nach Datum sortiert:");
+//			for(Thema thema : sortiertDatum){
+//				System.out.println(thema.getBewertung());
+//			}
+//			
+//			Kommentar kommentar1 = new Kommentar("Antwort1", "12 Jahre", hannes);
+//			Kommentar kommentar2 = new Kommentar("Antwort2", "12 Jahre", hannes);
+//			Kommentar kommentar3 = new Kommentar("Antwort3", "12 Jahre", hannes);
+//			Kommentar kommentar4 = new Kommentar("Antwort4", "12 Jahre", hannes);
+//			
+//			thema1.kommentieren(kommentar1);
+//			thema1.kommentieren(kommentar2);
+//			thema1.kommentieren(kommentar3);
+//			thema1.kommentieren(kommentar4);
+//			
+//			kommentar1.datum.setTime(49494);
+//			kommentar2.datum.setTime(4);
+//			kommentar3.datum.setTime(494);
+//			kommentar4.datum.setTime(111111494);
+//			
+//			System.out.println("unsortiert:");
+//			for(Kommentar kommentar : thema1.getKommentare()){
+//				System.out.println(kommentar.getTitel());
+//			}
+//			
+//			ArrayList<Kommentar> sortiertDatum2 = new ArrayList<Kommentar>();
+//			sortiertDatum2 = thema1.sortiereNachDatum();
+//			
+//			System.out.println("sortiert:");
+//			for(Kommentar kommentar : sortiertDatum2){
+//				System.out.println(kommentar.getTitel());
+//			}
 		}
 		
 		public static void lena(){
