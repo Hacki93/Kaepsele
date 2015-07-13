@@ -17,7 +17,10 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +33,7 @@ public class GreetingController {
 	
 	Datenbank db;
 	Benutzer angemeldeterBenutzer;
+	Benutzer profilBenutzer;
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String greeting(Model model) {
@@ -55,30 +59,19 @@ public class GreetingController {
 		return "Anmelden";
 	}
 	
-	@RequestMapping(value="/Profile")
-	public String getProfil(Model model){
-		SimpleDateFormat simpleDate = new SimpleDateFormat("dd.MM.yyyy");
+	@RequestMapping(value="/Profile/{benutzername}")
+	public String getProfil(@PathVariable("benutzername") String benutzername, Model model){
+		Benutzer benutzer = new Benutzer();
 		
-		String benutzername = angemeldeterBenutzer.getBenutzername();
-		String name = angemeldeterBenutzer.getName();
-		String studiengang = angemeldeterBenutzer.getStudiengang();
-		String beruf = angemeldeterBenutzer.getBeruf();
-		String adresse = angemeldeterBenutzer.getAdresse();
-		String emailAdresse = angemeldeterBenutzer.getEmailAdresse();
-		int rangpunkte = angemeldeterBenutzer.getRang();
-		String geburtsdatum = simpleDate.format(angemeldeterBenutzer.getGeburtsdatum());
-		String rang = angemeldeterBenutzer.getRangName();
-
-		model.addAttribute("rang", rang);
-		model.addAttribute("geburtsdatum", geburtsdatum);
-		model.addAttribute("rangpunkte", rangpunkte);	
-		model.addAttribute("name", name);
-		model.addAttribute("studiengang", studiengang);
-		model.addAttribute("beruf", beruf);
-		model.addAttribute("adresse", adresse);
-		model.addAttribute("emailAdresse", emailAdresse);
-		model.addAttribute("benutzername", benutzername);
-
+		for(Object obj : db.tabelleAusgeben(benutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			if(b.getBenutzername().equals(benutzername)) {
+				profilBenutzer = b;		
+				model.addAttribute("profilBenutzer", profilBenutzer);
+				model.addAttribute("rang", profilBenutzer.getRangName());
+				model.addAttribute("themen", profilBenutzer.pinnwand.themen);	
+			}
+		}
 		return "Profile";
 	}
 	
