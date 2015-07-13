@@ -27,60 +27,60 @@ import kommunikation.Nachricht;
 @Table(name = "GRUPPE")
 public class Gruppe implements java.io.Serializable {
 
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	@Column(name = "gruppen_id")
 	public int gruppen_id;
-	
+
 	@Column(name = "name")
 	public String name;
-	
+
 	@Column(name = "klausurname")
 	public String klausurname;
 
 	@Column(name = "profilbildurl")
 	private String profilbildurl;
-	
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="fachrichtung_id")
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fachrichtung_id")
 	public Fachrichtung fachrichtung;
-	
+
 	@Column(name = "freigegeben")
 	public boolean freigegeben;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "GRUPPEN_MITGLIEDER", joinColumns =
-	@JoinColumn(name = "gruppen_id"),  inverseJoinColumns =
-	@JoinColumn(name = "benutzer_id"))
+	@JoinTable(name = "GRUPPEN_MITGLIEDER", joinColumns = @JoinColumn(name = "gruppen_id"), inverseJoinColumns = @JoinColumn(name = "benutzer_id"))
 	private Set<Benutzer> mitglieder;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "GRUPPEN_MODERATOREN", joinColumns =
-	@JoinColumn(name = "gruppen_id"),  inverseJoinColumns =
-	@JoinColumn(name = "benutzer_id"))
+	@JoinTable(name = "GRUPPEN_MODERATOREN", joinColumns = @JoinColumn(name = "gruppen_id"), inverseJoinColumns = @JoinColumn(name = "benutzer_id"))
 	public Set<Benutzer> moderatoren;
-	
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="fragenpool_id")
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "fragenpool_id")
 	public Fragenpool fragenpool;
-	
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="pinnwand_id")
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "pinnwand_id")
 	public Pinnwand pinnwand;
-	
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="mediathek_id")
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "mediathek_id")
 	public Mediathek mediathek;
-	
+
 	@Transient
-	public HashSet<Teamcombat> teamcombats;
-	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
+	public Set<Teamcombat> teamcombats;
+
+	@Transient
+	private Set<Quest> quests;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "gruppe")
 	Set<Bossfight> bossfights;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
 	 */
-	public Gruppe(){
+	public Gruppe() {
 		mitglieder = new HashSet<Benutzer>();
 		moderatoren = new HashSet<Benutzer>();
 		fragenpool = new Fragenpool();
@@ -89,14 +89,18 @@ public class Gruppe implements java.io.Serializable {
 		teamcombats = new HashSet<Teamcombat>();
 		fachrichtung = new Fachrichtung();
 		bossfights = new HashSet<Bossfight>();
+		quests = new HashSet<Quest>();
 	}
-	
+
 	/**
 	 * Konstruktor, der eine neue Gruppe erstellt
 	 * 
-	 * @param name Der Name der Gruppe
-	 * @param fachrichtung Die Fachrichtung der Gruppe
-	 * @param Klausurname Der Name der zu schreibende Klausur
+	 * @param name
+	 *            Der Name der Gruppe
+	 * @param fachrichtung
+	 *            Die Fachrichtung der Gruppe
+	 * @param Klausurname
+	 *            Der Name der zu schreibende Klausur
 	 */
 	public Gruppe(String name, Fachrichtung fachrichtung, String klausurname) {
 		this.name = name;
@@ -104,9 +108,9 @@ public class Gruppe implements java.io.Serializable {
 		this.klausurname = klausurname;
 		mitglieder = new HashSet<Benutzer>();
 		moderatoren = new HashSet<Benutzer>();
-		fragenpool = new Fragenpool(); //löschen
-		pinnwand = new Pinnwand();  //löschen
-		mediathek = new Mediathek(); //löschen
+		fragenpool = new Fragenpool(); // löschen
+		pinnwand = new Pinnwand(); // löschen
+		mediathek = new Mediathek(); // löschen
 		teamcombats = new HashSet<Teamcombat>();
 		bossfights = new HashSet<Bossfight>();
 	}
@@ -118,19 +122,51 @@ public class Gruppe implements java.io.Serializable {
 	public int anzahl() {
 		return mitglieder.size();
 	}
-	
-	public void addBossfight(Bossfight bossfight){
+
+	public void addBossfight(Bossfight bossfight) {
 		bossfights.add(bossfight);
 		bossfight.setGruppe(this);
 	}
-	
-	public Bossfight bossfightAntreten(){
-		ArrayList<Bossfight> fights = new ArrayList<Bossfight>();
-		for (Bossfight bf : fights) {
-			fights.add(bf);
+
+	/**
+	 * Gibt bei gen&uumlgend Punkten einen Bossfight zur&uumlck
+	 * 
+	 * @param benutzer
+	 * @return bei gen&uumlgend Punkten einen Bossfight, sonst null
+	 */
+	public Bossfight bossfightAntreten(Benutzer benutzer) {
+		if (aktuellerPunktestand(benutzer) >= 80) {
+			ArrayList<Bossfight> fights = new ArrayList<Bossfight>();
+			for (Bossfight bf : fights) {
+				fights.add(bf);
+			}
+			int zufallsindex = (int) (Math.random() * fights.size());
+			return fights.get(zufallsindex);
+		} else {
+			return null;
 		}
-		int zufallsindex = (int) (Math.random() * fights.size());
-		return fights.get(zufallsindex);
+	}
+
+	/**
+	 * Pr&uumlft den aktuellen Punktestand eines Benutzers innerhalb der Gruppe
+	 * 
+	 * @param benutzer
+	 * @return aktueller Punktestand 
+	 */
+	public int aktuellerPunktestand(Benutzer benutzer) {
+		int punkte = 0;
+		for (Quest q : quests) {
+			if (q.getBenutzer().equals(benutzer)) {
+				punkte = punkte + q.getErreichtePunktzahl();
+			}
+		}
+
+		for (Teamcombat t : teamcombats) {
+			if (t.getGewinner().equals(this)) {
+				punkte = punkte + t.getPunkte();
+			}
+		}
+		return punkte;
 	}
 
 	public void setFachrichtung(Fachrichtung fachrichtung) {
@@ -144,7 +180,7 @@ public class Gruppe implements java.io.Serializable {
 	 * @param nachricht
 	 *            Die Nachricht für die Gruppenmitglieder
 	 */
-	private void benachrichtigen(Nachricht nachricht) {
+	public void benachrichtigen(Nachricht nachricht) {
 		for (Benutzer mitglied : mitglieder) {
 			mitglied.benachrichtigen(nachricht);
 		}
@@ -168,43 +204,51 @@ public class Gruppe implements java.io.Serializable {
 	 *            Der Benutzer der in die Gruppe eingeladen wird
 	 */
 	public void einladen(Benutzer benutzer) {
-		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.GRUPPENEINLADUNG, this);
+		Nachricht nachricht = new Nachricht(this, benutzer,
+				Nachricht.GRUPPENEINLADUNG, this);
 		benutzer.benachrichtigen(nachricht);
 	}
 
 	/**
 	 * F&uuml;gt einen Benutzer in die Mitgliederliste der Gruppe hinzu
-	 * @param benutzer Der hinzuzuf&uuml;gende Benutzer
+	 * 
+	 * @param benutzer
+	 *            Der hinzuzuf&uuml;gende Benutzer
 	 */
 	public void mitgliedHinzufuegen(Benutzer benutzer) {
 		mitglieder.add(benutzer);
 		benutzer.gruppen.add(this);
 		pinnwand.erlaubteBenutzer.add(benutzer);
 	}
-	
 
 	/**
 	 * L&ouml;scht einen Benutzer aus der Mitgliederliste der Gruppe
-	 * @param benutzer Der zu l&ouml;schende Benutzer
+	 * 
+	 * @param benutzer
+	 *            Der zu l&ouml;schende Benutzer
 	 */
 	public void mitgliedLoeschen(Benutzer benutzer) {
 		mitglieder.remove(benutzer);
 		benutzer.gruppen.remove(this);
 		pinnwand.erlaubteBenutzer.remove(benutzer);
 	}
-	
+
 	/**
 	 * F&uuml;gt einen Benutzer in die Moderatorenliste der Gruppe hinzu
-	 * @param benutzer Der hinzuzuf&uuml;gende Benutzer
+	 * 
+	 * @param benutzer
+	 *            Der hinzuzuf&uuml;gende Benutzer
 	 */
 	public void moderatorHinzufuegen(Benutzer benutzer) {
 		moderatoren.add(benutzer);
 		benutzer.moderierteGruppen.add(this);
 	}
-	
+
 	/**
 	 * L&ouml;scht einen Benutzer aus der Moderatorenliste der Gruppe
-	 * @param benutzer Der zu l&ouml;schende Benutzer
+	 * 
+	 * @param benutzer
+	 *            Der zu l&ouml;schende Benutzer
 	 */
 	public void moderatorLoeschen(Benutzer benutzer) {
 		moderatoren.remove(benutzer);
@@ -218,8 +262,11 @@ public class Gruppe implements java.io.Serializable {
 	 * @param text
 	 * @param loesungen
 	 */
-	public void frageErstellen(String titel, String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesungen, Benutzer autor) {
-		Frage frage = new Frage(titel, text, antwortmoeglichkeiten, loesungen, autor);
+	public void frageErstellen(String titel, String text,
+			HashSet<String> antwortmoeglichkeiten, HashSet<String> loesungen,
+			Benutzer autor) {
+		Frage frage = new Frage(titel, text, antwortmoeglichkeiten, loesungen,
+				autor);
 		this.fragenpool.addFrage(frage);
 	}
 
@@ -231,6 +278,7 @@ public class Gruppe implements java.io.Serializable {
 	public Quest questAntreten(Benutzer bearbeiter) {
 		Quest quest = this.fragenpool.getQuest();
 		quest.setBenutzer(bearbeiter);
+		quests.add(quest);
 		return quest;
 	}
 
@@ -244,7 +292,8 @@ public class Gruppe implements java.io.Serializable {
 		Teamcombat teamcombat = new Teamcombat(this, herausgeforderter);
 		this.teamcombats.add(teamcombat);
 		herausgeforderter.teamcombats.add(teamcombat);
-		Nachricht nachricht = new Nachricht(this, herausgeforderter, Nachricht.TEAMHERAUSFORDERUNG, teamcombat);
+		Nachricht nachricht = new Nachricht(this, herausgeforderter,
+				Nachricht.TEAMHERAUSFORDERUNG, teamcombat);
 		herausgeforderter.benachrichtigen(nachricht);
 		this.benachrichtigen(nachricht);
 	}
@@ -280,15 +329,15 @@ public class Gruppe implements java.io.Serializable {
 	public void setFreigegeben(boolean freigegeben) {
 		this.freigegeben = freigegeben;
 	}
-	
+
 	public Set<Benutzer> getMitglieder() {
 		return mitglieder;
 	}
-	
+
 	public void setMitglieder(HashSet<Benutzer> benutzer) {
 		this.mitglieder = benutzer;
 	}
-	
+
 	public void setMediathek(Mediathek mediathek) {
 		this.mediathek = mediathek;
 	}
@@ -304,13 +353,12 @@ public class Gruppe implements java.io.Serializable {
 	public Pinnwand getPinnwand() {
 		return pinnwand;
 	}
-	
-	public void setProfilbildURL(String profilbildurl){
+
+	public void setProfilbildURL(String profilbildurl) {
 		this.profilbildurl = profilbildurl;
 	}
-	
-	public String getProfilbildURL(){
+
+	public String getProfilbildURL() {
 		return profilbildurl;
 	}
 }
-

@@ -37,6 +37,30 @@ public class Challenge implements java.io.Serializable{
 	@Column(name = "erreichtePunktzahl")
 	protected int erreichtePunktzahl;
 		
+	public int getChallenge_id() {
+		return challenge_id;
+	}
+
+	public void setChallenge_id(int challenge_id) {
+		this.challenge_id = challenge_id;
+	}
+
+	public int getErreichbarePunktzahl() {
+		return erreichbarePunktzahl;
+	}
+
+	public void setErreichbarePunktzahl(int erreichbarePunktzahl) {
+		this.erreichbarePunktzahl = erreichbarePunktzahl;
+	}
+
+	public int getErreichtePunktzahl() {
+		return erreichtePunktzahl;
+	}
+
+	public void setErreichtePunktzahl(int erreichtePunktzahl) {
+		this.erreichtePunktzahl = erreichtePunktzahl;
+	}
+
 	public Benutzer getBenutzer() {
 		return benutzer;
 	}

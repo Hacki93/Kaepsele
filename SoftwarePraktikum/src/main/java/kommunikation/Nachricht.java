@@ -10,7 +10,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import learning.Benutzer;
+import learning.Bossfight;
 import learning.Gruppe;
+import learning.Teamcombat;
 
 /**
  * Diese Klasse stellt den Datentyp Nachricht dar
@@ -56,6 +58,7 @@ public class Nachricht implements java.io.Serializable{
 	public static final int BEITRITTSANFRAGE = 3;
 	public static final int TEAMHERAUSFORDERUNG = 4;
 	public static final int AUFGABEBEWERTET = 5;
+	public static final int TEAMCOMBATGEWONNEN = 6;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
@@ -109,8 +112,15 @@ public class Nachricht implements java.io.Serializable{
 			break;
 		case 5:
 			titel = "Dein Bossfight wurde bewertet";
-			inhalt = "Dein Bossfight wurde bewertet";
+			if(((Bossfight) anhang).bestanden()){
+			inhalt = "Du hast den Bossfight bestanden.";
+			} else {
+				inhalt = "Du hast den Bossfight leider nicht bestanden.";			
+				}
 			break;
+		case 6: 
+			titel = "Teamcombat ausgewertet";
+			inhalt = ((Teamcombat) anhang).getGewinner().getName() + "hat den Teamcombat gewonnen";
 		}
 		this.anhang = anhang;
 		datum = new Date();

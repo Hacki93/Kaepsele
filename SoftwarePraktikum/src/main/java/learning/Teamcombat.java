@@ -45,6 +45,8 @@ public class Teamcombat implements java.io.Serializable {
 	
 	@Transient
 	public Gruppe gewinner;
+	
+	private int punkte;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
@@ -69,6 +71,7 @@ public class Teamcombat implements java.io.Serializable {
 		calendar.setTime(now);
 		calendar.add(Calendar.DAY_OF_MONTH, 3);
 		ablaufdatum = calendar.getTime();
+		punkte = 0; 
 	}
 
 	/**
@@ -87,9 +90,17 @@ public class Teamcombat implements java.io.Serializable {
 		int herausgeforderter = questFuerHerausgeforderter.korrigiere();
 		if (herausforderer > herausgeforderter) {
 			gewinner = this.herausforderer;
+			punkte = herausforderer; 
+			Nachricht nachricht = new Nachricht(gewinner, gewinner, Nachricht.TEAMCOMBATGEWONNEN, this);
+			this.herausforderer.benachrichtigen(nachricht);
+			this.herausgeforderter.benachrichtigen(nachricht);
 			return this.herausforderer;
 		} else {
 			gewinner = this.herausgeforderter;
+			punkte = herausgeforderter; 
+			Nachricht nachricht = new Nachricht(gewinner, gewinner, Nachricht.TEAMCOMBATGEWONNEN, this);
+			this.herausforderer.benachrichtigen(nachricht);
+			this.herausgeforderter.benachrichtigen(nachricht);
 			return this.herausgeforderter;
 		}
 	}
@@ -189,5 +200,13 @@ public class Teamcombat implements java.io.Serializable {
 
 	public Gruppe getHerausforderer() {
 		return herausforderer;
+	}
+
+	public int getPunkte() {
+		return punkte;
+	}
+
+	public void setPunkte(int punkte) {
+		this.punkte = punkte;
 	}
 }
