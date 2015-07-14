@@ -72,8 +72,8 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-3 col-lg-3 " align="center">
-								<img alt="User Pic"
-									src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
+								<img alt="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
+									src= "${profilBenutzer.profilbildurl}"
 									class="img-circle img-responsive" />
 							</div>
 							<div class=" col-md-9 col-lg-9 ">
@@ -114,27 +114,30 @@
 									</tbody>
 								</table>
 
-
+							<span style="color: red;" th:text = "${nachricht}"></span>
 							</div>
 						</div>
 					</div>
 					<div class="panel-footer">
 						<a data-original-title="Nachricht schreiben" data-toggle="tooltip"
 							type="button" class="btn btn-sm btn-primary"><i
-							class="glyphicon glyphicon-envelope"></i></a> <a href="edit.html"
-							data-original-title="Beitrag schreiben" data-toggle="tooltip"
+							class="glyphicon glyphicon-envelope"></i></a>
+					 	<a href="edit.html"	data-original-title="Beitrag schreiben" data-toggle="tooltip"		
 							type="button" class="btn btn-sm btn-warning"><i
-							class="glyphicon glyphicon-edit"></i></a> <a href="/SoftwarePraktikum/sortiereLikes"
-							data-original-title="Nach Likes sortieren" data-toggle="tooltip"
+							class="glyphicon glyphicon-edit"></i></a>  <!-- neues Temoplate erforderlich -->
+						<a th:href="@{/sortiereLikes}" data-original-title="Nach Likes sortieren" data-toggle="tooltip"
 							type="button" class="btn btn-sm btn-info"><i
-							class="glyphicon glyphicon-star"></i></a> <a href="#"
-							data-original-title="Nach Datum sortieren" data-toggle="tooltip"
+							class="glyphicon glyphicon-star"></i></a> 
+						<a href="#" data-original-title="Nach Datum sortieren" data-toggle="tooltip"
 							type="button" class="btn btn-sm btn-info"><i
 							class="glyphicon glyphicon-arrow-down"></i></a> <span
-							class="pull-right"> <a
-							data-original-title="Als Freund entfernen" data-toggle="tooltip"
-							type="button" class="btn btn-sm btn-danger"><i
-								class="glyphicon glyphicon-remove"></i></a>
+							class="pull-right"> 
+						<a data-original-title="Als Freund hinzuf&uuml;gen" href="/SoftwarePraktikum/hinzufuegen" 
+							data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i
+							class="glyphicon glyphicon-remove"></i></a>
+						<a data-original-title="Als Freund entfernen" href="/SoftwarePraktikum/entfernen" 
+							data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i
+							class="glyphicon glyphicon-remove"></i></a>
 						</span>
 					</div>
 
@@ -152,7 +155,9 @@
 										<p th:text="${thema.inhalt}"></p>
 										<b>Gef&auml;llt-mir-Angaben: </b><b th:text="${thema.bewertung}"></b>
 										<div class="panel-footer">
-												<a data-original-title="Gef&auml;llt mir"
+													<!--  th:action="/bewertet/${thema.inhalt_id}"  gehört eins nach unten-->
+												<a th:action="@{/bewertet/${thema.inhalt_id}}"
+													data-original-title="Gef&auml;llt mir"
 													data-toggle="tooltip" type="button"
 													class="btn btn-sm btn-primary"><i
 													class="glyphicon glyphicon-thumbs-up"></i></a>
@@ -182,8 +187,8 @@
 
 	<script src="resources/js/bootstrap.min.js"></script>
 
-	<script 
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script
+		src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 	<script src="resources/js/classie.js"></script>
 	<script src="resources/js/cbpAnimatedHeader.js"></script>
 
