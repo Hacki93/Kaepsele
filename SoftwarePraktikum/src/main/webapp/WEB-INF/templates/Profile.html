@@ -122,9 +122,9 @@
 						<a data-original-title="Nachricht schreiben" data-toggle="tooltip"
 							type="button" class="btn btn-sm btn-primary"><i
 							class="glyphicon glyphicon-envelope"></i></a>
-					 	<a href="edit.html"	data-original-title="Beitrag schreiben" data-toggle="tooltip"		
+					 	<a data-original-title="Beitrag schreiben" data-toggle="modal" data-target="#Beitrag"		
 							type="button" class="btn btn-sm btn-warning"><i
-							class="glyphicon glyphicon-edit"></i></a>  <!-- neues Temoplate erforderlich -->
+							class="glyphicon glyphicon-edit"></i></a>
 						<a th:href="@{/sortiereLikes}" data-original-title="Nach Likes sortieren" data-toggle="tooltip"
 							type="button" class="btn btn-sm btn-info"><i
 							class="glyphicon glyphicon-star"></i></a> 
@@ -182,6 +182,41 @@
 		</div>
 	</div>
 
+  <div class="modal fade" id="Beitrag" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">x<span class="sr-only"></span></button>
+			<h3 class="modal-title" id="lineModalLabel">Beitrag schreiben</h3>
+		</div>
+		<div class="modal-body">
+			
+            <!-- content goes here -->
+			<form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Titel</label>
+                <input type="text" class="form-control" placeholder="Titel eingeben"/>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Inhalt</label>
+                <input type="text" class="form-control" placeholder="Text eingeben"/>
+              </div>
+              <button type="submit" class="btn btn-success">Beitrag posten</button>
+            </form>
+
+		</div>
+		<div class="modal-footer">
+			<div class="btn-group btn-group-justified" role="group" aria-label="group button">
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Schlie&szlig;en</button>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+  </div>
+  
+  
   
 	<script src="resources/js/jquery.js"></script>
 

@@ -91,48 +91,51 @@ public class GreetingController {
 		return "Profile";
 	}
 	
-//	@RequestMapping(value="/hinzufuegen")
-//	public String freundHizufuegen(Model model){
-//		if (!angemeldeterBenutzer.freunde.contains(profilBenutzer)){
-//			angemeldeterBenutzer.freundHinzufuegen(profilBenutzer);
-//			model.addAttribute("nachricht", "Freund wurde hinzugefügt");
-//		}
-//		else{
-//			model.addAttribute("nachricht", "Benutzer ist bereits ein Freund");
-//		}
-//		db.eintragAktualisieren(profilBenutzer.getClass(), profilBenutzer);
-//		db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
-//		model.addAttribute("profilBenutzer", profilBenutzer);
-//		model.addAttribute("rang", profilBenutzer.getRangName());
-//		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
-//		return "Profile";
-//	}
+	@RequestMapping(value="/hinzufuegen")
+	public String freundHizufuegen(Model model){
+		for(Benutzer benutzer : angemeldeterBenutzer.freunde){
+			if(benutzer.getId() == profilBenutzer.getId()){
+				model.addAttribute("nachricht", "Benutzer ist bereits ein Freund");
+				model.addAttribute("profilBenutzer", profilBenutzer);
+				model.addAttribute("rang", profilBenutzer.getRangName());
+				model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+				return "Profile";
+			}
+		}
+		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			if (b.getId() == profilBenutzer.getId()){
+				System.out.println("Test");
+				angemeldeterBenutzer.freundHinzufuegen(b);
+			}
+		}
+		db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
+		model.addAttribute("nachricht", "Benutzer wurde als Freund hinzugefügt");
+		model.addAttribute("profilBenutzer", profilBenutzer);
+		model.addAttribute("rang", profilBenutzer.getRangName());
+		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+		return "Profile";
+	}
 	
-//	@RequestMapping(value="/entfernen")
-//	public String freundEntfernen(Model model){
-//		for(Benutzer benutzer : angemeldeterBenutzer.freunde){
-//			System.out.println(benutzer);
-//		}
-//		
-//		System.out.println(profilBenutzer);
-//		
-//		Benutzer benutzer = new Benutzer();
-//		for(Object obj : db.tabelleAusgeben(benutzer.getClass())){
-//			Benutzer b = (Benutzer) obj;
-//			if() {
-//		
-//		if (angemeldeterBenutzer.freunde.contains(profilBenutzer)){
-//			angemeldeterBenutzer.freundEntfernen(profilBenutzer);
-//			model.addAttribute("nachricht", "Freund wurde entfernt");
-//		}
-//		else{
-//			model.addAttribute("nachricht", "Benutzer ist kein Freund");
-//		}
-//		model.addAttribute("profilBenutzer", profilBenutzer);
-//		model.addAttribute("rang", profilBenutzer.getRangName());
-//		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
-//		return "Profile";
-//	}
+	@RequestMapping(value="/entfernen")
+	public String freundEntfernen(Model model){
+		for(Benutzer benutzer : angemeldeterBenutzer.freunde){
+			if(benutzer.getId() == profilBenutzer.getId()){
+				angemeldeterBenutzer.freundEntfernen(benutzer);
+				db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
+				model.addAttribute("profilBenutzer", profilBenutzer);
+				model.addAttribute("rang", profilBenutzer.getRangName());
+				model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+				model.addAttribute("nachricht", "Freund wurde entfernt");
+				return "Profile";
+			}
+		}
+		model.addAttribute("nachricht", "Benutzer ist kein Freund");
+		model.addAttribute("profilBenutzer", profilBenutzer);
+		model.addAttribute("rang", profilBenutzer.getRangName());
+		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+		return "Profile";
+	}
 	
 	@RequestMapping(value="/bewertet/{thema.inhalt_id}")
 	public String erhoeheLike(@PathVariable("thema.inhalt_id") int thema_id, Model model){
