@@ -38,6 +38,7 @@ public class Datenbank {
 	
 	/**
 	 * Gibt die Anzahl der gespeicherten Datenbanken aus
+	 * 
 	 * @return Anzahlt der gespeicherten Datenbanken
 	 */
 	public int getSize() {
@@ -85,6 +86,7 @@ public class Datenbank {
 	
 	/**
 	 * L&aauml;dt das Mapping aller relevanter Klassen
+	 * 
 	 * @return Die Mappingkonfiguration
 	 */
 	private Configuration getConfiguration(){
@@ -112,6 +114,7 @@ public class Datenbank {
 	
 	/**
 	 * Erstellt eine neue Datenbankenverbindung zu einer MySQL-Tabelle, falls die Verbindung noch nicht existiert
+	 * 
 	 * @param klasse Die MySQL-Tabelle, die mit dem entsprechenden Objekt verbunden werden soll
 	 */
 	public void tabelleLaden(Class klasse) {
@@ -124,6 +127,7 @@ public class Datenbank {
 	
 	/**
 	 * F&uuml;gt einen Eintrag in die entsprechende Datenbank hinzu
+	 * 
 	 * @param klasse Die Tabelle, in die der Eintrag hinzugef&uuml;gt werden soll
 	 * @param eintrag Der Tabelleneintrag, der hinzugef&uuml;gt werden soll
 	 */
@@ -143,6 +147,7 @@ public class Datenbank {
 	
 	/**
 	 * Entfernt einen Eintrag aus der entsprechenden Datenbank
+	 * 
 	 * @param klasse Die Tabelle, aus der der Eintrag entfernt werden soll
 	 * @param id Die ID des zu entfernenden Objekts
 	 */
@@ -161,6 +166,7 @@ public class Datenbank {
 	
 	/**
 	 * Aktualisiert einen Eintrag in der Tabelle
+	 * 
 	 * @param klasse Die Tabelle, die den zu aktualisierenden Eintrag enth&uml;lt
 	 * @param eintrag Der aktualisierte Eintrag
 	 */
@@ -179,6 +185,7 @@ public class Datenbank {
 	
 	/**
 	 * Gibt einen Eintrag aus der entsprechenden Datenbank aus
+	 * 
 	 * @param klasse Die Tabelle, aus der der Eintrag ausgegeben werden soll
 	 * @param id Die ID des auszugebenden Eintrags
 	 * @return Der ausgegebene Eintrag
@@ -198,6 +205,7 @@ public class Datenbank {
 	
 	/**
 	 * Gibt alle Eintr&auml;ge einer Tabelle zur&uuml;ck
+	 * 
 	 * @param klasse Die auszulesende Tabelle
 	 * @return Alle Eintr&auml;ge
 	 */

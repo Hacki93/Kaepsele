@@ -4,21 +4,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
- * Stellt den Datentyp Quest dar
- * 
- * @author Lena
- *
+ * Die Klasse Quest beinhaltet mehrere zuf&auml;llig aus dem Fragenpool genommene MC-Fragen.
  */
 @SuppressWarnings("serial")
 @Entity
@@ -31,6 +27,10 @@ public class Quest extends Challenge implements java.io.Serializable {
 	@JoinColumn(name = "quest_id"),  inverseJoinColumns =
 	@JoinColumn(name = "frage_id"))
 	public Set<Frage> fragen;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "gruppe_id")
+	public Gruppe gruppe;
 
 	/**
 	 * Erstellt einen Quest
@@ -46,8 +46,7 @@ public class Quest extends Challenge implements java.io.Serializable {
 	}
 
 	/**
-	 * F&uumlgt dem Quest eine Frage hinzu und gleicht die erreichbare Punktzahl
-	 * an
+	 * F&uumlgt dem Quest eine Frage hinzu und gleicht die erreichbare Punktzahl an
 	 * 
 	 * @param frage
 	 */
@@ -58,7 +57,7 @@ public class Quest extends Challenge implements java.io.Serializable {
 	}
 
 	/**
-	 * gibt eine unbearbeitete Frage des Quests zur&uumlck
+	 * Gibt eine unbearbeitete Frage des Quests zur&uumlck
 	 * 
 	 * @return n&aumlchste Frage des Quests
 	 */
@@ -76,6 +75,8 @@ public class Quest extends Challenge implements java.io.Serializable {
 	/**
 	 * wertet den bearbeiteten Quest aus und gibt die erreichte Punktzahl
 	 * zur&uumlck
+	 * 
+	 * @return Die erreichte Punktzahl
 	 */
 	public int korrigiere() {
 		for (Frage f : fragen) {
@@ -90,5 +91,13 @@ public class Quest extends Challenge implements java.io.Serializable {
 	
 	public void setFragen(Set<Frage> fragen){
 		this.fragen = fragen;
+	}
+	
+	public Gruppe getGruppe(){
+		return gruppe;
+	}
+	
+	public void setGruppe(Gruppe gruppe){
+		this.gruppe = gruppe;
 	}
 }

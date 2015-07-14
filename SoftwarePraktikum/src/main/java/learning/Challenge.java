@@ -13,8 +13,11 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
+/**
+ * Challenge stellt eine abstrakte Generalisierung von Bossfight und Quest dar.
+ */
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "CHALLENGE")
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -84,10 +87,4 @@ public class Challenge implements java.io.Serializable{
 	public void setDatum(Date datum) {
 		this.datum = datum;
 	}
-	
-	public int korrigiere(){
-		return 0;
-	}
-	
-
 }

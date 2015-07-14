@@ -1,9 +1,7 @@
 package learning;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -23,6 +21,8 @@ import javax.persistence.Transient;
 
 import kommunikation.Nachricht;
 
+
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "GRUPPE")
 public class Gruppe implements java.io.Serializable {
@@ -49,11 +49,15 @@ public class Gruppe implements java.io.Serializable {
 	public boolean freigegeben;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "GRUPPEN_MITGLIEDER", joinColumns = @JoinColumn(name = "gruppen_id"), inverseJoinColumns = @JoinColumn(name = "benutzer_id"))
+	@JoinTable(name = "GRUPPEN_MITGLIEDER", joinColumns = 
+	@JoinColumn(name = "gruppen_id"), inverseJoinColumns = 
+	@JoinColumn(name = "benutzer_id"))
 	private Set<Benutzer> mitglieder;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "GRUPPEN_MODERATOREN", joinColumns = @JoinColumn(name = "gruppen_id"), inverseJoinColumns = @JoinColumn(name = "benutzer_id"))
+	@JoinTable(name = "GRUPPEN_MODERATOREN", joinColumns = 
+	@JoinColumn(name = "gruppen_id"), inverseJoinColumns = 
+	@JoinColumn(name = "benutzer_id"))
 	public Set<Benutzer> moderatoren;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -67,7 +71,7 @@ public class Gruppe implements java.io.Serializable {
 	@Transient
 	public Set<Teamcombat> teamcombats;
 
-	@Transient
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
 	private Set<Quest> quests;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "gruppe")
@@ -90,12 +94,9 @@ public class Gruppe implements java.io.Serializable {
 	/**
 	 * Konstruktor, der eine neue Gruppe erstellt
 	 * 
-	 * @param name
-	 *            Der Name der Gruppe
-	 * @param fachrichtung
-	 *            Die Fachrichtung der Gruppe
-	 * @param Klausurname
-	 *            Der Name der zu schreibende Klausur
+	 * @param name Der Name der Gruppe
+	 * @param fachrichtung Die Fachrichtung der Gruppe
+	 * @param Klausurname Der Name der zu schreibende Klausur
 	 */
 	public Gruppe(String name, Fachrichtung fachrichtung, String klausurname) {
 		this.name = name;
@@ -110,13 +111,19 @@ public class Gruppe implements java.io.Serializable {
 	}
 
 	/**
+	 * Anzahl der Mitglieder der Gruppe
 	 * 
-	 * @return Anzahl der Mitglieder in einer Gruppe
+	 * @return Anzahl der Mitglieder
 	 */
 	public int anzahl() {
 		return mitglieder.size();
 	}
 
+	/**
+	 * F&uuml;gt einen Bossfight der Gruppe hinzu
+	 * 
+	 * @param bossfight Der Bossfight, der hinzugef&uuml;gt werden soll-
+	 */
 	public void addBossfight(Bossfight bossfight) {
 		bossfights.add(bossfight);
 		bossfight.setGruppe(this);
@@ -157,22 +164,16 @@ public class Gruppe implements java.io.Serializable {
 
 		for (Teamcombat t : teamcombats) {
 			if (t.getGewinner().equals(this)) {
-				punkte = punkte + t.getPunkte();
+				punkte = punkte + t.getGewinnerpunkte();
 			}
 		}
 		return punkte;
 	}
 
-	public void setFachrichtung(Fachrichtung fachrichtung) {
-		this.fachrichtung = fachrichtung;
-		fachrichtung.gruppen.add(this);
-	}
-
 	/**
 	 * Es werden Mitglieder der Gruppe benachrichtigt
 	 * 
-	 * @param nachricht
-	 *            Die Nachricht für die Gruppenmitglieder
+	 * @param nachricht Die Nachricht
 	 */
 	public void benachrichtigen(Nachricht nachricht) {
 		for (Benutzer mitglied : mitglieder) {
@@ -183,7 +184,7 @@ public class Gruppe implements java.io.Serializable {
 	/**
 	 * Es wird der Moderator der Gruppe benachrichtigt
 	 * 
-	 * @param nachricht
+	 * @param nachricht Die Nachricht
 	 */
 	public void moderatorBenachrichtigen(Nachricht nachricht) {
 		for (Benutzer moderator : moderatoren) {
@@ -194,20 +195,17 @@ public class Gruppe implements java.io.Serializable {
 	/**
 	 * Es wird ein Benutzer eingeladen
 	 * 
-	 * @param benutzer
-	 *            Der Benutzer der in die Gruppe eingeladen wird
+	 * @param benutzer Der Benutzer der in die Gruppe eingeladen wird
 	 */
 	public void einladen(Benutzer benutzer) {
-		Nachricht nachricht = new Nachricht(this, benutzer,
-				Nachricht.GRUPPENEINLADUNG, this);
+		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.GRUPPENEINLADUNG, this);
 		benutzer.benachrichtigen(nachricht);
 	}
 
 	/**
 	 * F&uuml;gt einen Benutzer in die Mitgliederliste der Gruppe hinzu
 	 * 
-	 * @param benutzer
-	 *            Der hinzuzuf&uuml;gende Benutzer
+	 * @param benutzer Der hinzuzuf&uuml;gende Benutzer
 	 */
 	public void mitgliedHinzufuegen(Benutzer benutzer) {
 		mitglieder.add(benutzer);
@@ -218,8 +216,7 @@ public class Gruppe implements java.io.Serializable {
 	/**
 	 * L&ouml;scht einen Benutzer aus der Mitgliederliste der Gruppe
 	 * 
-	 * @param benutzer
-	 *            Der zu l&ouml;schende Benutzer
+	 * @param benutzer Der zu l&ouml;schende Benutzer
 	 */
 	public void mitgliedLoeschen(Benutzer benutzer) {
 		mitglieder.remove(benutzer);
@@ -230,8 +227,7 @@ public class Gruppe implements java.io.Serializable {
 	/**
 	 * F&uuml;gt einen Benutzer in die Moderatorenliste der Gruppe hinzu
 	 * 
-	 * @param benutzer
-	 *            Der hinzuzuf&uuml;gende Benutzer
+	 * @param benutzer Der hinzuzuf&uuml;gende Benutzer
 	 */
 	public void moderatorHinzufuegen(Benutzer benutzer) {
 		moderatoren.add(benutzer);
@@ -241,8 +237,7 @@ public class Gruppe implements java.io.Serializable {
 	/**
 	 * L&ouml;scht einen Benutzer aus der Moderatorenliste der Gruppe
 	 * 
-	 * @param benutzer
-	 *            Der zu l&ouml;schende Benutzer
+	 * @param benutzer Der zu l&ouml;schende Benutzer
 	 */
 	public void moderatorLoeschen(Benutzer benutzer) {
 		moderatoren.remove(benutzer);
@@ -252,25 +247,21 @@ public class Gruppe implements java.io.Serializable {
 	/**
 	 * Es wird ein Frage erstellt und im Fragenpool der Gruppe gespeichert
 	 * 
-	 * @param titel
-	 * @param text
-	 * @param loesungen
+	 * @param text Der Text der Frage
+	 * @param loesungen Die L&ouml;sung
 	 */
-	public void frageErstellen(String titel, String text,
-			HashSet<String> antwortmoeglichkeiten, HashSet<String> loesungen,
-			Benutzer autor) {
-		Frage frage = new Frage(titel, text, antwortmoeglichkeiten, loesungen,
-				autor);
+	public void frageErstellen(String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesungen, Benutzer autor) {
+		Frage frage = new Frage(text, antwortmoeglichkeiten, loesungen, autor);
 		this.fragenpool.addFrage(frage);
 	}
 
 	/**
 	 * Es wird automatisch ein Quest erzeugt und zur&uumlckgegeben
 	 * 
-	 * @return Quest
+	 * @return Quest Das erzeugte Quest
 	 */
 	public Quest questAntreten(Benutzer bearbeiter) {
-		Quest quest = this.fragenpool.getQuest();
+		Quest quest = this.fragenpool.getQuest(this);
 		quest.setBenutzer(bearbeiter);
 		quests.add(quest);
 		return quest;
@@ -279,18 +270,27 @@ public class Gruppe implements java.io.Serializable {
 	/**
 	 * Es wird ein Teamcombat erzeugt und in den Gruppen gespeichert
 	 * 
-	 * @param herausgeforderter
-	 * @return Teamcombat
+	 * @param herausgeforderter Die Gruppe, die herausgerfordert werden soll
+	 * 
+	 * @return Teamcombat Der erzeugte Teamcombat
 	 */
 	public Teamcombat teamcombatAntreten(Gruppe herausgeforderter) {
 		Teamcombat teamcombat = new Teamcombat(this, herausgeforderter);
 		this.teamcombats.add(teamcombat);
 		herausgeforderter.teamcombats.add(teamcombat);
-		Nachricht nachricht = new Nachricht(this, herausgeforderter,
-				Nachricht.TEAMHERAUSFORDERUNG, teamcombat);
+		Nachricht nachricht = new Nachricht(this, herausgeforderter, Nachricht.TEAMHERAUSFORDERUNG, teamcombat);
 		herausgeforderter.benachrichtigen(nachricht);
 		this.benachrichtigen(nachricht);
 		return teamcombat;
+	}
+	
+	public void setFachrichtung(Fachrichtung fachrichtung) {
+		this.fachrichtung = fachrichtung;
+		fachrichtung.gruppen.add(this);
+	}
+	
+	public Fachrichtung getFachrichtung() {
+		return fachrichtung;
 	}
 
 	public void setMitglieder(Set<Benutzer> mitglieder) {
@@ -311,10 +311,6 @@ public class Gruppe implements java.io.Serializable {
 
 	public void setKlausurname(String klausurname) {
 		this.klausurname = klausurname;
-	}
-
-	public Fachrichtung getFachrichtung() {
-		return fachrichtung;
 	}
 
 	public boolean isFreigegeben() {
@@ -347,5 +343,21 @@ public class Gruppe implements java.io.Serializable {
 
 	public String getProfilbildURL() {
 		return profilbildurl;
+	}
+	
+	public void setFragenpool(Fragenpool fragenpool){
+		this.fragenpool = fragenpool;
+	}
+	
+	public Fragenpool getFragenpool(){
+		return fragenpool;
+	}
+	
+	public void setId(int id){
+		gruppen_id = id;
+	}
+	
+	public int getId(){
+		return gruppen_id;
 	}
 }

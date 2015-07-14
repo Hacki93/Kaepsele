@@ -11,10 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
- * Die Klasse Fachrichtung stellt eine Speicherklasse dar.
+ * Die Klasse Fachrichtung stellt eine Speicherklasse für die Fachrichtungen von Gruppen dar.
  */
 @SuppressWarnings("serial")
 @Entity
@@ -34,6 +33,9 @@ public class Fachrichtung implements java.io.Serializable{
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="fachrichtung")
 	Set<Gruppe> gruppen;
 	
+	/**
+	 * Leerer Konstruktor für Hibernate und zum Hinzuf&uuml;gen von Fachrichtungen
+	 */
 	public Fachrichtung() {
 		freigegeben = false;
 		gruppen = new HashSet<Gruppe>();
@@ -61,5 +63,13 @@ public class Fachrichtung implements java.io.Serializable{
 	
 	public void setGruppen(HashSet<Gruppe> gruppen) {
 		this.gruppen = gruppen;
+	}
+	
+	public int getId(){
+		return fachrichtung_id;
+	}
+	
+	public void setId(int id){
+		fachrichtung_id = id;
 	}
 }

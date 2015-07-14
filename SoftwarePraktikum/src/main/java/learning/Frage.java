@@ -16,6 +16,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * Die Klasse Frage stellt eine Teilaufgabe eines Quests dar. Sie beinhaltet Methoden zum Speichern
+ * und Verwalten Ihrer Attribute.
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "FRAGE")
@@ -29,9 +33,6 @@ public class Frage implements java.io.Serializable {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="medium_id")
 	public Medium medium;
-
-	@Column(name = "titel")
-	public String titel;
 	
 	@Column(name = "text")
 	public String text;
@@ -78,15 +79,14 @@ public class Frage implements java.io.Serializable {
 	 * @param antwortmoeglichkeiten Die Antwortm&ouml;glichkeiten
 	 * @param loesung Die korrekten L&ouml;sungen
 	 */
-	public Frage(String titel, String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesung, Benutzer autor) {
-		this.titel = titel;
+	public Frage(String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesung, Benutzer autor) {
 		this.text = text;
 		this.loesung = loesung;
 		this.benutzer = autor;
 		bearbeitet = false;
-		antwortmoeglichkeiten = new HashSet<String>();
+		this.antwortmoeglichkeiten = antwortmoeglichkeiten;
 		antworten = new HashSet<String>();
-		loesung = new HashSet<String>();
+		this.loesung = loesung;
 		medium = new Medium();
 	}
 
@@ -118,19 +118,19 @@ public class Frage implements java.io.Serializable {
 			return punkte;
 		}
 	}
-
-	public Set<String> getLoesung() {
-		return loesung;
+	
+	public void addAntwortmoeglichkeiten(String antwort) {
+		antwortmoeglichkeiten.add(antwort);
 	}
-
+	
+	public void addLoesung(String loesung) {
+		this.loesung.add(loesung);
+	}
+	
 	public void addAntworten(HashSet<String> antworten) {
 		this.antworten = antworten;
 	}
-
-	public Set<String> getAntworten() {
-		return antworten;
-	}
-
+	
 	public boolean isBearbeitet() {
 		return bearbeitet;
 	}
@@ -139,16 +139,28 @@ public class Frage implements java.io.Serializable {
 		this.bearbeitet = bearbeitet;
 	}
 
+	public Set<String> getLoesung() {
+		return loesung;
+	}
+	
+	public void setLoesung(Set<String> loesung){
+		this.loesung = loesung;
+	}
+
+	public Set<String> getAntworten() {
+		return antworten;
+	}
+	
+	public void setAntworten(Set<String> antworten){
+		this.antworten = antworten;
+	}
+
 	public Set<String> getAntwortmoeglichkeiten() {
 		return antwortmoeglichkeiten;
 	}
 
-	public void addAntwortmoeglichkeiten(String antwort) {
-		antwortmoeglichkeiten.add(antwort);
-	}
-	
-	public void addLoesung(String loesung) {
-		this.loesung.add(loesung);
+	public void setAntwortmoeglichkeiten(Set<String> antwortmoeglichkeiten){
+		this.antwortmoeglichkeiten = antwortmoeglichkeiten;
 	}
 	
 	public void setMedium(Medium medium) {
@@ -175,19 +187,19 @@ public class Frage implements java.io.Serializable {
 		return text;
 	}
 	
-	public void setTitel(String titel) {
-		this.titel = titel;
-	}
-	
-	public String getTitel(){
-		return titel;
-	}
-	
 	public void setFragenpool(Fragenpool fragenpool){
 		this.fragenpool = fragenpool;
 	}
 	
 	public Fragenpool getFragenpool(){
 		return fragenpool;
+	}
+	
+	public void setId(int id){
+		frage_id = id;
+	}
+	
+	public int getId(){
+		return frage_id;
 	}
 }

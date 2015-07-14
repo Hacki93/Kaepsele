@@ -50,7 +50,7 @@ public class Account implements java.io.Serializable{
 	 * @return true, falls das Passwort korrekt ist
 	 */
 	public boolean login(String angegebenesPasswort){
-		if(passwort.equals(angegebenesPasswort)){
+		if(passwort.equals(hashPasswort(angegebenesPasswort))){
 			return true;
 		}
 		return false;

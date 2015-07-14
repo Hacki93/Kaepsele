@@ -4,8 +4,6 @@ import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 
 /**
- * 
- * @author Hannes
  * Hilfsklasse, die der Session in Email einen MailAuthenticator (Speicherklasse f&uuml;r benutzer und passwort) erstellt
  */
 public class MailAuthenticator extends Authenticator {

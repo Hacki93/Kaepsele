@@ -6,19 +6,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import kommunikation.Nachricht;
 
+/**
+ * Die Klasse Teamcombat stellt eine Speziaform von Quests dar, bei der zwei Gruppen sich gegenseitig
+ * ein Quest aus ihrem eigenen Fragenpool stellen.
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "TEAMCOMBAT")
@@ -46,33 +46,31 @@ public class Teamcombat implements java.io.Serializable {
 	@Transient
 	public Gruppe gewinner;
 	
-	private int punkte;
+	@Column(name="gewinnerpunkte")
+	private int gewinnerpunkte;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
 	 */
-	public Teamcombat() {	}
+	public Teamcombat() {}
 
 	/**
 	 * Legt einen neuen Teamcombat an
 	 * 
-	 * @param herausforderer
-	 *            Die herausfordernde Gruppe
-	 * @param herausgeforderter
-	 *            Die herausgeforderte Gruppe
+	 * @param herausforderer Die herausfordernde Gruppe
+	 * @param herausgeforderter Die herausgeforderte Gruppe
 	 */
 	public Teamcombat(Gruppe herausforderer, Gruppe herausgeforderter) {
-		
 		this.herausgeforderter = herausgeforderter;
 		this.herausforderer = herausforderer;
-		questFuerHerausforderer = this.herausgeforderter.fragenpool.getQuest();
-		questFuerHerausgeforderter = this.herausforderer.fragenpool.getQuest();
+		questFuerHerausforderer = this.herausgeforderter.fragenpool.getQuest(herausforderer);
+		questFuerHerausgeforderter = this.herausforderer.fragenpool.getQuest(herausgeforderter);
 		Date now = new Date();
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(now);
 		calendar.add(Calendar.DAY_OF_MONTH, 3);
 		ablaufdatum = calendar.getTime();
-		punkte = 0; 
+		gewinnerpunkte = 0; 
 		new Thread(){
 			public void run(){
 				try{
@@ -88,7 +86,7 @@ public class Teamcombat implements java.io.Serializable {
 	/**
 	 * Wertet den Teamcombat aus und gibt die Gewinnergruppe zur&uumlck
 	 * 
-	 * @return Gewinnergruppe
+	 * @return Die Gewinnergruppe
 	 */
 	public Gruppe auswerten() {
 		for (Benutzer benutzer:herausforderer.getMitglieder()){
@@ -101,14 +99,14 @@ public class Teamcombat implements java.io.Serializable {
 		int herausgeforderter = questFuerHerausgeforderter.korrigiere();
 		if (herausforderer > herausgeforderter) {
 			gewinner = this.herausforderer;
-			punkte = herausforderer; 
+			gewinnerpunkte = herausforderer; 
 			Nachricht nachricht = new Nachricht(gewinner, gewinner, Nachricht.TEAMCOMBATGEWONNEN, this);
 			this.herausforderer.benachrichtigen(nachricht);
 			this.herausgeforderter.benachrichtigen(nachricht);
 			return this.herausforderer;
 		} else {
 			gewinner = this.herausgeforderter;
-			punkte = herausgeforderter; 
+			gewinnerpunkte = herausgeforderter; 
 			Nachricht nachricht = new Nachricht(gewinner, gewinner, Nachricht.TEAMCOMBATGEWONNEN, this);
 			
 			this.herausforderer.benachrichtigen(nachricht);
@@ -128,7 +126,7 @@ public class Teamcombat implements java.io.Serializable {
 	}
 
 	/**
-	 * erstellt einen Quest f&uumlr die herausfordernde Gruppe aus dem Fragenpool
+	 * Erstellt einen Quest f&uumlr die herausfordernde Gruppe aus dem Fragenpool
 	 * der herausgeforderten Gruppe
 	 * 
 	 * @return QuestFuerHerausforderer
@@ -138,7 +136,7 @@ public class Teamcombat implements java.io.Serializable {
 	}
 
 	/**
-	 * erstellt einen Quest f&uumlr die herausgeforderte Gruppe aus dem Fragenpool
+	 * Erstellt einen Quest f&uumlr die herausgeforderte Gruppe aus dem Fragenpool
 	 * der hausfordernden Gruppe
 	 * 
 	 * @return QuestFuerHerausgeforderter
@@ -150,8 +148,7 @@ public class Teamcombat implements java.io.Serializable {
 	/**
 	 * Gibt den zu bearbeitenden Quest des Teamcombats zur&uumlck
 	 * 
-	 * @param teamcombat
-	 *            Der Teamcombat der bearbeitet werden soll
+	 * @param teamcombat Der Teamcombat der bearbeitet werden soll
 	 * @return Der zu bearbeitende Quest
 	 */
 	public Quest bearbeiten(Benutzer benutzer) {
@@ -162,21 +159,6 @@ public class Teamcombat implements java.io.Serializable {
 		}
 	}
 
-	public int getId() {
-		return teamcombat_id;
-	}
-
-	public Gruppe getHerausgeforderter() {
-		return herausgeforderter;
-	}
-
-	public Gruppe getGewinner() {
-		return gewinner;
-	}
-
-	public Date getAblaufdatum() {
-		return ablaufdatum;
-	}
 
 	public void setAblaufdatum(Date ablaufdatum) {
 		this.ablaufdatum = ablaufdatum;
@@ -196,13 +178,26 @@ public class Teamcombat implements java.io.Serializable {
 			}.start();
 		}
 	}
+	
+	public Date getAblaufdatum() {
+		return ablaufdatum;
+	}
+
 
 	public void setHerausforderer(Gruppe herausforderer) {
 		this.herausforderer = herausforderer;
 	}
+	
+	public Gruppe getHerausforderer() {
+		return herausforderer;
+	}
 
 	public void setHerausgeforderter(Gruppe herausgeforderter) {
 		this.herausgeforderter = herausgeforderter;
+	}
+	
+	public Gruppe getHerausgeforderter() {
+		return herausgeforderter;
 	}
 
 	public void setQuestFuerHerausforderer(Quest questFuerHerausforderer) {
@@ -216,20 +211,24 @@ public class Teamcombat implements java.io.Serializable {
 	public void setGewinner(Gruppe gewinner) {
 		this.gewinner = gewinner;
 	}
+	
+	public Gruppe getGewinner() {
+		return gewinner;
+	}
 
 	public void setId(int id) {
 		teamcombat_id = id;
 	}
 
-	public Gruppe getHerausforderer() {
-		return herausforderer;
+	public int getId() {
+		return teamcombat_id;
 	}
+	
+	public void setGewinnerpunkte(int punkte) {
+		this.gewinnerpunkte = punkte;
+	}	
 
-	public int getPunkte() {
-		return punkte;
-	}
-
-	public void setPunkte(int punkte) {
-		this.punkte = punkte;
+	public int getGewinnerpunkte() {
+		return gewinnerpunkte;
 	}
 }

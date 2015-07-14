@@ -15,8 +15,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
+/**
+ * Die Klasse Thema stellt einen Beitrag auf der Pinnwand eines Freundes bzw.
+ * einer Gruppe dar.
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "THEMA")
@@ -37,22 +40,6 @@ public class Thema extends Inhalt implements java.io.Serializable{
     	kommentare = new HashSet<Kommentar>();
     }
     
-    public Set<Kommentar> getKommentare(){ 
-    	return kommentare;
-    }
-    
-    public void setKommentare(Set<Kommentar> kommentare){
-    	this.kommentare = kommentare;
-    }
-    
-    public Pinnwand getPinnwand(){
-    	return pinnwand;
-    }
-    
-    public void setPinnwand(Pinnwand pinnwand){
-    	this.pinnwand = pinnwand;
-    }
-    
 	/**
 	 * Konstruktor für ein neuen Pinnwandbeitrag
 	 * 
@@ -71,6 +58,7 @@ public class Thema extends Inhalt implements java.io.Serializable{
 	
 	/**
 	 * Erstellt einen Kommentar zu einem Pinnwandbeitrag (Inhalt)
+	 * 
 	 * @param kommentar der hinzugef&uuml;gte Kommentar
 	 */
 	public void kommentieren(Kommentar kommentar){
@@ -80,6 +68,7 @@ public class Thema extends Inhalt implements java.io.Serializable{
 	
 	/**
 	 * L&ouml;scht einen Kommentar
+	 * 
 	 * @param kommentar der gel&oumlschte Kommentar
 	 */
 	public void kommentarLöschen(Kommentar kommentar){
@@ -88,6 +77,7 @@ public class Thema extends Inhalt implements java.io.Serializable{
 	
 	/**
 	 * Sortiert die Kommentare nach dem neusten Datum
+	 * 
 	 * @return die sortierte Kommentarliste
 	 */
 	public ArrayList<Kommentar> sortiereNachDatum(){
@@ -112,6 +102,7 @@ public class Thema extends Inhalt implements java.io.Serializable{
 	
 	/**
 	 * Sortiert die Kommentare nach den besten Bewertungen
+	 * 
 	 * @return sortierte Kommentarliste
 	 */
 	public ArrayList<Kommentar> sortiereNachBewertung(){
@@ -125,4 +116,19 @@ public class Thema extends Inhalt implements java.io.Serializable{
 		return tempArrayList;
 	}
 
+    public Set<Kommentar> getKommentare(){ 
+    	return kommentare;
+    }
+    
+    public void setKommentare(Set<Kommentar> kommentare){
+    	this.kommentare = kommentare;
+    }
+    
+    public Pinnwand getPinnwand(){
+    	return pinnwand;
+    }
+    
+    public void setPinnwand(Pinnwand pinnwand){
+    	this.pinnwand = pinnwand;
+    }
 }

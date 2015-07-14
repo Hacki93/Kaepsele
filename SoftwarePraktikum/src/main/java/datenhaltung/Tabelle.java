@@ -15,7 +15,7 @@ import org.hibernate.Transaction;
  * der n&auml;chsth&ouml;heren Schicht "DatenbankenVerwaltung" zusammengefasst, verwaltet und angesprochen.
  * @author Hannes
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"rawtypes","unchecked"})
 public class Tabelle {
 	
 	private SessionFactory factory; 
@@ -32,6 +32,7 @@ public class Tabelle {
 	   
 	   /**
 	    * F&uuml;gt der Tabelle einen weiteren Eintrag hinzu.
+	    * 
 	    * @return Die generierte ID
 	    */
 	   public int eintragHinzufuegen(Object eintrag){
@@ -56,6 +57,7 @@ public class Tabelle {
 	   
 	   /**
 	    * Gibt alle Eintraege aus der Tabelle zur&uuml;ck
+	    * 
 	    * @return Alle Eintr&auml;ge der tabelle
 	    */
 	   public List<Object> tabelleAusgeben(){
@@ -79,6 +81,7 @@ public class Tabelle {
 	   
 	   /**
 	    * Gibt einen Eintrag zur&uuml;ck
+	    * 
 	    * @param id Die ID des Eintrags
 	    * @return Der Eintrag
 	    */
@@ -102,6 +105,7 @@ public class Tabelle {
 	   
 	   /**
 	    * Aktualisiert einen Eintrag der Tabelle
+	    * 
 	    * @param obj Der aktualisierte Eintrag
 	    */
 	   public void eintragAktualisieren(Object obj ){
@@ -122,6 +126,7 @@ public class Tabelle {
 	   
 	   /**
 	    * Entfernt einen Eintrag aus der Tabelle
+	    * 
 	    * @param id Die ID des zu entfernenden Eintrags
 	    */
 	   public void eintragEntfernen(Integer id){

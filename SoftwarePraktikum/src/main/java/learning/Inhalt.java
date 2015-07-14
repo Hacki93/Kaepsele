@@ -14,6 +14,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.InheritanceType;
 
+/**
+ * Die Klasse Inhalt stellt eine abstrakte Generalisierung von Pinnwandthemen und Kommentaren dar.
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "INHALT")
@@ -50,7 +53,8 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 	public Inhalt(){}
 	
 	/**
-	 * Bewertung eines Inhalts
+	 * Bewerten eines Inhalts
+	 * 
 	 * @param wertung kann positiv oder negativ sein
 	 */
 	public void bewerten(boolean wertung){

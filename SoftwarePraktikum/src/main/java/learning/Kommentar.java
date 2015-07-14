@@ -9,6 +9,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+/**
+ * Die Klasse Kommentar stellt einen Kommentar zu einem Pinnwandeintrag dar. 
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "KOMMENTAR")
@@ -24,14 +27,6 @@ public class Kommentar extends Inhalt implements java.io.Serializable{
 	 */
 	public Kommentar() {}
 	
-	public Thema getThema(){
-		return thema;
-	}
-	
-	public void setThema(Thema thema){
-		this.thema = thema;
-	}
-	
 	/**
 	 * Konstruktor für ein neuen Kommentar zu einem Pinnwandbeitrag (Inhalt)
 	 * 
@@ -45,5 +40,13 @@ public class Kommentar extends Inhalt implements java.io.Serializable{
 		this.benutzer = autor;
 		bewertung = 0;
 		datum = new Date();
+	}
+	
+	public Thema getThema(){
+		return thema;
+	}
+	
+	public void setThema(Thema thema){
+		this.thema = thema;
 	}
 }

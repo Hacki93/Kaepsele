@@ -16,11 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
+/**
+ * Die Klasse Pinnwand stellt den Bereich eines Benutzer-/Gruppenprofils dar, auf dem
+ * Mitglieder/Freunde Themen posten k&ouml;nnen.
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "PINNWAND")
@@ -56,22 +57,6 @@ public class Pinnwand implements java.io.Serializable{
 		thema.setPinnwand(this);
 	}
 	
-	public void setThemen(Set<Thema> themen){
-		this.themen = themen;
-	}
-	
-	public Set<Thema> getThemen(){
-		return themen;
-	}
-	
-	public void setErlaubteBenutzer(Set<Benutzer> benutzer){
-		erlaubteBenutzer = benutzer;
-	}
-	
-	public Set<Benutzer> getErlaubteBenutzer(){
-		return erlaubteBenutzer;
-	}
-	
 	/**
 	 * Es wird ein Pinnwandbeitrag gel&ouml;scht
 	 * @param inhalt der gel&ouml;tschte Inhalt
@@ -82,6 +67,7 @@ public class Pinnwand implements java.io.Serializable{
 	
 	/**
 	 * Sortiert die Pinnwand nach den neuesten Einträgen
+	 * 
 	 * @return die sortierte Themenliste
 	 */
 	public ArrayList<Thema> sortiereNachDatum(){
@@ -106,6 +92,7 @@ public class Pinnwand implements java.io.Serializable{
 	
 	/**
 	 * Sortiert die Pinnwand nach den besten Bewertungen
+	 * 
 	 * @return die sortierte Themenliste
 	 */
 	public ArrayList<Thema> sortiereNachBewertung(){
@@ -117,6 +104,30 @@ public class Pinnwand implements java.io.Serializable{
 		
 		Collections.sort(tempArrayList);
 		return tempArrayList;
+	}
+	
+	public void setThemen(Set<Thema> themen){
+		this.themen = themen;
+	}
+	
+	public Set<Thema> getThemen(){
+		return themen;
+	}
+	
+	public void setErlaubteBenutzer(Set<Benutzer> benutzer){
+		erlaubteBenutzer = benutzer;
+	}
+	
+	public Set<Benutzer> getErlaubteBenutzer(){
+		return erlaubteBenutzer;
+	}
+	
+	public void setId(int id){
+		pinnwand_id = id;
+	}
+	
+	public int getId(){
+		return pinnwand_id;
 	}
 
 }

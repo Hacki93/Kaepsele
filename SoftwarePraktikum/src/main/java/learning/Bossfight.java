@@ -2,7 +2,6 @@ package learning;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,10 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
 import kommunikation.Nachricht;
 
+/**
+ * Ein Bossfight ist eine Spezialisierung von Challenge und stellt vor dem Benutzer eine Altklausur dar.
+ * Damit ist er die letzte H&uuml;rde zur Bestehung einer Gruppe und dem Amt des Moderators.
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "BOSSFIGHT")
@@ -62,7 +63,7 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	}
 
 	/**
-	 * gibt den Anhang des Bossfights zur&uumlck
+	 * Gibt den Anhang des Bossfights zur&uumlck
 	 * 
 	 * @return Klausur
 	 */
@@ -106,9 +107,9 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	}
 
 	/**
-	 * pr&uumlft, ob ein Bossfight bestanden wurde
+	 * Pr&uumlft, ob ein Bossfight bestanden wurde
 	 * 
-	 * @return
+	 * @return true, falls der Bossfight bestanden wurde
 	 */
 	public boolean bestanden() {
 		if (erreichtePunktzahl >= (0.8 * this.erreichbarePunktzahl)) {
@@ -133,5 +134,12 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	
 	public void setGruppe(Gruppe gruppe){
 		this.gruppe = gruppe;
+	}
+	
+	public Set<String> getAntworten(){
+		return antworten;
+	}
+	public void setAntworten(Set<String> antworten){
+		this.antworten = antworten;
 	}
 }

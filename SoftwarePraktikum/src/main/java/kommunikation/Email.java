@@ -10,9 +10,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- * 
- * @author Hannes
- *
  * Diese Klasse beinhaltet Methoden zum Senden einer Email
  */
 public class Email {

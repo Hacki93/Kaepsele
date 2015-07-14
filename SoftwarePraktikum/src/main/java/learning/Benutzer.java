@@ -21,6 +21,10 @@ import javax.persistence.Table;
 import kommunikation.Email;
 import kommunikation.Nachricht;
 
+/**
+ * Die Klasse Benutzer beinhaltet s&auuml;mtliche Informationen zum Profil eines Benutzers sowie
+ * Methoden, um diese zu verwalten
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "BENUTZER")
@@ -459,9 +463,17 @@ public class Benutzer extends Account implements java.io.Serializable {
 	public Set<Nachricht> getNachrichten() {
 		return nachrichten;
 	}
+	
+	public void setNachrichten(Set<Nachricht> nachrichten){
+		this.nachrichten = nachrichten;
+	}
 
 	public Set<Nachricht> getAufgaben() {
 		return aufgaben;
+	}
+	
+	public void setAufgaben(Set<Nachricht> aufgaben) {
+		this.aufgaben = aufgaben;
 	}
 
 	public Set<Gruppe> getGruppen() {

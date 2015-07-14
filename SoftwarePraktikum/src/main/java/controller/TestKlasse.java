@@ -63,7 +63,6 @@ public class TestKlasse {
 				db.eintragHinzufuegen(frage.getClass(), frage);
 				db.eintragHinzufuegen(bossfight.getClass(), bossfight);
 				
-				
 				//Objekte füllen und verbinden
 				
 				hannes.setAdresse("Bühlenstr. 100, 71088 Holzgerlingen");
@@ -89,7 +88,7 @@ public class TestKlasse {
 	
 				wi.setName("Wirtschaftsinformatik");
 				wi.setFreigegeben(false);
-				
+
 				bossfight.addAntwort("42");
 				
 				mbis.setName("Management betrieblicher Informationssysteme");
@@ -140,7 +139,6 @@ public class TestKlasse {
 	            
 	            frage.setBearbeitet(false);
 	            frage.setText("Willst Du mit mir gehn?");
-	            frage.setTitel("Zettel");
 	            frage.addAntwortmoeglichkeiten("Vielleicht");
 	            frage.addAntwortmoeglichkeiten("Ja");
 	            frage.addAntwortmoeglichkeiten("Nein");
@@ -148,8 +146,12 @@ public class TestKlasse {
 	            frage.setBenutzer(lena);
 	            
 	            Quest quest = mbis.questAntreten(hannes); //Quest wird dynamisch erzeugt und kann nicht als new Quest() angelegt werden!
+
 	            db.eintragHinzufuegen(quest.getClass(), quest);
+	            
+
 				
+	            
 				db.eintragAktualisieren(thema.getClass(), thema);
 				db.eintragAktualisieren(thema2.getClass(), thema2);
 				db.eintragAktualisieren(thema3.getClass(), thema3);
@@ -166,20 +168,9 @@ public class TestKlasse {
 				
 				lena.freundHinzufuegen(hannes);
 				db.eintragAktualisieren(lena.getClass(), lena);
-				db.eintragAktualisieren(hannes.getClass(), hannes);
+				db.eintragAktualisieren(hannes.getClass(), hannes);			
 				
-				for(Object obj : db.tabelleAusgeben(new Benutzer().getClass())) {
-					Benutzer b = (Benutzer) obj;
-					for(Benutzer u : b.freunde){
-						b.freundEntfernen(u);
-						db.eintragAktualisieren(u.getClass(), u);
-					}
-					db.eintragAktualisieren(b.getClass(), b);
-				}
-				
-				
-				
-
+				System.err.println("Datenbank vollständig beschrieben");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -289,27 +280,27 @@ public class TestKlasse {
 			gruppe1.mitgliedHinzufuegen(hannes);
 			gruppe2.mitgliedHinzufuegen(kevin);
 			gruppe2.mitgliedHinzufuegen(chris);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			
-			gruppe2.frageErstellen("andererTitel", frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			
+//			gruppe2.frageErstellen("andererTitel", frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
 			System.out.println("Frage hinzugefügt");	
 			System.out.println(new Date());
 			Teamcombat t = gruppe1.teamcombatAntreten(gruppe2);
@@ -385,27 +376,27 @@ public class TestKlasse {
 			gruppe1.mitgliedHinzufuegen(hannes);
 			gruppe2.mitgliedHinzufuegen(kevin);
 			gruppe2.mitgliedHinzufuegen(chris);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			gruppe1.frageErstellen(titel, frage, a, l, kevin);
-			
-			gruppe2.frageErstellen("andererTitel", frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+//			
+//			gruppe2.frageErstellen("andererTitel", frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+//			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
 			System.out.println("Frage hinzugefügt");	
 			Teamcombat t = gruppe1.teamcombatAntreten(gruppe2);
 			
