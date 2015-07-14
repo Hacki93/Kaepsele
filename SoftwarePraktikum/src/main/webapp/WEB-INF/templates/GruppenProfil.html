@@ -105,14 +105,14 @@
                     <tbody>
                       <tr>
                         <td><strong>Klausurname:</strong></td>
-                        <td><strong>Einfuehrung in die Softwaretechnik</strong></td>
+                        <td><strong>Einf&uuml;hrung in die Softwaretechnik</strong></td>
                       </tr>
                       <tr>
                         <td><strong>Anzahl Gruppenmitglieder:</strong></td>
                         <td><strong>15</strong></td>
                       </tr>
                       <tr>
-                        <td><strong>Gegruendet:</strong></td>
+                        <td><strong>Gegr&uuml;ndet:</strong></td>
                         <td><strong>03.05.2015</strong></td>
                       </tr>
                    
@@ -122,7 +122,7 @@
                   </table>
                   <a href="#" class="btn btn-primary btn-sm btn-block">Quest starten</a>
                   <a href="#" class="btn btn-primary btn-sm btn-block">Teamcombat starten</a>
-                  <a href="#" class="btn btn-primary btn-sm btn-block">Frage anlegen</a>
+                  <a data-toggle="modal" data-target="#Frage" class="btn btn-primary btn-sm btn-block">Frage anlegen</a>
                   <a href="#" class="btn btn-primary btn-sm btn-block">Gruppenmitglieder</a>
                   <a href="#" class="btn btn-primary btn-sm btn-block">Bossfight</a>
      
@@ -131,15 +131,15 @@
               </div>
             </div>
                  <div class="panel-footer">
-                        <a data-original-title="Nachricht an alle Gruppenmitglieder" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
                        
-                            <a href="edit.html" data-original-title="Kommentar schreiben" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a data-toggle="modal" data-target="#Beitrag" data-original-title="Beitrag schreiben"  type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
                             
                         
                             <a href="#" data-original-title="Nach Likes sortieren" data-toggle="tooltip" type="button" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-star"></i></a>
                             <a href="#" data-original-title="Nach Datum sortieren" data-toggle="tooltip" type="button" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-arrow-down"></i></a>
                             
                              <span class="pull-right">
+                             <a data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a>
                             <a data-original-title="Gruppe verlassen" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                         </span>
                     </div>
@@ -257,6 +257,112 @@
         </div>
       </div>
     </div>
+    
+    
+    <div class="modal fade" id="Frage" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">x<span class="sr-only"></span></button>
+			<h3 class="modal-title" id="lineModalLabel">Frage anlegen</h3>
+		</div>
+		<div class="modal-body">
+			
+            <!-- content goes here -->
+			<form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Frage</label>
+                <input type="text" class="form-control" placeholder="Fragentext eingeben"/>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Antwortm&ouml;glichkeit 1</label>
+                <input type="text" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"/> Korrekte Antwort
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Antwortm&ouml;glichkeit 2</label>
+                <input type="text" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"/> Korrekte Antwort
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Antwortm&ouml;glichkeit 3</label>
+                <input type="text" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"/> Korrekte Antwort
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Antwortm&ouml;glichkeit 4</label>
+                <input type="text" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"/> Korrekte Antwort
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputFile">Datei hinzuf&uuml;gen</label>
+                <input type="file" id="exampleInputFile"/>
+              </div>
+              <button type="submit" class="btn btn-success">Frage anlegen</button>
+            </form>
+
+		</div>
+		<div class="modal-footer">
+			<div class="btn-group btn-group-justified" role="group" aria-label="group button">
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Schlie&szlig;en</button>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+  </div>
+    
+    <div class="modal fade" id="Beitrag" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">x<span class="sr-only"></span></button>
+			<h3 class="modal-title" id="lineModalLabel">Beitrag schreiben</h3>
+		</div>
+		<div class="modal-body">
+			
+            <!-- content goes here -->
+			<form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Titel</label>
+                <input type="text" class="form-control" placeholder="Titel eingeben"/>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Inhalt</label>
+                <input type="text" class="form-control" placeholder="Text eingeben"/>
+              </div>
+              <button type="submit" class="btn btn-success">Beitrag posten</button>
+            </form>
+
+		</div>
+		<div class="modal-footer">
+			<div class="btn-group btn-group-justified" role="group" aria-label="group button">
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Schlie&szlig;en</button>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+  </div>
+    
     
     
     <script src="resources/js/jquery.js"></script>
