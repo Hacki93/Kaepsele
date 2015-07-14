@@ -35,9 +35,6 @@ public class Account implements java.io.Serializable{
 	@Column(name = "passwort")
 	protected String passwort;
 	
-	@Transient
-	boolean loggedIn;
-	
 	@Transient 
 	Set<Nachricht> nachrichten; 
 	
@@ -46,7 +43,6 @@ public class Account implements java.io.Serializable{
 	
 	@Column(name = "emailAdresse")
 	String emailAdresse;
-	
 
 	/**
 	 * &Uuml;berpr&uuml;ft, ob das eingegebene Passwort zum Benutzer passt
@@ -55,18 +51,9 @@ public class Account implements java.io.Serializable{
 	 */
 	public boolean login(String angegebenesPasswort){
 		if(passwort.equals(angegebenesPasswort)){
-			loggedIn = true;
 			return true;
 		}
-		loggedIn = false;
 		return false;
-	}
-	
-	/**
-	 * Meldet den Benutzer ab
-	 */
-	public void logout(){		
-		loggedIn = false;
 	}
 	
 	/**
@@ -89,39 +76,7 @@ public class Account implements java.io.Serializable{
 		}
 		nachrichten.add(nachricht);
 	}
-
-	/**
-	 * Gibt den Benutzernamen zur&uuml;ck
-	 * @return Der Benutzername
-	 */
-	public String getBenutzername() {
-		return benutzername;
-	}
-
-	/**
-	 * Private Hilfsmethode zum Setzen von Benutzernamen durch Hiberante/Registrierung
-	 * @param benutzername Der Benutzername
-	 */
-	public void setBenutzername(String benutzername) {
-		this.benutzername = benutzername;
-	}
-
-	/**
-	 * Private Hilfsmethode zum Setzen von Passwort durch Hiberante/Registrierung
-	 * @param benutzername Das Passwort
-	 */
-	public String getPasswort() {
-		return passwort;
-	}
-
-	/**
-	 * Setzen eines Passworts ohne Angabe des alten Passworts
-	 * @param passwort
-	 */
-	public void setPasswort(String passwort) {
-		this.passwort = hashPasswort(passwort);
-	}
-	
+		
 	/**
 	 * Transformiert das Passwort von Klartext in einen MD5-Hash, der nur schwer
 	 * r&uuml;cktransformierbar ist
@@ -143,11 +98,59 @@ public class Account implements java.io.Serializable{
 		return hashedPasswort; 
 	}
 	
+	/**
+	 * Setzen und Hashen eines Passwort
+	 * @param passwort
+	 */
+	public void neuesPasswort(String passwort) {
+		this.passwort = hashPasswort(passwort);
+	}
+
+	public String getBenutzername() {
+		return benutzername;
+	}
+
+	public void setBenutzername(String benutzername) {
+		this.benutzername = benutzername;
+	}
+
+	public String getPasswort() {
+		return passwort;
+	}
+
+	public void setPasswort(String passwort) {
+		this.passwort = passwort;
+	}
+	
 	public String getEmailAdresse() {
 		return emailAdresse;
 	}
 
 	public void setEmailAdresse(String emailAdresse) {
 		this.emailAdresse = emailAdresse;
+	}
+	
+	public Set<Nachricht> setNachrichten() {
+		return nachrichten;
+	}
+	
+	public void getNachrichten(Set<Nachricht> nachrichten){
+		this.nachrichten = nachrichten;
+	}
+	
+	public Set<Nachricht> setAufgaben() {
+		return aufgaben;
+	}
+	
+	public void getAufgaben(Set<Nachricht> aufgaben){
+		this.aufgaben = aufgaben;
+	}
+	
+	public int getId(){
+		return account_id;
+	}
+	
+	public void setId(int id){
+		account_id = id;
 	}
 }

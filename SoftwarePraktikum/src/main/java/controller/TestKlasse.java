@@ -33,8 +33,8 @@ public class TestKlasse {
 
 	// Klasse zum Testen von Codebausteinen
 	public static void main(String[] args) {
-//		dbSchreiben();
-		lena();
+		dbSchreiben();
+//		lena();
 //		sortierTest();
 //		zeitTest();
 //		System.exit(0);
@@ -98,7 +98,6 @@ public class TestKlasse {
 				lena.setStudiengang("Wirtschaftsinformatik B.Sc.");
 				lena.setGeburtsdatum(new SimpleDateFormat("dd/MM/yyyy").parse("31/12/1993"));
 				lena.setProfilbildURL("/Bild.png");
-				lena.freundHinzufuegen(hannes);
 	
 				wi.setName("Wirtschaftsinformatik");
 				wi.setFreigegeben(false);
@@ -181,6 +180,22 @@ public class TestKlasse {
 				db.eintragAktualisieren(frage.getClass(), frage);
 				db.eintragAktualisieren(quest.getClass(), quest);
 				db.eintragAktualisieren(bossfight.getClass(), bossfight);
+				
+				lena.freundHinzufuegen(hannes);
+				db.eintragAktualisieren(lena.getClass(), lena);
+				db.eintragAktualisieren(hannes.getClass(), hannes);
+				
+				for(Object obj : db.tabelleAusgeben(new Benutzer().getClass())) {
+					Benutzer b = (Benutzer) obj;
+					for(Benutzer u : b.freunde){
+						b.freundEntfernen(u);
+						db.eintragAktualisieren(u.getClass(), u);
+					}
+					db.eintragAktualisieren(b.getClass(), b);
+				}
+				
+				
+				
 
 			} catch (Exception e) {
 				e.printStackTrace();

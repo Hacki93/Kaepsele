@@ -134,9 +134,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 */
 	public void freundHinzufuegen(Benutzer benutzer) {
 		freunde.add(benutzer);
-		benutzer.freunde.add(this);
 		pinnwand.erlaubteBenutzer.add(benutzer);
-		benutzer.pinnwand.erlaubteBenutzer.add(this);
 		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.FREUNDHINZUGEFUEGT, this);
 		benutzer.benachrichtigen(nachricht);
 	}
@@ -204,10 +202,9 @@ public class Benutzer extends Account implements java.io.Serializable {
 	}
 
 	/**
-	 * l&ouml;scht einen Benutzer aus der eigenen Freundesliste
+	 * L&ouml;scht einen Benutzer aus der eigenen Freundesliste
 	 * 
-	 * @param benutzer
-	 *            der gel&ouml;tschte Benutzer
+	 * @param benutzer Der zu l&ouml;tschende Benutzer
 	 */
 	public void freundEntfernen(Benutzer benutzer) {
 		freunde.remove(benutzer);
@@ -217,15 +214,11 @@ public class Benutzer extends Account implements java.io.Serializable {
 	/**
 	 * Erstellt eine neue Gruppe
 	 * 
-	 * @param name
-	 *            : Ist der Name der Gruppe
-	 * @param fachrichtung
-	 *            : Ist die Fachrichtung der Gruppe
-	 * @param klausurname
-	 *            : Ist die Klausur auf die in der Gruppe gelernt wird
+	 * @param name Der Name der Gruppe
+	 * @param fachrichtung Die Fachrichtung der Gruppe
+	 * @param klausurname Die Klausur auf die in der Gruppe gelernt wird
 	 */
-	public Gruppe gruppeErstellen(String name, Fachrichtung fachrichtung,
-			String klausurname) {
+	public Gruppe gruppeErstellen(String name, Fachrichtung fachrichtung, String klausurname) {
 		Gruppe gruppe = new Gruppe(name, fachrichtung, klausurname);
 		gruppen.add(gruppe);
 		gruppe.mitgliedHinzufuegen(this);
@@ -237,8 +230,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	/**
 	 * Eine Gruppe wird in die eigene Gruppenliste hinzugef&uuml;gt
 	 * 
-	 * @param gruppe
-	 *            die hinzugef&uuml;gte Gruppe
+	 * @param gruppe Die hinzugef&uuml;gte Gruppe
 	 */
 	public boolean gruppeBeitreten(Gruppe gruppe) {
 		if (gruppe.anzahl() < 15) {
@@ -259,8 +251,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	/**
 	 * Eine Gruppe wird aus der eigenen Gruppenliste entfernt
 	 * 
-	 * @param gruppe
-	 *            die entfernte Gruppe
+	 * @param gruppe Die zu entfernende Gruppe
 	 */
 	public void gruppeVerlassen(Gruppe gruppe) {
 		gruppen.remove(gruppe);
@@ -271,12 +262,9 @@ public class Benutzer extends Account implements java.io.Serializable {
 	/**
 	 * Ein Beitrag auf einer Pinnwand eines Benutzers schreiben
 	 * 
-	 * @param inhalt
-	 *            : Ist der Inhalt des Pinnwandbeitrags
-	 * @param titel
-	 *            : Ist der Titel des Pinnwandbeitrags
-	 * @param benutzer
-	 *            : Ist der Besitzer der Pinnwand
+	 * @param inhalt Der Inhalt des Pinnwandbeitrags
+	 * @param titel Der Titel des Pinnwandbeitrags
+	 * @param benutzer Der Besitzer der Pinnwand
 	 * @return true, falls der Eintrag geschrieben wurde
 	 */
 	public boolean themaSchreiben(String inhalt, String titel, Benutzer benutzer) {
@@ -285,10 +273,8 @@ public class Benutzer extends Account implements java.io.Serializable {
 			benutzer.pinnwand.themaHinzufügen(thema);
 			return true;
 		} else {
-			// Der Benutzer befindet sich nicht in der Liste der erlaubten
-			// Benutzer
-			// Benutzer wird informiert, dass er keinen Pinnwandbeitrag bei
-			// diesem Benutzer schreiben darf
+			// Der Benutzer befindet sich nicht in der Liste der erlaubten Benutzer
+			// Benutzer wird informiert, dass er keinen Pinnwandbeitrag bei diesem Benutzer schreiben darf
 			return false;
 		}
 	}
@@ -296,27 +282,20 @@ public class Benutzer extends Account implements java.io.Serializable {
 	/**
 	 * Einen Kommentar zu einem Pinnwandbeitrag schreiben
 	 * 
-	 * @param inhalt
-	 *            : Ist der Inhalt des Kommentars
-	 * @param titel
-	 *            : Ist der Titel des Kommentars
-	 * @param benutzer
-	 *            : Ist der Besitzer der Pinnwand
-	 * @param thema
-	 *            : Ist der Pinnwandbeitrag der kommentiert wird
-	 * @return true , falls der Kommentar geschrieben wurde
+	 * @param inhalt Der Inhalt des Kommentars
+	 * @param titel Der Titel des Kommentars
+	 * @param benutzer Der Besitzer der Pinnwand
+	 * @param thema Der Pinnwandbeitrag der kommentiert wird
+	 * @return true, falls der Kommentar geschrieben wurde
 	 */
-	public boolean kommentarSchreiben(String inhalt, String titel,
-			Benutzer benutzer, Thema thema) {
+	public boolean kommentarSchreiben(String inhalt, String titel, Benutzer benutzer, Thema thema) {
 		if (benutzer.pinnwand.erlaubteBenutzer.contains(this)) {
 			Kommentar kommentar = new Kommentar(inhalt, titel, this);
 			thema.kommentieren(kommentar);
 			return true;
 		} else {
-			// Der Benutzer befindet sich nicht in der Liste der erlaubten
-			// Benutzer
-			// Benutzer wird informiert, dass er keinen Kommentar bei diesem
-			// Benutzers schreiben darf
+			// Der Benutzer befindet sich nicht in der Liste der erlaubten Benutzer
+			// Benutzer wird informiert, dass er keinen Kommentar bei diesem Benutzers schreiben darf
 			return false;
 		}
 	}
@@ -324,25 +303,19 @@ public class Benutzer extends Account implements java.io.Serializable {
 	/**
 	 * Ein Beitrag auf die Pinnwand einer Gruppe schreiben
 	 * 
-	 * @param inhalt
-	 *            : Ist der Inhalt des Kommentars
-	 * @param titel
-	 *            : Ist der Titel des Kommentars
-	 * @param gruppe
-	 *            : Ist die Gruppe in der der Beitrag geschrieben wird
+	 * @param inhalt Der Inhalt des Kommentars
+	 * @param titel Der Titel des Kommentars
+	 * @param gruppe Die Gruppe in der der Beitrag geschrieben wird
 	 * @return true, falls der Beitrag geschrieben wurde
 	 */
-	public boolean gruppenThemaSchreiben(String inhalt, String titel,
-			Gruppe gruppe) {
+	public boolean gruppenThemaSchreiben(String inhalt, String titel, Gruppe gruppe) {
 		if (gruppe.pinnwand.erlaubteBenutzer.contains(this)) {
 			Thema thema = new Thema(inhalt, titel, this);
 			gruppe.pinnwand.themaHinzufügen(thema);
 			return true;
 		} else {
-			// Der Benutzer befindet sich nicht in der Liste der erlaubten
-			// Benutzer
-			// Benutzer wird informiert, dass er keinen Pinnwandbeitrag bei
-			// dieser Gruppe schreiben darf
+			// Der Benutzer befindet sich nicht in der Liste der erlaubten Benutzer
+			// Benutzer wird informiert, dass er keinen Pinnwandbeitrag bei dieser Gruppe schreiben darf
 			return false;
 		}
 	}
@@ -350,38 +323,29 @@ public class Benutzer extends Account implements java.io.Serializable {
 	/**
 	 * Einen Kommentar in einer Gruppe schreiben
 	 * 
-	 * @param inhalt
-	 *            : Ist der Inhalt des Kommentars
-	 * @param titel
-	 *            : Ist der Titel des Kommentars
-	 * @param gruppe
-	 *            : Ist die Gruppe in der der Beitrag geschrieben wird
-	 * @param thema
-	 *            : Ist der Pinnwandbeitrag der Kommentiert wird
+	 * @param inhalt Der Inhalt des Kommentars
+	 * @param titel Der Titel des Kommentars
+	 * @param gruppe Die Gruppe in der der Beitrag geschrieben wird
+	 * @param thema Der Pinnwandbeitrag der kommentiert wird
 	 * @return true, falls der Kommentar geschrieben wurde
 	 */
-	public boolean gruppenKommentarSchreiben(String inhalt, String titel,
-			Gruppe gruppe, Thema thema) {
+	public boolean gruppenKommentarSchreiben(String inhalt, String titel, Gruppe gruppe, Thema thema) {
 		if (gruppe.pinnwand.erlaubteBenutzer.contains(this)) {
 			Kommentar kommentar = new Kommentar(inhalt, titel, this);
 			thema.kommentieren(kommentar);
 			return true;
 		} else {
-			// Der Benutzer befindet sich nicht in der Liste der erlaubten
-			// Benutzer
-			// Benutzer wird informiert, dass er keinen Kommentar in dieser
-			// Gruppe schreiben darf
+			// Der Benutzer befindet sich nicht in der Liste der erlaubten Benutzer
+			// Benutzer wird informiert, dass er keinen Kommentar in dieser Gruppe schreiben darf
 			return false;
 		}
 	}
 
 	/**
-	 * Der Moderator einer Gruppe kann Themen auf der Pinnwand l&oumlschen
+	 * Der Moderator einer Gruppe kann Themen auf der Pinnwand l&oumlschen 
 	 * 
-	 * @param thema
-	 *            : Ist das Thema das gel&oumlscht wird
-	 * @param gruppe
-	 *            : Ist die Gruppe in der das Thema gel&oumlscht wird
+	 * @param thema Das Thema das gel&oumlscht wird
+	 * @param gruppe Die Gruppe in der das Thema gel&oumlscht wird
 	 * @return true, falls das Thema gel&oumlscht wurde
 	 */
 	public boolean gruppenThemaEntfernen(Thema thema, Gruppe gruppe) {
@@ -393,8 +357,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 			return true;
 		} else {
 			// Der Benutzer ist kein Moderator in dieser Gruppe
-			// Benutzer wird informiert, dass er in dieser Gruppe kein Moderator
-			// ist
+			// Benutzer wird informiert, dass er in dieser Gruppe kein Moderator ist
 			return false;
 		}
 	}
@@ -402,13 +365,9 @@ public class Benutzer extends Account implements java.io.Serializable {
 	/**
 	 * Der Moderator einer Gruppe kann einen Kommentar zu eiem Thema l&oumlschen
 	 * 
-	 * @param thema
-	 *            : Unter diesem Thema befindet sich der zu l&oumlschende
-	 *            Kommentar
-	 * @param gruppe
-	 *            : Ist die Gruppe in der der Kommentar gel&oumlscht wird
-	 * @param kommentar
-	 *            : Ist der Kommentar der gel&oumlscht wird
+	 * @param thema Unter diesem Thema befindet sich der zu l&oumlschende Kommentar
+	 * @param gruppe Die Gruppe in der der Kommentar gel&oumlscht wird
+	 * @param kommentar Der Kommentar der gel&oumlscht wird
 	 * @return true, falls der Kommentar gel&oumlscht wurde
 	 */
 	public boolean gruppenKommentarEntfernen(Thema thema, Gruppe gruppe,
@@ -418,8 +377,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 			return true;
 		} else {
 			// Der Benutzer ist kein Moderator in dieser Gruppe
-			// Benutzer wird informiert, dass er in dieser Gruppe kein Moderator
-			// ist
+			// Benutzer wird informiert, dass er in dieser Gruppe kein Moderator ist
 			return false;
 		}
 	}
@@ -427,10 +385,8 @@ public class Benutzer extends Account implements java.io.Serializable {
 	/**
 	 * Der Moderator einer Gruppe kann ein Medium aus der Mediathek l&oumlschen
 	 * 
-	 * @param medium
-	 *            : Ist das Medium das gel&oumlscht wird
-	 * @param gruppe
-	 *            : Ist die Gruppe in dem das Medium liegt
+	 * @param medium Das Medium das gel&oumlscht wird
+	 * @param gruppe Die Gruppe in dem das Medium liegt
 	 * @return true, falls das Medium gel&oumlscht wurde
 	 */
 	public boolean gruppenMediumEntfernen(Medium medium, Gruppe gruppe) {
