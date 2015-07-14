@@ -270,7 +270,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	public boolean themaSchreiben(String inhalt, String titel, Benutzer benutzer) {
 		if (benutzer.pinnwand.erlaubteBenutzer.contains(this)) {
 			Thema thema = new Thema(inhalt, titel, this);
-			benutzer.pinnwand.themaHinzufügen(thema);
+			benutzer.pinnwand.themaHinzufuegen(thema);
 			return true;
 		} else {
 			// Der Benutzer befindet sich nicht in der Liste der erlaubten Benutzer
@@ -311,7 +311,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	public boolean gruppenThemaSchreiben(String inhalt, String titel, Gruppe gruppe) {
 		if (gruppe.pinnwand.erlaubteBenutzer.contains(this)) {
 			Thema thema = new Thema(inhalt, titel, this);
-			gruppe.pinnwand.themaHinzufügen(thema);
+			gruppe.pinnwand.themaHinzufuegen(thema);
 			return true;
 		} else {
 			// Der Benutzer befindet sich nicht in der Liste der erlaubten Benutzer
@@ -378,25 +378,6 @@ public class Benutzer extends Account implements java.io.Serializable {
 		} else {
 			// Der Benutzer ist kein Moderator in dieser Gruppe
 			// Benutzer wird informiert, dass er in dieser Gruppe kein Moderator ist
-			return false;
-		}
-	}
-
-	/**
-	 * Der Moderator einer Gruppe kann ein Medium aus der Mediathek l&oumlschen
-	 * 
-	 * @param medium Das Medium das gel&oumlscht wird
-	 * @param gruppe Die Gruppe in dem das Medium liegt
-	 * @return true, falls das Medium gel&oumlscht wurde
-	 */
-	public boolean gruppenMediumEntfernen(Medium medium, Gruppe gruppe) {
-		if (gruppe.moderatoren.contains(this)) {
-			gruppe.mediathek.mediumLöschen(medium);
-			return true;
-		} else {
-			// Der Benutzer ist kein Moderator in dieser Gruppe
-			// Benutzer wird informiert, dass er in dieser Gruppe kein Moderator
-			// ist
 			return false;
 		}
 	}

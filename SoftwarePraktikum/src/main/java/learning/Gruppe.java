@@ -64,10 +64,6 @@ public class Gruppe implements java.io.Serializable {
 	@JoinColumn(name = "pinnwand_id")
 	public Pinnwand pinnwand;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "mediathek_id")
-	public Mediathek mediathek;
-
 	@Transient
 	public Set<Teamcombat> teamcombats;
 
@@ -85,7 +81,6 @@ public class Gruppe implements java.io.Serializable {
 		moderatoren = new HashSet<Benutzer>();
 		fragenpool = new Fragenpool();
 		pinnwand = new Pinnwand();
-		mediathek = new Mediathek();
 		teamcombats = new HashSet<Teamcombat>();
 		fachrichtung = new Fachrichtung();
 		bossfights = new HashSet<Bossfight>();
@@ -110,7 +105,6 @@ public class Gruppe implements java.io.Serializable {
 		moderatoren = new HashSet<Benutzer>();
 		fragenpool = new Fragenpool(); // löschen
 		pinnwand = new Pinnwand(); // löschen
-		mediathek = new Mediathek(); // löschen
 		teamcombats = new HashSet<Teamcombat>();
 		bossfights = new HashSet<Bossfight>();
 	}
@@ -337,14 +331,6 @@ public class Gruppe implements java.io.Serializable {
 
 	public void setMitglieder(HashSet<Benutzer> benutzer) {
 		this.mitglieder = benutzer;
-	}
-
-	public void setMediathek(Mediathek mediathek) {
-		this.mediathek = mediathek;
-	}
-
-	public Mediathek getMediathek() {
-		return mediathek;
 	}
 
 	public void setPinnwand(Pinnwand pinnwand) {

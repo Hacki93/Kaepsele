@@ -50,10 +50,6 @@ public class Admin extends Account implements java.io.Serializable{
 					thema.kommentarLöschen(kommentar);
 				}
 			}
-			//löschen der Mediathek
-			for(Medium medium : gruppe.mediathek.medien){
-				gruppe.mediathek.mediumLöschen(medium);
-			} 
 			return true;
 		}
 		else{

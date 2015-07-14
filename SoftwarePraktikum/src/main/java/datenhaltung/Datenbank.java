@@ -15,7 +15,6 @@ import learning.Fragenpool;
 import learning.Gruppe;
 import learning.Inhalt;
 import learning.Kommentar;
-import learning.Mediathek;
 import learning.Medium;
 import learning.Pinnwand;
 import learning.Quest;
@@ -76,7 +75,6 @@ public class Datenbank {
 		tabelleLaden(new Gruppe().getClass());
 		tabelleLaden(new Inhalt().getClass());
 		tabelleLaden(new Kommentar().getClass());
-		tabelleLaden(new Mediathek().getClass());
 		tabelleLaden(new Medium().getClass());
 		tabelleLaden(new Pinnwand().getClass());
 		tabelleLaden(new Quest().getClass());
@@ -103,7 +101,6 @@ public class Datenbank {
     	configuration.addAnnotatedClass(new Gruppe().getClass());
     	configuration.addAnnotatedClass(new Inhalt().getClass());
     	configuration.addAnnotatedClass(new Kommentar().getClass());
-    	configuration.addAnnotatedClass(new Mediathek().getClass());
     	configuration.addAnnotatedClass(new Medium().getClass());
     	configuration.addAnnotatedClass(new Pinnwand().getClass());
     	configuration.addAnnotatedClass(new Quest().getClass());

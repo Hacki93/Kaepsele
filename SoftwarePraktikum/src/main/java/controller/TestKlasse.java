@@ -2,26 +2,16 @@ package controller;
 
 
 import java.text.SimpleDateFormat;
-import java.util.Timer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
-import kommunikation.Nachricht;
 import learning.Benutzer;
 import learning.Bossfight;
 import learning.Fachrichtung;
 import learning.Frage;
 import learning.Gruppe;
 import learning.Kommentar;
-import learning.Mediathek;
 import learning.Medium;
 import learning.Pinnwand;
 import learning.Quest;
@@ -54,7 +44,6 @@ public class TestKlasse {
 				Thema thema4		= new Thema();
 				Kommentar kommentar = new Kommentar();
 				Medium medium 		= new Medium();
-				Mediathek mediathek = new Mediathek();
 				Fachrichtung wi		= new Fachrichtung();
 				Frage frage			= new Frage();
 				Bossfight bossfight = new Bossfight();
@@ -67,7 +56,6 @@ public class TestKlasse {
 				db.eintragHinzufuegen(thema3.getClass(), thema3);
 				db.eintragHinzufuegen(thema4.getClass(), thema4);
 				db.eintragHinzufuegen(kommentar.getClass(), kommentar);
-				db.eintragHinzufuegen(mediathek.getClass(), mediathek);
 				db.eintragHinzufuegen(hannes.getClass(), hannes);
 				db.eintragHinzufuegen(lena.getClass(), lena);
 				db.eintragHinzufuegen(mbis.getClass(), mbis);
@@ -110,8 +98,7 @@ public class TestKlasse {
 				mbis.mitgliedHinzufuegen(lena);
 				mbis.mitgliedHinzufuegen(hannes);
 				mbis.moderatorHinzufuegen(hannes);
-	            mbis.setMediathek(mediathek);
-				mbis.pinnwand.themaHinzufügen(thema);
+				mbis.pinnwand.themaHinzufuegen(thema);
 				mbis.fragenpool.addFrage(frage);
 				mbis.setFachrichtung(wi);
 				mbis.addBossfight(bossfight);
@@ -147,8 +134,6 @@ public class TestKlasse {
 				kommentar.setInhalt("Kommentarinhalt von Lena");
 				kommentar.setTitel("Kommentartitel von Lena");
 				kommentar.setMedium(medium);
-				
-	            mediathek.mediumHinzufügen(medium);
 	            	
 	            medium.setName("Entwurf");
 	            medium.setDateiname("Entwurf.pdf");
@@ -170,9 +155,7 @@ public class TestKlasse {
 				db.eintragAktualisieren(thema3.getClass(), thema3);
 				db.eintragAktualisieren(thema4.getClass(), thema4);
 				db.eintragAktualisieren(kommentar.getClass(), kommentar);
-				db.eintragAktualisieren(mediathek.getClass(), mediathek);
 				db.eintragAktualisieren(medium.getClass(), medium);	
-				mbis.setMediathek(mediathek);
 				db.eintragAktualisieren(lena.getClass(), lena);
 				db.eintragAktualisieren(hannes.getClass(), hannes);
 				db.eintragAktualisieren(mbis.getClass(), mbis);

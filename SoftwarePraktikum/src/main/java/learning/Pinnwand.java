@@ -51,7 +51,7 @@ public class Pinnwand implements java.io.Serializable{
 	 * Es wird ein neuer Pinnwandbeitrag erstellt
 	 * @param inhalt der neue Inhalt auf der Pinnwand
 	 */
-	public void themaHinzufügen(Thema thema){
+	public void themaHinzufuegen(Thema thema){
 		themen.add(thema);
 		thema.setPinnwand(this);
 	}

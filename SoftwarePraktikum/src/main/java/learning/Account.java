@@ -63,7 +63,7 @@ public class Account implements java.io.Serializable{
 	 */
 	public void registrieren(String angegebenerBenutzername, String angegebenesPasswort){
 		setBenutzername(angegebenerBenutzername);
-		setPasswort(angegebenesPasswort);
+		neuesPasswort(angegebenesPasswort);
 	}
 	
 	/**

@@ -27,10 +27,6 @@ public class Medium implements java.io.Serializable {
 	@Column(name = "dateiname")
 	public String dateiname;
 	
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="mediathek_id")
-	Mediathek mediathek;
-	
 	@Transient
 	MultipartFile file;
 		
@@ -81,14 +77,6 @@ public class Medium implements java.io.Serializable {
 	public void setFile(MultipartFile file) { 
 		this.file = file;
 		this.dateiname = file.getOriginalFilename();
-	}
-	
-	public Mediathek getMediathek(){
-		return mediathek;
-	}
-	
-	public void setMediathek(Mediathek mediathek){
-		this.mediathek = mediathek;
 	}
 
 }
