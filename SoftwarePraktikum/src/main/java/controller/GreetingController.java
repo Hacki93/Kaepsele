@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import learning.Benutzer;
+import learning.Inhalt;
 import learning.Medium;
 import learning.Thema;
 
@@ -19,8 +19,6 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +38,12 @@ public class GreetingController {
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String greeting(Model model) {
 	    db = new Datenbank();
-		model.addAttribute("benutzer", new Benutzer());
+		return "Startseite";
+	}
+	
+	@RequestMapping(value= "/loginseite")
+	public String zumLogin(Model model){
+	model.addAttribute("benutzer", new Benutzer());
 		return "Anmelden";
 	}
 	
@@ -67,7 +70,9 @@ public class GreetingController {
 		for(Object obj : db.tabelleAusgeben(benutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
 			if(b.getBenutzername().equals(benutzername)) {
-				profilBenutzer = b;		
+				profilBenutzer = b;	
+				System.out.println(profilBenutzer);
+				System.out.println(b);
 				model.addAttribute("profilBenutzer", profilBenutzer);
 				model.addAttribute("rang", profilBenutzer.getRangName());
 				model.addAttribute("themen", profilBenutzer.pinnwand.themen);	
@@ -80,12 +85,69 @@ public class GreetingController {
 	public String sortiereLikes(Model model){
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = profilBenutzer.pinnwand.sortiereNachBewertung();
-		for(Thema thema : themenList){
-			System.out.println(thema.getBewertung());
-		}
 		model.addAttribute("themen", themenList);
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
+		return "Profile";
+	}
+	
+//	@RequestMapping(value="/hinzufuegen")
+//	public String freundHizufuegen(Model model){
+//		if (!angemeldeterBenutzer.freunde.contains(profilBenutzer)){
+//			angemeldeterBenutzer.freundHinzufuegen(profilBenutzer);
+//			model.addAttribute("nachricht", "Freund wurde hinzugefügt");
+//		}
+//		else{
+//			model.addAttribute("nachricht", "Benutzer ist bereits ein Freund");
+//		}
+//		db.eintragAktualisieren(profilBenutzer.getClass(), profilBenutzer);
+//		db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
+//		model.addAttribute("profilBenutzer", profilBenutzer);
+//		model.addAttribute("rang", profilBenutzer.getRangName());
+//		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+//		return "Profile";
+//	}
+	
+//	@RequestMapping(value="/entfernen")
+//	public String freundEntfernen(Model model){
+//		for(Benutzer benutzer : angemeldeterBenutzer.freunde){
+//			System.out.println(benutzer);
+//		}
+//		
+//		System.out.println(profilBenutzer);
+//		
+//		Benutzer benutzer = new Benutzer();
+//		for(Object obj : db.tabelleAusgeben(benutzer.getClass())){
+//			Benutzer b = (Benutzer) obj;
+//			if() {
+//		
+//		if (angemeldeterBenutzer.freunde.contains(profilBenutzer)){
+//			angemeldeterBenutzer.freundEntfernen(profilBenutzer);
+//			model.addAttribute("nachricht", "Freund wurde entfernt");
+//		}
+//		else{
+//			model.addAttribute("nachricht", "Benutzer ist kein Freund");
+//		}
+//		model.addAttribute("profilBenutzer", profilBenutzer);
+//		model.addAttribute("rang", profilBenutzer.getRangName());
+//		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+//		return "Profile";
+//	}
+	
+	@RequestMapping(value="/bewertet/{thema.inhalt_id}")
+	public String erhoeheLike(@PathVariable("thema.inhalt_id") int thema_id, Model model){
+		System.out.println("test");
+		Inhalt inhalt = new Inhalt();
+		for(Object obj : db.tabelleAusgeben(inhalt.getClass())){
+			Thema t = (Thema) obj;
+			if(t.getId() == (thema_id)) {
+				t.bewerten(true);
+			}
+		}
+		db.eintragAktualisieren(inhalt.getClass(), inhalt);
+		model.addAttribute("profilBenutzer", profilBenutzer);
+		model.addAttribute("rang", profilBenutzer.getRangName());
+		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
 		return "Profile";
 	}
 	
