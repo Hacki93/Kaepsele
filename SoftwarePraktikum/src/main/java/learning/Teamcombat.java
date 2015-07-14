@@ -19,33 +19,42 @@ import javax.persistence.Transient;
 
 import kommunikation.Nachricht;
 
+/**
+ * Stellt einen Teamcombat dar, bei dem zwei Gruppen gegeneinander antreten.
+ * Dabei wird f&uumlr jede Gruppe ein Quest aus Fragen des Fragenpools der
+ * jeweils anderen Gruppe erstellt.
+ * 
+ * @author Lena
+ *
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "TEAMCOMBAT")
 public class Teamcombat implements java.io.Serializable {
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	@Column(name = "teamcombat_id")
 	public int teamcombat_id;
-	
+
 	@Column(name = "ablaufdatum")
 	public Date ablaufdatum;
-	
+
 	@Transient
 	public Gruppe herausforderer;
-	
+
 	@Transient
 	public Gruppe herausgeforderter;
-	
+
 	@Transient
 	public Quest questFuerHerausforderer;
-	
+
 	@Transient
 	public Quest questFuerHerausgeforderter;
-	
+
 	@Transient
 	public Gruppe gewinner;
-	
+
 	private int punkte;
 
 	/**
@@ -53,15 +62,16 @@ public class Teamcombat implements java.io.Serializable {
 	 */
 	public Teamcombat() {
 		Date now = new Date();
-		if (now.after(ablaufdatum) || now.equals(ablaufdatum) ){
+		if (now.after(ablaufdatum) || now.equals(ablaufdatum)) {
 			auswerten();
 		} else {
-			new Thread(){
-				public void run(){
-					try{
-						Thread.sleep(ablaufdatum.getTime()-new Date().getTime());
+			new Thread() {
+				public void run() {
+					try {
+						Thread.sleep(ablaufdatum.getTime()
+								- new Date().getTime());
 						auswerten();
-					} catch (Exception e){
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
@@ -78,7 +88,7 @@ public class Teamcombat implements java.io.Serializable {
 	 *            Die herausgeforderte Gruppe
 	 */
 	public Teamcombat(Gruppe herausforderer, Gruppe herausgeforderter) {
-		
+
 		this.herausgeforderter = herausgeforderter;
 		this.herausforderer = herausforderer;
 		questFuerHerausforderer = this.herausgeforderter.fragenpool.getQuest();
@@ -88,13 +98,13 @@ public class Teamcombat implements java.io.Serializable {
 		calendar.setTime(now);
 		calendar.add(Calendar.DAY_OF_MONTH, 3);
 		ablaufdatum = calendar.getTime();
-		punkte = 0; 
-		new Thread(){
-			public void run(){
-				try{
-					Thread.sleep(ablaufdatum.getTime()-new Date().getTime());
+		punkte = 0;
+		new Thread() {
+			public void run() {
+				try {
+					Thread.sleep(ablaufdatum.getTime() - new Date().getTime());
 					auswerten();
-				} catch (Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -107,26 +117,28 @@ public class Teamcombat implements java.io.Serializable {
 	 * @return Gewinnergruppe
 	 */
 	public Gruppe auswerten() {
-		for (Benutzer benutzer:herausforderer.getMitglieder()){
+		for (Benutzer benutzer : herausforderer.getMitglieder()) {
 			benutzer.aufgabeErledigt(this);
 		}
-		for (Benutzer benutzer:herausgeforderter.getMitglieder()){
+		for (Benutzer benutzer : herausgeforderter.getMitglieder()) {
 			benutzer.aufgabeErledigt(this);
 		}
 		int herausforderer = questFuerHerausforderer.korrigiere();
 		int herausgeforderter = questFuerHerausgeforderter.korrigiere();
 		if (herausforderer > herausgeforderter) {
 			gewinner = this.herausforderer;
-			punkte = herausforderer; 
-			Nachricht nachricht = new Nachricht(gewinner, gewinner, Nachricht.TEAMCOMBATGEWONNEN, this);
+			punkte = herausforderer;
+			Nachricht nachricht = new Nachricht(gewinner, gewinner,
+					Nachricht.TEAMCOMBATGEWONNEN, this);
 			this.herausforderer.benachrichtigen(nachricht);
 			this.herausgeforderter.benachrichtigen(nachricht);
 			return this.herausforderer;
 		} else {
 			gewinner = this.herausgeforderter;
-			punkte = herausgeforderter; 
-			Nachricht nachricht = new Nachricht(gewinner, gewinner, Nachricht.TEAMCOMBATGEWONNEN, this);
-			
+			punkte = herausgeforderter;
+			Nachricht nachricht = new Nachricht(gewinner, gewinner,
+					Nachricht.TEAMCOMBATGEWONNEN, this);
+
 			this.herausforderer.benachrichtigen(nachricht);
 			this.herausgeforderter.benachrichtigen(nachricht);
 			return this.herausgeforderter;
@@ -144,8 +156,8 @@ public class Teamcombat implements java.io.Serializable {
 	}
 
 	/**
-	 * erstellt einen Quest f&uumlr die herausfordernde Gruppe aus dem Fragenpool
-	 * der herausgeforderten Gruppe
+	 * erstellt einen Quest f&uumlr die herausfordernde Gruppe aus dem
+	 * Fragenpool der herausgeforderten Gruppe
 	 * 
 	 * @return QuestFuerHerausforderer
 	 */
@@ -154,8 +166,8 @@ public class Teamcombat implements java.io.Serializable {
 	}
 
 	/**
-	 * erstellt einen Quest f&uumlr die herausgeforderte Gruppe aus dem Fragenpool
-	 * der hausfordernden Gruppe
+	 * erstellt einen Quest f&uumlr die herausgeforderte Gruppe aus dem
+	 * Fragenpool der hausfordernden Gruppe
 	 * 
 	 * @return QuestFuerHerausgeforderter
 	 */
