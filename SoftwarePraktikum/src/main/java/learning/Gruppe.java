@@ -288,7 +288,7 @@ public class Gruppe implements java.io.Serializable {
 	 * @param herausgeforderter
 	 * @return Teamcombat
 	 */
-	public void teamcombatAntreten(Gruppe herausgeforderter) {
+	public Teamcombat teamcombatAntreten(Gruppe herausgeforderter) {
 		Teamcombat teamcombat = new Teamcombat(this, herausgeforderter);
 		this.teamcombats.add(teamcombat);
 		herausgeforderter.teamcombats.add(teamcombat);
@@ -296,6 +296,7 @@ public class Gruppe implements java.io.Serializable {
 				Nachricht.TEAMHERAUSFORDERUNG, teamcombat);
 		herausgeforderter.benachrichtigen(nachricht);
 		this.benachrichtigen(nachricht);
+		return teamcombat;
 	}
 
 	public void setMitglieder(Set<Benutzer> mitglieder) {

@@ -51,7 +51,23 @@ public class Teamcombat implements java.io.Serializable {
 	/**
 	 * Konstruktor f&uuml;r Hibernate
 	 */
-	public Teamcombat() {}
+	public Teamcombat() {
+		Date now = new Date();
+		if (now.after(ablaufdatum) || now.equals(ablaufdatum) ){
+			auswerten();
+		} else {
+			new Thread(){
+				public void run(){
+					try{
+						Thread.sleep(ablaufdatum.getTime()-new Date().getTime());
+						auswerten();
+					} catch (Exception e){
+						e.printStackTrace();
+					}
+				}
+			}.start();
+		}
+	}
 
 	/**
 	 * Legt einen neuen Teamcombat an
@@ -62,6 +78,7 @@ public class Teamcombat implements java.io.Serializable {
 	 *            Die herausgeforderte Gruppe
 	 */
 	public Teamcombat(Gruppe herausforderer, Gruppe herausgeforderter) {
+		
 		this.herausgeforderter = herausgeforderter;
 		this.herausforderer = herausforderer;
 		questFuerHerausforderer = this.herausgeforderter.fragenpool.getQuest();
@@ -72,6 +89,16 @@ public class Teamcombat implements java.io.Serializable {
 		calendar.add(Calendar.DAY_OF_MONTH, 3);
 		ablaufdatum = calendar.getTime();
 		punkte = 0; 
+		new Thread(){
+			public void run(){
+				try{
+					Thread.sleep(ablaufdatum.getTime()-new Date().getTime());
+					auswerten();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}.start();
 	}
 
 	/**
@@ -99,6 +126,7 @@ public class Teamcombat implements java.io.Serializable {
 			gewinner = this.herausgeforderter;
 			punkte = herausgeforderter; 
 			Nachricht nachricht = new Nachricht(gewinner, gewinner, Nachricht.TEAMCOMBATGEWONNEN, this);
+			
 			this.herausforderer.benachrichtigen(nachricht);
 			this.herausgeforderter.benachrichtigen(nachricht);
 			return this.herausgeforderter;
@@ -143,11 +171,7 @@ public class Teamcombat implements java.io.Serializable {
 	 * @return Der zu bearbeitende Quest
 	 */
 	public Quest bearbeiten(Benutzer benutzer) {
-		Date now = new Date(); 
-		if (ablaufdatum.equals(now)){
-			this.auswerten();
-			return null;
-		} else if (this.herausforderer.getMitglieder().contains(benutzer)) {
+		if (this.herausforderer.getMitglieder().contains(benutzer)) {
 			return this.questFuerHerausforderer;
 		} else {
 			return this.questFuerHerausgeforderter;

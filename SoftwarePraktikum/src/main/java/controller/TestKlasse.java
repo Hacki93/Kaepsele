@@ -2,9 +2,17 @@ package controller;
 
 
 import java.text.SimpleDateFormat;
+import java.util.Timer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import kommunikation.Nachricht;
 import learning.Benutzer;
@@ -25,11 +33,11 @@ public class TestKlasse {
 
 	// Klasse zum Testen von Codebausteinen
 	public static void main(String[] args) {
-		dbSchreiben();
-//		lena();
+//		dbSchreiben();
+		lena();
 //		sortierTest();
 //		zeitTest();
-		System.exit(0);
+//		System.exit(0);
 		}
 
 		public static void dbSchreiben(){	
@@ -304,18 +312,12 @@ public class TestKlasse {
 			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
 			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
 			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			System.out.println("Frage hinzugefügt");		
-			gruppe1.teamcombatAntreten(gruppe2);
+			System.out.println("Frage hinzugefügt");	
+			System.out.println(new Date());
+			Teamcombat t = gruppe1.teamcombatAntreten(gruppe2);
 			
-//			for (Nachricht n:hannes.getNachrichten()){
-//				Teamcombat t = (Teamcombat) n.getAnhang();
-//				t.
-//			}
-			Quest quest = new Quest();
+			Quest quest = t.bearbeiten(lena);
 			
-			for (Nachricht n :lena.getAufgaben()){
-				quest = (Quest)lena.aufgabeBearbeiten(n);
-			}
 			
 			HashSet<String> antworten = new HashSet<String>();
 			antworten.add("Du da");
@@ -323,61 +325,92 @@ public class TestKlasse {
 			frage1.addAntworten(antworten);
 			System.out.println("Lena hat antworten hinzugefügt");
 			
-			for (Nachricht n :lena.getAufgaben()){
-				quest = (Quest)lena.aufgabeBearbeiten(n);
-				for  (Frage f:quest.fragen){
-					for (String s:f.antworten){
-						System.out.println(s);
-					}
-				}
-			}
-			
-			Quest quest2 = new Quest(); 
-			for (Nachricht n: hannes.getAufgaben()){
-				quest2 = (Quest)hannes.aufgabeBearbeiten(n);
-			}
 			
 			
-			HashSet<String> antworten2 = new HashSet<String>();
-			antworten2.add("Ich bins"); 
-			Frage frage2 = quest2.getNaechsteFrage();
-			frage2.addAntworten(antworten2);
-			
-			System.out.println("Hannes hat antworten hinzugefügt");
-			for (Nachricht n :lena.getAufgaben()){
-				quest = (Quest)lena.aufgabeBearbeiten(n);
-				for  (Frage f:quest.fragen){
-					for (String s:f.antworten){
-						System.out.println(s);
-					}
-				}
-			}
-			
-			
-			
-			System.out.println("hannes quest");
-			
-			for (Nachricht n :hannes.getAufgaben()){
-				quest = (Quest)hannes.aufgabeBearbeiten(n);
-				for  (Frage f:quest.fragen){
-					for (String s:f.antworten){
-						System.out.println(s);
-					}
-				}
-			}
-			
-			
+//			Quest quest2 = new Quest(); 
+//			for (Nachricht n: hannes.getAufgaben()){
+//				quest2 = (Quest)hannes.aufgabeBearbeiten(n);
+//			}
+//			
+//			
+//			HashSet<String> antworten2 = new HashSet<String>();
+//			antworten2.add("Ich bins"); 
+//			Frage frage2 = quest2.getNaechsteFrage();
+//			frage2.addAntworten(antworten2);
+//			
+//			System.out.println("Hannes hat antworten hinzugefügt");
+//			for (Nachricht n :lena.getAufgaben()){
+//				quest = (Quest)lena.aufgabeBearbeiten(n);
+//				for  (Frage f:quest.fragen){
+//					for (String s:f.antworten){
+//						System.out.println(s);
+//					}
+//				}
+//			}
+//			
+//			
+//			
+//			System.out.println("hannes quest");
+//			
+//			for (Nachricht n :hannes.getAufgaben()){
+//				quest = (Quest)hannes.aufgabeBearbeiten(n);
+//				for  (Frage f:quest.fragen){
+//					for (String s:f.antworten){
+//						System.out.println(s);
+//					}
+//				}
+//			}
+//			
+//			
 		}
 				
 		public static void zeitTest(){
-				      try { 
-				         System.out.println(new Date( ) + "\n"); 
-				         Thread.sleep(3*10*100); 
-				         System.out.println(new Date( ) + "\n"); 
-				      } catch (Exception e) { 
-				          System.out.println("Got an exception!"); 
-				      }
-				   
-				
+			Gruppe gruppe1 = new Gruppe();
+			gruppe1.setName("Gruppe 1");
+			Gruppe gruppe2 = new Gruppe(); 
+			gruppe2.setName("Gruppe2");
+			Benutzer lena = new Benutzer("lena", "1234", "Lena Maier", "lenamai.er@web.de"); 
+			Benutzer hannes = new Benutzer("hannes", "1234", "Hannes Fischer", "lenamai.er@web.de");
+			Benutzer chris = new Benutzer(); 
+			Benutzer kevin = new Benutzer(); 
+			
+			lena.setEmailAdresse("lenamai.er@web.de");
+			chris.setEmailAdresse("lenamai.er@web.de");
+			kevin.setEmailAdresse("lenamai.er@web.de");
+			
+			HashSet<String> a = new HashSet<String>();
+			HashSet<String> l = new HashSet<String>();
+			String frage = "Frage";
+			String titel = "Titel";
+			String titel2 = "Anderer titel";
+			gruppe1.mitgliedHinzufuegen(lena);
+			gruppe1.mitgliedHinzufuegen(hannes);
+			gruppe2.mitgliedHinzufuegen(kevin);
+			gruppe2.mitgliedHinzufuegen(chris);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			gruppe1.frageErstellen(titel, frage, a, l, kevin);
+			
+			gruppe2.frageErstellen("andererTitel", frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
+			System.out.println("Frage hinzugefügt");	
+			Teamcombat t = gruppe1.teamcombatAntreten(gruppe2);
+			
+			
 		}
 }

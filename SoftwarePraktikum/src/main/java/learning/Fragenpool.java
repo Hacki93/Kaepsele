@@ -70,7 +70,6 @@ public class Fragenpool implements java.io.Serializable {
 		while (quest.fragen.size() < fragenanzahl) {
 			int zufallsindex = (int) (Math.random() * fragen.size());
 			quest.addFrage(fragenliste.get(zufallsindex));
-			System.out.println("Frage \""+fragenliste.get(zufallsindex).getTitel() +"\" zu Quest hinzugefügt");
 		}
 		return quest;
 	}
