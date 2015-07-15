@@ -27,7 +27,7 @@ public class TestKlasse {
 //		lena();
 //		sortierTest();
 //		zeitTest();
-//		System.exit(0);
+		System.exit(0);
 		}
 
 		public static void dbSchreiben(){	

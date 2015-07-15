@@ -38,12 +38,35 @@ public class GreetingController {
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String greeting(Model model) {
 	    db = new Datenbank();
+	    model.addAttribute("benutzer", new Benutzer());
 		return "Startseite";
 	}
 	
 	@RequestMapping(value= "/loginseite")
 	public String zumLogin(Model model){
 	model.addAttribute("benutzer", new Benutzer());
+		return "Anmelden";
+	}
+	
+	@RequestMapping(value="/registriert", method=RequestMethod.POST)
+	public String registrieren(@ModelAttribute Benutzer benutzer, Model model){
+		Benutzer neuerBenutzer = new Benutzer();
+		System.out.println(benutzer.getBenutzername());
+		for(Object obj : db.tabelleAusgeben(benutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			if (benutzer.benutzername.equals(b.benutzername)){
+				model.addAttribute("nachricht", "Dieser Benutzername ist bereits vergeben");
+				return "Startseite";
+			}
+		}
+		
+		db.eintragHinzufuegen(neuerBenutzer.getClass(), neuerBenutzer);
+		neuerBenutzer.setBenutzername(benutzer.getBenutzername());
+		neuerBenutzer.setPasswort(Benutzer.hashPasswort(benutzer.getPasswort()));
+		neuerBenutzer.setEmailAdresse(benutzer.getEmailAdresse());
+		neuerBenutzer.setName(benutzer.name);
+		db.eintragAktualisieren(neuerBenutzer.getClass(), neuerBenutzer);
+		model.addAttribute("nachricht", "Sie sind jetzt registriert");
 		return "Anmelden";
 	}
 	
@@ -64,18 +87,17 @@ public class GreetingController {
 		return "Anmelden";
 	}
 	
-	@RequestMapping(value="/Profile/{benutzername}")
+	@RequestMapping(value="/Profile/{benutzername}", method=RequestMethod.GET)
 	public String getProfil(@PathVariable("benutzername") String benutzername, Model model){
 		Benutzer benutzer = new Benutzer();
 		for(Object obj : db.tabelleAusgeben(benutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
 			if(b.getBenutzername().equals(benutzername)) {
 				profilBenutzer = b;	
-				System.out.println(profilBenutzer);
-				System.out.println(b);
 				model.addAttribute("profilBenutzer", profilBenutzer);
 				model.addAttribute("rang", profilBenutzer.getRangName());
-				model.addAttribute("themen", profilBenutzer.pinnwand.themen);	
+				model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+				
 			}
 		}
 		return "Profile";
@@ -93,6 +115,16 @@ public class GreetingController {
 	
 	@RequestMapping(value="/hinzufuegen")
 	public String freundHizufuegen(Model model){
+		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			if(b.getBenutzername().equals(angemeldeterBenutzer.getBenutzername())) {
+				angemeldeterBenutzer = b;
+			}	
+			if(b.getBenutzername().equals(profilBenutzer.getBenutzername())){
+				profilBenutzer = b;	
+			}
+		}
+		
 		for(Benutzer benutzer : angemeldeterBenutzer.freunde){
 			if(benutzer.getId() == profilBenutzer.getId()){
 				model.addAttribute("nachricht", "Benutzer ist bereits ein Freund");
@@ -102,18 +134,14 @@ public class GreetingController {
 				return "Profile";
 			}
 		}
-		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
-			Benutzer b = (Benutzer) obj;
-			if (b.getId() == profilBenutzer.getId()){
-				System.out.println("Test");
-				angemeldeterBenutzer.freundHinzufuegen(b);
-			}
-		}
-		db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
+		
+		angemeldeterBenutzer.freundHinzufuegen(profilBenutzer);
 		model.addAttribute("nachricht", "Benutzer wurde als Freund hinzugefügt");
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
 		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+		db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
+		db.eintragAktualisieren(profilBenutzer.getClass(), profilBenutzer);
 		return "Profile";
 	}
 	
@@ -138,19 +166,48 @@ public class GreetingController {
 	}
 	
 	@RequestMapping(value="/bewertet/{thema.inhalt_id}")
-	public String erhoeheLike(@PathVariable("thema.inhalt_id") int thema_id, Model model){
-		System.out.println("test");
+	public String erhoeheLike(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
+		System.out.println("Test");
 		Inhalt inhalt = new Inhalt();
 		for(Object obj : db.tabelleAusgeben(inhalt.getClass())){
-			Thema t = (Thema) obj;
-			if(t.getId() == (thema_id)) {
-				t.bewerten(true);
+			Inhalt i = (Inhalt) obj;
+			if(i.getId() == (inhalt_id)) {
+				i.bewerten(true);
+				db.eintragAktualisieren(i.getClass(), i);
 			}
 		}
-		db.eintragAktualisieren(inhalt.getClass(), inhalt);
+		
+		for(Object obj : db.tabelleAusgeben(profilBenutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			if(b.getBenutzername().equals(profilBenutzer.getBenutzername())) {
+				profilBenutzer = b;					
+			}
+		}
+		
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
 		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+		return "Profile";
+	}
+	
+	@RequestMapping(value="/beitrag", method = RequestMethod.GET)
+	public String beitragSeite(Model model){
+		Thema beitrag = new Thema();
+		model.addAttribute("beitrag", beitrag);
+		db.eintragHinzufuegen(beitrag.getClass(), beitrag);
+		return "BeitragSchreiben";
+	}
+	
+	@RequestMapping(value="/beitragSchreiben", method = RequestMethod.POST)
+	public String beitragSchreiben(@ModelAttribute Thema beitrag, Model model){
+		System.out.println(beitrag.getInhalt());
+		beitrag.setBenutzer(angemeldeterBenutzer);
+		db.eintragAktualisieren(beitrag.getClass(), beitrag);
+		
+		model.addAttribute("profilBenutzer", profilBenutzer);
+		model.addAttribute("rang", profilBenutzer.getRangName());
+		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+		
 		return "Profile";
 	}
 	

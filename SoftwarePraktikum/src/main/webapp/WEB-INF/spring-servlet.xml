@@ -28,6 +28,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 	<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
 	<mvc:resources mapping="/Profile/resources/**" location="/WEB-INF/resources/" />
+	<mvc:resources mapping="/bewertet/resources/**" location="/WEB-INF/resources/" />
 	<mvc:annotation-driven/>
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"/>
