@@ -167,7 +167,6 @@ public class GreetingController {
 	
 	@RequestMapping(value="/bewertet/{thema.inhalt_id}")
 	public String erhoeheLike(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
-		System.out.println("Test");
 		Inhalt inhalt = new Inhalt();
 		for(Object obj : db.tabelleAusgeben(inhalt.getClass())){
 			Inhalt i = (Inhalt) obj;

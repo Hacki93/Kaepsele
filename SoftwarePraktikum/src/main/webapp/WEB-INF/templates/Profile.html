@@ -122,7 +122,7 @@
 						<a data-original-title="Nachricht schreiben" data-toggle="tooltip"
 							type="button" class="btn btn-sm btn-primary"><i
 							class="glyphicon glyphicon-envelope"></i></a>
-					 	<a data-original-title="Beitrag schreiben" data-toggle="tooltip" th:href="@{/beitrag}"	
+					 	<a data-original-title="Beitrag schreiben" data-toggle="modal" data-target="#Beitrag"		
 							type="button" class="btn btn-sm btn-warning"><i
 							class="glyphicon glyphicon-edit"></i></a>
 						<a th:href="@{/sortiereLikes}" data-original-title="Nach Likes sortieren" data-toggle="tooltip"
@@ -133,8 +133,8 @@
 							class="glyphicon glyphicon-arrow-down"></i></a> <span
 							class="pull-right"> 
 						<a data-original-title="Als Freund hinzuf&uuml;gen" href="/SoftwarePraktikum/hinzufuegen" 
-							data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i
-							class="glyphicon glyphicon-remove"></i></a>
+							data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i
+							class="glyphicon glyphicon-log-in"></i></a>
 						<a data-original-title="Als Freund entfernen" href="/SoftwarePraktikum/entfernen" 
 							data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i
 							class="glyphicon glyphicon-remove"></i></a>
@@ -191,17 +191,17 @@
 		<div class="modal-body">
 			
             <!-- content goes here -->
-	<!--  		<form action="#" th:action="@{/beitragSchreiben}" th:object="${beitrag}" method="post">
+	  		<form>
               <div class="form-group">
                 <label for="exampleInputEmail1">Titel</label>
-                <input type="text" th:field="*{titel}" class="form-control" placeholder="Titel eingeben"/>
+                <input type="text" class="form-control" placeholder="Titel eingeben"/>
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Inhalt</label>
-                <input type="text" th:field="*{inhalt}" class="form-control" placeholder="Text eingeben"/>
+                <input type="text" class="form-control" placeholder="Text eingeben"/>
               </div>
               <button type="submit" class="btn btn-success">Beitrag posten</button>
-            </form> -->
+            </form>
 
 		</div>
 		<div class="modal-footer">
