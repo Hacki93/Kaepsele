@@ -24,9 +24,6 @@ public class TestKlasse {
 	// Klasse zum Testen von Codebausteinen
 	public static void main(String[] args) {
 		dbSchreiben();
-//		lena();
-//		sortierTest();
-//		zeitTest();
 		System.exit(0);
 		}
 
@@ -76,13 +73,12 @@ public class TestKlasse {
 				hannes.setStudiengang("Wirtschaftsinformatik B.Sc.");
 				hannes.setGeburtsdatum(new SimpleDateFormat("dd/MM/yyyy").parse("01/26/1995"));
 				hannes.setProfilbildURL("/Bild.png");
-				hannes.freundHinzufuegen(lena);
 	
 				lena.setAdresse("Schopfloch");
 				lena.registrieren("lenchen", "12345678");
 				lena.setRang(2);
 				lena.setBeruf("Student");
-				lena.setEmailAdresse("lenamaier@web.de");
+				lena.setEmailAdresse("lenamai.er@web.de");
 				lena.setName("Lena Maier");		
 				lena.setStudiengang("Wirtschaftsinformatik B.Sc.");
 				lena.setGeburtsdatum(new SimpleDateFormat("dd/MM/yyyy").parse("31/12/1993"));
@@ -158,7 +154,6 @@ public class TestKlasse {
 	            Quest quest = mbis.questAntreten(hannes); //Quest wird dynamisch erzeugt und kann nicht als new Quest() angelegt werden!
 
 	            db.eintragHinzufuegen(quest.getClass(), quest);
-	            
 				db.eintragAktualisieren(thema.getClass(), thema);
 				db.eintragAktualisieren(thema2.getClass(), thema2);
 				db.eintragAktualisieren(thema3.getClass(), thema3);
@@ -174,6 +169,11 @@ public class TestKlasse {
 				db.eintragAktualisieren(quest.getClass(), quest);
 				db.eintragAktualisieren(bossfight.getClass(), bossfight);
 				
+
+
+				System.err.println(lena.getBenutzername());
+				hannes.freundHinzufuegen(lena);
+				
 				lena.freundHinzufuegen(hannes);
 				db.eintragAktualisieren(lena.getClass(), lena);
 				db.eintragAktualisieren(hannes.getClass(), hannes);
@@ -183,6 +183,9 @@ public class TestKlasse {
 				db.eintragAktualisieren(biks.getClass(), biks);
 				
 				System.err.println("Datenbank vollständig beschrieben");
+				
+				hannes.resetPasswort();
+				db.eintragAktualisieren(hannes.getClass(), hannes);
 				
 			} catch (Exception e) {
 				e.printStackTrace();

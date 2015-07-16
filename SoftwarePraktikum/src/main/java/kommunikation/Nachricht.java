@@ -21,7 +21,7 @@ import learning.Teamcombat;
 @Entity
 @Table(name = "NACHRICHT")
 public class Nachricht implements java.io.Serializable{
-
+	
 	@Id @GeneratedValue
 	@Column(name = "nachricht_id")
 	public int nachricht_id;
@@ -52,13 +52,14 @@ public class Nachricht implements java.io.Serializable{
 
 	
 
-	public static final int FREUNDHINZUGEFUEGT = 0;
-	public static final int GRUPPENEINLADUNG = 1;
-	public static final int AUFGABEKORRIGIEREN = 2;
-	public static final int BEITRITTSANFRAGE = 3;
+	public static final int FREUNDHINZUGEFUEGT 	= 0;
+	public static final int GRUPPENEINLADUNG 	= 1;
+	public static final int AUFGABEKORRIGIEREN 	= 2;
+	public static final int BEITRITTSANFRAGE 	= 3;
 	public static final int TEAMHERAUSFORDERUNG = 4;
-	public static final int AUFGABEBEWERTET = 5;
-	public static final int TEAMCOMBATGEWONNEN = 6;
+	public static final int AUFGABEBEWERTET 	= 5;
+	public static final int TEAMCOMBATGEWONNEN 	= 6;
+	public static final int NEUESPASSWORT 		= 7;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
@@ -68,14 +69,10 @@ public class Nachricht implements java.io.Serializable{
 	/**
 	 * Konstruktor mit dem die Nachricht angelegt wird
 	 * 
-	 * @param titel
-	 *            Der Titel der Nachricht
-	 * @param inhalt
-	 *            Der Inhalt der Nachricht
-	 * @param handlungErforderlich
-	 *            true, falls die Nachricht eine Interaktion erfordert
-	 * @param anhang
-	 *            beinhaltet das Objekt auf das sich die Nachricht bezieht
+	 * @param titel Der Titel der Nachricht
+	 * @param inhalt Der Inhalt der Nachricht
+	 * @param handlungErforderlich true, falls die Nachricht eine Interaktion erfordert
+	 * @param anhang beinhaltet das Objekt auf das sich die Nachricht bezieht
 	 * 
 	 */
 	public Nachricht(Object sender, Object adressat, int typ, Object anhang) {
@@ -101,13 +98,13 @@ public class Nachricht implements java.io.Serializable{
 			titel = ((Benutzer) sender).getName()
 					+ "möchte der Gruppe beitreten";
 			inhalt = ((Benutzer) sender).getName()
-					+ "hat eine Beitrittsanfrage an deine Gruppe "
-					+ ((Gruppe) adressat).getName() + " gestellt";
+					+ "hat eine Beitrittsanfrage an deine Gruppe \""
+					+ ((Gruppe) adressat).getName() + "\" gestellt";
 			break;
 		case 4:
 			titel = "Herausforderung zum Teamcombat";
-			inhalt = ((Gruppe) sender).getName() + " hat "
-					+ ((Gruppe)adressat).getName() + " herausgefordert";
+			inhalt = "Die Gruppe \""+((Gruppe) sender).getName() + "\" hat \""
+					+ ((Gruppe)adressat).getName() + "\" zum Teamcombat herausgefordert.\nDu hast 3 Tage Zeit, um Dein Quest zu bearbeiten!";
 			handlungErforderlich = true;
 			break;
 		case 5:
@@ -121,6 +118,10 @@ public class Nachricht implements java.io.Serializable{
 		case 6: 
 			titel = "Teamcombat ausgewertet";
 			inhalt = ((Teamcombat) anhang).getGewinner().getName() + "hat den Teamcombat gewonnen";
+			break;
+		case 7:
+			titel = "Neues Passwort";
+			inhalt = "Für Deinen Account auf Käpsele.de wurde ein neues Passwort beantragt.\nEs lautet "+((String) anhang)+"\nBitte logge Dich zeitnah ein und ändere Dein Passwort.";
 		}
 		this.anhang = anhang;
 		datum = new Date();
@@ -141,38 +142,18 @@ public class Nachricht implements java.io.Serializable{
 		return handlungErforderlich;
 	}
 
-	/**
-	 * Gibt den Titel der Nachricht zur&uuml;ck
-	 * 
-	 * @return Der Titel der Nachricht
-	 */
 	public String getTitel() {
 		return titel;
 	}
 
-	/**
-	 * Gibt den Inhalt der Nachricht zur&uuml;ck
-	 * 
-	 * @return Der Inhalt der Nachricht
-	 */
 	public String getInhalt() {
 		return inhalt;
 	}
 
-	/**
-	 * Gibt das Erstelldatum der Nachricht zur&uuml;ck
-	 * 
-	 * @return Das Erstelldatum der Nachricht
-	 */
 	public Date getDate() {
 		return datum;
 	}
 
-	/**
-	 * Gibt den Adressaten der Nachricht zu&uuml;ck
-	 * 
-	 * @return Der Adressat der Nachricht
-	 */
 	public Object getAdressat() {
 		return adressat;
 	}
@@ -181,13 +162,12 @@ public class Nachricht implements java.io.Serializable{
 		this.adressat = adressat;
 	}
 
-	/**
-	 * Gibt den Sender der Nachricht zur&uuml;ck
-	 * 
-	 * @return Der Sender der Nachricht
-	 */
 	public Object getSender() {
 		return sender;
+	}
+	
+	public void setSender(Object sender) {
+		this.sender = sender;
 	}
 	
 	public Object getAnhang() {

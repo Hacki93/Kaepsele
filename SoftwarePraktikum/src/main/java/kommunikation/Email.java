@@ -17,12 +17,13 @@ public class Email {
 	/**
 	 * Sendet eine Email &uuml;ber den vorkonfigurierten hannes-fischer.com Sender von info@kaepsele.de
 	 * 
-	 * @param recipientAdress Die Adresse des Empf&auml;ngers
+	 * @param empfaengerAdresse Die Adresse des Empf&auml;ngers
 	 * @param betreff Der Betreff der Nachricht
 	 * @param inhalt Der Inhalt der Nachricht
 	 */
-    public void senden(String recipientAdress, String betreff, String inhalt) {
-//        senden("smtp.strato.de", "kaepsele@hannes-fischer.com", "Kaepse1e", "info@kaepsele.de", recipientAdress, betreff, inhalt);
+    public void senden(String empfaengerAdresse, String betreff, String inhalt) {
+        System.out.println(empfaengerAdresse);
+        senden("smtp.strato.de", "kaepsele@hannes-fischer.com", "Kaepse1e", "info@kaepsele.de", empfaengerAdresse, betreff, inhalt);
     }
 
     /**

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -142,6 +143,25 @@ public class Benutzer extends Account implements java.io.Serializable {
 		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.FREUNDHINZUGEFUEGT, this);
 		benutzer.benachrichtigen(nachricht);
 	}
+	
+	/**
+	 * Setz f&uuml;r den Benutzer ein neues zuf&auml;lliges alphanumerisches Passwort
+	 * 
+	 * @return Das neue Passwort
+	 */
+	public void resetPasswort() {
+		String quelle = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?§$%&/()=";
+		Random zufall = new Random();
+		StringBuilder neuesPasswort = new StringBuilder(10);
+		for( int i = 0; i < 10; i++ ) {
+	      neuesPasswort.append(quelle.charAt(zufall.nextInt(quelle.length()) ) );
+		}
+		neuesPasswort(neuesPasswort.toString());
+		Nachricht nachricht = new Nachricht(this, this, Nachricht.NEUESPASSWORT, neuesPasswort.toString());
+		String anschreiben = "Hallo " + this.getName() + ",\n\n";
+		String gruss = "\n\nLiebe Grüße,\nDein Käpsele-Team";
+		new Email().senden(this.getEmailAdresse(), nachricht.getTitel(), anschreiben + nachricht.getInhalt()+gruss);
+	}
 
 	/**
 	 * Benachrichtigt den Benutzer
@@ -154,8 +174,9 @@ public class Benutzer extends Account implements java.io.Serializable {
 		}
 		nachrichten.add(nachricht);
 		String anschreiben = "Hallo " + this.getName() + ",\n\n";
-		new Email().senden(this.getEmailAdresse(), nachricht.getTitel(),
-				anschreiben + nachricht.getInhalt());
+		String gruss = "\n\nLiebe Grüße,\nDein Käpsele-Team";
+		System.out.println(this.getBenutzername()+" "+this.getEmailAdresse());
+		new Email().senden(this.getEmailAdresse(), nachricht.getTitel(), anschreiben + nachricht.getInhalt()+gruss);
 	}
 
 	/**
