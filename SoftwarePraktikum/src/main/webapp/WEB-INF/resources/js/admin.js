@@ -16,4 +16,6 @@ $(document).ready(function()
         var target = $(this).attr('data-target-id');
         $('#' + target).show();
     });
+    
+    
 });
