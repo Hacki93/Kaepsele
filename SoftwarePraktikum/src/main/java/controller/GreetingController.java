@@ -112,8 +112,7 @@ public class GreetingController {
 				model.addAttribute("themen", themenList);
 				model.addAttribute("profilBenutzer", profilBenutzer);
 				model.addAttribute("rang", profilBenutzer.getRangName());
-
-				
+				model.addAttribute("thema", new Thema());
 			}
 		}
 		return "Profile";
@@ -240,18 +239,17 @@ public class GreetingController {
 //		return "BeitragSchreiben";
 //	}
 	
-//	@RequestMapping(value="/beitragSchreiben", method = RequestMethod.POST)
-//	public String beitragSchreiben(@ModelAttribute Thema beitrag, Model model){
-//		System.out.println(beitrag.getInhalt());
-//		beitrag.setBenutzer(angemeldeterBenutzer);
-//		db.eintragAktualisieren(beitrag.getClass(), beitrag);
-//		
-//		model.addAttribute("profilBenutzer", profilBenutzer);
-//		model.addAttribute("rang", profilBenutzer.getRangName());
-//		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
-//		
-//		return "Profile";
-//	}
+	@RequestMapping(value="/beitragSchreiben", method = RequestMethod.POST)
+	public String beitragSchreiben(@ModelAttribute Thema thema, Model model){
+		System.out.println(thema.getTitel()); 
+		System.out.println(thema.getInhalt());
+		
+		model.addAttribute("profilBenutzer", profilBenutzer);
+		model.addAttribute("rang", profilBenutzer.getRangName());
+		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+		
+		return "Profile";
+	}
 	
 	@RequestMapping (value = "/medium", method = RequestMethod.GET)
 	public String getForm(Model model) {

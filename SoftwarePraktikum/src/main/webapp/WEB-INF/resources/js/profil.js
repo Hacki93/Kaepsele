@@ -70,4 +70,38 @@ $("#Frage").empty();
 
    });
 
-    
+$(function() {
+
+	   //twitter bootstrap script
+
+	    $("button#themaSub").click(function(){
+
+	            $.ajax({
+
+	        type: "POST",
+
+	    url: "/SoftwarePraktikum/themaErst",
+
+	    data: $("#themaForm").serialize(),
+
+	            success: function(msg){
+
+	$("#Beitrag").empty();
+
+	           $("#Beitrag").modal('hide');
+
+	  
+
+	            },
+
+	    error: function(){
+
+	    alert("failure");
+
+	    }
+
+	          });
+
+	    });
+
+	   });
