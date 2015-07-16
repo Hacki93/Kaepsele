@@ -30,6 +30,11 @@ body, html {
     border-top: 0;
 }
 
+.normalertext{
+	
+	font-size: 0.94em;
+}
+
 
 .table-user-information > tbody > tr > td {
     border-top: 0;

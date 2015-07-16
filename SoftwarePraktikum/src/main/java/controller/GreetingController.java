@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.ServletContext;
@@ -87,6 +88,14 @@ public class GreetingController {
 		return "Anmelden";
 	}
 	
+	@RequestMapping(value="/profil")
+	public String eigenesProfil(Model model){
+		model.addAttribute("angemeldeterBenutzer", angemeldeterBenutzer);
+		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
+		model.addAttribute("themen", angemeldeterBenutzer.pinnwand.themen);
+		return "EigenesProfil";
+	}
+	
 	@RequestMapping(value="/Profile/{benutzername}", method=RequestMethod.GET)
 	public String getProfil(@PathVariable("benutzername") String benutzername, Model model){
 		Benutzer benutzer = new Benutzer();
@@ -94,9 +103,16 @@ public class GreetingController {
 			Benutzer b = (Benutzer) obj;
 			if(b.getBenutzername().equals(benutzername)) {
 				profilBenutzer = b;	
+				SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+				for(Thema thema : profilBenutzer.pinnwand.themen){
+					thema.hilfsDatum = simple.format(thema.datum);
+				}
+				ArrayList<Thema> themenList = new ArrayList<Thema>();
+				themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+				model.addAttribute("themen", themenList);
 				model.addAttribute("profilBenutzer", profilBenutzer);
 				model.addAttribute("rang", profilBenutzer.getRangName());
-				model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+
 				
 			}
 		}
@@ -107,6 +123,16 @@ public class GreetingController {
 	public String sortiereLikes(Model model){
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = profilBenutzer.pinnwand.sortiereNachBewertung();
+		model.addAttribute("themen", themenList);
+		model.addAttribute("profilBenutzer", profilBenutzer);
+		model.addAttribute("rang", profilBenutzer.getRangName());
+		return "Profile";
+	}
+	
+	@RequestMapping(value="/sortierDatum")
+	public String sortierDatum(Model model){
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
 		model.addAttribute("themen", themenList);
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
@@ -124,22 +150,30 @@ public class GreetingController {
 				profilBenutzer = b;	
 			}
 		}
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : profilBenutzer.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
 		
 		for(Benutzer benutzer : angemeldeterBenutzer.freunde){
 			if(benutzer.getId() == profilBenutzer.getId()){
+				ArrayList<Thema> themenList = new ArrayList<Thema>();
+				themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+				model.addAttribute("themen", themenList);
 				model.addAttribute("nachricht", "Benutzer ist bereits ein Freund");
 				model.addAttribute("profilBenutzer", profilBenutzer);
 				model.addAttribute("rang", profilBenutzer.getRangName());
-				model.addAttribute("themen", profilBenutzer.pinnwand.themen);
 				return "Profile";
 			}
 		}
 		
 		angemeldeterBenutzer.freundHinzufuegen(profilBenutzer);
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+		model.addAttribute("themen", themenList);
 		model.addAttribute("nachricht", "Benutzer wurde als Freund hinzugefügt");
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
-		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
 		db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
 		db.eintragAktualisieren(profilBenutzer.getClass(), profilBenutzer);
 		return "Profile";
@@ -151,17 +185,21 @@ public class GreetingController {
 			if(benutzer.getId() == profilBenutzer.getId()){
 				angemeldeterBenutzer.freundEntfernen(benutzer);
 				db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
+				ArrayList<Thema> themenList = new ArrayList<Thema>();
+				themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+				model.addAttribute("themen", themenList);
 				model.addAttribute("profilBenutzer", profilBenutzer);
 				model.addAttribute("rang", profilBenutzer.getRangName());
-				model.addAttribute("themen", profilBenutzer.pinnwand.themen);
 				model.addAttribute("nachricht", "Freund wurde entfernt");
 				return "Profile";
 			}
 		}
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+		model.addAttribute("themen", themenList);
 		model.addAttribute("nachricht", "Benutzer ist kein Freund");
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
-		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
 		return "Profile";
 	}
 	
@@ -182,33 +220,38 @@ public class GreetingController {
 				profilBenutzer = b;					
 			}
 		}
-		
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : profilBenutzer.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+		model.addAttribute("themen", themenList);
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
-		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
 		return "Profile";
 	}
 	
-	@RequestMapping(value="/beitrag", method = RequestMethod.GET)
-	public String beitragSeite(Model model){
-		Thema beitrag = new Thema();
-		model.addAttribute("beitrag", beitrag);
-		db.eintragHinzufuegen(beitrag.getClass(), beitrag);
-		return "BeitragSchreiben";
-	}
+//	@RequestMapping(value="/beitrag", method = RequestMethod.GET)
+//	public String beitragSeite(Model model){
+//		Thema beitrag = new Thema();
+//		model.addAttribute("beitrag", beitrag);
+//		db.eintragHinzufuegen(beitrag.getClass(), beitrag);
+//		return "BeitragSchreiben";
+//	}
 	
-	@RequestMapping(value="/beitragSchreiben", method = RequestMethod.POST)
-	public String beitragSchreiben(@ModelAttribute Thema beitrag, Model model){
-		System.out.println(beitrag.getInhalt());
-		beitrag.setBenutzer(angemeldeterBenutzer);
-		db.eintragAktualisieren(beitrag.getClass(), beitrag);
-		
-		model.addAttribute("profilBenutzer", profilBenutzer);
-		model.addAttribute("rang", profilBenutzer.getRangName());
-		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
-		
-		return "Profile";
-	}
+//	@RequestMapping(value="/beitragSchreiben", method = RequestMethod.POST)
+//	public String beitragSchreiben(@ModelAttribute Thema beitrag, Model model){
+//		System.out.println(beitrag.getInhalt());
+//		beitrag.setBenutzer(angemeldeterBenutzer);
+//		db.eintragAktualisieren(beitrag.getClass(), beitrag);
+//		
+//		model.addAttribute("profilBenutzer", profilBenutzer);
+//		model.addAttribute("rang", profilBenutzer.getRangName());
+//		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+//		
+//		return "Profile";
+//	}
 	
 	@RequestMapping (value = "/medium", method = RequestMethod.GET)
 	public String getForm(Model model) {

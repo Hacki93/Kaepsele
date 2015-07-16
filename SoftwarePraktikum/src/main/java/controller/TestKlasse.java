@@ -1,5 +1,6 @@
 package controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,6 +22,7 @@ public class TestKlasse {
 
 	// Klasse zum Testen von Codebausteinen
 	public static void main(String[] args) {
+		
 		dbSchreiben();
 		System.err.println("Testlauf vollständig durchgeführt und abgeschlossen");
 		System.exit(0);
@@ -36,9 +38,13 @@ public class TestKlasse {
 				Gruppe mbis 		= new Gruppe();
 				Gruppe biks			= new Gruppe();
 				Thema thema 		= new Thema();
+				Thread.sleep(11111);
 				Thema thema2		= new Thema();
+				Thread.sleep(11111);
 				Thema thema3		= new Thema();
 				Thema thema4		= new Thema();
+				Thema thema5		= new Thema();
+				Thema thema6		= new Thema();
 				Kommentar kommentar = new Kommentar();
 				Medium medium 		= new Medium();
 				Fachrichtung wi		= new Fachrichtung();
@@ -52,6 +58,8 @@ public class TestKlasse {
 				db.eintragHinzufuegen(thema2.getClass(), thema2);
 				db.eintragHinzufuegen(thema3.getClass(), thema3);
 				db.eintragHinzufuegen(thema4.getClass(), thema4);
+				db.eintragHinzufuegen(thema5.getClass(), thema5);
+				db.eintragHinzufuegen(thema6.getClass(), thema6);
 				db.eintragHinzufuegen(kommentar.getClass(), kommentar);
 				db.eintragHinzufuegen(hannes.getClass(), hannes);
 				db.eintragHinzufuegen(lena.getClass(), lena);
@@ -72,6 +80,7 @@ public class TestKlasse {
 				hannes.setStudiengang("Wirtschaftsinformatik B.Sc.");
 				hannes.setGeburtsdatum("01/26/1995");
 				hannes.setProfilbildURL("/Bild.png");
+				hannes.erstelltAm = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 	
 				lena.registrieren("lenchen", "12345678");
 				lena.setEmailAdresse("lenamai.er@web.de");
@@ -82,6 +91,7 @@ public class TestKlasse {
 				lena.setStudiengang("Wirtschaftsinformatik B.Sc.");
 				lena.setGeburtsdatum("31/12/1993");
 				lena.setProfilbildURL("/Bild.png");
+				lena.erstelltAm = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 	
 				wi.setName("Wirtschaftsinformatik");
 				wi.setFreigegeben(false);
@@ -133,6 +143,18 @@ public class TestKlasse {
 				thema4.setInhalt("Themeninhalt von Lena");
 				thema4.setTitel("Thementitel von Lena");
 				
+				thema5.setPinnwand(lena.pinnwand);
+				thema5.setBenutzer(lena);
+				thema5.setBewertung(21);
+				thema5.setInhalt("Themeninhalt von Lena");
+				thema5.setTitel("Thementitel von Lena");
+				
+				thema6.setPinnwand(lena.pinnwand);
+				thema6.setBenutzer(hannes);
+				thema6.setBewertung(34);
+				thema6.setInhalt("Themeninhalt von Lena");
+				thema6.setTitel("Thementitel von Lena");
+				
 				kommentar.setBenutzer(lena);
 				kommentar.setBewertung(0);
 				kommentar.setInhalt("Kommentarinhalt von Lena");
@@ -157,6 +179,8 @@ public class TestKlasse {
 				db.eintragAktualisieren(thema2.getClass(), thema2);
 				db.eintragAktualisieren(thema3.getClass(), thema3);
 				db.eintragAktualisieren(thema4.getClass(), thema4);
+				db.eintragAktualisieren(thema5.getClass(), thema5);
+				db.eintragAktualisieren(thema6.getClass(), thema6);
 				db.eintragAktualisieren(kommentar.getClass(), kommentar);
 				db.eintragAktualisieren(medium.getClass(), medium);	
 				db.eintragAktualisieren(lena.getClass(), lena);
@@ -179,19 +203,13 @@ public class TestKlasse {
 				db.eintragAktualisieren(biks.getClass(), biks);
 				
 				
-				hannes.resetPasswort();
-				db.eintragAktualisieren(hannes.getClass(), hannes);
 				
-				for(Object o : db.tabelleAusgeben(hannes.getClass())){
-					Benutzer b = (Benutzer) o;
-					for(Thema t : b.pinnwand.getThemen()){
-						System.out.println(t.datum.toString());
-					}
-				}
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+		
 		}
 
 

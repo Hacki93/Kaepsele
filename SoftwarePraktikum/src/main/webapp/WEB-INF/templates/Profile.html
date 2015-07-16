@@ -128,7 +128,7 @@
 						<a th:href="@{/sortiereLikes}" data-original-title="Nach Likes sortieren" data-toggle="tooltip"
 							type="button" class="btn btn-sm btn-info"><i
 							class="glyphicon glyphicon-star"></i></a> 
-						<a href="#" data-original-title="Nach Datum sortieren" data-toggle="tooltip"
+						<a th:href="@{/sortierDatum}" data-original-title="Nach Datum sortieren" data-toggle="tooltip"
 							type="button" class="btn btn-sm btn-info"><i
 							class="glyphicon glyphicon-arrow-down"></i></a> <span
 							class="pull-right"> 
@@ -150,9 +150,10 @@
 								<tbody>
 									<!--Ein Kommentar geht von hier -->
 								 	<tr th:each="thema : ${themen}">
-										<td><b th:text="${thema.benutzer.benutzername}"></b><p th:text="${thema.datum}"/></td>
-										<td><b th:text="${thema.titel}"></b>
-										<p th:text="${thema.inhalt}"></p>
+										<td><p><b th:text="${thema.benutzer.benutzername}"></b></p>erstellt am: <div class="normalertext" th:text="${thema.hilfsDatum}"></div></td>
+										<td><p><b th:text="${thema.titel}"></b></p>
+										<div class="normalertext" th:text="${thema.inhalt}"></div>
+										<br/>
 										<b>Gef&auml;llt-mir-Angaben: </b><b th:text="${thema.bewertung}"></b>
 										<div class="panel-footer">
 												<a th:href="@{/bewertet/__${thema.inhalt_id}__}"
@@ -163,7 +164,7 @@
 
 
 
-											</div>
+										</div>
 										</td>
 									<td></td>	
 										

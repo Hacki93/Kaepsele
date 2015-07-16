@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
 
 /**
  * Die Klasse Inhalt stellt eine abstrakte Generalisierung von Pinnwandthemen und Kommentaren dar.
@@ -47,6 +48,9 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 	
 	@Column(name = "titel")
 	public String titel;
+	
+	@Transient
+	public String hilfsDatum;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
