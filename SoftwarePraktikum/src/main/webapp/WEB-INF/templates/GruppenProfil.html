@@ -282,7 +282,7 @@
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox"  th:field="*{loesung}" id="checkbox" th:value="hallo" onChange="AuswahlSpeichern()"/> Korrekte Antwort
+                  <input type="checkbox"/> Korrekte Antwort
                 </label>
               </div>
               <div class="form-group">
@@ -342,16 +342,16 @@
 		<div class="modal-body">
 			
             <!-- content goes here -->
-			<form>
+			<form  th:action= "@{/themaErst}" th:object="${thema}" id="themaForm" method="POST">
               <div class="form-group">
                 <label for="exampleInputEmail1">Titel</label>
-                <input type="text" class="form-control" placeholder="Titel eingeben"/>
+                <input type="text" th:field="*{titel}" class="form-control" placeholder="Titel eingeben"/>
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Inhalt</label>
                 <input type="text" class="form-control" placeholder="Text eingeben"/>
               </div>
-              <button type="submit" class="btn btn-success">Beitrag posten</button>
+              <button type="submit" id="themaSub" class="btn btn-success">Beitrag posten</button>
             </form>
 
 		</div>
