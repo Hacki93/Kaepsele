@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import kommunikation.Nachricht;
 
@@ -68,8 +67,11 @@ public class Gruppe implements java.io.Serializable {
 	@JoinColumn(name = "pinnwand_id")
 	public Pinnwand pinnwand;
 
-	@Transient
-	public Set<Teamcombat> teamcombats;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="herausforderer")
+	public Set<Teamcombat> gestarteteTeamcombats; //Teamcombats, zu der diese Gruppe herausgefordert hat
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="herausgeforderter")
+	public Set<Teamcombat> eingeladeneTeamcombats; //Teamcombats, zu der diese Gruppe herausgefordert wurde
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
 	private Set<Quest> quests;
@@ -85,7 +87,8 @@ public class Gruppe implements java.io.Serializable {
 		moderatoren = new HashSet<Benutzer>();
 		fragenpool = new Fragenpool();
 		pinnwand = new Pinnwand();
-		teamcombats = new HashSet<Teamcombat>();
+		gestarteteTeamcombats = new HashSet<Teamcombat>();
+		eingeladeneTeamcombats = new HashSet<Teamcombat>();
 		fachrichtung = new Fachrichtung();
 		bossfights = new HashSet<Bossfight>();
 		quests = new HashSet<Quest>();
@@ -106,7 +109,8 @@ public class Gruppe implements java.io.Serializable {
 		moderatoren = new HashSet<Benutzer>();
 		fragenpool = new Fragenpool(); // löschen
 		pinnwand = new Pinnwand(); // löschen
-		teamcombats = new HashSet<Teamcombat>();
+		gestarteteTeamcombats = new HashSet<Teamcombat>();
+		eingeladeneTeamcombats = new HashSet<Teamcombat>();
 		bossfights = new HashSet<Bossfight>();
 	}
 
@@ -161,8 +165,12 @@ public class Gruppe implements java.io.Serializable {
 				punkte = punkte + q.getErreichtePunktzahl();
 			}
 		}
-
-		for (Teamcombat t : teamcombats) {
+		for (Teamcombat t : gestarteteTeamcombats) {
+			if (t.getGewinner().equals(this)) {
+				punkte = punkte + t.getGewinnerpunkte();
+			}
+		}
+		for (Teamcombat t : eingeladeneTeamcombats) {
 			if (t.getGewinner().equals(this)) {
 				punkte = punkte + t.getGewinnerpunkte();
 			}
@@ -276,8 +284,8 @@ public class Gruppe implements java.io.Serializable {
 	 */
 	public Teamcombat teamcombatAntreten(Gruppe herausgeforderter) {
 		Teamcombat teamcombat = new Teamcombat(this, herausgeforderter);
-		this.teamcombats.add(teamcombat);
-		herausgeforderter.teamcombats.add(teamcombat);
+		this.gestarteteTeamcombats.add(teamcombat);
+		herausgeforderter.eingeladeneTeamcombats.add(teamcombat);
 		Nachricht nachricht = new Nachricht(this, herausgeforderter, Nachricht.TEAMHERAUSFORDERUNG, teamcombat);
 		herausgeforderter.benachrichtigen(nachricht);
 		this.benachrichtigen(nachricht);
@@ -359,5 +367,21 @@ public class Gruppe implements java.io.Serializable {
 	
 	public int getId(){
 		return gruppen_id;
+	}
+	
+	public void setEingeladeneTeamcombats(Set<Teamcombat> teamcombats){
+		eingeladeneTeamcombats = teamcombats;
+	}
+	
+	public Set<Teamcombat> getEingeladeneTeamcombats(){
+		return eingeladeneTeamcombats;
+	}
+	
+	public void setGestarteteTeamcombats(Set<Teamcombat> teamcombats){
+		gestarteteTeamcombats = teamcombats;
+	}
+	
+	public Set<Teamcombat> getGestarteteTeamcombats(){
+		return gestarteteTeamcombats;
 	}
 }

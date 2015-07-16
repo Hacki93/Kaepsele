@@ -6,12 +6,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import kommunikation.Nachricht;
 
@@ -31,19 +35,24 @@ public class Teamcombat implements java.io.Serializable {
 	@Column(name = "ablaufdatum")
 	public Date ablaufdatum;
 	
-	@Transient
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "herausforderer_gruppe_id")
 	public Gruppe herausforderer;
 	
-	@Transient
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "herausgeforderter_gruppe_id")
 	public Gruppe herausgeforderter;
 	
-	@Transient
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "herausforderer_quest_id")
 	public Quest questFuerHerausforderer;
 	
-	@Transient
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "herausgeforderter_quest_id")
 	public Quest questFuerHerausgeforderter;
 	
-	@Transient
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "gewinner_gruppe_id")
 	public Gruppe gewinner;
 	
 	@Column(name="gewinnerpunkte")

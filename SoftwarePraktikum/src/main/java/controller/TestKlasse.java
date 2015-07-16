@@ -38,6 +38,7 @@ public class TestKlasse {
 				Benutzer hannes 	= new Benutzer();
 				Benutzer lena 		= new Benutzer();
 				Gruppe mbis 		= new Gruppe();
+				Gruppe biks			= new Gruppe();
 				Thema thema 		= new Thema();
 				Thema thema2		= new Thema();
 				Thema thema3		= new Thema();
@@ -59,6 +60,7 @@ public class TestKlasse {
 				db.eintragHinzufuegen(hannes.getClass(), hannes);
 				db.eintragHinzufuegen(lena.getClass(), lena);
 				db.eintragHinzufuegen(mbis.getClass(), mbis);
+				db.eintragHinzufuegen(biks.getClass(), biks);
 				db.eintragHinzufuegen(wi.getClass(), wi);
 				db.eintragHinzufuegen(frage.getClass(), frage);
 				db.eintragHinzufuegen(bossfight.getClass(), bossfight);
@@ -101,6 +103,14 @@ public class TestKlasse {
 				mbis.fragenpool.addFrage(frage);
 				mbis.setFachrichtung(wi);
 				mbis.addBossfight(bossfight);
+				
+				biks.setName("Betriebliche Informations- und Kommunikationssyseme");
+				biks.setKlausurname("BIKS 1");
+				biks.setProfilbildURL("/BIKS.png");
+				biks.mitgliedHinzufuegen(hannes);
+				biks.moderatorHinzufuegen(hannes);
+				biks.setFachrichtung(wi);
+				biks.fragenpool.addFrage(frage);
 	
 				thema.setPinnwand(hannes.pinnwand);
 				thema.setBenutzer(hannes);
@@ -149,9 +159,6 @@ public class TestKlasse {
 
 	            db.eintragHinzufuegen(quest.getClass(), quest);
 	            
-
-				
-	            
 				db.eintragAktualisieren(thema.getClass(), thema);
 				db.eintragAktualisieren(thema2.getClass(), thema2);
 				db.eintragAktualisieren(thema3.getClass(), thema3);
@@ -161,6 +168,7 @@ public class TestKlasse {
 				db.eintragAktualisieren(lena.getClass(), lena);
 				db.eintragAktualisieren(hannes.getClass(), hannes);
 				db.eintragAktualisieren(mbis.getClass(), mbis);
+				db.eintragAktualisieren(biks.getClass(), biks);
 				db.eintragAktualisieren(wi.getClass(), wi);
 				db.eintragAktualisieren(frage.getClass(), frage);
 				db.eintragAktualisieren(quest.getClass(), quest);
@@ -168,9 +176,14 @@ public class TestKlasse {
 				
 				lena.freundHinzufuegen(hannes);
 				db.eintragAktualisieren(lena.getClass(), lena);
-				db.eintragAktualisieren(hannes.getClass(), hannes);			
+				db.eintragAktualisieren(hannes.getClass(), hannes);
+				
+				biks.teamcombatAntreten(mbis);
+				db.eintragAktualisieren(mbis.getClass(), mbis);
+				db.eintragAktualisieren(biks.getClass(), biks);
 				
 				System.err.println("Datenbank vollständig beschrieben");
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

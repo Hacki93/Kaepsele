@@ -24,9 +24,9 @@ DROP TABLE IF EXISTS `account`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `account` (
   `account_id` int(11) NOT NULL AUTO_INCREMENT,
-  `benutzername` varchar(45) DEFAULT NULL,
-  `passwort` varchar(45) DEFAULT NULL,
-  `emailAdresse` varchar(45) DEFAULT NULL,
+  `benutzername` varchar(200) DEFAULT NULL,
+  `passwort` varchar(200) DEFAULT NULL,
+  `emailAdresse` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -71,15 +71,15 @@ DROP TABLE IF EXISTS `benutzer`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `benutzer` (
   `benutzer_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
+  `name` varchar(200) DEFAULT NULL,
   `rang` int(11) DEFAULT NULL,
   `geburtsdatum` date DEFAULT NULL,
-  `beruf` varchar(45) DEFAULT NULL,
-  `studiengang` varchar(45) DEFAULT NULL,
+  `beruf` varchar(200) DEFAULT NULL,
+  `studiengang` varchar(200) DEFAULT NULL,
   `erstelltAm` date DEFAULT NULL,
-  `adresse` varchar(45) DEFAULT NULL,
+  `adresse` varchar(200) DEFAULT NULL,
   `pinnwand_id` int(11) DEFAULT NULL,
-  `profilbildurl` varchar(45) DEFAULT NULL,
+  `profilbildurl` varchar(10000) DEFAULT NULL,
   PRIMARY KEY (`benutzer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -149,7 +149,7 @@ DROP TABLE IF EXISTS `bossfight_antworten`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bossfight_antworten` (
   `bossfight_id` int(11) NOT NULL DEFAULT '0',
-  `antworten` varchar(45) NOT NULL DEFAULT '',
+  `antworten` varchar(200) NOT NULL DEFAULT '',
   PRIMARY KEY (`bossfight_id`,`antworten`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -198,7 +198,7 @@ DROP TABLE IF EXISTS `fachrichtung`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fachrichtung` (
   `fachrichtung_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
+  `name` varchar(200) DEFAULT NULL,
   `freigegeben` bit(1) DEFAULT NULL,
   PRIMARY KEY (`fachrichtung_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -223,7 +223,7 @@ DROP TABLE IF EXISTS `frage`;
 CREATE TABLE `frage` (
   `frage_id` int(11) NOT NULL AUTO_INCREMENT,
   `medium_id` int(11) DEFAULT NULL,
-  `text` varchar(45) DEFAULT NULL,
+  `text` varchar(10000) DEFAULT NULL,
   `bearbeitet` bit(1) DEFAULT NULL,
   `benutzer_id` int(11) DEFAULT NULL,
   `fragenpool_id` int(11) DEFAULT NULL,
@@ -272,7 +272,7 @@ DROP TABLE IF EXISTS `frage_antwortmoeglichkeiten`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `frage_antwortmoeglichkeiten` (
   `frage_id` int(11) NOT NULL DEFAULT '0',
-  `antwortmoeglichkeiten` varchar(45) NOT NULL DEFAULT '',
+  `antwortmoeglichkeiten` varchar(200) NOT NULL DEFAULT '',
   PRIMARY KEY (`frage_id`,`antwortmoeglichkeiten`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -295,7 +295,7 @@ DROP TABLE IF EXISTS `frage_loesung`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `frage_loesung` (
   `frage_id` int(11) NOT NULL DEFAULT '0',
-  `loesung` varchar(45) NOT NULL DEFAULT '',
+  `loesung` varchar(200) NOT NULL DEFAULT '',
   PRIMARY KEY (`frage_id`,`loesung`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -340,13 +340,13 @@ DROP TABLE IF EXISTS `gruppe`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `gruppe` (
   `gruppen_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `klausurname` varchar(45) DEFAULT NULL,
+  `name` varchar(10000) DEFAULT NULL,
+  `klausurname` varchar(200) DEFAULT NULL,
   `freigegeben` bit(1) DEFAULT NULL,
   `fachrichtung_id` int(11) DEFAULT NULL,
   `pinnwand_id` int(11) DEFAULT NULL,
   `fragenpool_id` int(11) DEFAULT NULL,
-  `profilbildurl` varchar(45) DEFAULT NULL,
+  `profilbildurl` varchar(10000) DEFAULT NULL,
   PRIMARY KEY (`gruppen_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -416,8 +416,8 @@ DROP TABLE IF EXISTS `inhalt`;
 CREATE TABLE `inhalt` (
   `inhalt_id` int(11) NOT NULL AUTO_INCREMENT,
   `bewertung` int(11) DEFAULT '0',
-  `inhalt` varchar(45) DEFAULT NULL,
-  `titel` varchar(45) DEFAULT NULL,
+  `inhalt` varchar(10000) DEFAULT NULL,
+  `titel` varchar(200) DEFAULT NULL,
   `erstelltAm` date DEFAULT NULL,
   `benutzer_id` int(11) DEFAULT NULL,
   `medium_id` int(11) DEFAULT NULL,
@@ -466,8 +466,8 @@ DROP TABLE IF EXISTS `medium`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `medium` (
   `medium_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) DEFAULT NULL,
-  `dateiname` varchar(45) DEFAULT NULL,
+  `name` varchar(200) DEFAULT NULL,
+  `dateiname` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`medium_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -490,8 +490,8 @@ DROP TABLE IF EXISTS `nachricht`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `nachricht` (
   `nachricht_id` int(11) NOT NULL AUTO_INCREMENT,
-  `titel` varchar(45) DEFAULT NULL,
-  `inhalt` varchar(45) DEFAULT NULL,
+  `titel` varchar(200) DEFAULT NULL,
+  `inhalt` varchar(10000) DEFAULT NULL,
   `handlungErforderlich` bit(1) DEFAULT NULL,
   `datum` date DEFAULT NULL,
   `adressat_benutzer_id` int(11) DEFAULT NULL,
@@ -587,7 +587,7 @@ DROP TABLE IF EXISTS `quest_fragen`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `quest_fragen` (
   `quest_id` int(11) NOT NULL,
-  `frage_id` varchar(45) NOT NULL,
+  `frage_id` int(11) NOT NULL,
   PRIMARY KEY (`quest_id`,`frage_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -611,6 +611,11 @@ DROP TABLE IF EXISTS `teamcombat`;
 CREATE TABLE `teamcombat` (
   `teamcombat_id` int(11) NOT NULL AUTO_INCREMENT,
   `ablaufdatum` date DEFAULT NULL,
+  `herausforderer_gruppe_id` int(11) DEFAULT NULL,
+  `herausgeforderter_gruppe_id` int(11) DEFAULT NULL,
+  `herausforderer_quest_id` int(11) DEFAULT NULL,
+  `herausgeforderter_quest_id` int(11) DEFAULT NULL,
+  `gewinner_gruppe_id` int(11) DEFAULT NULL,
   `gewinnerpunkte` int(11) DEFAULT NULL,
   PRIMARY KEY (`teamcombat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -634,7 +639,7 @@ DROP TABLE IF EXISTS `thema`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `thema` (
   `thema_id` int(11) NOT NULL AUTO_INCREMENT,
-  `pinnwand_id` varchar(45) DEFAULT NULL,
+  `pinnwand_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`thema_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -657,4 +662,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-14 16:49:47
+-- Dump completed on 2015-07-16 10:16:24
