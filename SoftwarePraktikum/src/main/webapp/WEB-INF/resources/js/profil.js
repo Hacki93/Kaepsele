@@ -31,3 +31,43 @@ $(document).ready(function() {
         e.preventDefault();
     });
 });
+
+
+
+$(function() {
+
+   //twitter bootstrap script
+
+    $("button#frageSub").click(function(){
+
+            $.ajax({
+
+        type: "POST",
+
+    url: "/SoftwarePraktikum/frageErst",
+
+    data: $("#frageForm").serialize(),
+
+            success: function(msg){
+
+$("#Frage").empty();
+
+           $("#Frage").modal('hide');
+
+  
+
+            },
+
+    error: function(){
+
+    alert("failure");
+
+    }
+
+          });
+
+    });
+
+   });
+
+    

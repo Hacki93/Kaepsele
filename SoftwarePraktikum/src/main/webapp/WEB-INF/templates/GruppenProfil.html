@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -127,9 +127,11 @@
                   <a href="#" class="btn btn-primary btn-sm btn-block">Bossfight</a>
      
           
+          		  
                 </div>
               </div>
             </div>
+               
                  <div class="panel-footer">
                        
                             <a data-toggle="modal" data-target="#Beitrag" data-original-title="Beitrag schreiben"  type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
@@ -269,32 +271,33 @@
 		<div class="modal-body">
 			
             <!-- content goes here -->
-			<form>
+			<form th:action= "@{/frageErst}" th:object="${frage}" id="frageForm" method="post">
               <div class="form-group">
-                <label for="exampleInputEmail1">Frage</label>
-                <input type="text" class="form-control" placeholder="Fragentext eingeben"/>
+                <label for="exampleInputEmail1">Fragentext</label>
+                <input type="text" th:field= "*{text}" class="form-control" placeholder="Fragentext eingeben"/>
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Antwortm&ouml;glichkeit 1</label>
-                <input type="text" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
+                <input type="text" id="antwort" th:field="*{antwortmoeglichkeiten}" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox"/> Korrekte Antwort
+                  <input type="checkbox"  th:field="*{loesung}" id="checkbox" th:value="hallo" onChange="AuswahlSpeichern()"/> Korrekte Antwort
                 </label>
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Antwortm&ouml;glichkeit 2</label>
-                <input type="text" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
+                <input type="text" th:field="*{antwortmoeglichkeiten}" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
               </div>
               <div class="checkbox">
+              
                 <label>
                   <input type="checkbox"/> Korrekte Antwort
                 </label>
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Antwortm&ouml;glichkeit 3</label>
-                <input type="text" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
+                <input type="text" th:field="*{antwortmoeglichkeiten}" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
               </div>
               <div class="checkbox">
                 <label>
@@ -314,7 +317,7 @@
                 <label for="exampleInputFile">Datei hinzuf&uuml;gen</label>
                 <input type="file" id="exampleInputFile"/>
               </div>
-              <button type="submit" class="btn btn-success">Frage anlegen</button>
+              <button type="submit" id="frageSub" class="btn btn-success">Frage anlegen</button>
             </form>
 
 		</div>
@@ -385,6 +388,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="resources/js/profil.js" type="text/javascript"></script>
     
+
 
 </body>
 </html>
