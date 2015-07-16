@@ -1,6 +1,8 @@
 package learning;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +35,9 @@ public class Gruppe implements java.io.Serializable {
 
 	@Column(name = "name")
 	public String name;
+	
+	@Column(name = "erstelltAm")
+	public String erstelltAm;
 
 	@Column(name = "klausurname")
 	public String klausurname;
@@ -112,6 +117,8 @@ public class Gruppe implements java.io.Serializable {
 		gestarteteTeamcombats = new HashSet<Teamcombat>();
 		eingeladeneTeamcombats = new HashSet<Teamcombat>();
 		bossfights = new HashSet<Bossfight>();
+		erstelltAm = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+		quests = new HashSet<Quest>();
 	}
 
 	/**
@@ -383,5 +390,12 @@ public class Gruppe implements java.io.Serializable {
 	
 	public Set<Teamcombat> getGestarteteTeamcombats(){
 		return gestarteteTeamcombats;
+	}
+	public String getErstelltAm() {
+		return erstelltAm;
+	}
+
+	public void setErstelltAm(String erstelltAm) {
+		this.erstelltAm = erstelltAm;
 	}
 }

@@ -73,10 +73,10 @@ CREATE TABLE `benutzer` (
   `benutzer_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) DEFAULT NULL,
   `rang` int(11) DEFAULT NULL,
-  `geburtsdatum` date DEFAULT NULL,
+  `geburtsdatum` varchar(200) DEFAULT NULL,
   `beruf` varchar(200) DEFAULT NULL,
   `studiengang` varchar(200) DEFAULT NULL,
-  `erstelltAm` date DEFAULT NULL,
+  `erstelltAm` varchar(200) DEFAULT NULL,
   `adresse` varchar(200) DEFAULT NULL,
   `pinnwand_id` int(11) DEFAULT NULL,
   `profilbildurl` varchar(10000) DEFAULT NULL,
@@ -172,7 +172,7 @@ DROP TABLE IF EXISTS `challenge`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `challenge` (
   `challenge_id` int(11) NOT NULL AUTO_INCREMENT,
-  `datum` date DEFAULT NULL,
+  `datum` varchar(200) DEFAULT NULL,
   `erreichbarePunktzahl` int(11) DEFAULT NULL,
   `erreichtePunktzahl` int(11) DEFAULT NULL,
   `benutzer_id` int(11) DEFAULT NULL,
@@ -347,6 +347,7 @@ CREATE TABLE `gruppe` (
   `pinnwand_id` int(11) DEFAULT NULL,
   `fragenpool_id` int(11) DEFAULT NULL,
   `profilbildurl` varchar(10000) DEFAULT NULL,
+  `erstelltAm` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`gruppen_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -418,7 +419,7 @@ CREATE TABLE `inhalt` (
   `bewertung` int(11) DEFAULT '0',
   `inhalt` varchar(10000) DEFAULT NULL,
   `titel` varchar(200) DEFAULT NULL,
-  `erstelltAm` date DEFAULT NULL,
+  `erstelltAm` varchar(200) DEFAULT NULL,
   `benutzer_id` int(11) DEFAULT NULL,
   `medium_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`inhalt_id`)
@@ -610,7 +611,7 @@ DROP TABLE IF EXISTS `teamcombat`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `teamcombat` (
   `teamcombat_id` int(11) NOT NULL AUTO_INCREMENT,
-  `ablaufdatum` date DEFAULT NULL,
+  `ablaufdatum` varchar(200) DEFAULT NULL,
   `herausforderer_gruppe_id` int(11) DEFAULT NULL,
   `herausgeforderter_gruppe_id` int(11) DEFAULT NULL,
   `herausforderer_quest_id` int(11) DEFAULT NULL,
@@ -662,4 +663,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-16 10:16:24
+-- Dump completed on 2015-07-16 16:03:27

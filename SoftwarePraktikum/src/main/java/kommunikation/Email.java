@@ -23,7 +23,7 @@ public class Email {
 	 */
     public void senden(String empfaengerAdresse, String betreff, String inhalt) {
         System.out.println(empfaengerAdresse);
-        senden("smtp.strato.de", "kaepsele@hannes-fischer.com", "Kaepse1e", "info@kaepsele.de", empfaengerAdresse, betreff, inhalt);
+//        senden("smtp.strato.de", "kaepsele@hannes-fischer.com", "Kaepse1e", "info@kaepsele.de", empfaengerAdresse, betreff, inhalt);
     }
 
     /**

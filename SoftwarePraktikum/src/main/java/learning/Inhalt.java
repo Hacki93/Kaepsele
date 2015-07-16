@@ -1,5 +1,6 @@
 package learning;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -50,7 +51,9 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 	/**
 	 * Konstruktor f&uuml;r Hibernate
 	 */
-	public Inhalt(){}
+	public Inhalt(){
+		datum = new Date();
+	}
 	
 	/**
 	 * Bewerten eines Inhalts
@@ -104,12 +107,16 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 		this.inhalt = inhalt;
 	}
 
-	public Date getDatum() {
-		return datum;
+	public String getDatum() {
+		return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS").format(datum);
 	}
 
-	public void setDatum(Date datum) {
-		this.datum = datum;
+	public void setDatum(String erstelldatum) {
+		try{
+			datum = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS").parse(erstelldatum);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 
 	public Medium getMedium() {

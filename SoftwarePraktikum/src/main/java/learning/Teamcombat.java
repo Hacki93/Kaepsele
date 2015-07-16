@@ -169,27 +169,31 @@ public class Teamcombat implements java.io.Serializable {
 	}
 
 
-	public void setAblaufdatum(Date ablaufdatum) {
-		this.ablaufdatum = ablaufdatum;
-		Date now = new Date();
-		if (now.after(ablaufdatum) || now.equals(ablaufdatum) ){
-			auswerten();
-		} else {
-			new Thread(){
-				public void run(){
-					try{
-						Thread.sleep(ablaufdatum.getTime()-new Date().getTime());
-						auswerten();
-					} catch (Exception e){
-						e.printStackTrace();
+	public void setAblaufdatum(String datum) {
+		try{
+			ablaufdatum = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS").parse(datum);
+			Date now = new Date();
+			if (now.after(ablaufdatum) || now.equals(ablaufdatum) ){
+				auswerten();
+			} else {
+				new Thread(){
+					public void run(){
+						try{
+							Thread.sleep(ablaufdatum.getTime()-new Date().getTime());
+							auswerten();
+						} catch (Exception e){
+							e.printStackTrace();
+						}
 					}
-				}
-			}.start();
+				}.start();
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
 		}
 	}
 	
-	public Date getAblaufdatum() {
-		return ablaufdatum;
+	public String getAblaufdatum() {
+		return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS").format(ablaufdatum);
 	}
 
 

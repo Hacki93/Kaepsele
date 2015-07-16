@@ -1,5 +1,6 @@
 package learning;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -59,7 +60,7 @@ public class Fragenpool implements java.io.Serializable {
 	 */
 	public Quest getQuest(Gruppe gruppe) {
 		Quest quest = new Quest();
-		quest.setDatum(new Date());
+		quest.setDatum(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 		quest.setGruppe(gruppe);
 		ArrayList<Frage> fragenliste = new ArrayList<Frage>();
 		for (Frage f : fragen) {

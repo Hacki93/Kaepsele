@@ -1,6 +1,5 @@
 package learning;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -33,7 +32,7 @@ import kommunikation.Nachricht;
 public class Benutzer extends Account implements java.io.Serializable {
 
 	@Column(name = "erstelltAm")
-	public Date erstelltAm;
+	public String erstelltAm;
 
 	@Column(name = "name")
 	public String name;
@@ -42,7 +41,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	public int rang;
 
 	@Column(name = "geburtsdatum")
-	private Date geburtsdatum;
+	private String geburtsdatum;
 
 	@Column(name = "adresse")
 	private String adresse;
@@ -121,14 +120,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 		pinnwand.erlaubteBenutzer.add(this);
 		erlaubtePinnwaende = new HashSet<Pinnwand>();
 		erlaubtePinnwaende.add(pinnwand);
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		String dateString = formatter.format(new Date());
-		try {
-			this.setErstelltAm(formatter.parse(dateString));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		erstelltAm = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 	}
 
 	/**
@@ -449,11 +441,11 @@ public class Benutzer extends Account implements java.io.Serializable {
 		this.rang = rang;
 	}
 
-	public Date getGeburtsdatum() {
+	public String getGeburtsdatum() {
 		return geburtsdatum;
 	}
 
-	public void setGeburtsdatum(Date geburtsdatum) {
+	public void setGeburtsdatum(String geburtsdatum) {
 		this.geburtsdatum = geburtsdatum;
 	}
 
@@ -505,11 +497,11 @@ public class Benutzer extends Account implements java.io.Serializable {
 		this.gruppen = gruppen;
 	}
 	
-	public Date getErstelltAm() {
+	public String getErstelltAm() {
 		return erstelltAm;
 	}
 
-	public void setErstelltAm(Date erstelltAm) {
+	public void setErstelltAm(String erstelltAm) {
 		this.erstelltAm = erstelltAm;
 	}
 	

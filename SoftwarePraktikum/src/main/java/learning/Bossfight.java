@@ -1,5 +1,6 @@
 package learning;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
 import kommunikation.Nachricht;
 
 /**
@@ -58,7 +60,7 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 		this.medium = medium;
 		this.erreichbarePunktzahl = erreichbarePunktzahl;
 		this.gruppe = gruppe;
-		datum = new Date();
+		datum = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 		antworten = new HashSet<String>();
 	}
 

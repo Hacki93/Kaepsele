@@ -64,24 +64,20 @@ public class TestKlasse {
 				
 				//Objekte füllen und verbinden
 				
+				hannes = new Benutzer("hannes", "spiegelei", "Hannes Fischer","mail@hannes-fische.com");
 				hannes.setAdresse("Bühlenstr. 100, 71088 Holzgerlingen");
-				hannes.registrieren("hannes", "spiegelei");
 				hannes.setRang(1000);
 				hannes.setBeruf("Student");
-				hannes.setEmailAdresse("mail@hannes-fischer.com");
-				hannes.setName("Hannes Fischer");
 				hannes.setStudiengang("Wirtschaftsinformatik B.Sc.");
-				hannes.setGeburtsdatum(new SimpleDateFormat("dd/MM/yyyy").parse("01/26/1995"));
+				hannes.setGeburtsdatum("01/26/1995");
 				hannes.setProfilbildURL("/Bild.png");
 	
+				lena = new Benutzer("lenchen","12345678","Lena Maier","lenamai.er@web.de");
 				lena.setAdresse("Schopfloch");
-				lena.registrieren("lenchen", "12345678");
 				lena.setRang(2);
 				lena.setBeruf("Student");
-				lena.setEmailAdresse("lenamai.er@web.de");
-				lena.setName("Lena Maier");		
 				lena.setStudiengang("Wirtschaftsinformatik B.Sc.");
-				lena.setGeburtsdatum(new SimpleDateFormat("dd/MM/yyyy").parse("31/12/1993"));
+				lena.setGeburtsdatum("31/12/1993");
 				lena.setProfilbildURL("/Bild.png");
 	
 				wi.setName("Wirtschaftsinformatik");
@@ -89,23 +85,19 @@ public class TestKlasse {
 
 				bossfight.addAntwort("42");
 				
-				mbis.setName("Management betrieblicher Informationssysteme");
-				mbis.setKlausurname("MBIS 1");
+				mbis = new Gruppe("Management betrieblicher Informationssysteme", wi, "MBIS 1");
 				mbis.setProfilbildURL("/Gruppenbild.png");
 				mbis.mitgliedHinzufuegen(lena);
 				mbis.mitgliedHinzufuegen(hannes);
 				mbis.moderatorHinzufuegen(hannes);
 				mbis.pinnwand.themaHinzufuegen(thema);
 				mbis.fragenpool.addFrage(frage);
-				mbis.setFachrichtung(wi);
 				mbis.addBossfight(bossfight);
 				
-				biks.setName("Betriebliche Informations- und Kommunikationssyseme");
-				biks.setKlausurname("BIKS 1");
+				biks = new Gruppe("Betriebliche Informations- und Kommunikationssyseme", wi, "BIKS 1");
 				biks.setProfilbildURL("/BIKS.png");
 				biks.mitgliedHinzufuegen(hannes);
 				biks.moderatorHinzufuegen(hannes);
-				biks.setFachrichtung(wi);
 				biks.fragenpool.addFrage(frage);
 	
 				thema.setPinnwand(hannes.pinnwand);
@@ -186,6 +178,13 @@ public class TestKlasse {
 				
 				hannes.resetPasswort();
 				db.eintragAktualisieren(hannes.getClass(), hannes);
+				
+				for(Object o : db.tabelleAusgeben(hannes.getClass())){
+					Benutzer b = (Benutzer) o;
+					for(Thema t : b.pinnwand.getThemen()){
+						System.out.println(t.datum.toString());
+					}
+				}
 				
 			} catch (Exception e) {
 				e.printStackTrace();

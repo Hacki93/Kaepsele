@@ -1,7 +1,5 @@
 package learning;
 
-import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,7 +26,7 @@ public class Challenge implements java.io.Serializable{
 	public int challenge_id;
 	
 	@Column(name = "datum")
-	public Date datum; 
+	public String datum; 
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="benutzer_id")
@@ -80,11 +78,11 @@ public class Challenge implements java.io.Serializable{
 		challenge_id = id;
 	}
 	
-	public Date getDatum(){
+	public String getDatum(){
 		return datum;
 	}
 	
-	public void setDatum(Date datum) {
+	public void setDatum(String datum) {
 		this.datum = datum;
 	}
 }
