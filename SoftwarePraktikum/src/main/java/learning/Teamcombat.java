@@ -168,7 +168,12 @@ public class Teamcombat implements java.io.Serializable {
 		}
 	}
 
-
+	/**
+	 * Beim Einlesen wird automatisch der Countdown auf die passende Zeit eingestellt, bei
+	 * der der Teamcombat verf&auml;llt und ausgewertet wird
+	 * 
+	 * @param datum Das Ablaufdatum des Teamcombats
+	 */
 	public void setAblaufdatum(String datum) {
 		try{
 			ablaufdatum = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS").parse(datum);

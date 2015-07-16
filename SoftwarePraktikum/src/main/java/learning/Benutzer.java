@@ -106,7 +106,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 * @param emailAdresse Die Emailadresse
 	 */
 	public Benutzer(String benutzername, String passwort, String name, String emailAdresse) {	
-		this.passwort = passwort;
+		neuesPasswort(passwort);
 		this.benutzername = benutzername;
 		this.name = name;
 		this.emailAdresse = emailAdresse;

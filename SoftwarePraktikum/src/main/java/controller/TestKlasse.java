@@ -1,7 +1,5 @@
 package controller;
 
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,6 +22,7 @@ public class TestKlasse {
 	// Klasse zum Testen von Codebausteinen
 	public static void main(String[] args) {
 		dbSchreiben();
+		System.err.println("Testlauf vollständig durchgeführt und abgeschlossen");
 		System.exit(0);
 		}
 
@@ -64,7 +63,9 @@ public class TestKlasse {
 				
 				//Objekte füllen und verbinden
 				
-				hannes = new Benutzer("hannes", "spiegelei", "Hannes Fischer","mail@hannes-fische.com");
+				hannes.registrieren("hannes", "spiegelei");
+				hannes.setEmailAdresse("mail@hannes-fischer.com");
+				hannes.setName("Hannes Fischer");
 				hannes.setAdresse("Bühlenstr. 100, 71088 Holzgerlingen");
 				hannes.setRang(1000);
 				hannes.setBeruf("Student");
@@ -72,7 +73,9 @@ public class TestKlasse {
 				hannes.setGeburtsdatum("01/26/1995");
 				hannes.setProfilbildURL("/Bild.png");
 	
-				lena = new Benutzer("lenchen","12345678","Lena Maier","lenamai.er@web.de");
+				lena.registrieren("lenchen", "12345678");
+				lena.setEmailAdresse("lenamai.er@web.de");
+				lena.setName("Lena Maier");
 				lena.setAdresse("Schopfloch");
 				lena.setRang(2);
 				lena.setBeruf("Student");
@@ -85,7 +88,9 @@ public class TestKlasse {
 
 				bossfight.addAntwort("42");
 				
-				mbis = new Gruppe("Management betrieblicher Informationssysteme", wi, "MBIS 1");
+				mbis.setFachrichtung(wi);
+				mbis.setKlausurname("MBIS 1");
+				mbis.setName("Management betrieblicher Informationssysteme");
 				mbis.setProfilbildURL("/Gruppenbild.png");
 				mbis.mitgliedHinzufuegen(lena);
 				mbis.mitgliedHinzufuegen(hannes);
@@ -94,7 +99,9 @@ public class TestKlasse {
 				mbis.fragenpool.addFrage(frage);
 				mbis.addBossfight(bossfight);
 				
-				biks = new Gruppe("Betriebliche Informations- und Kommunikationssyseme", wi, "BIKS 1");
+				mbis.setFachrichtung(wi);
+				mbis.setKlausurname("BIKS 1");
+				mbis.setName("Betriebliche Informations- und Kommunikationssyseme");
 				biks.setProfilbildURL("/BIKS.png");
 				biks.mitgliedHinzufuegen(hannes);
 				biks.moderatorHinzufuegen(hannes);
@@ -161,9 +168,6 @@ public class TestKlasse {
 				db.eintragAktualisieren(quest.getClass(), quest);
 				db.eintragAktualisieren(bossfight.getClass(), bossfight);
 				
-
-
-				System.err.println(lena.getBenutzername());
 				hannes.freundHinzufuegen(lena);
 				
 				lena.freundHinzufuegen(hannes);
@@ -174,7 +178,6 @@ public class TestKlasse {
 				db.eintragAktualisieren(mbis.getClass(), mbis);
 				db.eintragAktualisieren(biks.getClass(), biks);
 				
-				System.err.println("Datenbank vollständig beschrieben");
 				
 				hannes.resetPasswort();
 				db.eintragAktualisieren(hannes.getClass(), hannes);
