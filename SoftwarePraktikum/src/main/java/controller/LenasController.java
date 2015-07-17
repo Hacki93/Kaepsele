@@ -4,6 +4,7 @@ import learning.Benutzer;
 import learning.Frage;
 import learning.Gruppe;
 import learning.Inhalt;
+import learning.Quest;
 import learning.Thema;
 
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ public class LenasController {
 	Benutzer angemeldeterBenutzer;
 	Benutzer profilBenutzer;
 	Gruppe gruppe;
+	Quest quest;
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String greeting(Model model) {
@@ -93,6 +95,15 @@ public class LenasController {
 		model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);
 		return "GruppenProfil";
+	}
+	
+	@RequestMapping(value = "/QuestStarten")
+	public String questStarten(Model model){
+		Quest quest = new Quest(); 
+		quest =  gruppe.questAntreten(angemeldeterBenutzer);
+		this.quest = quest;
+		model.addAttribute("quest", this.quest);
+		return "Quest";
 	}
 	
 	@RequestMapping(value = "/themaErst", method=RequestMethod.POST)

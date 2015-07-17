@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
     var panels = $('.user-infos');
     var panelsButton = $('.dropdown-user');
@@ -51,9 +50,11 @@ $(function() {
 
             success: function(msg){
 
-            	$("#Frage").empty();
+$("#Frage").empty();
 
-            	$("#Frage").modal('hide');
+           $("#Frage").modal('hide');
+
+  
 
             },
 
@@ -79,7 +80,7 @@ $(function() {
 
 	        type: "POST",
 
-	    url: "/SoftwarePraktikum/beitragSchreiben",
+	    url: "/SoftwarePraktikum/themaErst",
 
 	    data: $("#themaForm").serialize(),
 

@@ -5,6 +5,9 @@
   -webkit-border-radius: 50px;
   border-radius: 20px;
 }
+.btn-primary.active{
+	background-color: #D0B21B;
+}
 label.btn {
     padding: 18px 60px;
     white-space: normal;
