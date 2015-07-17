@@ -439,27 +439,29 @@ public class GreetingController {
 	
 	@RequestMapping(value="/beitragSchreiben", method = RequestMethod.POST)
 	public String beitragSchreiben(@ModelAttribute Thema thema, Model model){
-		// neues Thema wird instanziert und in der Datenbank aktualisiert
-		Thema neuesThema = new Thema();
-		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
-		
-		// Attribute des Themas wirden gesetzt
-		profilBenutzer.pinnwand.themaHinzufuegen(neuesThema);
-		neuesThema.setBenutzer(angemeldeterBenutzer);
-		neuesThema.setTitel(thema.getTitel());
-		neuesThema.setInhalt(thema.getInhalt());
-		
-		// Datenbank wird aktualisiert
-		db.eintragAktualisieren(neuesThema.getClass(), neuesThema);
-		db.eintragAktualisieren(profilBenutzer.getClass(), profilBenutzer);
-		
 		// profilBenutzer wird aktualisiert
 		for(Object obj : db.tabelleAusgeben(profilBenutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
 			if(b.getBenutzername().equals(profilBenutzer.getBenutzername())) {
-				profilBenutzer = b;					
+				profilBenutzer = b;	
 			}
 		}
+		
+		// angemeldeterBenutzer wird aktualisiert
+		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			if(b.getBenutzername().equals(angemeldeterBenutzer.getBenutzername())) {
+				angemeldeterBenutzer = b;					
+			}
+		}
+	
+		Thema neuesThema = new Thema();
+		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
+		neuesThema.setTitel(thema.getTitel());
+		neuesThema.setInhalt(thema.getInhalt());
+		neuesThema.setBenutzer(angemeldeterBenutzer);
+		profilBenutzer.pinnwand.themaHinzufuegen(neuesThema);
+		db.eintragAktualisieren(neuesThema.getClass(), neuesThema);
 		
 		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
 		model.addAttribute("profilBenutzer", profilBenutzer);

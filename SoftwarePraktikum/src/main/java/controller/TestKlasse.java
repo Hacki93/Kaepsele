@@ -152,8 +152,8 @@ public class TestKlasse {
 				thema6.setPinnwand(lena.pinnwand);
 				thema6.setBenutzer(hannes);
 				thema6.setBewertung(34);
-				thema6.setInhalt("Themeninhalt von Lena");
-				thema6.setTitel("Thementitel von Lena");
+				thema6.setInhalt("Themeninhalt von hannes");
+				thema6.setTitel("Thementitel von hannes");
 				
 				kommentar.setBenutzer(lena);
 				kommentar.setBewertung(0);
