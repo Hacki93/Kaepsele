@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import kommunikation.Nachricht;
 
@@ -44,6 +45,9 @@ public class Gruppe implements java.io.Serializable {
 
 	@Column(name = "profilbildurl")
 	private String profilbildurl;
+	
+	@Transient
+	public int anzahlMitglieder;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "fachrichtung_id")
@@ -397,5 +401,13 @@ public class Gruppe implements java.io.Serializable {
 
 	public void setErstelltAm(String erstelltAm) {
 		this.erstelltAm = erstelltAm;
+	}
+	
+	public void setAnzahlMitglieder(int anzahlMitglieder){
+		this.anzahlMitglieder = anzahlMitglieder;
+	}
+	
+	public int getAnzahlMitglieder(){
+		return anzahlMitglieder;
 	}
 }

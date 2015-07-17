@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
 
 <head>
 
@@ -109,66 +109,13 @@
         </tfoot>
  
         <tbody>
-            <tr>
-                <td>Winfo13</td>
-                <td>PSE</td>
-                <td>Informatik</td>
-                <td>20</td>
-                <td>16.07.2015</td>
+            <tr th:each="gruppe : ${gruppen}">
+                <td th:text="${gruppe.name}"></td>
+                <td th:text="${gruppe.klausurname}"></td>
+                <td th:text="${gruppe.fachrichtung.name}"></td>
+                <td th:text="${gruppe.anzahlMitglieder}"></td>
+                <td th:text="${gruppe.erstelltAm}">16.07.2015</td>
                 <td><a data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a></td>
-            </tr>
-            <tr>
-                <td>Die Biologen</td>
-                <td>Zytologie</td>
-                <td>Biologie</td>
-                <td>2</td>
-                <td>10.07.2015</td>
-                <td><a data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a></td>
-            </tr>
-            <tr>
-                <td>Winfo14</td>
-                <td>PSE</td>
-                <td>Informatik</td>
-                <td>28</td>
-                <td>17.07.2015</td>
-                <td><a data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a></td>
-          
-            </tr>
-            <tr>
-                <td>Chemie FTW</td>
-                <td>Atome</td>
-                <td>Chemie</td>
-                <td>14</td>
-                <td>16.05.2015</td>
-                <td><a data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a></td>
-          
-            </tr>
-            <tr>
-                <td>MaschinenBauer</td>
-                <td>W&auml;rmelehre</td>
-                <td>Physik</td>
-                <td>80</td>
-                <td>01.07.2015</td>
-                <td><a data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a></td>
-          
-            </tr>
-            <tr>
-                <td>Die Coolen</td>
-                <td>Psychologie</td>
-                <td>Psychologie</td>
-                <td>6</td>
-                <td>15.07.2015</td>
-                <td><a data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a></td>
-          
-            </tr>
-            <tr>
-                <td>Ei ist das Beste</td>
-                <td>Nahrungsmittel</td>
-                <td>Biologie</td>
-                <td>4</td>
-                <td>30.07.2015</td>
-                <td><a data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a></td>
-          
             </tr>
         </tbody>
     </table>

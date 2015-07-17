@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import learning.Benutzer;
+import learning.Gruppe;
 import learning.Inhalt;
 import learning.Medium;
 import learning.Thema;
@@ -472,7 +473,7 @@ public class GreetingController {
 		return "Profil";
 	}
 	
-	@RequestMapping(value="/mitgliederliste")
+	@RequestMapping(value="/Mitgliederliste")
 	public String getMitgliederliste(Model model){
 		ArrayList<Benutzer> benutzerliste = new ArrayList<Benutzer>();
 		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
@@ -481,6 +482,25 @@ public class GreetingController {
 		}
 		model.addAttribute("benutzer", benutzerliste);
 		return "Benutzerliste";
+	}
+	
+	@RequestMapping(value="/Gruppenliste")
+	public String getGruppenliste(Model model){
+		ArrayList<Gruppe> Gruppenliste = new ArrayList<Gruppe>(); 
+		Gruppe gruppe = new Gruppe();
+		for(Object obj : db.tabelleAusgeben(gruppe.getClass())){
+			Gruppe g = (Gruppe) obj;
+			g.setAnzahlMitglieder(g.anzahl());
+			Gruppenliste.add(g);
+		}
+		
+		model.addAttribute("gruppen", Gruppenliste);
+		return "GruppenListe";
+	}
+	
+	@RequestMapping(value="/eigeneGruppen")
+	public String getEigeneGruppen(Model model){
+		return "eigeneGruppenListe";
 	}
 	
 	@RequestMapping (value = "/medium", method = RequestMethod.GET)
