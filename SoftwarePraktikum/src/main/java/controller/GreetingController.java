@@ -39,20 +39,22 @@ public class GreetingController {
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String greeting(Model model) {
 	    db = new Datenbank();
+	    
+	    // dem model wird ein Benutzer hinzugefügt, falls sich jemand neu registriert
 	    model.addAttribute("benutzer", new Benutzer());
 		return "Startseite";
 	}
 	
 	@RequestMapping(value= "/loginseite")
 	public String zumLogin(Model model){
+		// dem model wird ein Benutzer hinzugeügt, damit die Logindaten abgefragt werden können
 	model.addAttribute("benutzer", new Benutzer());
 		return "Anmelden";
 	}
 	
 	@RequestMapping(value="/registriert", method=RequestMethod.POST)
 	public String registrieren(@ModelAttribute Benutzer benutzer, Model model){
-		Benutzer neuerBenutzer = new Benutzer();
-		System.out.println(benutzer.getBenutzername());
+		// Bei der Registrierung wird überprüft ob der Benutzername bereits vergeben ist
 		for(Object obj : db.tabelleAusgeben(benutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
 			if (benutzer.benutzername.equals(b.benutzername)){
@@ -61,24 +63,31 @@ public class GreetingController {
 			}
 		}
 		
+		// neuer Benutzer instanziert und in der Datenbank angelegt
+		Benutzer neuerBenutzer = new Benutzer();
 		db.eintragHinzufuegen(neuerBenutzer.getClass(), neuerBenutzer);
+		
+		// Erste Attribute des Benutzers werden erstellt und in der Datenbank aktualisiert
 		neuerBenutzer.setBenutzername(benutzer.getBenutzername());
 		neuerBenutzer.setPasswort(Benutzer.hashPasswort(benutzer.getPasswort()));
 		neuerBenutzer.setEmailAdresse(benutzer.getEmailAdresse());
 		neuerBenutzer.setName(benutzer.name);
 		db.eintragAktualisieren(neuerBenutzer.getClass(), neuerBenutzer);
+		
 		model.addAttribute("nachricht", "Sie sind jetzt registriert");
 		return "Anmelden";
 	}
 	
 	@RequestMapping(value= "/login", method = RequestMethod.POST)
 	public String login(@ModelAttribute Benutzer benutzer, Model model){
+		// Beim login wird nach nicht vorhandenem Benutzername und falschem Passwort geprüft
 		for(Object obj : db.tabelleAusgeben(benutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
 			if(b.getBenutzername().equals(benutzer.getBenutzername())) {
 				if(b.login(benutzer.getPasswort())){
+					// Der angemeldete Benutzer wird gesetzt
 					angemeldeterBenutzer = b;
-					return "index2";
+					return "Menu";
 				}
 				model.addAttribute("nachricht", "Passwort falsch");
 				return "Anmelden";
@@ -90,6 +99,9 @@ public class GreetingController {
 	
 	@RequestMapping(value="/profil")
 	public String eigenesProfil(Model model){
+		// Benutzer geht auf sein eigenes Profil hierbei müssen seine
+		// persönlichen Angaben und Pinnwand dem model hinzugefügt werden,
+		// damit diese angegezeigt werden
 		model.addAttribute("angemeldeterBenutzer", angemeldeterBenutzer);
 		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
 		model.addAttribute("themen", angemeldeterBenutzer.pinnwand.themen);
@@ -98,17 +110,26 @@ public class GreetingController {
 	
 	@RequestMapping(value="/Profile/{benutzername}", method=RequestMethod.GET)
 	public String getProfil(@PathVariable("benutzername") String benutzername, Model model){
+		// Es wird die Profilseite eines anderen Benutzers aufgerufen
 		Benutzer benutzer = new Benutzer();
 		for(Object obj : db.tabelleAusgeben(benutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
 			if(b.getBenutzername().equals(benutzername)) {
+				// der Profilbenutzer wird gesetzt
 				profilBenutzer = b;	
+				
+				// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
 				SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 				for(Thema thema : profilBenutzer.pinnwand.themen){
 					thema.hilfsDatum = simple.format(thema.datum);
 				}
+				
+				// Pinnwand wird nach Datum sortiert
 				ArrayList<Thema> themenList = new ArrayList<Thema>();
 				themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+				
+				// dem Model müssen die Daten des ProfilBenutzer übergeben werden,
+				// damit diese angezeigt werden können
 				model.addAttribute("themen", themenList);
 				model.addAttribute("profilBenutzer", profilBenutzer);
 				model.addAttribute("rang", profilBenutzer.getRangName());
@@ -120,26 +141,47 @@ public class GreetingController {
 	
 	@RequestMapping(value="/sortiereLikes")
 	public String sortiereLikes(Model model){
+		// die Pinnwand wird nach Likes sortiert
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = profilBenutzer.pinnwand.sortiereNachBewertung();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : profilBenutzer.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		
+		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
 		model.addAttribute("themen", themenList);
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
+		model.addAttribute("thema", new Thema());
 		return "Profile";
 	}
 	
 	@RequestMapping(value="/sortierDatum")
 	public String sortierDatum(Model model){
+		// die Pinnwand wird nach Datum sortiert
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : profilBenutzer.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		
+		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
 		model.addAttribute("themen", themenList);
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
+		model.addAttribute("thema", new Thema());
 		return "Profile";
 	}
 	
 	@RequestMapping(value="/hinzufuegen")
 	public String freundHizufuegen(Model model){
+		// angemeldeterBenutzer und profilBenutzer werden aktualisiert
 		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
 			if(b.getBenutzername().equals(angemeldeterBenutzer.getBenutzername())) {
@@ -149,30 +191,41 @@ public class GreetingController {
 				profilBenutzer = b;	
 			}
 		}
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : profilBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
 		}
 		
+		// Pinnwand wird nach Datum sortiert
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+		
+		// Überprüfung ob der profilBenutzer bereits ein freund ist
 		for(Benutzer benutzer : angemeldeterBenutzer.freunde){
 			if(benutzer.getId() == profilBenutzer.getId()){
-				ArrayList<Thema> themenList = new ArrayList<Thema>();
-				themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+				// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
 				model.addAttribute("themen", themenList);
-				model.addAttribute("nachricht", "Benutzer ist bereits ein Freund");
 				model.addAttribute("profilBenutzer", profilBenutzer);
 				model.addAttribute("rang", profilBenutzer.getRangName());
+				model.addAttribute("thema", new Thema());
+				model.addAttribute("nachricht", "Benutzer ist bereits ein Freund");
 				return "Profile";
 			}
 		}
 		
+		// profilBenutzer wird der Freundesliste hinzugefügt
 		angemeldeterBenutzer.freundHinzufuegen(profilBenutzer);
-		ArrayList<Thema> themenList = new ArrayList<Thema>();
-		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+		
+		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
 		model.addAttribute("themen", themenList);
 		model.addAttribute("nachricht", "Benutzer wurde als Freund hinzugefügt");
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
+		model.addAttribute("thema", new Thema());
+		
+		// die Datenbank wird aktualisiert
 		db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
 		db.eintragAktualisieren(profilBenutzer.getClass(), profilBenutzer);
 		return "Profile";
@@ -180,73 +233,113 @@ public class GreetingController {
 	
 	@RequestMapping(value="/entfernen")
 	public String freundEntfernen(Model model){
+		// Pinnwand wird nach Datum sortiert
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : profilBenutzer.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		
+		// Überprüfung ob sich der profilBenutzer in der Freundesliste befindet
 		for(Benutzer benutzer : angemeldeterBenutzer.freunde){
 			if(benutzer.getId() == profilBenutzer.getId()){
+				// Freund wird entfernt
 				angemeldeterBenutzer.freundEntfernen(benutzer);
+				
+				// Datenbank wird aktualisiert
 				db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
-				ArrayList<Thema> themenList = new ArrayList<Thema>();
-				themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+				
+				// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
 				model.addAttribute("themen", themenList);
 				model.addAttribute("profilBenutzer", profilBenutzer);
 				model.addAttribute("rang", profilBenutzer.getRangName());
+				model.addAttribute("thema", new Thema());
 				model.addAttribute("nachricht", "Freund wurde entfernt");
 				return "Profile";
 			}
 		}
-		ArrayList<Thema> themenList = new ArrayList<Thema>();
-		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+
+		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
 		model.addAttribute("themen", themenList);
-		model.addAttribute("nachricht", "Benutzer ist kein Freund");
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
+		model.addAttribute("thema", new Thema());
+		model.addAttribute("nachricht", "Benutzer ist kein Freund");
 		return "Profile";
 	}
 	
 	@RequestMapping(value="/bewertet/{thema.inhalt_id}")
 	public String erhoeheLike(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
+		
+		// Inhalt wird geliked
 		Inhalt inhalt = new Inhalt();
 		for(Object obj : db.tabelleAusgeben(inhalt.getClass())){
 			Inhalt i = (Inhalt) obj;
 			if(i.getId() == (inhalt_id)) {
 				i.bewerten(true);
+				//Datenbank wird aktualisiert
 				db.eintragAktualisieren(i.getClass(), i);
 			}
 		}
 		
+		// profilBenutzer wird aktualisiert
 		for(Object obj : db.tabelleAusgeben(profilBenutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
 			if(b.getBenutzername().equals(profilBenutzer.getBenutzername())) {
 				profilBenutzer = b;					
 			}
 		}
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : profilBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
 		}
+		
+		// Pinnwand wird nach Datum sortiert
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+		
+		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
 		model.addAttribute("themen", themenList);
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
+		model.addAttribute("thema", new Thema());
 		return "Profile";
 	}
 	
-//	@RequestMapping(value="/beitrag", method = RequestMethod.GET)
-//	public String beitragSeite(Model model){
-//		Thema beitrag = new Thema();
-//		model.addAttribute("beitrag", beitrag);
-//		db.eintragHinzufuegen(beitrag.getClass(), beitrag);
-//		return "BeitragSchreiben";
-//	}
-	
 	@RequestMapping(value="/beitragSchreiben", method = RequestMethod.POST)
 	public String beitragSchreiben(@ModelAttribute Thema thema, Model model){
-		System.out.println(thema.getTitel()); 
-		System.out.println(thema.getInhalt());
+		// neues Thema wird instanziert und in der Datenbank aktualisiert
+		Thema neuesThema = new Thema();
+		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
 		
+		// Attribute des Themas wirden gesetzt
+		profilBenutzer.pinnwand.themaHinzufuegen(neuesThema);
+		neuesThema.setBenutzer(angemeldeterBenutzer);
+		neuesThema.setTitel(thema.getTitel());
+		neuesThema.setInhalt(thema.getInhalt());
+		
+		// Datenbank wird aktualisiert
+		db.eintragAktualisieren(neuesThema.getClass(), neuesThema);
+		db.eintragAktualisieren(profilBenutzer.getClass(), profilBenutzer);
+		
+		// profilBenutzer wird aktualisiert
+		for(Object obj : db.tabelleAusgeben(profilBenutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			if(b.getBenutzername().equals(profilBenutzer.getBenutzername())) {
+				profilBenutzer = b;					
+			}
+		}
+		
+		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
 		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
+		model.addAttribute("thema", new Thema());
 		
 		return "Profile";
 	}

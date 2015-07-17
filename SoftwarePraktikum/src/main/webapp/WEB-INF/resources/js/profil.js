@@ -80,7 +80,7 @@ $(function() {
 
 	        type: "POST",
 
-	    url: "/SoftwarePraktikum/themaErst",
+	    url: "/SoftwarePraktikum/beitragSchreiben",
 
 	    data: $("#themaForm").serialize(),
 
