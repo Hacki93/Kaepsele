@@ -40,7 +40,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	</bean>
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-		<property name="url" value="jdbc:mysql://localhost:3306/DB_Kaepsele"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/db_kaepsele"/>
 		<property name="username" value="root"/>
 		<property name="password" value="Kaepse1e"/>
 	</bean>
