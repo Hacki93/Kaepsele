@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
 
 <head>
 
@@ -90,7 +90,7 @@
             <tr>
                 <th>Benutzername</th>
                 <th>Name</th>
-                <th>Rang</th>
+                <th>Lernt seit</th>
                 <th>Studiengang</th>
                 <th>Beruf</th>
                 <th>Profil</th>
@@ -101,7 +101,7 @@
             <tr>
                 <th>Benutzername</th>
                 <th>Name</th>
-                <th>Rang</th>
+                <th>Lernt seit</th>
                 <th>Studiengang</th>
                 <th>Beruf</th>
                 <th>Profil</th>
@@ -109,61 +109,13 @@
         </tfoot>
  
         <tbody>
-            <tr>
-                <td>HannesPlayboy4</td>
-                <td>Hannes Fischer</td>
-                <td>Seggl</td>
-                <td>Wirtschaftsinformatik</td>
-                <td>Student</td>
-                <td><a data-original-title="Profil anzeigen" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-user"></i></a></td>
-            </tr>
-             <tr>
-                <td>HannesPlayboy5</td>
-                <td>Hannes Fischer</td>
-                <td>Seggl</td>
-                <td>Wirtschaftsinformatik</td>
-                <td>Student</td>
-                <td><a data-original-title="Profil anzeigen" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-user"></i></a></td>
-           </tr>
-             <tr>
-                <td>HannesPlayboy6</td>
-                <td>Hannes Fischer</td>
-                <td>Seggl</td>
-                <td>Wirtschaftsinformatik</td>
-                <td>Student</td>
-                <td><a data-original-title="Profil anzeigen" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-user"></i></a></td>
-             </tr>
-             <tr>
-                <td>HannesPlayboy7</td>
-                <td>Hannes Fischer</td>
-                <td>Seggl</td>
-                <td>Wirtschaftsinformatik</td>
-                <td>Student</td>
-                <td><a data-original-title="Profil anzeigen" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-user"></i></a></td>
-             </tr>
-             <tr>
-                <td>HannesPlayboy8</td>
-                <td>Hannes Fischer</td>
-                <td>Seggl</td>
-                <td>Wirtschaftsinformatik</td>
-                <td>Student</td>
-               <td><a data-original-title="Profil anzeigen" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-user"></i></a></td>
-            </tr>
-             <tr>
-                <td>HannesPlayboy9</td>
-                <td>Hannes Fischer</td>
-                <td>Seggl</td>
-                <td>Wirtschaftsinformatik</td>
-                <td>Student</td>
-               <td><a data-original-title="Profil anzeigen" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-user"></i></a></td>
-             </tr>
-             <tr>
-                <td>HannesPlayboy10</td>
-                <td>Hannes Fischer</td>
-                <td>Seggl</td>
-                <td>Wirtschaftsinformatik</td>
-                <td>Student</td>
-              <td><a data-original-title="Profil anzeigen" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-user"></i></a></td>
+            <tr th:each="benutzer : ${benutzer}">
+                <td th:text="${benutzer.benutzername}"></td>
+                <td th:text="${benutzer.name}"></td>
+                <td th:text="${benutzer.erstelltAm}"></td>
+                <td th:text="${benutzer.studiengang}"></td>
+                <td th:text="${benutzer.beruf}"></td>
+                <td><a th:href="@{/profil/__${benutzer.benutzername}__}" data-original-title="Profil anzeigen" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-user"></i></a></td>
             </tr>
         </tbody>
     </table>

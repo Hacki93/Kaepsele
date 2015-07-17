@@ -99,16 +99,26 @@ public class GreetingController {
 	
 	@RequestMapping(value="/profil")
 	public String eigenesProfil(Model model){
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		
+		// Pinnwand wird nach Datum sortiert
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = angemeldeterBenutzer.pinnwand.sortiereNachDatum();
+		
 		// Benutzer geht auf sein eigenes Profil hierbei müssen seine
 		// persönlichen Angaben und Pinnwand dem model hinzugefügt werden,
 		// damit diese angegezeigt werden
 		model.addAttribute("angemeldeterBenutzer", angemeldeterBenutzer);
 		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
-		model.addAttribute("themen", angemeldeterBenutzer.pinnwand.themen);
+		model.addAttribute("themen", themenList);
 		return "EigenesProfil";
 	}
 	
-	@RequestMapping(value="/Profile/{benutzername}", method=RequestMethod.GET)
+	@RequestMapping(value="/profil/{benutzername}", method=RequestMethod.GET)
 	public String getProfil(@PathVariable("benutzername") String benutzername, Model model){
 		// Es wird die Profilseite eines anderen Benutzers aufgerufen
 		Benutzer benutzer = new Benutzer();
@@ -136,7 +146,25 @@ public class GreetingController {
 				model.addAttribute("thema", new Thema());
 			}
 		}
-		return "Profile";
+		return "Profil";
+	}
+	@RequestMapping(value="/sortiereLikes/eigenesProfil")
+	public String sortiereLikesEigenesProfil(Model model){
+		// die Pinnwand wird nach Likes sortiert
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = angemeldeterBenutzer.pinnwand.sortiereNachBewertung();
+				
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+				
+		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
+		model.addAttribute("angemeldeterBenutzer", angemeldeterBenutzer);
+		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
+		model.addAttribute("themen", themenList);
+		return "EigenesProfil";
 	}
 	
 	@RequestMapping(value="/sortiereLikes")
@@ -156,7 +184,26 @@ public class GreetingController {
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
 		model.addAttribute("thema", new Thema());
-		return "Profile";
+		return "Profil";
+	}
+	
+	@RequestMapping(value="/sortierDatum/eigenesProfil")
+	public String sortierDatumEigenesProfil(Model model){
+		// die Pinnwand wird nach Datum sortiert
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = angemeldeterBenutzer.pinnwand.sortiereNachDatum();
+				
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		
+		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
+		model.addAttribute("angemeldeterBenutzer", angemeldeterBenutzer);
+		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
+		model.addAttribute("themen", themenList);
+		return "EigenesProfil";		
 	}
 	
 	@RequestMapping(value="/sortierDatum")
@@ -176,7 +223,7 @@ public class GreetingController {
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
 		model.addAttribute("thema", new Thema());
-		return "Profile";
+		return "Profil";
 	}
 	
 	@RequestMapping(value="/hinzufuegen")
@@ -211,7 +258,7 @@ public class GreetingController {
 				model.addAttribute("rang", profilBenutzer.getRangName());
 				model.addAttribute("thema", new Thema());
 				model.addAttribute("nachricht", "Benutzer ist bereits ein Freund");
-				return "Profile";
+				return "Profil";
 			}
 		}
 		
@@ -228,7 +275,7 @@ public class GreetingController {
 		// die Datenbank wird aktualisiert
 		db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
 		db.eintragAktualisieren(profilBenutzer.getClass(), profilBenutzer);
-		return "Profile";
+		return "Profil";
 	}
 	
 	@RequestMapping(value="/entfernen")
@@ -258,7 +305,7 @@ public class GreetingController {
 				model.addAttribute("rang", profilBenutzer.getRangName());
 				model.addAttribute("thema", new Thema());
 				model.addAttribute("nachricht", "Freund wurde entfernt");
-				return "Profile";
+				return "Profil";
 			}
 		}
 
@@ -268,7 +315,45 @@ public class GreetingController {
 		model.addAttribute("rang", profilBenutzer.getRangName());
 		model.addAttribute("thema", new Thema());
 		model.addAttribute("nachricht", "Benutzer ist kein Freund");
-		return "Profile";
+		return "Profil";
+	}
+	
+	@RequestMapping(value="/bewertet/eigenesProfil/{thema.inhalt_id}")
+	public String erhoeheLikeEigenesProfil(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
+		// Inhalt wird geliked
+		Inhalt inhalt = new Inhalt();
+		for(Object obj : db.tabelleAusgeben(inhalt.getClass())){
+			Inhalt i = (Inhalt) obj;
+			if(i.getId() == (inhalt_id)) {
+				i.bewerten(true);
+				//Datenbank wird aktualisiert
+				db.eintragAktualisieren(i.getClass(), i);
+			}
+		}
+		
+		// angemeldeterBenutzer wird aktualisiert
+		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			if(b.getBenutzername().equals(angemeldeterBenutzer.getBenutzername())) {
+				angemeldeterBenutzer = b;					
+			}
+		}
+				
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+				
+		// Pinnwand wird nach Datum sortiert
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = angemeldeterBenutzer.pinnwand.sortiereNachDatum();
+				
+		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
+		model.addAttribute("themen", themenList);
+		model.addAttribute("angemeldeterBenutzer", angemeldeterBenutzer);
+		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
+		return "EigenesProfil";
 	}
 	
 	@RequestMapping(value="/bewertet/{thema.inhalt_id}")
@@ -308,7 +393,48 @@ public class GreetingController {
 		model.addAttribute("profilBenutzer", profilBenutzer);
 		model.addAttribute("rang", profilBenutzer.getRangName());
 		model.addAttribute("thema", new Thema());
-		return "Profile";
+		return "Profil";
+	}
+	
+	@RequestMapping(value="/themaLoeschen/{thema.inhalt_id}")
+	public String themaLoeschen(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
+		Inhalt themaLoeschen = new Thema();
+		for(Object obj : db.tabelleAusgeben(themaLoeschen.getClass())){
+			Thema t = (Thema) obj;
+			if(t.getId() == (inhalt_id)) {
+				// Eintrag aus der Datenbank löschen
+				angemeldeterBenutzer.pinnwand.themaEntfernen(t);
+				db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
+				db.eintragAktualisieren(t.getClass(), t);
+				
+				db.eintragEntfernen(t.getClass(), t.getId());
+				
+			}
+		}
+		
+		// angemeldeterBenutzer wird aktualisiert
+		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			if(b.getBenutzername().equals(angemeldeterBenutzer.getBenutzername())) {
+				angemeldeterBenutzer = b;					
+			}
+		}
+						
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+						
+		// Pinnwand wird nach Datum sortiert
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = angemeldeterBenutzer.pinnwand.sortiereNachDatum();
+						
+		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
+		model.addAttribute("themen", themenList);
+		model.addAttribute("angemeldeterBenutzer", angemeldeterBenutzer);
+		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
+		return "EigenesProfil";
 	}
 	
 	@RequestMapping(value="/beitragSchreiben", method = RequestMethod.POST)
@@ -341,7 +467,18 @@ public class GreetingController {
 		model.addAttribute("themen", profilBenutzer.pinnwand.themen);
 		model.addAttribute("thema", new Thema());
 		
-		return "Profile";
+		return "Profil";
+	}
+	
+	@RequestMapping(value="/mitgliederliste")
+	public String getMitgliederliste(Model model){
+		ArrayList<Benutzer> benutzerliste = new ArrayList<Benutzer>();
+		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			benutzerliste.add(b);
+		}
+		model.addAttribute("benutzer", benutzerliste);
+		return "Benutzerliste";
 	}
 	
 	@RequestMapping (value = "/medium", method = RequestMethod.GET)
