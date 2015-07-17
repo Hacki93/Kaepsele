@@ -1,5 +1,6 @@
 package learning;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Die Klasse Frage stellt eine Teilaufgabe eines Quests dar. Sie beinhaltet Methoden zum Speichern
@@ -59,6 +61,21 @@ public class Frage implements java.io.Serializable {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="fragenpool_id")
 	public Fragenpool fragenpool;
+	
+	@Transient
+	public ArrayList<String> zwischenSpeicherAntworten;
+	
+	@Transient
+	public boolean zwischenSpeicherLoesung1;
+	
+	@Transient
+	public boolean zwischenSpeicherLoesung2;
+	
+	@Transient
+	public boolean zwischenSpeicherLoesung3;
+	
+	@Transient
+	public boolean zwischenSpeicherLoesung4;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
@@ -69,6 +86,7 @@ public class Frage implements java.io.Serializable {
 		antworten = new HashSet<String>();
 		loesung = new HashSet<String>();
 		medium = new Medium();
+		zwischenSpeicherAntworten = new ArrayList<String>();
 	}
 
 	/**
@@ -88,6 +106,7 @@ public class Frage implements java.io.Serializable {
 		antworten = new HashSet<String>();
 		this.loesung = loesung;
 		medium = new Medium();
+		zwischenSpeicherAntworten = new ArrayList<String>();
 	}
 
 	/**
@@ -202,4 +221,46 @@ public class Frage implements java.io.Serializable {
 	public int getId(){
 		return frage_id;
 	}
+
+	public ArrayList<String> getZwischenSpeicherAntworten() {
+		return zwischenSpeicherAntworten;
+	}
+
+	public void setZwischenSpeicherAntworten(ArrayList<String> zwischenSpeicher) {
+		this.zwischenSpeicherAntworten = zwischenSpeicher;
+	}
+
+	public boolean isZwischenSpeicherLoesung1() {
+		return zwischenSpeicherLoesung1;
+	}
+
+	public void setZwischenSpeicherLoesung1(boolean zwischenSpeicherLoesung1) {
+		this.zwischenSpeicherLoesung1 = zwischenSpeicherLoesung1;
+	}
+
+	public boolean isZwischenSpeicherLoesung2() {
+		return zwischenSpeicherLoesung2;
+	}
+
+	public void setZwischenSpeicherLoesung2(boolean zwischenSpeicherLoesung2) {
+		this.zwischenSpeicherLoesung2 = zwischenSpeicherLoesung2;
+	}
+
+	public boolean isZwischenSpeicherLoesung3() {
+		return zwischenSpeicherLoesung3;
+	}
+
+	public void setZwischenSpeicherLoesung3(boolean zwischenSpeicherLoesung3) {
+		this.zwischenSpeicherLoesung3 = zwischenSpeicherLoesung3;
+	}
+
+	public boolean isZwischenSpeicherLoesung4() {
+		return zwischenSpeicherLoesung4;
+	}
+
+	public void setZwischenSpeicherLoesung4(boolean zwischenSpeicherLoesung4) {
+		this.zwischenSpeicherLoesung4 = zwischenSpeicherLoesung4;
+	}
+
+
 }

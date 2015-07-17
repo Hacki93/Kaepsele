@@ -82,7 +82,7 @@
    
           <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title">Wirtschaftsinformatik 2013</h3>
+              <h3 class="panel-title" th:text="${gruppe.name}"></h3>
             </div>
             <div class="panel-body">
               <div class="row">
@@ -278,44 +278,44 @@
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Antwortm&ouml;glichkeit 1</label>
-                <input type="text" id="antwort" th:field="*{antwortmoeglichkeiten}" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
+                <input type="text" th:field="*{zwischenSpeicherAntworten}" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox"/> Korrekte Antwort
+                  <input type="checkbox" th:field="*{zwischenSpeicherLoesung1}"/> Korrekte Antwort
                 </label>
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Antwortm&ouml;glichkeit 2</label>
-                <input type="text" th:field="*{antwortmoeglichkeiten}" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
+                <input type="text" th:field="*{zwischenSpeicherAntworten}" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
               </div>
               <div class="checkbox">
               
                 <label>
-                  <input type="checkbox"/> Korrekte Antwort
+                  <input type="checkbox" th:field="*{zwischenSpeicherLoesung2}"/> Korrekte Antwort
                 </label>
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Antwortm&ouml;glichkeit 3</label>
-                <input type="text" th:field="*{antwortmoeglichkeiten}" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
+                <input type="text" th:field="*{zwischenSpeicherAntworten}" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox"/> Korrekte Antwort
+                  <input type="checkbox" th:field="*{zwischenSpeicherLoesung3}"/> Korrekte Antwort
                 </label>
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Antwortm&ouml;glichkeit 4</label>
-                <input type="text" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
+                <input type="text" th:field = "*{zwischenSpeicherAntworten}" class="form-control" placeholder="Antwortm&ouml;glichkeit eingeben"/>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox"/> Korrekte Antwort
+                  <input type="checkbox" th:field="*{zwischenSpeicherLoesung4}"/> Korrekte Antwort
                 </label>
               </div>
               <div class="form-group">
                 <label for="exampleInputFile">Datei hinzuf&uuml;gen</label>
-                <input type="file" id="exampleInputFile"/>
+                <input type="file" id="exampleInputFile" th:field ="*{medium}"/>
               </div>
               <button type="submit" id="frageSub" class="btn btn-success">Frage anlegen</button>
             </form>
@@ -388,7 +388,5 @@
     <!-- Custom Theme JavaScript -->
     <script src="resources/js/profil.js" type="text/javascript"></script>
     
-
-
 </body>
 </html>
