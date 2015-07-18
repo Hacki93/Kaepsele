@@ -64,6 +64,11 @@ public class Aufgabe extends Nachricht implements java.io.Serializable{
 	private Gruppe anhangGruppe;
 	
 	/**
+	 * Leerer Konstruktor f&uuml;r Hibernate
+	 */
+	public Aufgabe(){  }
+	
+	/**
 	 * Erstellt eine neue Nachricht vom Typ Aufgabe
 	 * 
 	 * @param typ Der Nachrichtentyp
