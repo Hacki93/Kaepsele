@@ -34,7 +34,7 @@ public class Fragenpool implements java.io.Serializable {
 	public Set<Frage> fragen;
 	
 	@Transient
-	private static final int fragenanzahl = 1;
+	private static final int fragenanzahl = 10;
 
 	/**
 	 * Erzeugt den Fragenpool einer Gruppe 

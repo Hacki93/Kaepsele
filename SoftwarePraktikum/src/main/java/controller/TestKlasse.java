@@ -49,6 +49,7 @@ public class TestKlasse {
 				Medium medium 		= new Medium();
 				Fachrichtung wi		= new Fachrichtung();
 				Frage frage			= new Frage();
+				Frage frage2 		= new Frage();
 				Bossfight bossfight = new Bossfight();
 				
 				Datenbank db = new Datenbank();
@@ -67,6 +68,7 @@ public class TestKlasse {
 				db.eintragHinzufuegen(biks.getClass(), biks);
 				db.eintragHinzufuegen(wi.getClass(), wi);
 				db.eintragHinzufuegen(frage.getClass(), frage);
+				db.eintragHinzufuegen(frage2.getClass(), frage2);
 				db.eintragHinzufuegen(bossfight.getClass(), bossfight);
 				
 				//Objekte füllen und verbinden
@@ -115,7 +117,7 @@ public class TestKlasse {
 				biks.setProfilbildURL("/BIKS.png");
 				biks.mitgliedHinzufuegen(hannes);
 				biks.moderatorHinzufuegen(hannes);
-				biks.fragenpool.addFrage(frage);
+				biks.fragenpool.addFrage(frage2);
 	
 				thema.setPinnwand(hannes.pinnwand);
 				thema.setBenutzer(hannes);
@@ -171,6 +173,14 @@ public class TestKlasse {
 	            frage.addAntwortmoeglichkeiten("Nein");
 	            frage.addLoesung("Ja");
 	            frage.setBenutzer(lena);
+	            
+	            frage2.setBearbeitet(false);
+	            frage2.setText("Willst Du mit mir gehn?");
+	            frage2.addAntwortmoeglichkeiten("Vielleicht");
+	            frage2.addAntwortmoeglichkeiten("Ja");
+	            frage2.addAntwortmoeglichkeiten("Nein");
+	            frage2.addLoesung("Ja");
+	            frage2.setBenutzer(lena);
 	            
 	            Quest quest = mbis.questAntreten(hannes); //Quest wird dynamisch erzeugt und kann nicht als new Quest() angelegt werden!
 
@@ -347,7 +357,7 @@ public class TestKlasse {
 			HashSet<String> antworten = new HashSet<String>();
 			antworten.add("Du da");
 			Frage frage1 = quest.getNaechsteFrage();
-			frage1.addAntworten(antworten);
+			frage1.setAntworten(antworten);
 			System.out.println("Lena hat antworten hinzugefügt");
 			
 			

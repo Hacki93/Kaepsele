@@ -1,6 +1,8 @@
 package controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,10 +29,23 @@ public class LenasController {
 	Benutzer profilBenutzer;
 	Gruppe gruppe;
 	Quest quest;
+	ArrayList<Frage> questFragen; 
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String greeting(Model model) {
 	    db = new Datenbank();
+	    Benutzer lena = new Benutzer();
+	    lena.registrieren("lenchen", "12345678");
+		lena.setEmailAdresse("lenamai.er@web.de");
+		lena.setName("Lena Maier");
+		lena.setAdresse("Schopfloch");
+		lena.setRang(2);
+		lena.setBeruf("Student");
+		lena.setStudiengang("Wirtschaftsinformatik B.Sc.");
+		lena.setGeburtsdatum("31/12/1993");
+		lena.setProfilbildURL("/Bild.png");
+		lena.erstelltAm = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+	    angemeldeterBenutzer = lena;
 	    model.addAttribute("benutzer", new Benutzer());
 		return "Startseite";
 	}
@@ -53,11 +68,11 @@ public class LenasController {
 	
 	@RequestMapping(value = "/frageErst", method=RequestMethod.POST)
 	public String frageErstellen(@ModelAttribute Frage frage, Model model){
+		if (frage.getText() != null){
 		Frage neueFrage = new Frage();
 		db.eintragHinzufuegen(neueFrage.getClass(), neueFrage);
 		neueFrage.setText(frage.getText());
 		neueFrage.setBenutzer(angemeldeterBenutzer);
-		System.out.println(gruppe.getName());
 		for (int i=0; i< frage.getZwischenSpeicherAntworten().size(); i++){
 			neueFrage.addAntwortmoeglichkeiten(frage.getZwischenSpeicherAntworten().get(i));
 		}
@@ -103,6 +118,7 @@ public class LenasController {
 			System.out.println("Lösung: ");
 			System.out.println(s);
 		}
+		}
 		model.addAttribute("frage", new Frage());
 		model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);
@@ -111,11 +127,17 @@ public class LenasController {
 	
 	@RequestMapping(value = "/QuestStarten")
 	public String questStarten(Model model){
+		System.out.println("Neuer Quest angelegt");
 		Quest quest = new Quest(); 
+		db.eintragHinzufuegen(quest.getClass(), quest);
 		quest =  gruppe.questAntreten(angemeldeterBenutzer);
+		db.eintragAktualisieren(quest.getClass(), quest);
 		this.quest = quest;
-		Set<Frage> fragen = new HashSet<Frage>();
-		fragen = quest.getFragen();
+		ArrayList<Frage> fragen = new ArrayList<Frage>();
+		for (Frage f: quest.getFragen()){
+			fragen.add(f);
+		}
+		questFragen=fragen;
 		model.addAttribute("fragen", fragen);
 		model.addAttribute("frage1", new Frage());
 		return "Quest";
@@ -131,8 +153,32 @@ public class LenasController {
 	}
 	
 	@RequestMapping(value = "/questBeenden")
-	public String questBeenden(@ModelAttribute Frage frage1, Model model){
+	public String questBeenden(@ModelAttribute Frage frage, Model model){
 		System.out.println("questBeenden-Methode");
+		ArrayList<String> zwischenSpeicherAntworten = frage.getZwischenSpeicherAntworten();
+		Frage mryFrage = new Frage();
+		for (String s:zwischenSpeicherAntworten){
+			String[] result; 
+			result = s.split(";!;");
+			int frageId = Integer.parseInt(result[0]);
+			System.out.println(frageId);
+			String loesung = result[1];
+			System.out.println(loesung);
+				for (Frage f: questFragen){
+					int id = f.getId();
+					if (id == frageId){
+						mryFrage = f;
+				} 
+			}
+				
+				mryFrage.addAntwort(loesung);
+				db.eintragAktualisieren(mryFrage.getClass(), mryFrage);
+		}
+		
+		System.out.println(quest.korrigiere());
+		mryFrage.getAntworten().clear();
+		db.eintragAktualisieren(mryFrage.getClass(), mryFrage);
+			
 		model.addAttribute("frage", new Frage());
 		model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);

@@ -32,8 +32,8 @@
     <![endif]-->
 
 </head>
-
 <body>
+<div id="divForm">
 
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -74,13 +74,13 @@
         </div>
     </header>
 
-<form th:action= "@{/questBeenden}" th:object="${frage1}" id="questForm" method="post">
+<form th:action= "@{/questBeenden}" th:object="${frage1}" name="questForm" method="post">
 <table class="table table-user-information">
 <tbody>
 <tr th:each ="frage : ${fragen}">
 <td>
 <div class="container-fluid bg-info2">
-    <div class="modal-dialog" id = "Quest">
+    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-header">
             <h3><span class="label label-warning"  th:text="${frage.text}" id="qid1">1</span> </h3>
@@ -103,7 +103,7 @@
 <tr th:each = "antwort : ${frage.antwortmoeglichkeiten}">
 <td>
           <div class="quiz" id="quiz" data-toggle="buttons">
-          <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right" th:text = "${antwort}"></i></span> <input type="checkbox" name="q_answer" th:field ="*{antworten}" value="${antwort}"/></label>
+          <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right" th:text="${antwort}"></i></span> <input type="checkbox" name="q_answer" th:value="${frage.frage_id} + ';!;' + ${antwort}" th:field ="*{zwischenSpeicherAntworten}" /></label>
         </div>
         </td>
         </tr>
@@ -125,7 +125,8 @@
       <div class="modal-content">
          <div class="modal-header">
            <div class="quiz" id="quiz" data-toggle="buttons">
-           <button type="submit" id="questSub" class="btn btn-success">Quest beenden</button>
+           <div><button type="submit" onclick="closeSelf();">Quest beenden</button></div>
+           
            </div>          
           </div>
       </div>
@@ -134,8 +135,12 @@
 </form>
 
 
+  </div>
+  <div  id="closelink" style="display:none">
+            <a href="javascript:window.close()">Click Here to Close this Page</a>
+        </div>
+        
 
-    
     <script src="resources/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
@@ -156,37 +161,14 @@
     <!-- Custom Theme JavaScript -->
     <script src="resources/js/profil.js" type="text/javascript"></script>
     <script src="resources/js/Question.js" type="text/javascript"></script>
-<script th:inline="javascript">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+<script src="http://malsup.github.com/jquery.form.js"></script> 
+<script type="text/javascript">
+function closeSelf(){
+    document.forms['questForm'].submit();
+    hide(document.getElementById('divForm'));
+    unHide(document.getElementById('closelink'));
 
-    $(function() {
-
-       //twitter bootstrap script
-
-        $("button#questSub").click(function(){
-
-                $.ajax({
-
-            type: "POST",
-
-        url: "/SoftwarePraktikum/questBeenden",
-
-        data: $("#questForm").serialize(),
-       
-        success: function(msg){
-
-        	$("#Quest").empty();
-
-        	               $("#Quest").modal('close');
-
-        	      
-
-        	                },
-              });
-
-        });
-
-       });
-
-       </script>
+}</script>
 </body>
 </html>

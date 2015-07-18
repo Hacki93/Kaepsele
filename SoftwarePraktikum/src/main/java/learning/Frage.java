@@ -146,8 +146,8 @@ public class Frage implements java.io.Serializable {
 		this.loesung.add(loesung);
 	}
 	
-	public void addAntworten(HashSet<String> antworten) {
-		this.antworten = antworten;
+	public void addAntwort(String antwort) {
+		this.antworten.add(antwort);
 	}
 	
 	public boolean isBearbeitet() {
