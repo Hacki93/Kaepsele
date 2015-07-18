@@ -1,5 +1,6 @@
 package kommunikation;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -36,7 +37,7 @@ public class Nachricht implements java.io.Serializable{
 	boolean handlungErforderlich;
 	
 	@Column(name = "datum")
-	private Date datum;
+	private String datum;
 	
 	@Column(name = "typ")
 	private int typ;
@@ -44,12 +45,20 @@ public class Nachricht implements java.io.Serializable{
 	@Transient
 	private Object adressat;
 	
+	@Column(name = "adressat_id")
+	public int adressat_id;
+	
 	@Transient
 	private Object sender;
+	
+	@Column(name = "sender_id")
+	public int sender_id;
 	
 	@Transient
 	private Object anhang;
 
+	@Column(name = "anhang_id")
+	public int anhang_id;
 	
 
 	public static final int FREUNDHINZUGEFUEGT 	= 0;
@@ -124,7 +133,7 @@ public class Nachricht implements java.io.Serializable{
 			inhalt = "Für Deinen Account auf Käpsele.de wurde ein neues Passwort beantragt.\nEs lautet "+((String) anhang)+"\nBitte logge Dich zeitnah ein und ändere Dein Passwort.";
 		}
 		this.anhang = anhang;
-		datum = new Date();
+		datum = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
 		this.sender = sender;
 		this.adressat = adressat;
 		this.typ = typ;
@@ -150,8 +159,12 @@ public class Nachricht implements java.io.Serializable{
 		return inhalt;
 	}
 
-	public Date getDate() {
+	public String getDatum() {
 		return datum;
+	}
+	
+	public void setDatum(String datum) {
+		this.datum = datum;
 	}
 
 	public Object getAdressat() {
@@ -176,6 +189,30 @@ public class Nachricht implements java.io.Serializable{
 
 	public void setAnhang(Object anhang) {
 		this.anhang = anhang;
+	}
+	
+	public Object getAdressatId() {
+		return adressat_id;
+	}
+	
+	public void setAdressatId(int id){
+		adressat_id = id;
+	}
+
+	public Object getSenderId() {
+		return sender_id;
+	}
+	
+	public void setSenderId(int id) {
+		sender_id = id;
+	}
+	
+	public Object getAnhangId() {
+		return anhang_id;
+	}
+
+	public void setAnhangId(int id) {
+		anhang_id = id;
 	}
 
 }
