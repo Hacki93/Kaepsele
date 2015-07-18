@@ -455,7 +455,7 @@ public class GreetingController {
 				angemeldeterBenutzer = b;					
 			}
 		}
-	
+		System.out.println("TEst");
 		Thema neuesThema = new Thema();
 		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
 		neuesThema.setTitel(thema.getTitel());
