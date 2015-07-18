@@ -39,18 +39,18 @@ public class Frage implements java.io.Serializable {
 	@Column(name = "text")
 	public String text;
 	
-	@ElementCollection(targetClass = String.class)
+	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
 	@CollectionTable(name="FRAGE_ANTWORTMOEGLICHKEITEN", joinColumns=@JoinColumn(name="frage_id"))
 	public Set<String> antwortmoeglichkeiten;
 	
-	@ElementCollection(targetClass = String.class)
+	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
 	@CollectionTable(name="FRAGE_ANTWORTEN", joinColumns=@JoinColumn(name="frage_id"))
 	public Set<String> antworten;
 	
 	@Column(name = "bearbeitet")
 	private boolean bearbeitet;
 	
-	@ElementCollection(targetClass = String.class)
+	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
 	@CollectionTable(name="FRAGE_LOESUNG", joinColumns=@JoinColumn(name="frage_id"))
 	public Set<String> loesung;
 	

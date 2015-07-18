@@ -1,5 +1,9 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 import learning.Benutzer;
 import learning.Frage;
 import learning.Gruppe;
@@ -54,24 +58,32 @@ public class LenasController {
 		neueFrage.setText(frage.getText());
 		neueFrage.setBenutzer(angemeldeterBenutzer);
 		System.out.println(gruppe.getName());
-		for (int i=0; i<4; i++){
+		for (int i=0; i< frage.getZwischenSpeicherAntworten().size(); i++){
 			neueFrage.addAntwortmoeglichkeiten(frage.getZwischenSpeicherAntworten().get(i));
 		}
 		
 		if(frage.isZwischenSpeicherLoesung1()){
-			neueFrage.addLoesung(frage.getZwischenSpeicherAntworten().get(0));
+			if (frage.getZwischenSpeicherAntworten().size() > 0){
+			neueFrage.addLoesung(frage.getZwischenSpeicherAntworten().get(0));	
+			}
 		}
 		
 		if(frage.isZwischenSpeicherLoesung2()){
-			neueFrage.addLoesung(frage.getZwischenSpeicherAntworten().get(1));
+			if (frage.getZwischenSpeicherAntworten().size() > 1){
+				neueFrage.addLoesung(frage.getZwischenSpeicherAntworten().get(1));	
+			}
 		}
 		
 		if(frage.isZwischenSpeicherLoesung3()){
-			neueFrage.addLoesung(frage.getZwischenSpeicherAntworten().get(2));
+			if (frage.getZwischenSpeicherAntworten().size() > 2){
+				neueFrage.addLoesung(frage.getZwischenSpeicherAntworten().get(2));	
+				}
 		}
 		
 		if(frage.isZwischenSpeicherLoesung4()){
-			neueFrage.addLoesung(frage.getZwischenSpeicherAntworten().get(3));
+			if (frage.getZwischenSpeicherAntworten().size() > 3){
+				neueFrage.addLoesung(frage.getZwischenSpeicherAntworten().get(3));	
+				}
 		}
 		
 		neueFrage.medium = frage.getMedium();
@@ -91,7 +103,7 @@ public class LenasController {
 			System.out.println("Lösung: ");
 			System.out.println(s);
 		}
-		model.addAttribute("frage", frage);
+		model.addAttribute("frage", new Frage());
 		model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);
 		return "GruppenProfil";
@@ -102,7 +114,10 @@ public class LenasController {
 		Quest quest = new Quest(); 
 		quest =  gruppe.questAntreten(angemeldeterBenutzer);
 		this.quest = quest;
-		model.addAttribute("quest", this.quest);
+		Set<Frage> fragen = new HashSet<Frage>();
+		fragen = quest.getFragen();
+		model.addAttribute("fragen", fragen);
+		model.addAttribute("frage1", new Frage());
 		return "Quest";
 	}
 	
@@ -113,6 +128,16 @@ public class LenasController {
 		model.addAttribute("frage", new Frage());
 	    model.addAttribute("thema", new Thema());
 		return "GruppenProfil";
+	}
+	
+	@RequestMapping(value = "/questBeenden")
+	public String questBeenden(@ModelAttribute Frage frage1, Model model){
+		System.out.println("questBeenden-Methode");
+		model.addAttribute("frage", new Frage());
+		model.addAttribute("thema", new Thema());
+	    model.addAttribute("gruppe", gruppe);
+	    System.out.println("jetzt hier");
+	    return "GruppenProfil";
 	}
 	
 }
