@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.24, for Win32 (x86)
 --
--- Host: localhost    Database: db_kaepsele
+-- Host: 127.0.0.1    Database: db_kaepsele
 -- ------------------------------------------------------
--- Server version	5.7.7-rc-log
+-- Server version	5.6.25-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,7 +28,7 @@ CREATE TABLE `account` (
   `passwort` varchar(200) DEFAULT NULL,
   `emailAdresse` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`account_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +37,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
+INSERT INTO `account` VALUES (1,'hannes','39dfbd98328c657ae83dfddac21cf292','mail@hannes-fischer.com'),(2,'lenchen','25d55ad283aa400af464c76d713c07ad','lenamai.er@web.de');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,6 +64,35 @@ LOCK TABLES `admin` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `aufgabe`
+--
+
+DROP TABLE IF EXISTS `aufgabe`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `aufgabe` (
+  `aufgabe_id` int(11) NOT NULL,
+  `senderGruppe_id` int(11) DEFAULT NULL,
+  `empfaengerGruppe_id` int(11) DEFAULT NULL,
+  `senderBenutzer_id` int(11) DEFAULT NULL,
+  `empfaengerBenutzer_id` int(11) DEFAULT NULL,
+  `anhangTeamcombat_id` int(11) DEFAULT NULL,
+  `anhangBossfight_id` int(11) DEFAULT NULL,
+  `anhangGruppe_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`aufgabe_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `aufgabe`
+--
+
+LOCK TABLES `aufgabe` WRITE;
+/*!40000 ALTER TABLE `aufgabe` DISABLE KEYS */;
+/*!40000 ALTER TABLE `aufgabe` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `benutzer`
 --
 
@@ -81,7 +111,7 @@ CREATE TABLE `benutzer` (
   `pinnwand_id` int(11) DEFAULT NULL,
   `profilbildurl` varchar(10000) DEFAULT NULL,
   PRIMARY KEY (`benutzer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,6 +120,7 @@ CREATE TABLE `benutzer` (
 
 LOCK TABLES `benutzer` WRITE;
 /*!40000 ALTER TABLE `benutzer` DISABLE KEYS */;
+INSERT INTO `benutzer` VALUES (1,'Hannes Fischer',1000,'01/26/1995','Student','Wirtschaftsinformatik B.Sc.','17/07/2015','Bühlenstr. 100, 71088 Holzgerlingen',1,'/Bild.png'),(2,'Lena Maier',2,'31/12/1993','Student','Wirtschaftsinformatik B.Sc.','17/07/2015','Schopfloch',2,'/Bild.png');
 /*!40000 ALTER TABLE `benutzer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,6 +144,7 @@ CREATE TABLE `benutzer_freunde` (
 
 LOCK TABLES `benutzer_freunde` WRITE;
 /*!40000 ALTER TABLE `benutzer_freunde` DISABLE KEYS */;
+INSERT INTO `benutzer_freunde` VALUES (1,2),(2,1);
 /*!40000 ALTER TABLE `benutzer_freunde` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +160,7 @@ CREATE TABLE `bossfight` (
   `medium_id` int(11) DEFAULT NULL,
   `gruppe_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`bossfight_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,6 +169,7 @@ CREATE TABLE `bossfight` (
 
 LOCK TABLES `bossfight` WRITE;
 /*!40000 ALTER TABLE `bossfight` DISABLE KEYS */;
+INSERT INTO `bossfight` VALUES (1,NULL,1);
 /*!40000 ALTER TABLE `bossfight` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,6 +193,7 @@ CREATE TABLE `bossfight_antworten` (
 
 LOCK TABLES `bossfight_antworten` WRITE;
 /*!40000 ALTER TABLE `bossfight_antworten` DISABLE KEYS */;
+INSERT INTO `bossfight_antworten` VALUES (1,'42');
 /*!40000 ALTER TABLE `bossfight_antworten` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,7 +211,7 @@ CREATE TABLE `challenge` (
   `erreichtePunktzahl` int(11) DEFAULT NULL,
   `benutzer_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`challenge_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,6 +220,7 @@ CREATE TABLE `challenge` (
 
 LOCK TABLES `challenge` WRITE;
 /*!40000 ALTER TABLE `challenge` DISABLE KEYS */;
+INSERT INTO `challenge` VALUES (1,NULL,0,0,NULL),(2,'17/07/2015',3,0,1),(3,'17/07/2015',3,0,NULL),(4,'17/07/2015',3,0,NULL);
 /*!40000 ALTER TABLE `challenge` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +236,7 @@ CREATE TABLE `fachrichtung` (
   `name` varchar(200) DEFAULT NULL,
   `freigegeben` bit(1) DEFAULT NULL,
   PRIMARY KEY (`fachrichtung_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,6 +245,7 @@ CREATE TABLE `fachrichtung` (
 
 LOCK TABLES `fachrichtung` WRITE;
 /*!40000 ALTER TABLE `fachrichtung` DISABLE KEYS */;
+INSERT INTO `fachrichtung` VALUES (1,NULL,'\0'),(2,NULL,'\0'),(3,'Wirtschaftsinformatik','\0');
 /*!40000 ALTER TABLE `fachrichtung` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,7 +264,7 @@ CREATE TABLE `frage` (
   `benutzer_id` int(11) DEFAULT NULL,
   `fragenpool_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`frage_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,6 +273,7 @@ CREATE TABLE `frage` (
 
 LOCK TABLES `frage` WRITE;
 /*!40000 ALTER TABLE `frage` DISABLE KEYS */;
+INSERT INTO `frage` VALUES (1,2,'Willst Du mit mir gehn?','\0',2,2);
 /*!40000 ALTER TABLE `frage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,6 +320,7 @@ CREATE TABLE `frage_antwortmoeglichkeiten` (
 
 LOCK TABLES `frage_antwortmoeglichkeiten` WRITE;
 /*!40000 ALTER TABLE `frage_antwortmoeglichkeiten` DISABLE KEYS */;
+INSERT INTO `frage_antwortmoeglichkeiten` VALUES (1,'Ja'),(1,'Nein'),(1,'Vielleicht');
 /*!40000 ALTER TABLE `frage_antwortmoeglichkeiten` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,6 +344,7 @@ CREATE TABLE `frage_loesung` (
 
 LOCK TABLES `frage_loesung` WRITE;
 /*!40000 ALTER TABLE `frage_loesung` DISABLE KEYS */;
+INSERT INTO `frage_loesung` VALUES (1,'Ja');
 /*!40000 ALTER TABLE `frage_loesung` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -319,7 +358,7 @@ DROP TABLE IF EXISTS `fragenpool`;
 CREATE TABLE `fragenpool` (
   `fragenpool_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`fragenpool_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -328,6 +367,7 @@ CREATE TABLE `fragenpool` (
 
 LOCK TABLES `fragenpool` WRITE;
 /*!40000 ALTER TABLE `fragenpool` DISABLE KEYS */;
+INSERT INTO `fragenpool` VALUES (1),(2);
 /*!40000 ALTER TABLE `fragenpool` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -349,7 +389,7 @@ CREATE TABLE `gruppe` (
   `profilbildurl` varchar(10000) DEFAULT NULL,
   `erstelltAm` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`gruppen_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -358,6 +398,7 @@ CREATE TABLE `gruppe` (
 
 LOCK TABLES `gruppe` WRITE;
 /*!40000 ALTER TABLE `gruppe` DISABLE KEYS */;
+INSERT INTO `gruppe` VALUES (1,'Betriebliche Informations- und Kommunikationssyseme','BIKS 1','\0',3,3,1,'/Gruppenbild.png',NULL),(2,NULL,NULL,'\0',2,4,2,'/BIKS.png',NULL);
 /*!40000 ALTER TABLE `gruppe` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -381,6 +422,7 @@ CREATE TABLE `gruppen_mitglieder` (
 
 LOCK TABLES `gruppen_mitglieder` WRITE;
 /*!40000 ALTER TABLE `gruppen_mitglieder` DISABLE KEYS */;
+INSERT INTO `gruppen_mitglieder` VALUES (1,1),(1,2),(2,1);
 /*!40000 ALTER TABLE `gruppen_mitglieder` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -404,6 +446,7 @@ CREATE TABLE `gruppen_moderatoren` (
 
 LOCK TABLES `gruppen_moderatoren` WRITE;
 /*!40000 ALTER TABLE `gruppen_moderatoren` DISABLE KEYS */;
+INSERT INTO `gruppen_moderatoren` VALUES (1,1),(2,1);
 /*!40000 ALTER TABLE `gruppen_moderatoren` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -423,7 +466,7 @@ CREATE TABLE `inhalt` (
   `benutzer_id` int(11) DEFAULT NULL,
   `medium_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`inhalt_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -432,6 +475,7 @@ CREATE TABLE `inhalt` (
 
 LOCK TABLES `inhalt` WRITE;
 /*!40000 ALTER TABLE `inhalt` DISABLE KEYS */;
+INSERT INTO `inhalt` VALUES (1,5,'Themeninhalt von Hannes','Thementitel von Hannes','2015-07-17 22:08:44.688',1,1),(2,25,'Themeninhalt von Lena','Thementitel von Lena','2015-07-17 22:08:55.799',2,NULL),(3,1,'Themeninhalt von Lena','Thementitel von Lena','2015-07-17 22:09:06.911',2,NULL),(4,205,'Themeninhalt von Lena','Thementitel von Lena','2015-07-17 22:09:06.911',2,NULL),(5,21,'Themeninhalt von Lena','Thementitel von Lena','2015-07-17 22:09:06.911',2,NULL),(6,34,'Themeninhalt von hannes','Thementitel von hannes','2015-07-17 22:09:06.911',1,NULL),(7,0,'Kommentarinhalt von Lena','Kommentartitel von Lena','2015-07-17 22:09:06.911',2,1);
 /*!40000 ALTER TABLE `inhalt` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -446,7 +490,7 @@ CREATE TABLE `kommentar` (
   `kommentar_id` int(11) NOT NULL AUTO_INCREMENT,
   `thema_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`kommentar_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -455,6 +499,7 @@ CREATE TABLE `kommentar` (
 
 LOCK TABLES `kommentar` WRITE;
 /*!40000 ALTER TABLE `kommentar` DISABLE KEYS */;
+INSERT INTO `kommentar` VALUES (7,1);
 /*!40000 ALTER TABLE `kommentar` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -470,7 +515,7 @@ CREATE TABLE `medium` (
   `name` varchar(200) DEFAULT NULL,
   `dateiname` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`medium_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -479,6 +524,7 @@ CREATE TABLE `medium` (
 
 LOCK TABLES `medium` WRITE;
 /*!40000 ALTER TABLE `medium` DISABLE KEYS */;
+INSERT INTO `medium` VALUES (1,'Entwurf','Entwurf.pdf'),(2,NULL,NULL);
 /*!40000 ALTER TABLE `medium` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -493,10 +539,7 @@ CREATE TABLE `nachricht` (
   `nachricht_id` int(11) NOT NULL AUTO_INCREMENT,
   `titel` varchar(200) DEFAULT NULL,
   `inhalt` varchar(10000) DEFAULT NULL,
-  `handlungErforderlich` bit(1) DEFAULT NULL,
   `datum` date DEFAULT NULL,
-  `adressat_benutzer_id` int(11) DEFAULT NULL,
-  `sender_benutzer_id` int(11) DEFAULT NULL,
   `typ` int(11) DEFAULT NULL,
   PRIMARY KEY (`nachricht_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -521,7 +564,7 @@ DROP TABLE IF EXISTS `pinnwand`;
 CREATE TABLE `pinnwand` (
   `pinnwand_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`pinnwand_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -530,6 +573,7 @@ CREATE TABLE `pinnwand` (
 
 LOCK TABLES `pinnwand` WRITE;
 /*!40000 ALTER TABLE `pinnwand` DISABLE KEYS */;
+INSERT INTO `pinnwand` VALUES (1),(2),(3),(4);
 /*!40000 ALTER TABLE `pinnwand` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -553,6 +597,7 @@ CREATE TABLE `pinnwand_erlaubtebenutzer` (
 
 LOCK TABLES `pinnwand_erlaubtebenutzer` WRITE;
 /*!40000 ALTER TABLE `pinnwand_erlaubtebenutzer` DISABLE KEYS */;
+INSERT INTO `pinnwand_erlaubtebenutzer` VALUES (1,1),(1,2),(1,3),(1,4),(2,1),(2,2),(2,3);
 /*!40000 ALTER TABLE `pinnwand_erlaubtebenutzer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -567,7 +612,7 @@ CREATE TABLE `quest` (
   `quest_id` int(11) NOT NULL AUTO_INCREMENT,
   `gruppe_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`quest_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -576,6 +621,7 @@ CREATE TABLE `quest` (
 
 LOCK TABLES `quest` WRITE;
 /*!40000 ALTER TABLE `quest` DISABLE KEYS */;
+INSERT INTO `quest` VALUES (2,1),(3,2),(4,1);
 /*!40000 ALTER TABLE `quest` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -599,6 +645,7 @@ CREATE TABLE `quest_fragen` (
 
 LOCK TABLES `quest_fragen` WRITE;
 /*!40000 ALTER TABLE `quest_fragen` DISABLE KEYS */;
+INSERT INTO `quest_fragen` VALUES (2,1),(3,1),(4,1);
 /*!40000 ALTER TABLE `quest_fragen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -619,7 +666,7 @@ CREATE TABLE `teamcombat` (
   `gewinner_gruppe_id` int(11) DEFAULT NULL,
   `gewinnerpunkte` int(11) DEFAULT NULL,
   PRIMARY KEY (`teamcombat_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -628,6 +675,7 @@ CREATE TABLE `teamcombat` (
 
 LOCK TABLES `teamcombat` WRITE;
 /*!40000 ALTER TABLE `teamcombat` DISABLE KEYS */;
+INSERT INTO `teamcombat` VALUES (1,'2015-07-20 22:09:10.992',2,1,3,4,NULL,0);
 /*!40000 ALTER TABLE `teamcombat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -642,7 +690,7 @@ CREATE TABLE `thema` (
   `thema_id` int(11) NOT NULL AUTO_INCREMENT,
   `pinnwand_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`thema_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -651,6 +699,7 @@ CREATE TABLE `thema` (
 
 LOCK TABLES `thema` WRITE;
 /*!40000 ALTER TABLE `thema` DISABLE KEYS */;
+INSERT INTO `thema` VALUES (1,1),(2,1),(3,1),(4,1),(5,2),(6,2);
 /*!40000 ALTER TABLE `thema` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -663,4 +712,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-16 16:03:27
+-- Dump completed on 2015-07-18 19:14:43

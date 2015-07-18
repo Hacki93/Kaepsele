@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import learning.Benutzer;
+import learning.Fachrichtung;
 import learning.Gruppe;
 import learning.Inhalt;
 import learning.Medium;
@@ -98,7 +99,7 @@ public class GreetingController {
 		return "Anmelden";
 	}
 	
-	@RequestMapping(value="/profil")
+	@RequestMapping(value="/profil", method=RequestMethod.GET)
 	public String eigenesProfil(Model model){
 		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
@@ -116,6 +117,7 @@ public class GreetingController {
 		model.addAttribute("angemeldeterBenutzer", angemeldeterBenutzer);
 		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
 		model.addAttribute("themen", themenList);
+		model.addAttribute("benutzer", new Benutzer());
 		return "EigenesProfil";
 	}
 	
@@ -149,6 +151,45 @@ public class GreetingController {
 		}
 		return "Profil";
 	}
+	
+	@RequestMapping(value="/DatenAendern", method = RequestMethod.POST)
+	public String datenAendern(@ModelAttribute Benutzer benutzer, Model model){
+		System.out.println("test");
+		// angemeldeterBenutzer wird aktualisiert
+		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			if(b.getBenutzername().equals(angemeldeterBenutzer.getBenutzername())) {
+				angemeldeterBenutzer = b;					
+			}
+		}
+		// neuen Attributwerte werden gesetzt
+		angemeldeterBenutzer.setEmailAdresse(benutzer.getEmailAdresse());
+		angemeldeterBenutzer.setAdresse(benutzer.getAdresse());
+		angemeldeterBenutzer.setGeburtsdatum(benutzer.getGeburtsdatum());
+		angemeldeterBenutzer.setBeruf(benutzer.getBeruf());
+		angemeldeterBenutzer.setStudiengang(benutzer.getStudiengang());
+		
+		// Einträge in der Datenbank werden aktualisiert
+		db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+				
+		// Pinnwand wird nach Datum sortiert
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = angemeldeterBenutzer.pinnwand.sortiereNachDatum();
+		
+		// Dem Model werden alle relevanten Daten übergeben
+		model.addAttribute("angemeldeterBenutzer", angemeldeterBenutzer);
+		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
+		model.addAttribute("themen", themenList);
+		model.addAttribute("benutzer", new Benutzer());
+		return "EigenesProfil";
+	}
+	
 	@RequestMapping(value="/sortiereLikes/eigenesProfil")
 	public String sortiereLikesEigenesProfil(Model model){
 		// die Pinnwand wird nach Likes sortiert
@@ -440,21 +481,17 @@ public class GreetingController {
 	
 	@RequestMapping(value="/beitragSchreiben", method = RequestMethod.POST)
 	public String beitragSchreiben(@ModelAttribute Thema thema, Model model){
-		// profilBenutzer wird aktualisiert
+		// profilBenutzer und angemeldeterBenutzer wird aktualisiert
 		for(Object obj : db.tabelleAusgeben(profilBenutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
 			if(b.getBenutzername().equals(profilBenutzer.getBenutzername())) {
 				profilBenutzer = b;	
 			}
-		}
-		
-		// angemeldeterBenutzer wird aktualisiert
-		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
-			Benutzer b = (Benutzer) obj;
 			if(b.getBenutzername().equals(angemeldeterBenutzer.getBenutzername())) {
 				angemeldeterBenutzer = b;					
 			}
 		}
+		
 		System.out.println("TEst");
 		Thema neuesThema = new Thema();
 		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
@@ -500,6 +537,34 @@ public class GreetingController {
 	
 	@RequestMapping(value="/eigeneGruppen")
 	public String getEigeneGruppen(Model model){
+		Fachrichtung fachrichtung = new Fachrichtung();
+		ArrayList<Fachrichtung> fachrichtungen = new ArrayList<Fachrichtung>();
+		for(Object obj : db.tabelleAusgeben(fachrichtung.getClass())){
+			Fachrichtung f = (Fachrichtung) obj;
+			fachrichtungen.add(f);
+		}
+		model.addAttribute("fachrichtungen", fachrichtungen);
+		model.addAttribute("gruppen", angemeldeterBenutzer.gruppen);
+		model.addAttribute("gruppe", new Gruppe());
+		return "eigeneGruppenListe";
+	}
+	
+	@RequestMapping(value="/GruppeErstellen", method=RequestMethod.POST)
+	public String gruppeErstellen(@ModelAttribute Gruppe gruppe, Model model){
+		Gruppe neueGruppe = new Gruppe();
+		db.eintragHinzufuegen(neueGruppe.getClass(), neueGruppe);
+		neueGruppe.setName(gruppe.getName());
+		neueGruppe.setKlausurname(gruppe.getKlausurname());
+		angemeldeterBenutzer.gruppen.add(neueGruppe);
+		neueGruppe.mitgliedHinzufuegen(angemeldeterBenutzer);
+		neueGruppe.moderatoren.add(angemeldeterBenutzer);
+		angemeldeterBenutzer.moderierteGruppen.add(neueGruppe);
+		
+		db.eintragAktualisieren(neueGruppe.getClass(), neueGruppe);
+		db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
+		
+		model.addAttribute("gruppen", angemeldeterBenutzer.gruppen);
+		model.addAttribute("gruppe", new Gruppe());
 		return "eigeneGruppenListe";
 	}
 	

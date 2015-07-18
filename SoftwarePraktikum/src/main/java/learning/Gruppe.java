@@ -21,6 +21,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import kommunikation.Aufgabe;
 import kommunikation.Nachricht;
 
 
@@ -217,8 +218,8 @@ public class Gruppe implements java.io.Serializable {
 	 * @param benutzer Der Benutzer der in die Gruppe eingeladen wird
 	 */
 	public void einladen(Benutzer benutzer) {
-		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.GRUPPENEINLADUNG, this);
-		benutzer.benachrichtigen(nachricht);
+		Aufgabe aufgabe = new Aufgabe(Nachricht.GRUPPENEINLADUNG, this, benutzer, this);
+		benutzer.benachrichtigen(aufgabe);
 	}
 
 	/**
@@ -297,9 +298,9 @@ public class Gruppe implements java.io.Serializable {
 		Teamcombat teamcombat = new Teamcombat(this, herausgeforderter);
 		this.gestarteteTeamcombats.add(teamcombat);
 		herausgeforderter.eingeladeneTeamcombats.add(teamcombat);
-		Nachricht nachricht = new Nachricht(this, herausgeforderter, Nachricht.TEAMHERAUSFORDERUNG, teamcombat);
-		herausgeforderter.benachrichtigen(nachricht);
-		this.benachrichtigen(nachricht);
+		Aufgabe aufgabe = new Aufgabe(Nachricht.TEAMHERAUSFORDERUNG, this, herausgeforderter, teamcombat);
+		herausgeforderter.benachrichtigen(aufgabe);
+		this.benachrichtigen(aufgabe);
 		return teamcombat;
 	}
 	

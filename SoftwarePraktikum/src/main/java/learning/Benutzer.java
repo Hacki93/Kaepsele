@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import kommunikation.Aufgabe;
 import kommunikation.Email;
 import kommunikation.Nachricht;
 
@@ -88,7 +89,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 		freunde = new HashSet<Benutzer>();
 		gruppen = new HashSet<Gruppe>();
 		nachrichten = new HashSet<Nachricht>();
-		aufgaben = new HashSet<Nachricht>();
+		aufgaben = new HashSet<Aufgabe>();
 		pinnwand = new Pinnwand();
 		pinnwand.erlaubteBenutzer.add(this);
 		moderierteGruppen = new HashSet<Gruppe>();
@@ -113,7 +114,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 		freunde = new HashSet<Benutzer>();
 		gruppen = new HashSet<Gruppe>();
 		nachrichten = new HashSet<Nachricht>();
-		aufgaben = new HashSet<Nachricht>();
+		aufgaben = new HashSet<Aufgabe>();
 		moderierteGruppen = new HashSet<Gruppe>();
 		rang = 0;
 		pinnwand = new Pinnwand();
@@ -132,7 +133,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	public void freundHinzufuegen(Benutzer benutzer) {
 		freunde.add(benutzer);
 		pinnwand.erlaubteBenutzer.add(benutzer);
-		Nachricht nachricht = new Nachricht(this, benutzer, Nachricht.FREUNDHINZUGEFUEGT, this);
+		Nachricht nachricht = new Nachricht(Nachricht.FREUNDHINZUGEFUEGT, this.getName(), null);
 		benutzer.benachrichtigen(nachricht);
 	}
 	
@@ -149,7 +150,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	      neuesPasswort.append(quelle.charAt(zufall.nextInt(quelle.length()) ) );
 		}
 		neuesPasswort(neuesPasswort.toString());
-		Nachricht nachricht = new Nachricht(this, this, Nachricht.NEUESPASSWORT, neuesPasswort.toString());
+		Nachricht nachricht = new Nachricht(Nachricht.NEUESPASSWORT, neuesPasswort.toString(), null);
 		String anschreiben = "Hallo " + this.getName() + ",\n\n";
 		String gruss = "\n\nLiebe Grüße,\nDein Käpsele-Team";
 		new Email().senden(this.getEmailAdresse(), nachricht.getTitel(), anschreiben + nachricht.getInhalt()+gruss);
@@ -161,8 +162,8 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 * @param nachricht Der Inhalt der Nachricht
 	 */
 	public void benachrichtigen(Nachricht nachricht) {
-		if (nachricht.isHandlungErforderlich()) {
-			aufgaben.add(nachricht);
+		if (nachricht instanceof Aufgabe){
+			aufgaben.add((Aufgabe)nachricht);
 		}
 		nachrichten.add(nachricht);
 		String anschreiben = "Hallo " + this.getName() + ",\n\n";
@@ -188,9 +189,9 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 */
 	public Object aufgabeBearbeiten(Nachricht aufgabe) {
 		if (aufgabe.getTyp() == Nachricht.AUFGABEKORRIGIEREN) {
-			return (Bossfight) aufgabe.getAnhang();
+			return ((Aufgabe)aufgabe).getAnhangBossfight();
 		} else {
-			Teamcombat teamcombat = (Teamcombat) aufgabe.getAnhang();
+			Teamcombat teamcombat = ((Aufgabe)aufgabe).getAnhangTeamcombat();
 			return teamcombat.bearbeiten(this);
 		}
 	}
@@ -211,8 +212,8 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 * @param objekt Objekt (z.B Teamcombat) auf das sich die Aufgabe bezieht
 	 */
 	public void aufgabeErledigt(Object objekt) {
-		for (Nachricht n : aufgaben) {
-			if (n.getAnhang().equals(objekt)) {
+		for (Aufgabe n : aufgaben) {
+			if (n.getAnhangBossfight().equals(objekt) || n.getAnhangTeamcombat().equals(objekt) || n.getAnhangGruppe().equals(objekt)) {
 				aufgaben.remove(n);
 			}
 		}
@@ -254,8 +255,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 			gruppen.add(gruppe);
 			gruppe.mitgliedHinzufuegen(this);
 			gruppe.pinnwand.erlaubteBenutzer.add(this);
-			Nachricht nachricht = new Nachricht(this, gruppe,
-					Nachricht.BEITRITTSANFRAGE, this);
+			Nachricht nachricht = new Nachricht(Nachricht.BEITRITTSANFRAGE, this, gruppe);
 			gruppe.moderatorBenachrichtigen(nachricht);
 			return true;
 		} else {
@@ -481,11 +481,11 @@ public class Benutzer extends Account implements java.io.Serializable {
 		this.nachrichten = nachrichten;
 	}
 
-	public Set<Nachricht> getAufgaben() {
+	public Set<Aufgabe> getAufgaben() {
 		return aufgaben;
 	}
 	
-	public void setAufgaben(Set<Nachricht> aufgaben) {
+	public void setAufgaben(Set<Aufgabe> aufgaben) {
 		this.aufgaben = aufgaben;
 	}
 

@@ -116,66 +116,13 @@
         </tfoot>
  
         <tbody>
-            <tr>
-                <td>Winfo13</td>
-                <td>PSE</td>
-                <td>Informatik</td>
-                <td>20</td>
-                <td>16.07.2015</td>
+            <tr th:each="gruppe : ${gruppen}">
+                <td th:text="${gruppe.name}"></td>
+                <td th:text="${gruppe.klausurname}"></td>
+                <td th:text="${gruppe.fachrichtung.name}"></td>
+                <td th:text="${gruppe.anzahlMitglieder}"></td>
+                <td th:text="${gruppe.erstelltAm}"></td>
                 <td><a data-original-title="Gruppenprofil" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-triangle-right"></i></a></td>
-            </tr>
-            <tr>
-                <td>Die Biologen</td>
-                <td>Zytologie</td>
-                <td>Biologie</td>
-                <td>2</td>
-                <td>10.07.2015</td>
-                <td><a data-original-title="Gruppenprofil" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-triangle-right"></i></a></td>
-            </tr>
-            <tr>
-                <td>Winfo14</td>
-                <td>PSE</td>
-                <td>Informatik</td>
-                <td>28</td>
-                <td>17.07.2015</td>
-                <td><a data-original-title="Gruppenprofil" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-triangle-right"></i></a></td>
-          
-            </tr>
-            <tr>
-                <td>Chemie FTW</td>
-                <td>Atome</td>
-                <td>Chemie</td>
-                <td>14</td>
-                <td>16.05.2015</td>
-                <td><a data-original-title="Gruppenprofil" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-triangle-right"></i></a></td>
-          
-            </tr>
-            <tr>
-                <td>MaschinenBauer</td>
-                <td>W&auml;rmelehre</td>
-                <td>Physik</td>
-                <td>80</td>
-                <td>01.07.2015</td>
-                <td><a data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-triangle-right"></i></a></td>
-          
-            </tr>
-            <tr>
-                <td>Die Coolen</td>
-                <td>Psychologie</td>
-                <td>Psychologie</td>
-                <td>6</td>
-                <td>15.07.2015</td>
-                <td><a data-original-title="Gruppenprofil" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-triangle-right"></i></a></td>
-          
-            </tr>
-            <tr>
-                <td>Ei ist das Beste</td>
-                <td>Nahrungsmittel</td>
-                <td>Biologie</td>
-                <td>4</td>
-                <td>30.07.2015</td>
-                <td><a data-original-title="Gruppenprofil" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-triangle-right"></i></a></td>
-          
             </tr>
         </tbody>
     </table>
@@ -199,20 +146,25 @@
 		<div class="modal-body">
 			
             <!-- content goes here -->
-			<form>
+			<form action="#" th:action="@{/GruppeErstellen}" th:object="${gruppe}" method="post" id="gruppenForm">
               <div class="form-group">
                 <label for="exampleInputEmail1">Gruppenname</label>
-                <input type="text" class="form-control" placeholder="Name eingeben"/>
+                <input th:field="*{name}" type="text" class="form-control" placeholder="Name eingeben"/>
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Klausurname</label>
-                <input type="text" class="form-control" placeholder="Klausurname eingeben"/>
+                <input th:field="*{klausurname}" type="text" class="form-control" placeholder="Klausurname eingeben"/>
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1">Fachrichtung</label>
                 <input type="text" class="form-control" placeholder="Fachrichtung eingeben"/>
+           <!--      <label for="exampleInputEmail1">Fachrichtung:</label> 
+			<select id="exampleInputEmail1" th:field="*{fachrichtung}" size="10" multiple="multiple"> 
+				<option th:each="fach : ${fachrichtungen}" th:value="${fach.name}"> 
+				</option> 
+ 			</select> --> 
               </div>
-              <button type="submit" class="btn btn-success">Gruppe gr&uuml;nden</button>
+              <button type="submit" class="btn btn-success" id="gruppenSub">Gruppe gr&uuml;nden</button>
             </form>
 
 		</div>
@@ -250,7 +202,47 @@
     
     <!-- Custom Theme JavaScript -->
     <script src="resources/js/profil.js" type="text/javascript"></script>
-    
+ 
+ <script th:inline="javascript">
+ 
+ 
+ 
+$(function() {
+
+	   //twitter bootstrap script
+
+	    $("button#gruppenSub").click(function(){
+
+	            $.ajax({
+
+	        type: "POST",
+
+	    url: "/SoftwarePraktikum/GruppeErstellen",
+
+	    data: $("#gruppenForm").serialize(),
+
+	            success: function(msg){
+
+	$("#Anlegen").empty();
+
+	           $("#Anlegen").modal('hide');
+
+	  
+
+	            },
+
+	    error: function(){
+
+	    alert("failure");
+
+	    }
+
+	          });
+
+	    });
+
+	   });
+</script> 
 
 </body>
 </html>

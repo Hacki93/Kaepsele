@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import kommunikation.Aufgabe;
 import kommunikation.Nachricht;
 
 /**
@@ -91,7 +92,7 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	 */
 	public void korrigieren(Benutzer moderator, int punktzahl) {
 		erreichtePunktzahl = erreichtePunktzahl + punktzahl;
-		Nachricht nachricht = new Nachricht(moderator, benutzer, Nachricht.AUFGABEBEWERTET, this);
+		Nachricht nachricht = new Nachricht(Nachricht.AUFGABEBEWERTET, this.bestanden(), this.gruppe.name);
 		benutzer.benachrichtigen(nachricht);
 	}
 
@@ -103,9 +104,8 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 		while (moderator.equals(benutzer)) {
 			moderator = (Benutzer) gruppe.moderatoren.toArray()[0];
 		}
-		Nachricht nachricht = new Nachricht(benutzer, moderator,
-				Nachricht.AUFGABEKORRIGIEREN, this);
-		moderator.benachrichtigen(nachricht);
+		Aufgabe aufgabe = new Aufgabe(Nachricht.AUFGABEKORRIGIEREN, benutzer, moderator, this);
+		moderator.benachrichtigen(aufgabe);
 	}
 
 	/**

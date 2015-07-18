@@ -3,6 +3,7 @@ package datenhaltung;
 import java.util.HashMap;
 import java.util.List;
 
+import kommunikation.Aufgabe;
 import kommunikation.Nachricht;
 import learning.Account;
 import learning.Admin;
@@ -67,6 +68,7 @@ public class Datenbank {
 	private void tabellenEinbinden(){
 		tabelleLaden(new Account().getClass());
 		tabelleLaden(new Admin().getClass());
+		tabelleLaden(new Aufgabe().getClass());
 		tabelleLaden(new Benutzer().getClass());
 		tabelleLaden(new Bossfight().getClass());
 		tabelleLaden(new Challenge().getClass());
@@ -77,11 +79,11 @@ public class Datenbank {
 		tabelleLaden(new Inhalt().getClass());
 		tabelleLaden(new Kommentar().getClass());
 		tabelleLaden(new Medium().getClass());
+		tabelleLaden(new Nachricht().getClass());
 		tabelleLaden(new Pinnwand().getClass());
 		tabelleLaden(new Quest().getClass());
 		tabelleLaden(new Teamcombat().getClass());
 		tabelleLaden(new Thema().getClass());
-		tabelleLaden(new Nachricht().getClass());
 	}
 	
 	/**
@@ -94,6 +96,7 @@ public class Datenbank {
 		Configuration configuration = new Configuration().configure();
     	configuration.addAnnotatedClass(new Account().getClass());
     	configuration.addAnnotatedClass(new Admin().getClass());
+    	configuration.addAnnotatedClass(new Aufgabe().getClass());
     	configuration.addAnnotatedClass(new Benutzer().getClass());
     	configuration.addAnnotatedClass(new Bossfight().getClass());
     	configuration.addAnnotatedClass(new Challenge().getClass());
@@ -104,11 +107,11 @@ public class Datenbank {
     	configuration.addAnnotatedClass(new Inhalt().getClass());
     	configuration.addAnnotatedClass(new Kommentar().getClass());
     	configuration.addAnnotatedClass(new Medium().getClass());
+    	configuration.addAnnotatedClass(new Nachricht().getClass());
     	configuration.addAnnotatedClass(new Pinnwand().getClass());
     	configuration.addAnnotatedClass(new Quest().getClass());
     	configuration.addAnnotatedClass(new Teamcombat().getClass());
     	configuration.addAnnotatedClass(new Thema().getClass());
-    	configuration.addAnnotatedClass(new Nachricht().getClass());
     	return configuration;
 	}
 	

@@ -2,17 +2,23 @@ package learning;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.Set;
 
+import kommunikation.Aufgabe;
 import kommunikation.Nachricht;
 
 /**
@@ -35,11 +41,15 @@ public class Account implements java.io.Serializable{
 	@Column(name = "passwort")
 	protected String passwort;
 	
-	@Transient 
+//	@OneToMany(fetch = FetchType.EAGER, mappedBy="account")
+//	@Cascade(CascadeType.ALL)
+	@Transient
 	Set<Nachricht> nachrichten; 
 	
-	@Transient 
-	Set<Nachricht> aufgaben; 
+//	@OneToMany(fetch = FetchType.EAGER, mappedBy="account")
+//	@Cascade(CascadeType.ALL)
+	@Transient
+	Set<Aufgabe> aufgaben; 
 	
 	@Column(name = "emailAdresse")
 	String emailAdresse;
@@ -71,8 +81,8 @@ public class Account implements java.io.Serializable{
 	 * @param nachricht Der Inhalt der Nachricht
 	 */
 	public void benachrichtigen(Nachricht nachricht){
-		if (nachricht.isHandlungErforderlich()){
-			aufgaben.add(nachricht);
+		if (nachricht instanceof Aufgabe){
+			aufgaben.add((Aufgabe)nachricht);
 		}
 		nachrichten.add(nachricht);
 	}
@@ -138,11 +148,11 @@ public class Account implements java.io.Serializable{
 		this.nachrichten = nachrichten;
 	}
 	
-	public Set<Nachricht> setAufgaben() {
+	public Set<Aufgabe> setAufgaben() {
 		return aufgaben;
 	}
 	
-	public void getAufgaben(Set<Nachricht> aufgaben){
+	public void getAufgaben(Set<Aufgabe> aufgaben){
 		this.aufgaben = aufgaben;
 	}
 	

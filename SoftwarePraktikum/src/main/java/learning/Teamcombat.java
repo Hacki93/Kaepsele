@@ -109,14 +109,14 @@ public class Teamcombat implements java.io.Serializable {
 		if (herausforderer > herausgeforderter) {
 			gewinner = this.herausforderer;
 			gewinnerpunkte = herausforderer; 
-			Nachricht nachricht = new Nachricht(gewinner, gewinner, Nachricht.TEAMCOMBATGEWONNEN, this);
+			Nachricht nachricht = new Nachricht(Nachricht.TEAMCOMBATGEWONNEN, gewinner.getName(), null);
 			this.herausforderer.benachrichtigen(nachricht);
 			this.herausgeforderter.benachrichtigen(nachricht);
 			return this.herausforderer;
 		} else {
 			gewinner = this.herausgeforderter;
 			gewinnerpunkte = herausgeforderter; 
-			Nachricht nachricht = new Nachricht(gewinner, gewinner, Nachricht.TEAMCOMBATGEWONNEN, this);
+			Nachricht nachricht = new Nachricht(Nachricht.TEAMCOMBATGEWONNEN, gewinner.getName(), null);
 			
 			this.herausforderer.benachrichtigen(nachricht);
 			this.herausgeforderter.benachrichtigen(nachricht);
