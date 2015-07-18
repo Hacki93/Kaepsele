@@ -38,12 +38,15 @@ public class TestKlasse {
 				Gruppe mbis 		= new Gruppe();
 				Gruppe biks			= new Gruppe();
 				Thema thema 		= new Thema();
-				Thread.sleep(11111);
+				Thread.sleep(10);
 				Thema thema2		= new Thema();
-				Thread.sleep(11111);
+				Thread.sleep(10);
 				Thema thema3		= new Thema();
+				Thread.sleep(10);
 				Thema thema4		= new Thema();
+				Thread.sleep(10);
 				Thema thema5		= new Thema();
+				Thread.sleep(10);
 				Thema thema6		= new Thema();
 				Kommentar kommentar = new Kommentar();
 				Medium medium 		= new Medium();
