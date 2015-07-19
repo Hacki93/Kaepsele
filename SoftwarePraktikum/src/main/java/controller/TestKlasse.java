@@ -121,7 +121,10 @@ public class TestKlasse {
 				biks.mitgliedHinzufuegen(hannes);
 				biks.moderatorHinzufuegen(hannes);
 				biks.fragenpool.addFrage(frage2);
-	
+				biks.setFachrichtung(wi);
+				biks.setKlausurname("MBIS 1");
+				biks.setName("Management betrieblicher Informationssysteme");
+				
 				thema.setPinnwand(hannes.pinnwand);
 				thema.setBenutzer(hannes);
 				thema.setBewertung(5);
