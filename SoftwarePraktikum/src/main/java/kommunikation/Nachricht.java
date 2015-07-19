@@ -5,9 +5,19 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import learning.Benutzer;
 
 /**
  * Die Klasse Nachricht stellt eine reine Textinformation dar, die einem Benutzer sowohl
@@ -16,6 +26,7 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "NACHRICHT")
+@Inheritance(strategy=InheritanceType.JOINED)
 public class Nachricht implements java.io.Serializable{
 	
 	public static final int FREUNDHINZUGEFUEGT 	= 0;
@@ -43,6 +54,11 @@ public class Nachricht implements java.io.Serializable{
 	@Column(name = "typ")
 	protected int typ;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "empfaenger_id")
+	@Cascade(CascadeType.ALL)
+	private Benutzer empfaenger;
+	
 	/**
 	 * Leerer Konstruktor f&uuml;r Hibernate
 	 */
@@ -54,7 +70,7 @@ public class Nachricht implements java.io.Serializable{
 	 * @param typ Der Nachrichtentyp
 	 * @param nachricht Der Inhalt der Nachricht
 	 */
-	public Nachricht(int typ, Object nachricht, Object nachricht2) {
+	public Nachricht(int typ, Benutzer empfaenger, Object nachricht, Object nachricht2) {
 		switch (typ) {
 		case 0:
 			titel = "Du hast einen neuen Freund";
@@ -85,6 +101,7 @@ public class Nachricht implements java.io.Serializable{
 		}
 		datum = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
 		this.typ = typ;
+		this.empfaenger = empfaenger;
 	}
 	
 	public int getTyp() {
@@ -119,4 +136,11 @@ public class Nachricht implements java.io.Serializable{
 		this.datum = datum;
 	}
 
+	public Benutzer getEmpfaenger(){
+		return empfaenger;
+	}
+	
+	public void setEmpfaenger(Benutzer empfaenger){
+		this.empfaenger = empfaenger;
+	}
 }

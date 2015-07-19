@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import kommunikation.Aufgabe;
 import kommunikation.Email;
@@ -56,10 +58,11 @@ public class Benutzer extends Account implements java.io.Serializable {
 	@Column(name = "profilbildurl")
 	private String profilbildurl;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "BENUTZER_FREUNDE", joinColumns = 
 	@JoinColumn(name = "benutzer_id"), inverseJoinColumns = 
 	@JoinColumn(name = "freunde_id"))
+	@Cascade(CascadeType.ALL)
 	public Set<Benutzer> freunde;
 
 	// Hilfskollektion zur Umsetzung eines Many-To-Many Self-Joins
@@ -72,15 +75,25 @@ public class Benutzer extends Account implements java.io.Serializable {
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "moderatoren")
 	public Set<Gruppe> moderierteGruppen;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
+	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "pinnwand_id")
 	public Pinnwand pinnwand;
 	
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "erlaubteBenutzer")
 	public Set<Pinnwand> erlaubtePinnwaende;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="benutzer")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="benutzer")
+	@Cascade(CascadeType.ALL)
 	public Set<Inhalt> inhalte;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaenger")
+	@Cascade(CascadeType.ALL)
+	Set<Nachricht> nachrichten; 
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaengerBenutzer")
+	@Cascade(CascadeType.ALL)
+	Set<Aufgabe> aufgaben; 
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
@@ -133,7 +146,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	public void freundHinzufuegen(Benutzer benutzer) {
 		freunde.add(benutzer);
 		pinnwand.erlaubteBenutzer.add(benutzer);
-		Nachricht nachricht = new Nachricht(Nachricht.FREUNDHINZUGEFUEGT, this.getName(), null);
+		Nachricht nachricht = new Nachricht(Nachricht.FREUNDHINZUGEFUEGT, benutzer, this.getName(), null);
 		benutzer.benachrichtigen(nachricht);
 	}
 	
@@ -150,7 +163,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	      neuesPasswort.append(quelle.charAt(zufall.nextInt(quelle.length()) ) );
 		}
 		neuesPasswort(neuesPasswort.toString());
-		Nachricht nachricht = new Nachricht(Nachricht.NEUESPASSWORT, neuesPasswort.toString(), null);
+		Nachricht nachricht = new Nachricht(Nachricht.NEUESPASSWORT, this, neuesPasswort.toString(), null);
 		String anschreiben = "Hallo " + this.getName() + ",\n\n";
 		String gruss = "\n\nLiebe Grüße,\nDein Käpsele-Team";
 		new Email().senden(this.getEmailAdresse(), nachricht.getTitel(), anschreiben + nachricht.getInhalt()+gruss);
@@ -164,8 +177,9 @@ public class Benutzer extends Account implements java.io.Serializable {
 	public void benachrichtigen(Nachricht nachricht) {
 		if (nachricht instanceof Aufgabe){
 			aufgaben.add((Aufgabe)nachricht);
+		} else {
+			nachrichten.add(nachricht);
 		}
-		nachrichten.add(nachricht);
 		String anschreiben = "Hallo " + this.getName() + ",\n\n";
 		String gruss = "\n\nLiebe Grüße,\nDein Käpsele-Team";
 		System.out.println(this.getBenutzername()+" "+this.getEmailAdresse());
@@ -255,8 +269,10 @@ public class Benutzer extends Account implements java.io.Serializable {
 			gruppen.add(gruppe);
 			gruppe.mitgliedHinzufuegen(this);
 			gruppe.pinnwand.erlaubteBenutzer.add(this);
-			Nachricht nachricht = new Nachricht(Nachricht.BEITRITTSANFRAGE, this, gruppe);
-			gruppe.moderatorBenachrichtigen(nachricht);
+			for (Benutzer moderator : gruppe.moderatoren) {
+				Nachricht nachricht = new Nachricht(Nachricht.BEITRITTSANFRAGE, moderator, this, gruppe);
+				moderator.benachrichtigen(nachricht);
+			}
 			return true;
 		} else {
 			// Die Gruppe ist bereits voll
@@ -527,5 +543,21 @@ public class Benutzer extends Account implements java.io.Serializable {
 	
 	public String getProfilbildURL(){
 		return profilbildurl;
+	}
+	
+	public Set<Nachricht> setNachrichten() {
+		return nachrichten;
+	}
+	
+	public void getNachrichten(Set<Nachricht> nachrichten){
+		this.nachrichten = nachrichten;
+	}
+	
+	public Set<Aufgabe> setAufgaben() {
+		return aufgaben;
+	}
+	
+	public void getAufgaben(Set<Aufgabe> aufgaben){
+		this.aufgaben = aufgaben;
 	}
 }

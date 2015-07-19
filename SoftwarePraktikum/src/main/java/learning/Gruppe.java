@@ -191,28 +191,6 @@ public class Gruppe implements java.io.Serializable {
 	}
 
 	/**
-	 * Es werden Mitglieder der Gruppe benachrichtigt
-	 * 
-	 * @param nachricht Die Nachricht
-	 */
-	public void benachrichtigen(Nachricht nachricht) {
-		for (Benutzer mitglied : mitglieder) {
-			mitglied.benachrichtigen(nachricht);
-		}
-	}
-
-	/**
-	 * Es wird der Moderator der Gruppe benachrichtigt
-	 * 
-	 * @param nachricht Die Nachricht
-	 */
-	public void moderatorBenachrichtigen(Nachricht nachricht) {
-		for (Benutzer moderator : moderatoren) {
-			moderator.benachrichtigen(nachricht);
-		}
-	}
-
-	/**
 	 * Es wird ein Benutzer eingeladen
 	 * 
 	 * @param benutzer Der Benutzer der in die Gruppe eingeladen wird
@@ -298,9 +276,14 @@ public class Gruppe implements java.io.Serializable {
 		Teamcombat teamcombat = new Teamcombat(this, herausgeforderter);
 		this.gestarteteTeamcombats.add(teamcombat);
 		herausgeforderter.eingeladeneTeamcombats.add(teamcombat);
-		Aufgabe aufgabe = new Aufgabe(Nachricht.TEAMHERAUSFORDERUNG, this, herausgeforderter, teamcombat);
-		herausgeforderter.benachrichtigen(aufgabe);
-		this.benachrichtigen(aufgabe);
+		for (Benutzer mitglied : herausgeforderter.mitglieder) {
+			Aufgabe aufgabe = new Aufgabe(Nachricht.TEAMHERAUSFORDERUNG, this, mitglied, teamcombat);
+			mitglied.benachrichtigen(aufgabe);
+		}
+		for (Benutzer mitglied : this.mitglieder) {
+			Aufgabe aufgabe = new Aufgabe(Nachricht.TEAMHERAUSFORDERUNG, this, mitglied, teamcombat);
+			mitglied.benachrichtigen(aufgabe);
+		}
 		return teamcombat;
 	}
 	

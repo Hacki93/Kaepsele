@@ -104,22 +104,31 @@ public class Teamcombat implements java.io.Serializable {
 		for (Benutzer benutzer:herausgeforderter.getMitglieder()){
 			benutzer.aufgabeErledigt(this);
 		}
-		int herausforderer = questFuerHerausforderer.korrigiere();
-		int herausgeforderter = questFuerHerausgeforderter.korrigiere();
-		if (herausforderer > herausgeforderter) {
+		int herausfordererPunkte = questFuerHerausforderer.korrigiere();
+		int herausgeforderterPunkte = questFuerHerausgeforderter.korrigiere();
+		if (herausfordererPunkte > herausgeforderterPunkte) {
 			gewinner = this.herausforderer;
-			gewinnerpunkte = herausforderer; 
-			Nachricht nachricht = new Nachricht(Nachricht.TEAMCOMBATGEWONNEN, gewinner.getName(), null);
-			this.herausforderer.benachrichtigen(nachricht);
-			this.herausgeforderter.benachrichtigen(nachricht);
+			gewinnerpunkte = herausfordererPunkte;			
+			for(Benutzer benutzer : this.herausforderer.getMitglieder()){
+				Nachricht nachricht = new Nachricht(Nachricht.TEAMCOMBATGEWONNEN, benutzer, gewinner.getName(), null);
+				benutzer.benachrichtigen(nachricht);
+			}
+			for(Benutzer benutzer : this.herausforderer.getMitglieder()){
+				Nachricht nachricht = new Nachricht(Nachricht.TEAMCOMBATGEWONNEN, benutzer, gewinner.getName(), null);
+				benutzer.benachrichtigen(nachricht);
+			}
 			return this.herausforderer;
 		} else {
 			gewinner = this.herausgeforderter;
-			gewinnerpunkte = herausgeforderter; 
-			Nachricht nachricht = new Nachricht(Nachricht.TEAMCOMBATGEWONNEN, gewinner.getName(), null);
-			
-			this.herausforderer.benachrichtigen(nachricht);
-			this.herausgeforderter.benachrichtigen(nachricht);
+			gewinnerpunkte = herausgeforderterPunkte; 
+			for(Benutzer benutzer : this.herausforderer.getMitglieder()){
+				Nachricht nachricht = new Nachricht(Nachricht.TEAMCOMBATGEWONNEN, benutzer, gewinner.getName(), null);
+				benutzer.benachrichtigen(nachricht);
+			}
+			for(Benutzer benutzer : this.herausforderer.getMitglieder()){
+				Nachricht nachricht = new Nachricht(Nachricht.TEAMCOMBATGEWONNEN, benutzer, gewinner.getName(), null);
+				benutzer.benachrichtigen(nachricht);
+			}
 			return this.herausgeforderter;
 		}
 	}

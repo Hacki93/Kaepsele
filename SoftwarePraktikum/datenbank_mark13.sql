@@ -70,9 +70,8 @@ DROP TABLE IF EXISTS `aufgabe`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `aufgabe` (
-  `aufgabe_id` int(11) NOT NULL,
+  `aufgabe_id` int(11) NOT NULL AUTO_INCREMENT,
   `senderGruppe_id` int(11) DEFAULT NULL,
-  `empfaengerGruppe_id` int(11) DEFAULT NULL,
   `senderBenutzer_id` int(11) DEFAULT NULL,
   `empfaengerBenutzer_id` int(11) DEFAULT NULL,
   `anhangTeamcombat_id` int(11) DEFAULT NULL,
@@ -522,8 +521,9 @@ CREATE TABLE `nachricht` (
   `nachricht_id` int(11) NOT NULL AUTO_INCREMENT,
   `titel` varchar(200) DEFAULT NULL,
   `inhalt` varchar(10000) DEFAULT NULL,
-  `datum` date DEFAULT NULL,
+  `datum` varchar(200) DEFAULT NULL,
   `typ` int(11) DEFAULT NULL,
+  `empfaenger_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`nachricht_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -689,4 +689,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-19  1:10:39
+-- Dump completed on 2015-07-19 17:36:58

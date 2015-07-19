@@ -30,9 +30,7 @@ public class TestKlasse {
 
 		public static void dbSchreiben(){	
 			try{
-				
 				//Objekte erstellen
-					
 				Benutzer hannes 	= new Benutzer();
 				Benutzer lena 		= new Benutzer();
 				Gruppe mbis 		= new Gruppe();

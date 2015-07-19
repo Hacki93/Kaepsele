@@ -92,7 +92,7 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	 */
 	public void korrigieren(Benutzer moderator, int punktzahl) {
 		erreichtePunktzahl = erreichtePunktzahl + punktzahl;
-		Nachricht nachricht = new Nachricht(Nachricht.AUFGABEBEWERTET, this.bestanden(), this.gruppe.name);
+		Nachricht nachricht = new Nachricht(Nachricht.AUFGABEBEWERTET, moderator, this.bestanden(), this.gruppe.name);
 		benutzer.benachrichtigen(nachricht);
 	}
 

@@ -25,7 +25,7 @@ import learning.Teamcombat;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "AUFGABE")
-@PrimaryKeyJoinColumn(name="aufgabe_id", referencedColumnName = "inhalt_id")
+@PrimaryKeyJoinColumn(name="aufgabe_id", referencedColumnName = "nachricht_id")
 public class Aufgabe extends Nachricht implements java.io.Serializable{
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -34,20 +34,15 @@ public class Aufgabe extends Nachricht implements java.io.Serializable{
 	private Gruppe senderGruppe;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "empfaengerGruppe_id")
-	@Cascade(CascadeType.ALL)
-	private Gruppe empfaengerGruppe;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "senderBenutzer_id")
 	@Cascade(CascadeType.ALL)
 	private Benutzer senderBenutzer;
-
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "empfaengerBenutzer_id")
 	@Cascade(CascadeType.ALL)
 	private Benutzer empfaengerBenutzer;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "anhangTeamcombat_id")
 	@Cascade(CascadeType.ALL)
@@ -79,8 +74,6 @@ public class Aufgabe extends Nachricht implements java.io.Serializable{
 	public Aufgabe(int typ, Object sender, Object adressat, Object anhang) {
 		senderGruppe = null;
 		senderBenutzer = null;
-		empfaengerGruppe = null;
-		empfaengerBenutzer = null;
 		anhangTeamcombat = null;
 		anhangBossfight = null;
 		anhangGruppe = null;
@@ -104,11 +97,11 @@ public class Aufgabe extends Nachricht implements java.io.Serializable{
 			break;
 		case 4:
 			senderGruppe = (Gruppe) sender;
-			empfaengerGruppe = (Gruppe) adressat;
+			empfaengerBenutzer = (Benutzer) adressat;
 			anhangTeamcombat = (Teamcombat) anhang;
 			titel = "Herausforderung zum Teamcombat";
-			inhalt = "Die Gruppe \""+((Gruppe) sender).getName() + "\" hat \""
-					+ ((Gruppe)adressat).getName() + "\" zum Teamcombat herausgefordert.\nDu hast 3 Tage Zeit, um Dein Quest zu bearbeiten!";
+			inhalt = "Die Gruppe \""+((Teamcombat) anhang).herausforderer.getName() + "\" hat \""
+					+ ((Teamcombat) anhang).herausgeforderter.getName() + "\" zum Teamcombat herausgefordert.\nDu hast 3 Tage Zeit, um Dein Quest zu bearbeiten!";
 			break;
 		}
 		datum = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
@@ -149,14 +142,6 @@ public class Aufgabe extends Nachricht implements java.io.Serializable{
 	
 	public void setSenderBenutzer(Benutzer sender){
 		senderBenutzer = sender;
-	}
-	
-	public Gruppe getEmpfaengerGruppe(){
-		return empfaengerGruppe;
-	}
-	
-	public void setEmpfaengerGruppe(Gruppe empfaenger){
-		empfaengerGruppe = empfaenger;
 	}
 	
 	public Benutzer getEmpfaengerrBenutzer(){
