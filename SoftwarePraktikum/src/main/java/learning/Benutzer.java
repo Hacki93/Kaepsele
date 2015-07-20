@@ -182,7 +182,6 @@ public class Benutzer extends Account implements java.io.Serializable {
 		}
 		String anschreiben = "Hallo " + this.getName() + ",\n\n";
 		String gruss = "\n\nLiebe Grüße,\nDein Käpsele-Team";
-		System.out.println(this.getBenutzername()+" "+this.getEmailAdresse());
 		new Email().senden(this.getEmailAdresse(), nachricht.getTitel(), anschreiben + nachricht.getInhalt()+gruss);
 	}
 

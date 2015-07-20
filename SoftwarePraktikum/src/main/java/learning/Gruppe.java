@@ -128,8 +128,8 @@ public class Gruppe implements java.io.Serializable {
 		this.klausurname = klausurname;
 		mitglieder = new HashSet<Benutzer>();
 		moderatoren = new HashSet<Benutzer>();
-		fragenpool = new Fragenpool(); // löschen------------------------------------------------------------!!!!
-		pinnwand = new Pinnwand(); // löschen------------------------------------------------------------!!!!
+		fragenpool = new Fragenpool(); 
+		pinnwand = new Pinnwand();
 		gestarteteTeamcombats = new HashSet<Teamcombat>();
 		eingeladeneTeamcombats = new HashSet<Teamcombat>();
 		bossfights = new HashSet<Bossfight>();

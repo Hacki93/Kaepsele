@@ -28,7 +28,7 @@ import org.hibernate.cfg.Configuration;
 
 /**
  * Die Klasse DatenbankVerwaltung erstellt und verwaltet alle Datenbanken und bietet Methoden an, die
- * von den einzelnen Klassen zur Speicherung ihrerselbst verwendet werden k&ouml;nnen
+ * von den einzelnen Klassen zur Speicherung ihrer selbst verwendet werden k&ouml;nnen
  */
 @SuppressWarnings("rawtypes")
 public class Datenbank {
@@ -58,7 +58,6 @@ public class Datenbank {
 	    }catch (Throwable ex) { 
 	    	ex.printStackTrace();
 	    }
-	    System.out.println("SessionFactory erfolgreich erstellt.");
 	    tabellenEinbinden();
 	}
 	
@@ -124,7 +123,6 @@ public class Datenbank {
 		if(!datenbanken.containsKey(klasse)) {
 			Tabelle db = new Tabelle(klasse, factory);
 			datenbanken.put(klasse, db);
-			System.out.println("Datenbank für Instanzen des Objekts "+klasse.getName()+" erstellt.");
 		}
 	}
 	
@@ -135,14 +133,11 @@ public class Datenbank {
 	 * @param eintrag Der Tabelleneintrag, der hinzugef&uuml;gt werden soll
 	 */
 	public int eintragHinzufuegen(Class klasse, Object eintrag) {
-		System.out.println("Eintrag in Datenbank "+klasse.getName()+" wird hinzugefügt");
 		Tabelle db;
 		if(!datenbanken.containsKey(klasse)) {
-			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
 			db = new Tabelle(klasse, factory);
 			datenbanken.put(klasse, db);
 		} else {
-			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
 			db = datenbanken.get(klasse);
 		}
 		return db.eintragHinzufuegen(eintrag);
@@ -157,11 +152,9 @@ public class Datenbank {
 	public void eintragEntfernen(Class klasse, int id) {
 		Tabelle db;
 		if(!datenbanken.containsKey(klasse)) {
-			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
 			db = new Tabelle(klasse, factory);
 			datenbanken.put(klasse, db);
 		} else {
-			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
 			db = datenbanken.get(klasse);
 		}
 		db.eintragEntfernen(id);
@@ -176,11 +169,9 @@ public class Datenbank {
 	public void eintragAktualisieren(Class klasse, Object eintrag) {
 		Tabelle db;
 		if(!datenbanken.containsKey(klasse)) {
-			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
 			db = new Tabelle(klasse, factory);
 			datenbanken.put(klasse, db);
 		} else {
-			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
 			db = datenbanken.get(klasse);
 		}
 		db.eintragAktualisieren(eintrag);
@@ -196,11 +187,9 @@ public class Datenbank {
 	public Object eintragAusgeben(Class klasse, int id) {
 		Tabelle db;
 		if(!datenbanken.containsKey(klasse)) {
-			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
 			db = new Tabelle(klasse, factory);
 			datenbanken.put(klasse, db);
 		} else {
-			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
 			db = datenbanken.get(klasse);
 		}
 		return db.eintragAusgeben(id);
@@ -215,11 +204,9 @@ public class Datenbank {
 	public List<Object> tabelleAusgeben(Class klasse) {
 		Tabelle db;
 		if(!datenbanken.containsKey(klasse)) {
-			System.out.println("Datenbank noch nicht vorhanden, - wird erstellt...");
 			db = new Tabelle(klasse, factory);
 			datenbanken.put(klasse, db);
 		} else {
-			System.out.println("Datenbank vorhanden und bereit: "+klasse.getName());
 			db = datenbanken.get(klasse);
 		}
 		return db.tabelleAusgeben();

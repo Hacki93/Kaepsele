@@ -60,6 +60,9 @@ public class Thema extends Inhalt implements java.io.Serializable{
 		kommentare = new HashSet<Kommentar>();
 	}
 	
+	/**
+	 * Entfernt ein Thema und alle Relationen zu ihm
+	 */
 	public void entfernen(){
 		pinnwand.themen.remove(this);
 		benutzer = null;

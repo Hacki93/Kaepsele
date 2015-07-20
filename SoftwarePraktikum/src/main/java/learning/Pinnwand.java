@@ -66,7 +66,7 @@ public class Pinnwand implements java.io.Serializable{
 	 * @param inhalt der gel&ouml;tschte Inhalt
 	 */
 	public void themaEntfernen(Thema thema){
-		themen.remove(thema);
+		thema.entfernen();
 	}
 	
 	/**

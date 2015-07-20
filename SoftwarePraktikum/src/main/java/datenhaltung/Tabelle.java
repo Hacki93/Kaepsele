@@ -27,7 +27,6 @@ public class Tabelle {
 	public Tabelle(Class klasse, SessionFactory factory) {
 		   this.klasse = klasse;
 		   this.factory = factory;
-		   System.out.println("Datenbank wird erstellt für "+klasse.getName());
 	   }
 	   
 	   /**
@@ -36,7 +35,6 @@ public class Tabelle {
 	    * @return Die generierte ID
 	    */
 	   public int eintragHinzufuegen(Object eintrag){
-		  System.out.println("Befehl zum Hinzufügen wird auf Datenbank ausgeführt");
 	      Session session = factory.openSession();
 	      Transaction transaction = null;
 	      int id = 0;
@@ -114,7 +112,6 @@ public class Tabelle {
 	      try{
 	         tx = session.beginTransaction();
 			 session.update(obj); 
-			 System.out.println("Objekt aktualisiert");
 	         tx.commit();
 	      }catch (HibernateException e) {
 	         if (tx!=null) tx.rollback();

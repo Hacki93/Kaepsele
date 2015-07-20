@@ -13,6 +13,7 @@ public class MailAuthenticator extends Authenticator {
 
         /**
          * Konstruktor, erstellt einen MailAuthenticator
+         * 
          * @param benutzer Benutzername des SMPT-Accounts
          * @param passwort Passwort des SMPT-Accounts
          */

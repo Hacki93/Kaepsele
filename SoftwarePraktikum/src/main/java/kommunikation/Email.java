@@ -22,7 +22,6 @@ public class Email {
 	 * @param inhalt Der Inhalt der Nachricht
 	 */
     public void senden(String empfaengerAdresse, String betreff, String inhalt) {
-        System.out.println(empfaengerAdresse);
 //        senden("smtp.strato.de", "kaepsele@hannes-fischer.com", "Kaepse1e", "info@kaepsele.de", empfaengerAdresse, betreff, inhalt);
     }
 
@@ -61,7 +60,6 @@ public class Email {
             message.setText(inhalt);
             //Nachricht senden
             Transport.send(message);
-            System.out.println("Kommunikation:Email:senden: Email wurde versendet");
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

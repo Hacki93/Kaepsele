@@ -44,9 +44,11 @@ public class Kommentar extends Inhalt implements java.io.Serializable{
 		this.benutzer = autor;
 		bewertung = 0;
 		datum = new Date();
-		this.thema = thema;
 	}
 	
+	/**
+	 * Entfernt den Kommentar und alle Relationen zu ihm
+	 */
 	public void entfernen(){
 		benutzer = null;
 		medium = null;
