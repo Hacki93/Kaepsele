@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.24, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
 --
--- Host: 127.0.0.1    Database: db_kaepsele
+-- Host: localhost    Database: db_kaepsele
 -- ------------------------------------------------------
--- Server version	5.6.25-log
+-- Server version	5.7.7-rc-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -177,8 +177,8 @@ DROP TABLE IF EXISTS `bossfight_antworten`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bossfight_antworten` (
   `bossfight_id` int(11) NOT NULL DEFAULT '0',
-  `antworten` varchar(200) NOT NULL DEFAULT '',
-  PRIMARY KEY (`bossfight_id`,`antworten`)
+  `antworten` varchar(20000) DEFAULT NULL,
+  PRIMARY KEY (`bossfight_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -251,7 +251,7 @@ DROP TABLE IF EXISTS `frage`;
 CREATE TABLE `frage` (
   `frage_id` int(11) NOT NULL AUTO_INCREMENT,
   `medium_id` int(11) DEFAULT NULL,
-  `text` varchar(10000) DEFAULT NULL,
+  `text` varchar(20000) DEFAULT NULL,
   `bearbeitet` bit(1) DEFAULT NULL,
   `benutzer_id` int(11) DEFAULT NULL,
   `fragenpool_id` int(11) DEFAULT NULL,
@@ -277,7 +277,7 @@ DROP TABLE IF EXISTS `frage_antworten`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `frage_antworten` (
   `frage_id` int(11) NOT NULL DEFAULT '0',
-  `antworten` varchar(200) NOT NULL DEFAULT '0',
+  `antworten` varchar(200) NOT NULL,
   PRIMARY KEY (`frage_id`,`antworten`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -445,7 +445,7 @@ DROP TABLE IF EXISTS `inhalt`;
 CREATE TABLE `inhalt` (
   `inhalt_id` int(11) NOT NULL AUTO_INCREMENT,
   `bewertung` int(11) DEFAULT '0',
-  `inhalt` varchar(10000) DEFAULT NULL,
+  `inhalt` varchar(20000) DEFAULT NULL,
   `titel` varchar(200) DEFAULT NULL,
   `erstelltAm` varchar(200) DEFAULT NULL,
   `benutzer_id` int(11) DEFAULT NULL,
@@ -689,4 +689,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-19 17:36:58
+-- Dump completed on 2015-07-20 16:23:35

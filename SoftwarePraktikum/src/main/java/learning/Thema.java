@@ -47,9 +47,9 @@ public class Thema extends Inhalt implements java.io.Serializable{
 	/**
 	 * Konstruktor für ein neuen Pinnwandbeitrag
 	 * 
-	 * @param inhalt: Ist der Inhalt des Pinnwandbeitrags
-	 * @param titel: Ist der Titel des Pinnwandbeitrags
-	 * @param autor: Ist der Autor des Pinnwandbeitrags
+	 * @param inhalt Der Inhalt des Pinnwandbeitrags
+	 * @param titel Der Titel des Pinnwandbeitrags
+	 * @param autor Der Autor des Pinnwandbeitrags
 	 */
 	public Thema(String inhalt, String titel, Benutzer autor){
 		this.inhalt = inhalt;
