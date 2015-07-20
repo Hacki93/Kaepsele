@@ -93,7 +93,6 @@ public class Nachricht implements java.io.Serializable{
 			titel = "Teamcombat ausgewertet";
 			this.inhalt = (String) nachricht + "hat den Teamcombat gewonnen";
 			break;
-
 		case 7:
 			titel = "Neues Passwort";
 			this.inhalt = "Für Deinen Account auf Käpsele.de wurde ein neues Passwort beantragt.\nEs lautet "+nachricht+"\nBitte logge Dich zeitnah ein und ändere Dein Passwort.";
@@ -108,7 +107,6 @@ public class Nachricht implements java.io.Serializable{
 	 * Entfernt die Nachricht und alle Relationen
 	 */
 	public void entfernen(){
-
 		empfaenger.nachrichten.remove(this);
 	}
 	

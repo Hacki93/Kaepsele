@@ -113,6 +113,7 @@ public class Gruppe implements java.io.Serializable {
 		fachrichtung = new Fachrichtung();
 		bossfights = new HashSet<Bossfight>();
 		quests = new HashSet<Quest>();
+		erstelltAm = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 	}
 
 	/**
