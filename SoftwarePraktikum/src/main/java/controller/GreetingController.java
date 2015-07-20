@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -783,12 +785,15 @@ public class GreetingController {
 	@RequestMapping(value = "/QuestStarten")
 	public String questStarten(Model model){
 		System.out.println("Neuer Quest angelegt");
+		HashSet<String> loesung = new HashSet<String>();
+		gruppe.frageErstellen("test", loesung, loesung, angemeldeterBenutzer);
 		Quest quest =  gruppe.questAntreten(angemeldeterBenutzer);
-		db.eintragHinzufuegen(quest.getClass(), quest);
+//		db.eintragZusammenfuehren(quest.getClass(), quest);
 		this.quest = quest;
 		ArrayList<Frage> fragen = new ArrayList<Frage>();
 		for (Frage f: quest.getFragen()){
 			fragen.add(f);
+			System.out.println(f.getText());
 		}
 		questFragen=fragen;
 		model.addAttribute("fragen", fragen);
@@ -816,12 +821,12 @@ public class GreetingController {
 			}
 				
 				mryFrage.addAntwort(loesung);
-				db.eintragAktualisieren(mryFrage.getClass(), mryFrage);
+				db.eintragZusammenfuehren(mryFrage.getClass(), mryFrage);
 		}
 		
 		System.out.println(quest.korrigiere());
 		mryFrage.getAntworten().clear();
-		db.eintragAktualisieren(mryFrage.getClass(), mryFrage);
+		db.eintragZusammenfuehren(mryFrage.getClass(), mryFrage);
 			
 		model.addAttribute("frage", new Frage());
 		model.addAttribute("thema", new Thema());

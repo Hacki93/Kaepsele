@@ -55,10 +55,12 @@ public class Quest extends Challenge implements java.io.Serializable {
 	 * 
 	 * @param frage
 	 */
-	public void addFrage(Frage frage) {
+	public boolean addFrage(Frage frage) {
 		if (fragen.add(frage)) {
 			erreichbarePunktzahl = erreichbarePunktzahl + 3	* frage.getLoesung().size();
-			frage.setGeblockt(true);
+			return true;
+		}else {
+			return false;
 		}
 	}
 

@@ -271,7 +271,8 @@ public class Gruppe implements java.io.Serializable {
 	 * @return Quest Das erzeugte Quest
 	 */
 	public Quest questAntreten(Benutzer bearbeiter) {
-		Quest quest = this.fragenpool.getQuest(this);
+		System.out.println("in Gruppe");
+		Quest quest = this.getFragenpool().getQuest(this);
 		quest.setBenutzer(bearbeiter);
 		quests.add(quest);
 		return quest;

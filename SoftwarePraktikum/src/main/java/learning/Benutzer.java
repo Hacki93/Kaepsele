@@ -93,7 +93,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaengerBenutzer", orphanRemoval = true)
 	@Cascade(CascadeType.SAVE_UPDATE)
-	Set<Aufgabe> aufgaben; 
+	public Set<Aufgabe> aufgaben; 
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate
