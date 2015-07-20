@@ -93,7 +93,7 @@
                      
                     </tbody>
                   </table>
-                  <Form action="#" th:action="@{/DatenAendern}" th:object="${benutzer}" method="post">
+                  <Form th:action="@{/ProfilDaten}" th:object="${benutzer}" method="post">
                         <label>E-Mail Adresse:</label>
                         <input th:field="*{emailAdresse}" type="email" id="inputEmail" class="form-control" th:placeholder="${angemeldeterBenutzer.emailAdresse}"/>
                       	<div style="width:100%; height:5px; font-size:5pt;"></div> 
@@ -117,9 +117,9 @@
             </div>
                  <div class="panel-footer">
                                            
-                            <a href="edit.html" data-original-title="Beitrag schreiben" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
-                            
-                        
+                            <a data-original-title="Beitrag schreiben" data-toggle="modal" data-target="#Beitrag"		
+							type="button" class="btn btn-sm btn-warning"><i
+							class="glyphicon glyphicon-edit"></i></a>                            
                             <a th:href="@{/sortiereLikes/eigenesProfil}" data-original-title="Nach Likes sortieren" data-toggle="tooltip" type="button" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-star"></i></a>
                             <a th:href="@{/sortierDatum/eigenesProfil}" data-original-title="Nach Datum sortieren" data-toggle="tooltip" type="button" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-arrow-down"></i></a>
                             
@@ -165,7 +165,39 @@
         </div>
       </div>
     </div>
-    
+   <div class="modal fade" id="Beitrag" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">x<span class="sr-only"></span></button>
+			<h3 class="modal-title" id="lineModalLabel">Beitrag schreiben</h3>
+		</div>
+		<div class="modal-body">
+			
+            <!-- content goes here -->
+	  		<form th:action="@{/EigenerBeitragSchreiben}" th:object="${thema}" id="themaForm" method="post">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Titel</label>
+                <input type="text" th:field="*{titel}" class="form-control" placeholder="Titel eingeben"/>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Inhalt</label>
+                <input type="text" th:field="*{inhalt}" class="form-control" placeholder="Text eingeben"/>
+              </div>
+              <button type="submit" id="themaSub" class="btn btn-success">Beitrag posten</button>
+            </form>
+
+		</div>
+		<div class="modal-footer">
+			<div class="btn-group btn-group-justified" role="group" aria-label="group button">
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Schlie&szlig;en</button>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+  </div> 
     
     <script src="resources/js/jquery.js"></script>
 
@@ -181,7 +213,44 @@
     <script src="resources/js/freelancer.js"></script>
     
     <script src="resources/js/profil.js" type="text/javascript"></script>
+ <script th:inline="javascript">
+$(function() {
+
+	   //twitter bootstrap script
+
+	    $("button#themaSub").click(function(){
+
+	            $.ajax({
+
+	        type: "POST",
+
+	    url: "/SoftwarePraktikum/EigenerBeitragSchreiben",
+
+	    data: $("#themaForm").serialize(),
+
+	            success: function(msg){
+
+	$("#Beitrag").empty();
+
+	           $("#Beitrag").modal('hide');
+
+	  
+
+	            },
+
+	    error: function(){
+
+	    alert("failure");
+
+	    }
+
+	          });
+	           location.reload(true);
+	            
+	    });
     
+	   });
+</script>   
 
 </body>
 </html>

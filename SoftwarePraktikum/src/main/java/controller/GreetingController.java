@@ -123,6 +123,7 @@ public class GreetingController {
 		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
 		model.addAttribute("themen", themenList);
 		model.addAttribute("benutzer", new Benutzer());
+		model.addAttribute("thema", new Thema());
 		return "EigenesProfil";
 	}
 	
@@ -157,11 +158,12 @@ public class GreetingController {
 		return "Profil";
 	}
 	
-	@RequestMapping(value="/DatenAendern", method = RequestMethod.POST)
+	@RequestMapping(value="/ProfilDaten", method = RequestMethod.POST)
 	public String datenAendern(@ModelAttribute Benutzer benutzer, Model model){
 		System.out.println("test");
 		System.out.println(benutzer.getAdresse());
 		System.out.println(benutzer.getBeruf());;
+		
 		// angemeldeterBenutzer wird aktualisiert
 		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
@@ -194,6 +196,7 @@ public class GreetingController {
 		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
 		model.addAttribute("themen", themenList);
 		model.addAttribute("benutzer", new Benutzer());
+		model.addAttribute("thema", new Thema());
 		return "EigenesProfil";
 	}
 	
@@ -214,6 +217,7 @@ public class GreetingController {
 		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
 		model.addAttribute("themen", themenList);
 		model.addAttribute("benutzer", new Benutzer());
+		model.addAttribute("thema", new Thema());
 		return "EigenesProfil";
 	}
 	
@@ -254,6 +258,7 @@ public class GreetingController {
 		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
 		model.addAttribute("themen", themenList);
 		model.addAttribute("benutzer", new Benutzer());
+		model.addAttribute("thema", new Thema());
 		return "EigenesProfil";		
 	}
 	
@@ -405,6 +410,7 @@ public class GreetingController {
 		model.addAttribute("angemeldeterBenutzer", angemeldeterBenutzer);
 		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
 		model.addAttribute("benutzer", new Benutzer());
+		model.addAttribute("thema", new Thema());
 		return "EigenesProfil";
 	}
 	
@@ -487,6 +493,7 @@ public class GreetingController {
 		model.addAttribute("angemeldeterBenutzer", angemeldeterBenutzer);
 		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
 		model.addAttribute("benutzer", new Benutzer());
+		model.addAttribute("thema", new Thema());
 		return "EigenesProfil";
 	}
 	
@@ -513,6 +520,43 @@ public class GreetingController {
 		
 		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema themaDatum : profilBenutzer.pinnwand.themen){
+			themaDatum.hilfsDatum = simple.format(thema.datum);
+		}
+								
+		// Pinnwand wird nach Datum sortiert
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+		
+		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
+		model.addAttribute("profilBenutzer", profilBenutzer);
+		model.addAttribute("rang", profilBenutzer.getRangName());
+		model.addAttribute("themen", themenList);
+		model.addAttribute("thema", new Thema());
+		
+		return "Profil";
+	}
+	
+	@RequestMapping(value="/EigenerBeitragSchreiben", method = RequestMethod.POST)
+	public String eigenerBeitragSchreiben(@ModelAttribute Thema thema, Model model){
+		// profilBenutzer und angemeldeterBenutzer wird aktualisiert
+		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			if(b.getBenutzername().equals(angemeldeterBenutzer.getBenutzername())) {
+				angemeldeterBenutzer = b;					
+			}
+		}
+		
+		Thema neuesThema = new Thema();
+		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
+		neuesThema.setTitel(thema.getTitel());
+		neuesThema.setInhalt(thema.getInhalt());
+		neuesThema.setBenutzer(angemeldeterBenutzer);
+		angemeldeterBenutzer.pinnwand.themaHinzufuegen(neuesThema);
+		db.eintragAktualisieren(neuesThema.getClass(), neuesThema);
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema themaDatum : angemeldeterBenutzer.pinnwand.themen){
 			themaDatum.hilfsDatum = simple.format(thema.datum);
 		}
@@ -522,12 +566,12 @@ public class GreetingController {
 		themenList = angemeldeterBenutzer.pinnwand.sortiereNachDatum();
 		
 		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
-		model.addAttribute("profilBenutzer", profilBenutzer);
-		model.addAttribute("rang", profilBenutzer.getRangName());
+		model.addAttribute("profilBenutzer", angemeldeterBenutzer);
+		model.addAttribute("rang", angemeldeterBenutzer.getRangName());
 		model.addAttribute("themen", themenList);
 		model.addAttribute("thema", new Thema());
-		
-		return "Profil";
+		model.addAttribute("benutzer", new Benutzer());
+		return "EigenesProfil";
 	}
 	
 	@RequestMapping(value="/Mitgliederliste")
