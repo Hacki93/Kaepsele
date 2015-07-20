@@ -160,7 +160,7 @@ public class LenasController {
 		Frage mryFrage = new Frage();
 		for (String s:zwischenSpeicherAntworten){
 			String[] result; 
-			result = s.split(";!;");
+			result = s.split(";!§;");
 			int frageId = Integer.parseInt(result[0]);
 			System.out.println(frageId);
 			String loesung = result[1];

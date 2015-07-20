@@ -79,8 +79,8 @@ public class Teamcombat implements java.io.Serializable {
 	public Teamcombat(Gruppe herausforderer, Gruppe herausgeforderter) {
 		this.herausgeforderter = herausgeforderter;
 		this.herausforderer = herausforderer;
-		questFuerHerausforderer = this.herausgeforderter.fragenpool.getQuest(herausforderer);
-		questFuerHerausgeforderter = this.herausforderer.fragenpool.getQuest(herausgeforderter);
+		questFuerHerausforderer = this.herausgeforderter.fragenpool.getQuestFuerTeamcombat(herausforderer);
+		questFuerHerausgeforderter = this.herausforderer.fragenpool.getQuestFuerTeamcombat(herausgeforderter);
 		Date now = new Date();
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(now);

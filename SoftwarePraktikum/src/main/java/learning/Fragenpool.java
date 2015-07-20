@@ -67,7 +67,26 @@ public class Fragenpool implements java.io.Serializable {
 		quest.setGruppe(gruppe);
 		ArrayList<Frage> fragenliste = new ArrayList<Frage>();
 		for (Frage f : fragen) {
+			if (!f.isGeblockt()){
 			fragenliste.add(f);
+			}
+		}
+		while (quest.fragen.size() < Math.min(fragenanzahl, fragen.size())) {
+			int zufallsindex = (int) (Math.random() * fragen.size());
+			quest.addFrage(fragenliste.get(zufallsindex));
+		}
+		return quest;
+	}
+	
+	public Quest getQuestFuerTeamcombat(Gruppe gruppe) {
+		Quest quest = new Quest();
+		quest.setDatum(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+		quest.setGruppe(gruppe);
+		ArrayList<Frage> fragenliste = new ArrayList<Frage>();
+		for (Frage f : fragen) {
+			if (!f.isGeblockt()){
+			fragenliste.add(f);
+			}
 		}
 		while (quest.fragen.size() < Math.min(fragenanzahl, fragen.size())) {
 			int zufallsindex = (int) (Math.random() * fragen.size());

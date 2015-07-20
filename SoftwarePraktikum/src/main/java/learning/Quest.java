@@ -35,6 +35,7 @@ public class Quest extends Challenge implements java.io.Serializable {
 	@JoinColumn(name = "gruppe_id")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Gruppe gruppe;
+	
 
 	/**
 	 * Erstellt einen Quest
@@ -57,6 +58,7 @@ public class Quest extends Challenge implements java.io.Serializable {
 	public void addFrage(Frage frage) {
 		if (fragen.add(frage)) {
 			erreichbarePunktzahl = erreichbarePunktzahl + 3	* frage.getLoesung().size();
+			frage.setGeblockt(true);
 		}
 	}
 
@@ -85,6 +87,7 @@ public class Quest extends Challenge implements java.io.Serializable {
 	public int korrigiere() {
 		for (Frage f : fragen) {
 			erreichtePunktzahl = erreichtePunktzahl + f.korrigiere();
+			f.setGeblockt(false);
 		}
 		return erreichtePunktzahl;
 	}

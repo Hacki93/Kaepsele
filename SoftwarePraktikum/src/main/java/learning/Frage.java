@@ -73,6 +73,8 @@ public class Frage implements java.io.Serializable {
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Fragenpool fragenpool;
 	
+	public boolean geblockt;
+	
 	@Transient
 	public ArrayList<String> zwischenSpeicherAntworten;
 	
@@ -98,6 +100,7 @@ public class Frage implements java.io.Serializable {
 		loesung = new HashSet<String>();
 		medium = new Medium();
 		zwischenSpeicherAntworten = new ArrayList<String>();
+		geblockt = false; 
 	}
 
 	/**
@@ -118,6 +121,7 @@ public class Frage implements java.io.Serializable {
 		this.loesung = loesung;
 		medium = new Medium();
 		zwischenSpeicherAntworten = new ArrayList<String>();
+		geblockt = false; 
 	}
 
 	/**
@@ -271,6 +275,14 @@ public class Frage implements java.io.Serializable {
 
 	public void setZwischenSpeicherLoesung4(boolean zwischenSpeicherLoesung4) {
 		this.zwischenSpeicherLoesung4 = zwischenSpeicherLoesung4;
+	}
+
+	public boolean isGeblockt() {
+		return geblockt;
+	}
+
+	public void setGeblockt(boolean geblockt) {
+		this.geblockt = geblockt;
 	}
 
 
