@@ -760,8 +760,8 @@ public class GreetingController {
 		db.eintragAktualisieren(neueFrage.getClass(), neueFrage);
 		gruppe.getFragenpool().addFrage(neueFrage);
 		//Datenbank wird aktualisiert
-		db.eintragAktualisieren(gruppe.getFragenpool().getClass(), gruppe.getFragenpool());
-		db.eintragAktualisieren(gruppe.getClass(), gruppe);
+		db.eintragZusammenfuehren(gruppe.getFragenpool().getClass(), gruppe.getFragenpool());
+		db.eintragZusammenfuehren(gruppe.getClass(), gruppe);
 		
 		
 		for (String s:neueFrage.getAntwortmoeglichkeiten()){
