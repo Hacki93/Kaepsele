@@ -122,6 +122,26 @@ public class Tabelle {
 	   }
 	   
 	   /**
+	    * Merged einen Eintrag in der Tabelle
+	    * 
+	    * @param obj Der aktualisierte Eintrag
+	    */
+	   public void eintragZusammenfuehren(Object obj ){
+	      Session session = factory.openSession();
+	      Transaction tx = null;
+	      try{
+	         tx = session.beginTransaction();
+			 session.merge(obj); 
+	         tx.commit();
+	      }catch (HibernateException e) {
+	         if (tx!=null) tx.rollback();
+	         e.printStackTrace(); 
+	      }finally {
+	         session.close(); 
+	      }
+	   }
+	   
+	   /**
 	    * Entfernt einen Eintrag aus der Tabelle
 	    * 
 	    * @param id Die ID des zu entfernenden Eintrags

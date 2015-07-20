@@ -121,8 +121,8 @@ public class Datenbank {
 	 */
 	public void tabelleLaden(Class klasse) {
 		if(!datenbanken.containsKey(klasse)) {
-			Tabelle db = new Tabelle(klasse, factory);
-			datenbanken.put(klasse, db);
+			Tabelle tabelle = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, tabelle);
 		}
 	}
 	
@@ -133,14 +133,14 @@ public class Datenbank {
 	 * @param eintrag Der Tabelleneintrag, der hinzugef&uuml;gt werden soll
 	 */
 	public int eintragHinzufuegen(Class klasse, Object eintrag) {
-		Tabelle db;
+		Tabelle tabelle;
 		if(!datenbanken.containsKey(klasse)) {
-			db = new Tabelle(klasse, factory);
-			datenbanken.put(klasse, db);
+			tabelle = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, tabelle);
 		} else {
-			db = datenbanken.get(klasse);
+			tabelle = datenbanken.get(klasse);
 		}
-		return db.eintragHinzufuegen(eintrag);
+		return tabelle.eintragHinzufuegen(eintrag);
 	}
 	
 	/**
@@ -150,14 +150,14 @@ public class Datenbank {
 	 * @param id Die ID des zu entfernenden Objekts
 	 */
 	public void eintragEntfernen(Class klasse, int id) {
-		Tabelle db;
+		Tabelle tabelle;
 		if(!datenbanken.containsKey(klasse)) {
-			db = new Tabelle(klasse, factory);
-			datenbanken.put(klasse, db);
+			tabelle = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, tabelle);
 		} else {
-			db = datenbanken.get(klasse);
+			tabelle = datenbanken.get(klasse);
 		}
-		db.eintragEntfernen(id);
+		tabelle.eintragEntfernen(id);
 	}
 	
 	/**
@@ -167,14 +167,31 @@ public class Datenbank {
 	 * @param eintrag Der aktualisierte Eintrag
 	 */
 	public void eintragAktualisieren(Class klasse, Object eintrag) {
-		Tabelle db;
+		Tabelle tabelle;
 		if(!datenbanken.containsKey(klasse)) {
-			db = new Tabelle(klasse, factory);
-			datenbanken.put(klasse, db);
+			tabelle = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, tabelle);
 		} else {
-			db = datenbanken.get(klasse);
+			tabelle = datenbanken.get(klasse);
 		}
-		db.eintragAktualisieren(eintrag);
+		tabelle.eintragAktualisieren(eintrag);
+	}
+	
+	/**
+	 * Merged einen Eintrag in der Tabelle
+	 * 
+	 * @param klasse Die Tabelle, die den zu aktualisierenden Eintrag enth&uml;lt
+	 * @param eintrag Der aktualisierte Eintrag
+	 */
+	public void eintragZusammenfuehren(Class klasse, Object eintrag) {
+		Tabelle tabelle;
+		if(!datenbanken.containsKey(klasse)) {
+			tabelle = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, tabelle);
+		} else {
+			tabelle = datenbanken.get(klasse);
+		}
+		tabelle.eintragZusammenfuehren(eintrag);
 	}
 	
 	/**
@@ -185,14 +202,14 @@ public class Datenbank {
 	 * @return Der ausgegebene Eintrag
 	 */
 	public Object eintragAusgeben(Class klasse, int id) {
-		Tabelle db;
+		Tabelle tabelle;
 		if(!datenbanken.containsKey(klasse)) {
-			db = new Tabelle(klasse, factory);
-			datenbanken.put(klasse, db);
+			tabelle = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, tabelle);
 		} else {
-			db = datenbanken.get(klasse);
+			tabelle = datenbanken.get(klasse);
 		}
-		return db.eintragAusgeben(id);
+		return tabelle.eintragAusgeben(id);
 	}
 	
 	/**
@@ -202,14 +219,14 @@ public class Datenbank {
 	 * @return Alle Eintr&auml;ge
 	 */
 	public List<Object> tabelleAusgeben(Class klasse) {
-		Tabelle db;
+		Tabelle tabelle;
 		if(!datenbanken.containsKey(klasse)) {
-			db = new Tabelle(klasse, factory);
-			datenbanken.put(klasse, db);
+			tabelle = new Tabelle(klasse, factory);
+			datenbanken.put(klasse, tabelle);
 		} else {
-			db = datenbanken.get(klasse);
+			tabelle = datenbanken.get(klasse);
 		}
-		return db.tabelleAusgeben();
+		return tabelle.tabelleAusgeben();
 	}
 	
 }

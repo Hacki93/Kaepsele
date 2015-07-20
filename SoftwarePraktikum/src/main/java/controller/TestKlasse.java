@@ -171,7 +171,6 @@ public class TestKlasse {
 	            medium.setName("Entwurf");
 	            medium.setDateiname("Entwurf.pdf");
 	            
-	            frage.setBearbeitet(false);
 	            frage.setText("Willst Du mit mir gehn?");
 	            frage.addAntwortmoeglichkeiten("Vielleicht");
 	            frage.addAntwortmoeglichkeiten("Ja");
@@ -179,7 +178,6 @@ public class TestKlasse {
 	            frage.addLoesung("Ja");
 	            frage.setBenutzer(lena);
 	            
-	            frage2.setBearbeitet(false);
 	            frage2.setText("Willst Du mit mir gehn?");
 	            frage2.addAntwortmoeglichkeiten("Vielleicht");
 	            frage2.addAntwortmoeglichkeiten("Ja");
@@ -354,20 +352,20 @@ public class TestKlasse {
 //			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
 //			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
 //			gruppe2.frageErstellen(titel2, frage, a, l, kevin);
-			System.out.println("Frage hinzugefügt");	
-			System.out.println(new Date());
-			Teamcombat t = gruppe1.teamcombatAntreten(gruppe2);
-			
-			Quest quest = t.bearbeiten(lena);
-			
-			
-			HashSet<String> antworten = new HashSet<String>();
-			antworten.add("Du da");
-			Frage frage1 = quest.getNaechsteFrage();
-			frage1.setAntworten(antworten);
-			System.out.println("Lena hat antworten hinzugefügt");
-			
-			
+//			System.out.println("Frage hinzugefügt");	
+//			System.out.println(new Date());
+//			Teamcombat t = gruppe1.teamcombatAntreten(gruppe2);
+//			
+//			Quest quest = t.bearbeiten(lena);
+//			
+//			
+//			HashSet<String> antworten = new HashSet<String>();
+//			antworten.add("Du da");
+//			Frage frage1 = quest.getNaechsteFrage();
+//			frage1.setAntworten(antworten);
+//			System.out.println("Lena hat antworten hinzugefügt");
+//			
+//			
 			
 //			Quest quest2 = new Quest(); 
 //			for (Nachricht n: hannes.getAufgaben()){

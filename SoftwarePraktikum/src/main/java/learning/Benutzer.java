@@ -269,7 +269,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 			gruppe.mitgliedHinzufuegen(this);
 			gruppe.pinnwand.erlaubteBenutzer.add(this);
 			for (Benutzer moderator : gruppe.moderatoren) {
-				Nachricht nachricht = new Nachricht(Nachricht.BEITRITTSANFRAGE, moderator, this, gruppe);
+				Nachricht nachricht = new Nachricht(Nachricht.BEITRITTSANFRAGE, moderator, this.getName(), gruppe.getName());
 				moderator.benachrichtigen(nachricht);
 			}
 			return true;
@@ -550,13 +550,5 @@ public class Benutzer extends Account implements java.io.Serializable {
 	
 	public void getNachrichten(Set<Nachricht> nachrichten){
 		this.nachrichten = nachrichten;
-	}
-	
-	public Set<Aufgabe> setAufgaben() {
-		return aufgaben;
-	}
-	
-	public void getAufgaben(Set<Aufgabe> aufgaben){
-		this.aufgaben = aufgaben;
 	}
 }

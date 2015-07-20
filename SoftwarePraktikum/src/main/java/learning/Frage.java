@@ -55,7 +55,7 @@ public class Frage implements java.io.Serializable {
 	public Set<String> antworten;
 	
 	@Column(name = "bearbeitet")
-	private boolean bearbeitet;
+	private boolean geblockt;
 	
 	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
 	@CollectionTable(name="FRAGE_LOESUNG", joinColumns=
@@ -97,7 +97,7 @@ public class Frage implements java.io.Serializable {
 		loesung = new HashSet<String>();
 		medium = new Medium();
 		zwischenSpeicherAntworten = new ArrayList<String>();
-		bearbeitet = false; 
+		geblockt = false; 
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class Frage implements java.io.Serializable {
 		this.loesung = loesung;
 		medium = new Medium();
 		zwischenSpeicherAntworten = new ArrayList<String>();
-		bearbeitet = false; 
+		geblockt = false; 
 	}
 
 	/**
@@ -161,12 +161,12 @@ public class Frage implements java.io.Serializable {
 		this.antworten.add(antwort);
 	}
 	
-	public boolean isBearbeitet() {
-		return bearbeitet;
+	public boolean isGeblockt() {
+		return geblockt;
 	}
 
-	public void setBearbeitet(boolean bearbeitet) {
-		this.bearbeitet = bearbeitet;
+	public void setGeblockt(boolean bearbeitet) {
+		this.geblockt = bearbeitet;
 	}
 
 	public Set<String> getLoesung() {
