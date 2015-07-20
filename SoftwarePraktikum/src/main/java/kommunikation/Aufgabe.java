@@ -108,6 +108,18 @@ public class Aufgabe extends Nachricht implements java.io.Serializable{
 		this.typ = typ;				
 	}	
 	
+	/**
+	 * Entfernt die Aufgabe und alle Relationen
+	 */
+	public void entfernen(){
+		empfaengerBenutzer.nachrichten.remove(this);
+		senderGruppe = null;
+		senderBenutzer = null;
+		anhangTeamcombat = null;
+		anhangBossfight = null;
+		anhangGruppe = null;
+	}
+	
 	public Bossfight getAnhangBossfight(){
 		return anhangBossfight;
 	}

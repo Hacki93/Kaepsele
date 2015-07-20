@@ -104,6 +104,14 @@ public class Nachricht implements java.io.Serializable{
 		this.empfaenger = empfaenger;
 	}
 	
+	/**
+	 * Entfernt die Nachricht und alle Relationen
+	 */
+	public void entfernen(){
+
+		empfaenger.nachrichten.remove(this);
+	}
+	
 	public int getTyp() {
 		return typ;
 	}

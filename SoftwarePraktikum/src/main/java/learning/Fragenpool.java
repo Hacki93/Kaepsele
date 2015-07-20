@@ -88,8 +88,9 @@ public class Fragenpool implements java.io.Serializable {
 			fragenliste.add(f);
 			}
 		}
-		while (quest.fragen.size() < Math.min(fragenanzahl, fragen.size())) {
-			int zufallsindex = (int) (Math.random() * fragen.size());
+		System.out.println();
+		while (quest.fragen.size() < Math.min(fragenanzahl, fragenliste.size())) {
+			int zufallsindex = (int) (Math.random() * fragenliste.size());
 			quest.addFrage(fragenliste.get(zufallsindex));
 		}
 		return quest;

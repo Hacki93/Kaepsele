@@ -89,7 +89,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaenger", orphanRemoval = true)
 	@Cascade(CascadeType.SAVE_UPDATE)
-	Set<Nachricht> nachrichten; 
+	public Set<Nachricht> nachrichten; 
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaengerBenutzer", orphanRemoval = true)
 	@Cascade(CascadeType.SAVE_UPDATE)
@@ -188,10 +188,10 @@ public class Benutzer extends Account implements java.io.Serializable {
 	/**
 	 * L&oumlscht eine bestimmte Nachricht aus der Liste Nachrichten
 	 * 
-	 * @param nachricht
+	 * @param nachricht Die zu l&ouml;schende Nachricht
 	 */
 	public void nachrichtEntfernen(Nachricht nachricht) {
-		nachrichten.remove(nachricht);
+		nachricht.entfernen();
 	}
 
 	/**
@@ -212,10 +212,10 @@ public class Benutzer extends Account implements java.io.Serializable {
 	/**
 	 * L&oumlscht eine bestimmte Nachricht aus der Liste aufgaben
 	 * 
-	 * @param nachricht
+	 * @param aufgabe Die zu l&ouml;schende Aufgabe
 	 */
-	public void aufgabeErledigt(Nachricht nachricht) {
-		aufgaben.remove(nachricht);
+	public void aufgabeErledigt(Aufgabe aufgabe) {
+		aufgabe.entfernen();
 	}
 
 	/**
