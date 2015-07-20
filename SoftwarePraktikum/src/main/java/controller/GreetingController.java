@@ -645,7 +645,7 @@ public class GreetingController {
 	public String gruppenBeitreten(@PathVariable("gruppe.gruppen_id") int gruppe_id, Model model){
 		Gruppe gruppeBeitreten = new Gruppe();
 		ArrayList<Gruppe> Gruppenliste = new ArrayList<Gruppe>();
-		System.out.println("Test1");
+		
 		for(Object obj : db.tabelleAusgeben(gruppeBeitreten.getClass())){
 			Gruppe g = (Gruppe) obj;
 			g.setAnzahlMitglieder(g.anzahl());
@@ -665,9 +665,20 @@ public class GreetingController {
 		if (angemeldeterBenutzer.gruppeBeitreten(gruppeBeitreten)){
 			db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
 			db.eintragZusammenfuehren(gruppeBeitreten.getClass(), gruppeBeitreten);
-
+			
+			ArrayList<Thema> themenList = new ArrayList<Thema>();
+			themenList = gruppeBeitreten.pinnwand.sortiereNachDatum();
+			
+			// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+			SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+			for(Thema thema : gruppeBeitreten.pinnwand.themen){
+				thema.hilfsDatum = simple.format(thema.datum);
+			}
+			
 			model.addAttribute("frage", new Frage());
 		    model.addAttribute("thema", new Thema());
+		    model.addAttribute("themen", themenList);
+		    model.addAttribute("gruppenAnzahl", gruppeBeitreten.anzahl());
 		    model.addAttribute("gruppe", gruppeBeitreten);
 			model.addAttribute("Nachricht", "Sie sind der Gruppe beitreten");
 			return "GruppenProfil";
@@ -689,6 +700,18 @@ public class GreetingController {
 				gruppe = g;
 			}
 		}
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = gruppe.pinnwand.sortiereNachDatum();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : gruppe.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		
+		model.addAttribute("themen", themenList);
+		model.addAttribute("gruppenAnzahl", gruppe.anzahl());
+	    model.addAttribute("gruppe", gruppe);
 		model.addAttribute("frage", new Frage());
 	    model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);

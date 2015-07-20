@@ -105,15 +105,15 @@
                     <tbody>
                       <tr>
                         <td><strong>Klausurname:</strong></td>
-                        <td><strong>Einf&uuml;hrung in die Softwaretechnik</strong></td>
+                        <td><b th:text="${gruppe.klausurname}"></b></td>
                       </tr>
                       <tr>
                         <td><strong>Anzahl Gruppenmitglieder:</strong></td>
-                        <td><strong>15</strong></td>
+                        <td><b th:text="${gruppenAnzahl}"></b></td>
                       </tr>
                       <tr>
                         <td><strong>Gegr&uuml;ndet:</strong></td>
-                        <td><strong>03.05.2015</strong></td>
+                        <td><b th:text="${gruppe.erstelltAm}"></b></td>
                       </tr>
                    
                        
@@ -155,102 +155,25 @@
             <table class="table table-user-information">
                     <tbody>
                     <!--Ein Kommentar geht von hier -->
-                      <tr>
-                        <td><strong>hannesPlayboy</strong> am 05.10.2015
-                     </td>
-                        <td>Weis jemand wie Logik geht?
-                      <strong><br/>Gef&auml;llt-mir-Angaben: 10</strong>
-                        </td>
-                          
-                      </tr>
-                      <tr>
-                      <td></td>
-                      <td><div class="panel-footer">
+                      <tr th:each="thema : ${themen}">
+                        <td><p><b th:text="${thema.benutzer.benutzername}"></b></p>erstellt am: <div class="normalertext" th:text="${thema.hilfsDatum}"></div></td>
+                     	<td><p><b th:text="${thema.titel}"></b></p>
+                        <div class="normalertext" th:text="${thema.inhalt}"></div>
+						<br/>
+                      	<b>Gef&auml;llt-mir-Angaben: </b><b th:text="${thema.bewertung}"></b>
+                        <div class="panel-footer">
                         <a data-original-title="Gef&auml;llt mir" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-thumbs-up"></i></a>
                        
          
                              <span class="pull-right">
                             <a data-original-title="L&ouml;schen" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                         </span>
-                    </div></td>
+                    	</div>
+                        </td>
+                          
                       </tr>
+                      
                       <!--bis hier -->
-                      
-                      <tr>
-                        <td><strong>Kommentar von michiDerBreite vom 05.10.2015
-                     </strong></td>
-                        <td>Hey dein Bild ist toll!Dies ist ein langer textDies ist ein langer textr textDies ist ein langer textDies ist ein langer textDies ist ein langer textDies ist ein langer textDies ist ein langer textDies ist ein langer textDies ist ein langer text
-                      <strong><br/>Gef&auml;llt-mir-Angaben: 10</strong>
-                        </td>
-                          
-                      </tr>
-                      <tr>
-                      <td></td>
-                      <td><div class="panel-footer">
-                        <a data-original-title="Gef&auml;llt mir" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-thumbs-up"></i></a>
-                       
-         
-                             <span class="pull-right">
-                            <a data-original-title="L&ouml;schen" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                        </span>
-                    </div></td>
-                      </tr>
-                      
-                      <tr>
-                        <td><strong>Kommentar von hannesPlayboy vom 05.10.2015
-                     </strong></td>
-                        <td>Hey dein Bild ist tollanger textDies ist ein langer textDies ist ein langer textDies ist ein langer text
-                      <strong><br/>Gef&auml;llt-mir-Angaben: 10</strong>
-                        </td>
-                          
-                      </tr>
-                      <tr>
-                      <td></td>
-                      <td><div class="panel-footer">
-                        <a data-original-title="Gef&auml;llt mir" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-thumbs-up"></i></a>
-                       
-         
-                             <span class="pull-right">
-                            <a data-original-title="L&ouml;schen" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                        </span>
-                    </div></td>
-                      </tr><tr>
-                        <td><strong>Kommentar von hannesPlayboy vom 05.10.2015
-                     </strong></td>
-                        <td>Hey dein Bild ist toll!Dies in langer textDies ist ein langer textDies ist ein langer textDies ist ein langer textDies ist ein langer textDies ist ein langer textDies ist ein langer text
-                      <strong><br/>Gef&auml;llt-mir-Angaben: 10</strong>
-                        </td>
-                          
-                      </tr>
-                      <tr>
-                      <td></td>
-                      <td><div class="panel-footer">
-                        <a data-original-title="Gef&auml;llt mir" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-thumbs-up"></i></a>
-                       
-         
-                             <span class="pull-right">
-                            <a data-original-title="L&ouml;schen" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                        </span>
-                    </div></td>
-                      </tr><tr>
-                        <td><strong>Kommentar von hannesPlayboy vom 05.10.2015
-                     </strong></td>
-                        <td>Hey dein Bild ist toll!Dies ist ein langer tes ist ein langer text
-                      <strong><br/>Gef&auml;llt-mir-Angaben: 10</strong>
-                        </td>
-                          
-                      </tr>
-                      <tr>
-                      <td></td>
-                      <td><div class="panel-footer">
-                        <a data-original-title="Gef&auml;llt mir" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-thumbs-up"></i></a>
-                       
-         
-                             <span class="pull-right">
-                            <a data-original-title="L&ouml;schen" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
-                        </span>
-                    </div></td>
-                      </tr>
                       </tbody>
                       </table>
            </div>

@@ -46,6 +46,8 @@ public class TestKlasse {
 				Thema thema5		= new Thema();
 				Thread.sleep(10);
 				Thema thema6		= new Thema();
+				Thema thema7		= new Thema();
+				Thema thema8		= new Thema();
 				Kommentar kommentar = new Kommentar();
 				Medium medium 		= new Medium();
 				Fachrichtung wi		= new Fachrichtung();
@@ -62,6 +64,8 @@ public class TestKlasse {
 				db.eintragHinzufuegen(thema4.getClass(), thema4);
 				db.eintragHinzufuegen(thema5.getClass(), thema5);
 				db.eintragHinzufuegen(thema6.getClass(), thema6);
+				db.eintragHinzufuegen(thema7.getClass(), thema7);
+				db.eintragHinzufuegen(thema8.getClass(), thema8);
 				db.eintragHinzufuegen(kommentar.getClass(), kommentar);
 				db.eintragHinzufuegen(hannes.getClass(), hannes);
 				db.eintragHinzufuegen(lena.getClass(), lena);
@@ -167,6 +171,18 @@ public class TestKlasse {
 				thema6.setBewertung(34);
 				thema6.setInhalt("Themeninhalt von hannes");
 				thema6.setTitel("Thementitel von hannes");
+				
+				thema7.setPinnwand(mbis.pinnwand);
+				thema7.setBenutzer(hannes);
+				thema7.setBewertung(34);
+				thema7.setInhalt("Themeninhalt von hannes");
+				thema7.setTitel("Thementitel von hannes");
+				
+				thema8.setPinnwand(mbis.pinnwand);
+				thema8.setBenutzer(lena);
+				thema8.setBewertung(4);
+				thema8.setInhalt("Themeninhalt von Lenchen");
+				thema8.setTitel("Thementitel von lenchen");
 	            	
 	            medium.setName("Entwurf");
 	            medium.setDateiname("Entwurf.pdf");
@@ -194,6 +210,8 @@ public class TestKlasse {
 				db.eintragAktualisieren(thema4.getClass(), thema4);
 				db.eintragAktualisieren(thema5.getClass(), thema5);
 				db.eintragAktualisieren(thema6.getClass(), thema6);
+				db.eintragAktualisieren(thema7.getClass(), thema7);
+				db.eintragAktualisieren(thema8.getClass(), thema8);
 				db.eintragAktualisieren(kommentar.getClass(), kommentar);
 				db.eintragAktualisieren(medium.getClass(), medium);	
 				db.eintragAktualisieren(lena.getClass(), lena);
