@@ -63,22 +63,6 @@ public class Quest extends Challenge implements java.io.Serializable {
 	}
 
 	/**
-	 * Gibt eine unbearbeitete Frage des Quests zur&uumlck
-	 * 
-	 * @return n&aumlchste Frage des Quests
-	 */
-	public Frage getNaechsteFrage() {
-		Frage frage = null;
-		for (Frage f : fragen) {
-			if (!f.isBearbeitet()) {
-				frage = f;
-			}
-		}
-		frage.setBearbeitet(true);
-		return frage;
-	}
-
-	/**
 	 * wertet den bearbeiteten Quest aus und gibt die erreichte Punktzahl
 	 * zur&uumlck
 	 * 

@@ -73,8 +73,6 @@ public class Frage implements java.io.Serializable {
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Fragenpool fragenpool;
 	
-	public boolean geblockt;
-	
 	@Transient
 	public ArrayList<String> zwischenSpeicherAntworten;
 	
@@ -94,13 +92,12 @@ public class Frage implements java.io.Serializable {
 	 * Konstruktor f&uuml;r Hibernate
 	 */
 	public Frage() {
-		bearbeitet = false;
 		antwortmoeglichkeiten = new HashSet<String>();
 		antworten = new HashSet<String>();
 		loesung = new HashSet<String>();
 		medium = new Medium();
 		zwischenSpeicherAntworten = new ArrayList<String>();
-		geblockt = false; 
+		bearbeitet = false; 
 	}
 
 	/**
@@ -115,13 +112,12 @@ public class Frage implements java.io.Serializable {
 		this.text = text;
 		this.loesung = loesung;
 		this.benutzer = autor;
-		bearbeitet = false;
 		this.antwortmoeglichkeiten = antwortmoeglichkeiten;
 		antworten = new HashSet<String>();
 		this.loesung = loesung;
 		medium = new Medium();
 		zwischenSpeicherAntworten = new ArrayList<String>();
-		geblockt = false; 
+		bearbeitet = false; 
 	}
 
 	/**
@@ -276,14 +272,4 @@ public class Frage implements java.io.Serializable {
 	public void setZwischenSpeicherLoesung4(boolean zwischenSpeicherLoesung4) {
 		this.zwischenSpeicherLoesung4 = zwischenSpeicherLoesung4;
 	}
-
-	public boolean isGeblockt() {
-		return geblockt;
-	}
-
-	public void setGeblockt(boolean geblockt) {
-		this.geblockt = geblockt;
-	}
-
-
 }
