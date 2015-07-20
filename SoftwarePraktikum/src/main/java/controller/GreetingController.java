@@ -13,9 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import learning.Benutzer;
 import learning.Fachrichtung;
+import learning.Frage;
 import learning.Gruppe;
 import learning.Inhalt;
 import learning.Medium;
+import learning.Quest;
 import learning.Thema;
 
 import org.apache.commons.io.IOUtils;
@@ -37,6 +39,9 @@ public class GreetingController {
 	Datenbank db;
 	Benutzer angemeldeterBenutzer;
 	Benutzer profilBenutzer;
+	Gruppe gruppe;
+	Quest quest;
+	ArrayList<Frage> questFragen;
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String greeting(Model model) {
@@ -634,6 +639,172 @@ public class GreetingController {
 		model.addAttribute("gruppen", angemeldeterBenutzer.gruppen);
 		model.addAttribute("gruppe", new Gruppe());
 		return "eigeneGruppenListe";
+	}
+	
+	@RequestMapping(value = "/GruppeBeitreten/{gruppe.gruppen_id}")
+	public String gruppenBeitreten(@PathVariable("gruppe.gruppen_id") int gruppe_id, Model model){
+		Gruppe gruppeBeitreten = new Gruppe();
+		ArrayList<Gruppe> Gruppenliste = new ArrayList<Gruppe>();
+		System.out.println("Test1");
+		for(Object obj : db.tabelleAusgeben(gruppeBeitreten.getClass())){
+			Gruppe g = (Gruppe) obj;
+			g.setAnzahlMitglieder(g.anzahl());
+			Gruppenliste.add(g);
+			if(g.getId() == (gruppe_id)) {
+				gruppeBeitreten = g;
+			}
+		}
+		
+		for(Gruppe gruppe2 : angemeldeterBenutzer.gruppen){
+			if (gruppe2.getId() == gruppeBeitreten.getId()){
+				model.addAttribute("gruppen", Gruppenliste);
+				model.addAttribute("Nachricht", "Sie sind bereits in dieser Gruppe");
+				return "GruppenListe";
+			}
+		}
+		if (angemeldeterBenutzer.gruppeBeitreten(gruppeBeitreten)){
+			db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
+			db.eintragZusammenfuehren(gruppeBeitreten.getClass(), gruppeBeitreten);
+
+			model.addAttribute("frage", new Frage());
+		    model.addAttribute("thema", new Thema());
+		    model.addAttribute("gruppe", gruppeBeitreten);
+			model.addAttribute("Nachricht", "Sie sind der Gruppe beitreten");
+			return "GruppenProfil";
+		}
+		else{
+			model.addAttribute("gruppen", Gruppenliste);
+			model.addAttribute("Nachricht", "Diese Gruppe ist bereits voll");
+			return "GruppenListe";
+		}
+		
+	}
+	
+	@RequestMapping(value = "/GruppenProfil/{gruppe.gruppen_id}", method =RequestMethod.GET)
+	public String gruppenProfilAnzeigen(@PathVariable("gruppe.gruppen_id") int gruppe_id, Model model){
+		Gruppe hilfsGruppe = new Gruppe();
+		for(Object obj : db.tabelleAusgeben(hilfsGruppe.getClass())){
+			Gruppe g = (Gruppe) obj;
+			if(g.getId() == (gruppe_id)) {
+				gruppe = g;
+			}
+		}
+		model.addAttribute("frage", new Frage());
+	    model.addAttribute("thema", new Thema());
+	    model.addAttribute("gruppe", gruppe);
+		return "GruppenProfil";
+	}
+	
+	@RequestMapping(value = "/frageErst", method=RequestMethod.POST)
+	public String frageErstellen(@ModelAttribute Frage frage, Model model){
+		if (frage.getText() != null){
+		Frage neueFrage = new Frage();
+		db.eintragHinzufuegen(neueFrage.getClass(), neueFrage);
+		neueFrage.setText(frage.getText());
+		neueFrage.setBenutzer(angemeldeterBenutzer);
+		for (int i=0; i< frage.getZwischenSpeicherAntworten().size(); i++){
+			String antwort = frage.getZwischenSpeicherAntworten().get(i);
+			if(!antwort.equals("")){
+			neueFrage.addAntwortmoeglichkeiten(antwort);
+			}
+		}
+		
+		if(frage.isZwischenSpeicherLoesung1()){
+			if (frage.getZwischenSpeicherAntworten().size() > 0){
+			neueFrage.addLoesung(frage.getZwischenSpeicherAntworten().get(0));	
+			}
+		}
+		
+		if(frage.isZwischenSpeicherLoesung2()){
+			if (frage.getZwischenSpeicherAntworten().size() > 1){
+				neueFrage.addLoesung(frage.getZwischenSpeicherAntworten().get(1));	
+			}
+		}
+		
+		if(frage.isZwischenSpeicherLoesung3()){
+			if (frage.getZwischenSpeicherAntworten().size() > 2){
+				neueFrage.addLoesung(frage.getZwischenSpeicherAntworten().get(2));	
+				}
+		}
+		
+		if(frage.isZwischenSpeicherLoesung4()){
+			if (frage.getZwischenSpeicherAntworten().size() > 3){
+				neueFrage.addLoesung(frage.getZwischenSpeicherAntworten().get(3));	
+				}
+		}
+		
+		neueFrage.medium = frage.getMedium();
+		db.eintragAktualisieren(neueFrage.getClass(), neueFrage);
+		gruppe.getFragenpool().addFrage(neueFrage);
+		//Datenbank wird aktualisiert
+		db.eintragAktualisieren(gruppe.getFragenpool().getClass(), gruppe.getFragenpool());
+		db.eintragAktualisieren(gruppe.getClass(), gruppe);
+		
+		
+		for (String s:neueFrage.getAntwortmoeglichkeiten()){
+			System.out.println("Antwort:");
+			System.out.println(s);
+		
+		}
+		for (String s:neueFrage.getLoesung()){
+			System.out.println("Lösung: ");
+			System.out.println(s);
+		}
+		}
+		model.addAttribute("frage", new Frage());
+		model.addAttribute("thema", new Thema());
+	    model.addAttribute("gruppe", gruppe);
+		return "GruppenProfil";
+	}
+	
+	@RequestMapping(value = "/QuestStarten")
+	public String questStarten(Model model){
+		System.out.println("Neuer Quest angelegt");
+		Quest quest =  gruppe.questAntreten(angemeldeterBenutzer);
+		db.eintragHinzufuegen(quest.getClass(), quest);
+		this.quest = quest;
+		ArrayList<Frage> fragen = new ArrayList<Frage>();
+		for (Frage f: quest.getFragen()){
+			fragen.add(f);
+		}
+		questFragen=fragen;
+		model.addAttribute("fragen", fragen);
+		model.addAttribute("frage1", new Frage());
+		return "Quest";
+	}
+	
+	@RequestMapping(value = "/questBeenden")
+	public String questBeenden(@ModelAttribute Frage frage, Model model){
+		System.out.println("questBeenden-Methode");
+		ArrayList<String> zwischenSpeicherAntworten = frage.getZwischenSpeicherAntworten();
+		Frage mryFrage = new Frage();
+		for (String s:zwischenSpeicherAntworten){
+			String[] result; 
+			result = s.split(";!;");
+			int frageId = Integer.parseInt(result[0]);
+			System.out.println(frageId);
+			String loesung = result[1];
+			System.out.println(loesung);
+				for (Frage f: questFragen){
+					int id = f.getId();
+					if (id == frageId){
+						mryFrage = f;
+				} 
+			}
+				
+				mryFrage.addAntwort(loesung);
+				db.eintragAktualisieren(mryFrage.getClass(), mryFrage);
+		}
+		
+		System.out.println(quest.korrigiere());
+		mryFrage.getAntworten().clear();
+		db.eintragAktualisieren(mryFrage.getClass(), mryFrage);
+			
+		model.addAttribute("frage", new Frage());
+		model.addAttribute("thema", new Thema());
+	    model.addAttribute("gruppe", gruppe);
+	    System.out.println("jetzt hier");
+	    return "GruppenProfil";
 	}
 	
 	@RequestMapping (value = "/medium", method = RequestMethod.GET)

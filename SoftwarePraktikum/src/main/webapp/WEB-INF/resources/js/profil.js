@@ -64,6 +64,8 @@ $("#Frage").empty();
     }
 
           });
+            
+            location.reload(true);
 
     });
 

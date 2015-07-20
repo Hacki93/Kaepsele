@@ -34,6 +34,8 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	<mvc:resources mapping="/bewertet/eigenesProfil/resources/**" location="/WEB-INF/resources/" />
 	<mvc:resources mapping="/themaLoeschen/resources/**" location="/WEB-INF/resources/" />
 	<mvc:resources mapping="/GruppenProfil/resources/**" location="/WEB-INF/resources/"/>
+	<mvc:resources mapping="/GruppeBeitreten/resources/**" location="/WEB-INF/resources/"/>
+	
 	<mvc:annotation-driven/>
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory"/>

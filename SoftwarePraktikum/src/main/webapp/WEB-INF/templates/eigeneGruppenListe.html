@@ -122,7 +122,7 @@
                 <td th:text="${gruppe.fachrichtung.name}"></td>
                 <td th:text="${gruppe.anzahlMitglieder}"></td>
                 <td th:text="${gruppe.erstelltAm}"></td>
-                <td><a data-original-title="Gruppenprofil" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-triangle-right"></i></a></td>
+                <td><a th:href="@{/GruppenProfil/__${gruppe.gruppen_id}__}" data-original-title="Gruppenprofil" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-triangle-right"></i></a></td>
             </tr>
         </tbody>
     </table>
