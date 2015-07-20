@@ -60,14 +60,25 @@ public class Thema extends Inhalt implements java.io.Serializable{
 		kommentare = new HashSet<Kommentar>();
 	}
 	
+	public void entfernen(){
+		pinnwand.themen.remove(this);
+		benutzer = null;
+		pinnwand = null;
+		medium = null;
+		for(Kommentar k : kommentare) {
+			kommentarEntfernen(k);
+		}
+		kommentare.clear();
+	}
+	
 	/**
 	 * Erstellt einen Kommentar zu einem Pinnwandbeitrag (Inhalt)
 	 * 
 	 * @param kommentar der hinzugef&uuml;gte Kommentar
 	 */
 	public void kommentieren(Kommentar kommentar){
-		kommentare.add(kommentar);
 		kommentar.setThema(this);
+		kommentare.add(kommentar);
 	}
 	
 	/**
@@ -75,8 +86,8 @@ public class Thema extends Inhalt implements java.io.Serializable{
 	 * 
 	 * @param kommentar der gel&oumlschte Kommentar
 	 */
-	public void kommentarLöschen(Kommentar kommentar){
-		kommentare.remove(kommentar);
+	public void kommentarEntfernen(Kommentar kommentar){
+		kommentar.entfernen();
 	}
 	
 	/**

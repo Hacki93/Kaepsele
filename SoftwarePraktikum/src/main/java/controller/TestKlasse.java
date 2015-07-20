@@ -123,6 +123,13 @@ public class TestKlasse {
 				biks.setKlausurname("MBIS 1");
 				biks.setName("Management betrieblicher Informationssysteme");
 				
+				kommentar.setBenutzer(lena);
+				kommentar.setBewertung(0);
+				kommentar.setInhalt("Kommentarinhalt von Lena");
+				kommentar.setTitel("Kommentartitel von Lena");
+				kommentar.setMedium(medium);
+				kommentar.setThema(thema);
+				
 				thema.setPinnwand(hannes.pinnwand);
 				thema.setBenutzer(hannes);
 				thema.setBewertung(5);
@@ -160,12 +167,6 @@ public class TestKlasse {
 				thema6.setBewertung(34);
 				thema6.setInhalt("Themeninhalt von hannes");
 				thema6.setTitel("Thementitel von hannes");
-				
-				kommentar.setBenutzer(lena);
-				kommentar.setBewertung(0);
-				kommentar.setInhalt("Kommentarinhalt von Lena");
-				kommentar.setTitel("Kommentartitel von Lena");
-				kommentar.setMedium(medium);
 	            	
 	            medium.setName("Entwurf");
 	            medium.setDateiname("Entwurf.pdf");
@@ -216,7 +217,9 @@ public class TestKlasse {
 				db.eintragAktualisieren(mbis.getClass(), mbis);
 				db.eintragAktualisieren(biks.getClass(), biks);
 				
-//				db.eintragEntfernen(biks.getClass(), biks.getId());
+				kommentar.entfernen();
+				db.eintragAktualisieren(kommentar.getClass(), kommentar);
+				db.eintragEntfernen(kommentar.getClass(), kommentar.getId());
 				
 				
 			} catch (Exception e) {

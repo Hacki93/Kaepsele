@@ -385,7 +385,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 		if (gruppe.moderatoren.contains(this)) {
 			gruppe.pinnwand.themaEntfernen(thema);
 			for (Kommentar kommentar : thema.getKommentare()) {
-				thema.kommentarLöschen(kommentar);
+				thema.kommentarEntfernen(kommentar);
 			}
 			return true;
 		} else {
@@ -406,7 +406,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	public boolean gruppenKommentarEntfernen(Thema thema, Gruppe gruppe,
 			Kommentar kommentar) {
 		if (gruppe.moderatoren.contains(this)) {
-			thema.kommentarLöschen(kommentar);
+			thema.kommentarEntfernen(kommentar);
 			return true;
 		} else {
 			// Der Benutzer ist kein Moderator in dieser Gruppe
