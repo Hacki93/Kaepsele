@@ -1,6 +1,5 @@
 package learning;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +10,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Challenge stellt eine abstrakte Generalisierung von Bossfight und Quest dar.
@@ -28,8 +30,10 @@ public class Challenge implements java.io.Serializable{
 	@Column(name = "datum")
 	public String datum; 
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name="benutzer_id")
+	
 	public Benutzer benutzer; //Bearbeiter 
 	
 	@Column(name = "erreichbarePunktzahl")

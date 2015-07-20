@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -15,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import kommunikation.Aufgabe;
 import kommunikation.Nachricht;
@@ -29,15 +31,19 @@ import kommunikation.Nachricht;
 @PrimaryKeyJoinColumn(name = "bossfight_id", referencedColumnName = "challenge_id")
 public class Bossfight extends Challenge implements java.io.Serializable {
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name="medium_id")
 	private Medium medium;
 
 	@ElementCollection(targetClass = String.class)
-	@CollectionTable(name="BOSSFIGHT_ANTWORTEN", joinColumns=@JoinColumn(name="bossfight_id"))
+	@CollectionTable(name="BOSSFIGHT_ANTWORTEN", joinColumns=
+	@JoinColumn(name="bossfight_id"))
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Set<String> antworten;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name="gruppe_id")
 	public Gruppe gruppe;
 

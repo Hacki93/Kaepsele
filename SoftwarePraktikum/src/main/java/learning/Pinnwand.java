@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +16,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Die Klasse Pinnwand stellt den Bereich eines Benutzer-/Gruppenprofils dar, auf dem
@@ -31,13 +33,15 @@ public class Pinnwand implements java.io.Serializable{
 	@Column(name = "pinnwand_id")
 	public int pinnwand_id;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="pinnwand")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="pinnwand", orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Thema> themen;
 		
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "PINNWAND_ERLAUBTEBENUTZER", joinColumns =
 	@JoinColumn(name = "pinnwand_id"),  inverseJoinColumns =
 	@JoinColumn(name = "benutzer_id"))
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Benutzer> erlaubteBenutzer;
 	
 	/**

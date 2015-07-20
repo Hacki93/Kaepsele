@@ -3,7 +3,6 @@ package learning;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +14,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.InheritanceType;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Die Klasse Inhalt stellt eine abstrakte Generalisierung von Pinnwandthemen und Kommentaren dar.
@@ -29,8 +31,9 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 	@Column(name = "inhalt_id")
 	public int inhalt_id;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name="benutzer_id")
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Benutzer benutzer; //Autor
 	
 	@Column(name = "bewertung")
@@ -42,8 +45,9 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 	@Column(name = "erstelltAm")
 	public Date datum;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name="medium_id")
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Medium medium;
 	
 	@Column(name = "titel")

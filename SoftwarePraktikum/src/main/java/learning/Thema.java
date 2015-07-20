@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -15,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Die Klasse Thema stellt einen Beitrag auf der Pinnwand eines Freundes bzw.
@@ -26,11 +28,13 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name="thema_id", referencedColumnName = "inhalt_id")
 public class Thema extends Inhalt implements java.io.Serializable{
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="thema")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="thema", orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Kommentar> kommentare;
     
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="pinnwand_id")
+	@Cascade(CascadeType.SAVE_UPDATE)
     public Pinnwand pinnwand;
 	
     /**

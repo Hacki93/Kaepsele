@@ -56,7 +56,7 @@ public class Nachricht implements java.io.Serializable{
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "empfaenger_id")
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Benutzer empfaenger;
 	
 	/**

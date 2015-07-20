@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import kommunikation.Aufgabe;
 import kommunikation.Nachricht;
@@ -50,43 +52,52 @@ public class Gruppe implements java.io.Serializable {
 	@Transient
 	public int anzahlMitglieder;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name = "fachrichtung_id")
 	public Fachrichtung fachrichtung;
 
 	@Column(name = "freigegeben")
 	public boolean freigegeben;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinTable(name = "GRUPPEN_MITGLIEDER", joinColumns = 
 	@JoinColumn(name = "gruppen_id"), inverseJoinColumns = 
 	@JoinColumn(name = "benutzer_id"))
 	private Set<Benutzer> mitglieder;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinTable(name = "GRUPPEN_MODERATOREN", joinColumns = 
 	@JoinColumn(name = "gruppen_id"), inverseJoinColumns = 
 	@JoinColumn(name = "benutzer_id"))
 	public Set<Benutzer> moderatoren;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name = "fragenpool_id")
 	public Fragenpool fragenpool;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name = "pinnwand_id")
 	public Pinnwand pinnwand;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="herausforderer")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="herausforderer", orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Teamcombat> gestarteteTeamcombats; //Teamcombats, zu der diese Gruppe herausgefordert hat
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="herausgeforderter")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="herausgeforderter", orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Teamcombat> eingeladeneTeamcombats; //Teamcombats, zu der diese Gruppe herausgefordert wurde
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy="gruppe")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="gruppe", orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Set<Quest> quests;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "gruppe")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "gruppe", orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	Set<Bossfight> bossfights;
 
 	/**
@@ -117,8 +128,8 @@ public class Gruppe implements java.io.Serializable {
 		this.klausurname = klausurname;
 		mitglieder = new HashSet<Benutzer>();
 		moderatoren = new HashSet<Benutzer>();
-		fragenpool = new Fragenpool(); // löschen
-		pinnwand = new Pinnwand(); // löschen
+		fragenpool = new Fragenpool(); // löschen------------------------------------------------------------!!!!
+		pinnwand = new Pinnwand(); // löschen------------------------------------------------------------!!!!
 		gestarteteTeamcombats = new HashSet<Teamcombat>();
 		eingeladeneTeamcombats = new HashSet<Teamcombat>();
 		bossfights = new HashSet<Bossfight>();

@@ -30,32 +30,32 @@ public class Aufgabe extends Nachricht implements java.io.Serializable{
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "senderGruppe_id")
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Gruppe senderGruppe;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "senderBenutzer_id")
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Benutzer senderBenutzer;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "empfaengerBenutzer_id")
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Benutzer empfaengerBenutzer;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "anhangTeamcombat_id")
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Teamcombat anhangTeamcombat;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "anhangBossfight_id")
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Bossfight anhangBossfight;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "anhangGruppe_id")
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Gruppe anhangGruppe;
 	
 	/**

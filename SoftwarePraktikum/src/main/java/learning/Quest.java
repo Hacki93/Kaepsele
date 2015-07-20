@@ -3,7 +3,6 @@ package learning;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -12,6 +11,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Die Klasse Quest beinhaltet mehrere zuf&auml;llig aus dem Fragenpool genommene MC-Fragen.
@@ -22,14 +24,16 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name = "quest_id", referencedColumnName = "challenge_id")
 public class Quest extends Challenge implements java.io.Serializable {
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinTable(name = "QUEST_FRAGEN", joinColumns =
 	@JoinColumn(name = "quest_id"),  inverseJoinColumns =
 	@JoinColumn(name = "frage_id"))
 	public Set<Frage> fragen;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "gruppe_id")
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Gruppe gruppe;
 
 	/**

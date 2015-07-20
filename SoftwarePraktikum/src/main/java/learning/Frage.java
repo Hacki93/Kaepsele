@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -17,6 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Die Klasse Frage stellt eine Teilaufgabe eines Quests dar. Sie beinhaltet Methoden zum Speichern
@@ -32,7 +34,8 @@ public class Frage implements java.io.Serializable {
 	@Column(name = "frage_id")
 	public int frage_id;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name="medium_id")
 	public Medium medium;
 	
@@ -40,26 +43,34 @@ public class Frage implements java.io.Serializable {
 	public String text;
 	
 	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-	@CollectionTable(name="FRAGE_ANTWORTMOEGLICHKEITEN", joinColumns=@JoinColumn(name="frage_id"))
+	@CollectionTable(name="FRAGE_ANTWORTMOEGLICHKEITEN", joinColumns=
+	@JoinColumn(name="frage_id"))
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<String> antwortmoeglichkeiten;
 	
 	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-	@CollectionTable(name="FRAGE_ANTWORTEN", joinColumns=@JoinColumn(name="frage_id"))
+	@CollectionTable(name="FRAGE_ANTWORTEN", joinColumns=
+	@JoinColumn(name="frage_id"))
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<String> antworten;
 	
 	@Column(name = "bearbeitet")
 	private boolean bearbeitet;
 	
 	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-	@CollectionTable(name="FRAGE_LOESUNG", joinColumns=@JoinColumn(name="frage_id"))
+	@CollectionTable(name="FRAGE_LOESUNG", joinColumns=
+	@JoinColumn(name="frage_id"))
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<String> loesung;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name="benutzer_id")
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Benutzer benutzer; //Autor
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="fragenpool_id")
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Fragenpool fragenpool;
 	
 	@Transient

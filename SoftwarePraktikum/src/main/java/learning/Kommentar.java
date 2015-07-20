@@ -1,13 +1,16 @@
 package learning;
 
 import java.util.Date;
-import javax.persistence.CascadeType;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Die Klasse Kommentar stellt einen Kommentar zu einem Pinnwandeintrag dar. 
@@ -18,8 +21,9 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name="kommentar_id", referencedColumnName = "inhalt_id")
 public class Kommentar extends Inhalt implements java.io.Serializable{
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="thema_id")
+	@Cascade(CascadeType.SAVE_UPDATE)
 	private Thema thema;
 	
 	/**

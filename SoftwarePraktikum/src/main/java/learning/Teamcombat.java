@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import kommunikation.Nachricht;
 
@@ -35,24 +37,29 @@ public class Teamcombat implements java.io.Serializable {
 	@Column(name = "ablaufdatum")
 	public Date ablaufdatum;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "herausforderer_gruppe_id")
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Gruppe herausforderer;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "herausgeforderter_gruppe_id")
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Gruppe herausgeforderter;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "herausforderer_quest_id")
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Quest questFuerHerausforderer;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "herausgeforderter_quest_id")
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Quest questFuerHerausgeforderter;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "gewinner_gruppe_id")
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Gruppe gewinner;
 	
 	@Column(name="gewinnerpunkte")

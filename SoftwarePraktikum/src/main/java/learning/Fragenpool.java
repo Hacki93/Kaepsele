@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Die Klasse Fragenpool stellt den Datentyp Fragenpool dar, indem Fragen gespeichert werden und
@@ -30,7 +32,8 @@ public class Fragenpool implements java.io.Serializable {
 	@Column(name = "fragenpool_id")
 	public int fragenpool_id;
 
-	@OneToMany(mappedBy="fragenpool", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="fragenpool", fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Frage> fragen;
 	
 	@Transient

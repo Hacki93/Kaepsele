@@ -62,7 +62,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	@JoinTable(name = "BENUTZER_FREUNDE", joinColumns = 
 	@JoinColumn(name = "benutzer_id"), inverseJoinColumns = 
 	@JoinColumn(name = "freunde_id"))
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Benutzer> freunde;
 
 	// Hilfskollektion zur Umsetzung eines Many-To-Many Self-Joins
@@ -75,24 +75,24 @@ public class Benutzer extends Account implements java.io.Serializable {
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "moderatoren")
 	public Set<Gruppe> moderierteGruppen;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@Cascade(CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name = "pinnwand_id")
 	public Pinnwand pinnwand;
 	
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "erlaubteBenutzer")
 	public Set<Pinnwand> erlaubtePinnwaende;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="benutzer")
-	@Cascade(CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="benutzer", orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Inhalt> inhalte;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaenger")
-	@Cascade(CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaenger", orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	Set<Nachricht> nachrichten; 
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaengerBenutzer")
-	@Cascade(CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaengerBenutzer", orphanRemoval = true)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	Set<Aufgabe> aufgaben; 
 
 	/**

@@ -216,7 +216,7 @@ public class TestKlasse {
 				db.eintragAktualisieren(mbis.getClass(), mbis);
 				db.eintragAktualisieren(biks.getClass(), biks);
 				
-				
+//				db.eintragEntfernen(biks.getClass(), biks.getId());
 				
 				
 			} catch (Exception e) {
