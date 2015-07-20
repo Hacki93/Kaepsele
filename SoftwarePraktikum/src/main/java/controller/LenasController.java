@@ -47,7 +47,7 @@ public class LenasController {
 		lena.erstelltAm = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 	    angemeldeterBenutzer = lena;
 	    model.addAttribute("benutzer", new Benutzer());
-		return "Startseite";
+		return "TeamcombatListe";
 	}
 	
 	@RequestMapping(value = "/GruppenProfil/{gruppe_id}", method =RequestMethod.GET)
