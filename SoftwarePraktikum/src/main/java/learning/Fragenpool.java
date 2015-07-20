@@ -67,12 +67,14 @@ public class Fragenpool implements java.io.Serializable {
 		quest.setGruppe(gruppe);
 		ArrayList<Frage> fragenliste = new ArrayList<Frage>();
 		for (Frage f : fragen) {
+			System.out.println("Fragenliste ausgeben");
 			if (!f.isGeblockt()){
+				System.out.println("frage ist nicht geblockt");
 			fragenliste.add(f);
 			}
 		}
-		while (quest.fragen.size() < Math.min(fragenanzahl, fragen.size())) {
-			int zufallsindex = (int) (Math.random() * fragen.size());
+		while (quest.fragen.size() < Math.min(fragenanzahl, fragenliste.size())) {
+			int zufallsindex = (int) (Math.random() * fragenliste.size());
 			quest.addFrage(fragenliste.get(zufallsindex));
 		}
 		return quest;

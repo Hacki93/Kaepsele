@@ -6,11 +6,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import kommunikation.Aufgabe;
+import kommunikation.Nachricht;
 import learning.Benutzer;
 import learning.Frage;
 import learning.Gruppe;
 import learning.Inhalt;
 import learning.Quest;
+import learning.Teamcombat;
 import learning.Thema;
 
 import org.springframework.stereotype.Controller;
@@ -34,20 +37,10 @@ public class LenasController {
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String greeting(Model model) {
 	    db = new Datenbank();
-	    Benutzer lena = new Benutzer();
-	    lena.registrieren("lenchen", "12345678");
-		lena.setEmailAdresse("lenamai.er@web.de");
-		lena.setName("Lena Maier");
-		lena.setAdresse("Schopfloch");
-		lena.setRang(2);
-		lena.setBeruf("Student");
-		lena.setStudiengang("Wirtschaftsinformatik B.Sc.");
-		lena.setGeburtsdatum("31/12/1993");
-		lena.setProfilbildURL("/Bild.png");
-		lena.erstelltAm = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-	    angemeldeterBenutzer = lena;
+	    angemeldeterBenutzer = new Benutzer(); 
+	    angemeldeterBenutzer = (Benutzer) db.eintragAusgeben(angemeldeterBenutzer.getClass(), 1);
 	    model.addAttribute("benutzer", new Benutzer());
-		return "TeamcombatListe";
+		return "Startseite";
 	}
 	
 	@RequestMapping(value = "/GruppenProfil/{gruppe_id}", method =RequestMethod.GET)
@@ -132,11 +125,12 @@ public class LenasController {
 	public String questStarten(Model model){
 		System.out.println("Neuer Quest angelegt");
 		Quest quest =  gruppe.questAntreten(angemeldeterBenutzer);
-		db.eintragHinzufuegen(quest.getClass(), quest);
+		db.eintragZusammenfuehren(quest.getClass(), quest);
 		this.quest = quest;
 		ArrayList<Frage> fragen = new ArrayList<Frage>();
 		for (Frage f: quest.getFragen()){
 			fragen.add(f);
+			System.out.println(f.getText());
 		}
 		questFragen=fragen;
 		model.addAttribute("fragen", fragen);
@@ -173,18 +167,36 @@ public class LenasController {
 			}
 				
 				mryFrage.addAntwort(loesung);
-				db.eintragAktualisieren(mryFrage.getClass(), mryFrage);
+				db.eintragZusammenfuehren(mryFrage.getClass(), mryFrage);
 		}
 		
 		System.out.println(quest.korrigiere());
 		mryFrage.getAntworten().clear();
-		db.eintragAktualisieren(mryFrage.getClass(), mryFrage);
+		db.eintragZusammenfuehren(mryFrage.getClass(), mryFrage);
 			
 		model.addAttribute("frage", new Frage());
 		model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);
 	    System.out.println("jetzt hier");
 	    return "GruppenProfil";
+	}
+	
+	@RequestMapping(value = "/TeamcombatsAnzeigen")
+	public String teamcombatsAnzeigen(Model model){
+		ArrayList<Aufgabe> aufgaben = new ArrayList<Aufgabe>();
+		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
+			if (a.getTyp() == Nachricht.TEAMHERAUSFORDERUNG){
+				System.out.println(a.getInhalt());
+				aufgaben.add(a);
+			}
+		}
+		
+		for (Aufgabe au: aufgaben){
+			System.out.println("Aufgabe gespeichert: " + au.getTitel());
+		}
+		
+		model.addAttribute(aufgaben);
+		return "TeamcombatListe";
 	}
 	
 }
