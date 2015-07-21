@@ -46,7 +46,9 @@ public class TestKlasse {
 				Thema thema5		= new Thema();
 				Thread.sleep(10);
 				Thema thema6		= new Thema();
+				Thread.sleep(10);
 				Thema thema7		= new Thema();
+				Thread.sleep(10);
 				Thema thema8		= new Thema();
 				Kommentar kommentar = new Kommentar();
 				Medium medium 		= new Medium();

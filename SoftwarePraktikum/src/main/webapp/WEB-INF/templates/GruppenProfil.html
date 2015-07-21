@@ -138,8 +138,8 @@
                             <a data-toggle="modal" data-target="#Beitrag" data-original-title="Beitrag schreiben"  type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
                             
                         
-                            <a href="#" data-original-title="Nach Likes sortieren" data-toggle="tooltip" type="button" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-star"></i></a>
-                            <a href="#" data-original-title="Nach Datum sortieren" data-toggle="tooltip" type="button" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-arrow-down"></i></a>
+                            <a th:href="@{/GruppenPinnwandSortiereLikes}" data-original-title="Nach Likes sortieren" data-toggle="tooltip" type="button" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-star"></i></a>
+                            <a th:href="@{/GruppenPinnwandSortiereDatum}" data-original-title="Nach Datum sortieren" data-toggle="tooltip" type="button" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-arrow-down"></i></a>
                             
                              <span class="pull-right">
                             <a th:href="@{/GruppeBeitreten}" data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a>
@@ -162,7 +162,7 @@
 						<br/>
                       	<b>Gef&auml;llt-mir-Angaben: </b><b th:text="${thema.bewertung}"></b>
                         <div class="panel-footer">
-                        <a data-original-title="Gef&auml;llt mir" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-thumbs-up"></i></a>
+                        <a th:href="@{/bewertet/GruppenProfil/__${thema.inhalt_id}__}" data-original-title="Gef&auml;llt mir" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-thumbs-up"></i></a>
                        
          
                              <span class="pull-right">

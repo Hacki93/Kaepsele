@@ -760,6 +760,86 @@ public class GreetingController {
 		return "GruppenProfil";
 	}
 	
+	@RequestMapping(value = "/GruppenPinnwandSortiereLikes")
+	public String gruppenPinnwandSortiereLikes(Model model){
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = gruppe.pinnwand.sortiereNachBewertung();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : gruppe.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		
+		model.addAttribute("themen", themenList);
+		model.addAttribute("gruppenAnzahl", gruppe.anzahl());
+	    model.addAttribute("gruppe", gruppe);
+		model.addAttribute("frage", new Frage());
+	    model.addAttribute("thema", new Thema());
+	    model.addAttribute("gruppe", gruppe);
+		
+		return "GruppenProfil";
+	}
+	
+	@RequestMapping(value = "/GruppenPinnwandSortiereDatum")
+	public String gruppenPinnwandSortiereDatum(Model model){
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = gruppe.pinnwand.sortiereNachDatum();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : gruppe.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		
+		model.addAttribute("themen", themenList);
+		model.addAttribute("gruppenAnzahl", gruppe.anzahl());
+	    model.addAttribute("gruppe", gruppe);
+		model.addAttribute("frage", new Frage());
+	    model.addAttribute("thema", new Thema());
+	    model.addAttribute("gruppe", gruppe);
+		
+		return "GruppenProfil";
+	}
+	
+	@RequestMapping(value ="/bewertet/GruppenProfil/{thema.inhalt_id}")
+	public String bewerteGruppeProfil(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
+		// Inhalt wird geliked
+		Inhalt inhalt = new Inhalt();
+		for(Object obj : db.tabelleAusgeben(inhalt.getClass())){
+			Inhalt i = (Inhalt) obj;
+			if(i.getId() == (inhalt_id)) {
+				i.bewerten(true);
+				//Datenbank wird aktualisiert
+				db.eintragAktualisieren(i.getClass(), i);
+			}
+		}
+		
+		for(Object obj : db.tabelleAusgeben(gruppe.getClass())){
+			Gruppe g = (Gruppe) obj;
+			if(g.getId() == (gruppe.getId())) {
+				gruppe = g;
+			}
+		}
+		
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = gruppe.pinnwand.sortiereNachDatum();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : gruppe.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		
+		model.addAttribute("themen", themenList);
+		model.addAttribute("gruppenAnzahl", gruppe.anzahl());
+	    model.addAttribute("gruppe", gruppe);
+		model.addAttribute("frage", new Frage());
+	    model.addAttribute("thema", new Thema());
+	    model.addAttribute("gruppe", gruppe);
+		return "GruppenProfil";
+	}
+	
 	@RequestMapping(value = "/GruppenProfil/{gruppe.gruppen_id}", method =RequestMethod.GET)
 	public String gruppenProfilAnzeigen(@PathVariable("gruppe.gruppen_id") int gruppe_id, Model model){
 		Gruppe hilfsGruppe = new Gruppe();
@@ -769,6 +849,7 @@ public class GreetingController {
 				gruppe = g;
 			}
 		}
+		
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = gruppe.pinnwand.sortiereNachDatum();
 		
