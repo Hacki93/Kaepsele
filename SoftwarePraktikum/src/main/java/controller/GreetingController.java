@@ -802,6 +802,45 @@ public class GreetingController {
 		return "GruppenProfil";
 	}
 	
+	@RequestMapping(value ="/Loeschen/GruppenProfil/{thema.inhalt_id}")
+	public String loescheGruppenBeitrag(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
+		Inhalt themaLoeschen = new Thema();
+		for(Object obj : db.tabelleAusgeben(themaLoeschen.getClass())){
+			Thema t = (Thema) obj;
+			if(t.getId() == (inhalt_id)) {
+				// Eintrag aus der Datenbank löschen
+				gruppe.pinnwand.themaEntfernen(t);
+				db.eintragAktualisieren(gruppe.getClass(), gruppe);
+				db.eintragAktualisieren(t.getClass(), t);
+				db.eintragEntfernen(t.getClass(), t.getId());
+			}
+		}
+		for(Object obj : db.tabelleAusgeben(gruppe.getClass())){
+			Gruppe g = (Gruppe) obj;
+			if(g.getId() == (gruppe.getId())) {
+				gruppe = g;
+			}
+		}
+		
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = gruppe.pinnwand.sortiereNachDatum();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : gruppe.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		
+		model.addAttribute("themen", themenList);
+		model.addAttribute("gruppenAnzahl", gruppe.anzahl());
+	    model.addAttribute("gruppe", gruppe);
+		model.addAttribute("frage", new Frage());
+	    model.addAttribute("thema", new Thema());
+	    model.addAttribute("gruppe", gruppe);
+		
+		return "GruppenProfil";
+	}
+	
 	@RequestMapping(value ="/bewertet/GruppenProfil/{thema.inhalt_id}")
 	public String bewerteGruppeProfil(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
 		// Inhalt wird geliked
