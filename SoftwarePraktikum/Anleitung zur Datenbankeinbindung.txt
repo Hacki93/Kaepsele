@@ -1,0 +1,20 @@
+
+----ANLEITUNG ZUM EINBINDEN UND EINRICHTEN DER BENÖTIGTEN DATENBANK-------------------------
+
+Die Software benötigt zum ordnungsgemäßen Betrieb eine zur Verfügung stehende Datenbank
+sowie einen Account, mit dem sich die Software bei der Datenbank anmelden kann.
+
+Im Hauptverzeichnis des Projekts befindet sich ein Dump der gesamten benötigten Datenbank
+im .SQL-Format. Dieses kann einfach per "Data Import" / "Import from self-contained" file 
+in die MySQL-Workbench eingebunden werden. Zu beachten ist dabei, dass das erstellte Schema
+"db_kaepsele" heißen muss.
+Zudem muss in der Workbench der root-Account das Passwort "Kaepse1e" (1 statt L !) besitzen.
+
+Erforderliche Schritte:
+
+1. SQL-Dump per Data Import -> Import from self-contained file als Schema "db_kaepsele" 
+   einbinden.
+2. Benutzer "root" mit Passwort "Kaepse1e" (1 statt L!) per "Users Privileges" anlegen.
+
+
+Bei Fragen stehen wir sehr gerne insbesondere über mail@hannes-fischer.com zur Verfügung.
