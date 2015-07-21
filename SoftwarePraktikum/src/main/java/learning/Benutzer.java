@@ -227,8 +227,20 @@ public class Benutzer extends Account implements java.io.Serializable {
 	public void aufgabeErledigt(Object objekt) {
 		Aufgabe aufgabe = new Aufgabe(); 
 		for (Aufgabe n : getAufgaben()) {
-			if (n.getAnhangBossfight().equals(objekt) || n.getAnhangTeamcombat().equals(objekt) || n.getAnhangGruppe().equals(objekt)) {
-				aufgabe = n; 
+			if(n.getAnhangBossfight() != null) {
+				if(n.getAnhangBossfight().equals(objekt)){
+					aufgabe = n;
+				}
+			}
+			if(n.getAnhangTeamcombat() != null) {
+				if(n.getAnhangTeamcombat().equals(objekt)){
+					aufgabe = n;
+				}
+			}
+			if(n.getAnhangGruppe() != null) {
+				if(n.getAnhangGruppe().equals(objekt)){
+					aufgabe = n;
+				}
 			}
 		}
 		aufgaben.remove(aufgabe);
