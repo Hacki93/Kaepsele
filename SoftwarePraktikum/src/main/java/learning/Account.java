@@ -18,7 +18,7 @@ import java.security.MessageDigest;;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "Account")
+@Table(name = "ACCOUNT")
 @Inheritance(strategy=InheritanceType.JOINED)
 public class Account implements java.io.Serializable{
 

@@ -26,7 +26,6 @@ import org.hibernate.annotations.CascadeType;
 import kommunikation.Aufgabe;
 import kommunikation.Nachricht;
 
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "GRUPPE")
@@ -61,14 +60,14 @@ public class Gruppe implements java.io.Serializable {
 	public boolean freigegeben;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@Cascade(CascadeType.SAVE_UPDATE)
+	@Cascade(CascadeType.ALL)
 	@JoinTable(name = "GRUPPEN_MITGLIEDER", joinColumns = 
 	@JoinColumn(name = "gruppen_id"), inverseJoinColumns = 
 	@JoinColumn(name = "benutzer_id"))
 	public Set<Benutzer> mitglieder;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@Cascade(CascadeType.SAVE_UPDATE)
+	@Cascade(CascadeType.ALL)
 	@JoinTable(name = "GRUPPEN_MODERATOREN", joinColumns = 
 	@JoinColumn(name = "gruppen_id"), inverseJoinColumns = 
 	@JoinColumn(name = "benutzer_id"))
