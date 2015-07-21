@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import datenhaltung.Datenbank;
 
 @Controller
-public class GreetingController {
+public class HauptController {
 	
 	Datenbank db;
 	Benutzer angemeldeterBenutzer;
@@ -506,6 +504,14 @@ public class GreetingController {
 	
 	@RequestMapping(value="/beitragSchreiben", method = RequestMethod.POST)
 	public String beitragSchreiben(@ModelAttribute Thema thema, Model model){
+		Thema neuesThema = new Thema();
+		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
+		neuesThema.setTitel(thema.getTitel());
+		neuesThema.setInhalt(thema.getInhalt());
+		neuesThema.setBenutzer(angemeldeterBenutzer);
+		profilBenutzer.pinnwand.themaHinzufuegen(neuesThema);
+		db.eintragZusammenfuehren(neuesThema.getClass(), neuesThema);
+		
 		// profilBenutzer und angemeldeterBenutzer wird aktualisiert
 		for(Object obj : db.tabelleAusgeben(profilBenutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
@@ -516,14 +522,6 @@ public class GreetingController {
 				angemeldeterBenutzer = b;					
 			}
 		}
-		
-		Thema neuesThema = new Thema();
-		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
-		neuesThema.setTitel(thema.getTitel());
-		neuesThema.setInhalt(thema.getInhalt());
-		neuesThema.setBenutzer(angemeldeterBenutzer);
-		profilBenutzer.pinnwand.themaHinzufuegen(neuesThema);
-		db.eintragAktualisieren(neuesThema.getClass(), neuesThema);
 		
 		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
@@ -546,14 +544,6 @@ public class GreetingController {
 	
 	@RequestMapping(value="/EigenerBeitragSchreiben", method = RequestMethod.POST)
 	public String eigenerBeitragSchreiben(@ModelAttribute Thema thema, Model model){
-		// profilBenutzer und angemeldeterBenutzer wird aktualisiert
-		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
-			Benutzer b = (Benutzer) obj;
-			if(b.getBenutzername().equals(angemeldeterBenutzer.getBenutzername())) {
-				angemeldeterBenutzer = b;					
-			}
-		}
-		
 		Thema neuesThema = new Thema();
 		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
 		neuesThema.setTitel(thema.getTitel());
@@ -561,6 +551,14 @@ public class GreetingController {
 		neuesThema.setBenutzer(angemeldeterBenutzer);
 		angemeldeterBenutzer.pinnwand.themaHinzufuegen(neuesThema);
 		db.eintragAktualisieren(neuesThema.getClass(), neuesThema);
+		
+		// profilBenutzer und angemeldeterBenutzer wird aktualisiert
+		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
+			Benutzer b = (Benutzer) obj;
+			if(b.getBenutzername().equals(angemeldeterBenutzer.getBenutzername())) {
+				angemeldeterBenutzer = b;					
+			}
+		}
 		
 		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
@@ -838,6 +836,43 @@ public class GreetingController {
 	    model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);
 		
+		return "GruppenProfil";
+	}
+	
+	@RequestMapping(value="/GruppenBeitragSchreiben", method = RequestMethod.POST)
+	public String gruppenBeitragSchreiben(@ModelAttribute Thema thema, Model model){
+		Thema neuesThema = new Thema();
+		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
+		neuesThema.setTitel(thema.getTitel());
+		neuesThema.setInhalt(thema.getInhalt());
+		neuesThema.setBenutzer(angemeldeterBenutzer);
+		gruppe.pinnwand.themaHinzufuegen(neuesThema);
+		
+		db.eintragZusammenfuehren(neuesThema.getClass(), neuesThema);
+		db.eintragZusammenfuehren(gruppe.getClass(), gruppe);
+		
+		for(Object obj : db.tabelleAusgeben(gruppe.getClass())){
+			Gruppe g = (Gruppe) obj;
+			if(g.getId() == (gruppe.getId())) {
+				gruppe = g;
+			}
+		}
+		
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = gruppe.pinnwand.sortiereNachDatum();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema2 : gruppe.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema2.datum);
+		}
+		
+		model.addAttribute("themen", themenList);
+		model.addAttribute("gruppenAnzahl", gruppe.anzahl());
+	    model.addAttribute("gruppe", gruppe);
+		model.addAttribute("frage", new Frage());
+	    model.addAttribute("thema", new Thema());
+	    model.addAttribute("gruppe", gruppe);
 		return "GruppenProfil";
 	}
 	
