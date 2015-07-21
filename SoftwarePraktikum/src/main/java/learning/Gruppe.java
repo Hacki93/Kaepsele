@@ -65,7 +65,7 @@ public class Gruppe implements java.io.Serializable {
 	@JoinTable(name = "GRUPPEN_MITGLIEDER", joinColumns = 
 	@JoinColumn(name = "gruppen_id"), inverseJoinColumns = 
 	@JoinColumn(name = "benutzer_id"))
-	private Set<Benutzer> mitglieder;
+	public Set<Benutzer> mitglieder;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@Cascade(CascadeType.SAVE_UPDATE)

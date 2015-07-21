@@ -53,11 +53,11 @@
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
-                    <li class="page-scroll">
-                        <a href="#portfolio">Lernen</a>
+                    <li>
+                        <a th:href="@{/Menu}">Men&uuml;</a>
                     </li>
-                    <li class="page-scroll">
-                        <a href="#about">&Uuml;ber uns</a>
+                    <li>
+                         <a th:href="@{/}">abmelden</a>
                     </li>
                 </ul>
             </div>
@@ -120,7 +120,7 @@
                      
                     </tbody>
                   </table>
-                  <span style="color: red;" th:text = "${Nachricht}"></span>
+                  <span style="color: red;" th:text = "${nachricht}"></span>
                   <a th:href="@{/QuestStarten}" class="btn btn-primary btn-sm btn-block">Quest starten</a>
                   <a href="#" class="btn btn-primary btn-sm btn-block">Teamcombat starten</a>
                   <a data-toggle="modal" data-target="#Frage" class="btn btn-primary btn-sm btn-block">Frage anlegen</a>
@@ -142,7 +142,7 @@
                             <a href="#" data-original-title="Nach Datum sortieren" data-toggle="tooltip" type="button" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-arrow-down"></i></a>
                             
                              <span class="pull-right">
-                             <a data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a>
+                             <a th:href="@{/GruppeBeitreten}" data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a>
                             <a data-original-title="Gruppe verlassen" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                         </span>
                     </div>

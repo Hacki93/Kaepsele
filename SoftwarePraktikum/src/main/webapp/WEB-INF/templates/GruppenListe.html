@@ -81,7 +81,7 @@
           <div class="panel panel-info">
             <div class="panel-heading">
               <h3 class="panel-title">Alle verf&uuml;gbaren Gruppen</h3>
-              <span style="color: red;" th:text = "${Nachricht}"></span>
+              <span style="color: red;" th:text = "${nachricht}"></span>
             </div>
             <div class="panel-body">
               <div class="row">
@@ -116,7 +116,7 @@
                 <td th:text="${gruppe.fachrichtung.name}"></td>
                 <td th:text="${gruppe.anzahlMitglieder}"></td>
                 <td th:text="${gruppe.erstelltAm}"></td>
-                <td><a th:href="@{/GruppeBeitreten/__${gruppe.gruppen_id}__}" data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a></td>
+                <td><a th:href="@{/GruppenBeitreten/__${gruppe.gruppen_id}__}" data-original-title="Der Gruppe beitreten" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a></td>
             </tr>
         </tbody>
     </table>

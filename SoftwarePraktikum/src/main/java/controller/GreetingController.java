@@ -643,7 +643,7 @@ public class GreetingController {
 		return "eigeneGruppenListe";
 	}
 	
-	@RequestMapping(value = "/GruppeBeitreten/{gruppe.gruppen_id}")
+	@RequestMapping(value = "/GruppenBeitreten/{gruppe.gruppen_id}")
 	public String gruppenBeitreten(@PathVariable("gruppe.gruppen_id") int gruppe_id, Model model){
 		Gruppe gruppeBeitreten = new Gruppe();
 		ArrayList<Gruppe> Gruppenliste = new ArrayList<Gruppe>();
@@ -653,43 +653,77 @@ public class GreetingController {
 			g.setAnzahlMitglieder(g.anzahl());
 			Gruppenliste.add(g);
 			if(g.getId() == (gruppe_id)) {
-				gruppeBeitreten = g;
+				gruppe = g;
 			}
 		}
 		
 		for(Gruppe gruppe2 : angemeldeterBenutzer.gruppen){
-			if (gruppe2.getId() == gruppeBeitreten.getId()){
+			if (gruppe2.getId() == gruppe.getId()){
 				model.addAttribute("gruppen", Gruppenliste);
-				model.addAttribute("Nachricht", "Sie sind bereits in dieser Gruppe");
+				model.addAttribute("nachricht", "Sie sind bereits in dieser Gruppe");
 				return "GruppenListe";
 			}
 		}
-		if (angemeldeterBenutzer.gruppeBeitreten(gruppeBeitreten)){
+		if (angemeldeterBenutzer.gruppeBeitreten(gruppe)){
 			db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
-			db.eintragZusammenfuehren(gruppeBeitreten.getClass(), gruppeBeitreten);
+			db.eintragZusammenfuehren(gruppeBeitreten.getClass(), gruppe);
 			
 			ArrayList<Thema> themenList = new ArrayList<Thema>();
-			themenList = gruppeBeitreten.pinnwand.sortiereNachDatum();
+			themenList = gruppe.pinnwand.sortiereNachDatum();
 			
 			// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
 			SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
-			for(Thema thema : gruppeBeitreten.pinnwand.themen){
+			for(Thema thema : gruppe.pinnwand.themen){
 				thema.hilfsDatum = simple.format(thema.datum);
 			}
 			
 			model.addAttribute("frage", new Frage());
 		    model.addAttribute("thema", new Thema());
 		    model.addAttribute("themen", themenList);
-		    model.addAttribute("gruppenAnzahl", gruppeBeitreten.anzahl());
-		    model.addAttribute("gruppe", gruppeBeitreten);
-			model.addAttribute("Nachricht", "Sie sind der Gruppe beitreten");
+		    model.addAttribute("gruppenAnzahl", gruppe.anzahl());
+		    model.addAttribute("gruppe", gruppe);
+			model.addAttribute("nachricht", "Sie sind der Gruppe beitreten");
 			return "GruppenProfil";
 		}
 		else{
 			model.addAttribute("gruppen", Gruppenliste);
-			model.addAttribute("Nachricht", "Diese Gruppe ist bereits voll");
+			model.addAttribute("nachricht", "Diese Gruppe ist bereits voll");
 			return "GruppenListe";
 		}
+		
+	}
+	
+	@RequestMapping(value ="/GruppeBeitreten")
+	public String gruppeBeitreten(Model model){
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = gruppe.pinnwand.sortiereNachDatum();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : gruppe.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		
+		model.addAttribute("frage", new Frage());
+	    model.addAttribute("thema", new Thema());
+	    model.addAttribute("themen", themenList);
+	    model.addAttribute("gruppenAnzahl", gruppe.anzahl());
+	    model.addAttribute("gruppe", gruppe);
+	    
+	    for(Benutzer benutzer : gruppe.mitglieder){
+	    	if(benutzer.getId() == angemeldeterBenutzer.getId()){
+	    		model.addAttribute("nachricht", "Sie sind bereits Mitglied der Gruppe");
+	    		return "GruppenProfil";
+	    	}
+	    }
+		
+	    angemeldeterBenutzer.gruppeBeitreten(gruppe);
+		
+		db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
+		db.eintragZusammenfuehren(gruppe.getClass(), gruppe);
+		
+		model.addAttribute("nachricht", "Sie sind der Gruppe beigetreten");
+		return "GruppenProfil";
 		
 	}
 	
