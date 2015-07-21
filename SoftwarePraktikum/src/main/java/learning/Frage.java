@@ -129,7 +129,7 @@ public class Frage implements java.io.Serializable {
 	public int korrigiere() {
 		Set<String> loesung2 = this.loesung;
 		int punkte = 0;
-		for (String a : antworten) {
+		for (String a : getAntworten()) {
 			if (loesung2.contains(a)) {
 				punkte = punkte + 3;
 				loesung2.remove(a);

@@ -68,7 +68,29 @@ public class Teamcombat implements java.io.Serializable {
 	/**
 	 * Konstruktor f&uuml;r Hibernate
 	 */
-	public Teamcombat() {}
+	public Teamcombat() {
+		herausforderer = new Gruppe(); 
+		herausgeforderter = new Gruppe(); 
+		questFuerHerausforderer = this.herausgeforderter.fragenpool.getQuestFuerTeamcombat(herausforderer);
+		questFuerHerausgeforderter = this.herausforderer.fragenpool.getQuestFuerTeamcombat(herausgeforderter);
+		Date now = new Date();
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime(now);
+		calendar.add(Calendar.DAY_OF_MONTH, 3);
+		ablaufdatum = calendar.getTime();
+		gewinnerpunkte = 0; 
+		new Thread(){
+			public void run(){
+				try{
+					Thread.sleep(ablaufdatum.getTime()-new Date().getTime());
+					auswerten();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}.start();
+		
+	}
 
 	/**
 	 * Legt einen neuen Teamcombat an
@@ -105,10 +127,10 @@ public class Teamcombat implements java.io.Serializable {
 	 * @return Die Gewinnergruppe
 	 */
 	public Gruppe auswerten() {
-		for (Benutzer benutzer:herausforderer.getMitglieder()){
+		for (Benutzer benutzer:getHerausforderer().getMitglieder()){
 			benutzer.aufgabeErledigt(this);
 		}
-		for (Benutzer benutzer:herausgeforderter.getMitglieder()){
+		for (Benutzer benutzer:getHerausgeforderter().getMitglieder()){
 			benutzer.aufgabeErledigt(this);
 		}
 		int herausfordererPunkte = questFuerHerausforderer.korrigiere();

@@ -71,7 +71,7 @@ public class Quest extends Challenge implements java.io.Serializable {
 	 * @return Die erreichte Punktzahl
 	 */
 	public int korrigiere() {
-		for (Frage f : fragen) {
+		for (Frage f : getFragen()) {
 			erreichtePunktzahl = erreichtePunktzahl + f.korrigiere();
 			f.setGeblockt(false);
 		}

@@ -724,7 +724,7 @@ public class GreetingController {
 	public String frageErstellen(@ModelAttribute Frage frage, Model model){
 		if (frage.getText() != null){
 		Frage neueFrage = new Frage();
-		db.eintragHinzufuegen(neueFrage.getClass(), neueFrage);
+		db.eintragZusammenfuehren(neueFrage.getClass(), neueFrage);
 		neueFrage.setText(frage.getText());
 		neueFrage.setBenutzer(angemeldeterBenutzer);
 		for (int i=0; i< frage.getZwischenSpeicherAntworten().size(); i++){
@@ -759,7 +759,7 @@ public class GreetingController {
 		}
 		
 		neueFrage.medium = frage.getMedium();
-		db.eintragAktualisieren(neueFrage.getClass(), neueFrage);
+		db.eintragZusammenfuehren(neueFrage.getClass(), neueFrage);
 		gruppe.getFragenpool().addFrage(neueFrage);
 		//Datenbank wird aktualisiert
 		db.eintragZusammenfuehren(gruppe.getFragenpool().getClass(), gruppe.getFragenpool());
@@ -785,10 +785,8 @@ public class GreetingController {
 	@RequestMapping(value = "/QuestStarten")
 	public String questStarten(Model model){
 		System.out.println("Neuer Quest angelegt");
-		HashSet<String> loesung = new HashSet<String>();
-		gruppe.frageErstellen("test", loesung, loesung, angemeldeterBenutzer);
 		Quest quest =  gruppe.questAntreten(angemeldeterBenutzer);
-//		db.eintragZusammenfuehren(quest.getClass(), quest);
+		db.eintragZusammenfuehren(quest.getClass(), quest);
 		this.quest = quest;
 		ArrayList<Frage> fragen = new ArrayList<Frage>();
 		for (Frage f: quest.getFragen()){
@@ -808,7 +806,7 @@ public class GreetingController {
 		Frage mryFrage = new Frage();
 		for (String s:zwischenSpeicherAntworten){
 			String[] result; 
-			result = s.split(";!;");
+			result = s.split(";!!;!");
 			int frageId = Integer.parseInt(result[0]);
 			System.out.println(frageId);
 			String loesung = result[1];
@@ -824,7 +822,7 @@ public class GreetingController {
 				db.eintragZusammenfuehren(mryFrage.getClass(), mryFrage);
 		}
 		
-		System.out.println(quest.korrigiere());
+		int punkte = quest.korrigiere();
 		mryFrage.getAntworten().clear();
 		db.eintragZusammenfuehren(mryFrage.getClass(), mryFrage);
 			
@@ -832,6 +830,7 @@ public class GreetingController {
 		model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);
 	    System.out.println("jetzt hier");
+	    System.out.println(punkte);
 	    return "GruppenProfil";
 	}
 	

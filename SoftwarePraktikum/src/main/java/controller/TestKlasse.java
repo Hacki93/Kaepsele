@@ -229,7 +229,8 @@ public class TestKlasse {
 				db.eintragAktualisieren(lena.getClass(), lena);
 				db.eintragAktualisieren(hannes.getClass(), hannes);
 				
-				biks.teamcombatAntreten(mbis);
+				Teamcombat teamcombat = biks.teamcombatAntreten(mbis);
+				teamcombat.auswerten(); 
 				db.eintragAktualisieren(mbis.getClass(), mbis);
 				db.eintragAktualisieren(biks.getClass(), biks);
 				

@@ -225,11 +225,13 @@ public class Benutzer extends Account implements java.io.Serializable {
 	 * @param objekt Objekt (z.B Teamcombat) auf das sich die Aufgabe bezieht
 	 */
 	public void aufgabeErledigt(Object objekt) {
-		for (Aufgabe n : aufgaben) {
+		Aufgabe aufgabe = new Aufgabe(); 
+		for (Aufgabe n : getAufgaben()) {
 			if (n.getAnhangBossfight().equals(objekt) || n.getAnhangTeamcombat().equals(objekt) || n.getAnhangGruppe().equals(objekt)) {
-				aufgaben.remove(n);
+				aufgabe = n; 
 			}
 		}
+		aufgaben.remove(aufgabe);
 	}
 
 	/**

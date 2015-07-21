@@ -103,7 +103,7 @@
 <tr th:each = "antwort : ${frage.antwortmoeglichkeiten}">
 <td>
           <div class="quiz" id="quiz" data-toggle="buttons">
-          <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right" th:text="${antwort}"></i></span> <input type="checkbox" name="q_answer" th:value="${frage.frage_id} + ';!§;' + ${antwort}" th:field ="*{zwischenSpeicherAntworten}" /></label>
+          <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right" th:text="${antwort}"></i></span> <input type="checkbox" name="q_answer" th:value="${frage.frage_id} + ';!!;!' + ${antwort}" th:field ="*{zwischenSpeicherAntworten}" /></label>
         </div>
         </td>
         </tr>

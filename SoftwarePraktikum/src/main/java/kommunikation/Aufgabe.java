@@ -74,8 +74,8 @@ public class Aufgabe extends Nachricht implements java.io.Serializable{
 	public Aufgabe(int typ, Object sender, Object adressat, Object anhang) {
 		senderGruppe = null;
 		senderBenutzer = null;
-		anhangTeamcombat = null;
-		anhangBossfight = null;
+		anhangTeamcombat = new Teamcombat();
+		anhangBossfight = new Bossfight();
 		anhangGruppe = null;
 		switch (typ) {
 		case 1:
