@@ -226,7 +226,7 @@ public class TestKlasse {
 				db.eintragAktualisieren(bossfight.getClass(), bossfight);
 				
 				for (Frage f: quest.getFragen()){
-					f.addAntwort("eine Antwort");
+					quest.addAntwort(f.getId()+";!!;!Ja");
 					db.eintragAktualisieren(f.getClass(), f);
 				}
 				System.out.println(quest.korrigiere());

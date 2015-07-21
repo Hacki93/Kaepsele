@@ -47,16 +47,7 @@ public class Frage implements java.io.Serializable {
 	@JoinColumn(name="frage_id"))
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<String> antwortmoeglichkeiten;
-	
-	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-	@CollectionTable(name="FRAGE_ANTWORTEN", joinColumns=
-	@JoinColumn(name="frage_id"))
-	@Cascade(CascadeType.SAVE_UPDATE)
-	public Set<String> antworten;
-	
-	@Column(name = "bearbeitet")
-	private boolean geblockt;
-	
+
 	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
 	@CollectionTable(name="FRAGE_LOESUNG", joinColumns=
 	@JoinColumn(name="frage_id"))
@@ -93,11 +84,9 @@ public class Frage implements java.io.Serializable {
 	 */
 	public Frage() {
 		antwortmoeglichkeiten = new HashSet<String>();
-		antworten = new HashSet<String>();
 		loesung = new HashSet<String>();
 		medium = new Medium();
 		zwischenSpeicherAntworten = new ArrayList<String>();
-		geblockt = false; 
 	}
 
 	/**
@@ -113,49 +102,9 @@ public class Frage implements java.io.Serializable {
 		this.loesung = loesung;
 		this.benutzer = autor;
 		this.antwortmoeglichkeiten = antwortmoeglichkeiten;
-		antworten = new HashSet<String>();
 		this.loesung = loesung;
 		medium = new Medium();
 		zwischenSpeicherAntworten = new ArrayList<String>();
-		geblockt = false; 
-	}
-
-	/**
-	 * Vergleicht die gegebenen Antworten mit der L&oumlsung und gibt die
-	 * entsprechende Punktzahl zur&uumlck
-	 * 
-	 * @return erreichte Punktzahl
-	 */
-	public int korrigiere() {
-		Set<String> loesung2 = this.loesung;
-		int punkte = 0;
-		for (String a : getAntworten()) {
-			if (loesung2.contains(a)) {
-				punkte = punkte + 3;
-				loesung2.remove(a);
-			} else {
-				punkte = punkte - 3;
-			}
-		}
-
-		if (loesung2.size() > 0) {
-			punkte = punkte - 3 * loesung2.size();
-		}
-		
-		for (String a: antworten){
-			System.out.println(a);
-		}
-		this.antworten.clear();
-		System.out.println("Fragen gelöscht");
-		for (String a: antworten){
-			System.out.println("Antworten: " + a);
-		} 
-
-		if (punkte < 0) {
-			return 0;
-		} else {
-			return punkte;
-		}
 	}
 	
 	public void addAntwortmoeglichkeiten(String antwort) {
@@ -165,18 +114,6 @@ public class Frage implements java.io.Serializable {
 	public void addLoesung(String loesung) {
 		this.loesung.add(loesung);
 	}
-	
-	public void addAntwort(String antwort) {
-		this.antworten.add(antwort);
-	}
-	
-	public boolean isGeblockt() {
-		return geblockt;
-	}
-
-	public void setGeblockt(boolean bearbeitet) {
-		this.geblockt = bearbeitet;
-	}
 
 	public Set<String> getLoesung() {
 		return loesung;
@@ -184,14 +121,6 @@ public class Frage implements java.io.Serializable {
 	
 	public void setLoesung(Set<String> loesung){
 		this.loesung = loesung;
-	}
-
-	public Set<String> getAntworten() {
-		return antworten;
-	}
-	
-	public void setAntworten(Set<String> antworten){
-		this.antworten = antworten;
 	}
 
 	public Set<String> getAntwortmoeglichkeiten() {

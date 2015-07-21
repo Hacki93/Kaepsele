@@ -3,6 +3,8 @@ package learning;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -36,11 +38,18 @@ public class Quest extends Challenge implements java.io.Serializable {
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Gruppe gruppe;
 	
+	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+	@CollectionTable(name="QUEST_ANTWORTEN", joinColumns=
+	@JoinColumn(name="frage_id"))
+	@Cascade(CascadeType.SAVE_UPDATE)
+	public Set<String> antworten;
+	
 
 	/**
 	 * Erstellt einen Quest
 	 */
 	public Quest() {
+		antworten = new HashSet<String>();
 		fragen = new HashSet<Frage>();
 		erreichbarePunktzahl = 0;
 		erreichtePunktzahl = 0;
@@ -63,21 +72,48 @@ public class Quest extends Challenge implements java.io.Serializable {
 			return false;
 		}
 	}
-
+	
 	/**
-	 * wertet den bearbeiteten Quest aus und gibt die erreichte Punktzahl
-	 * zur&uumlck
-	 * 
-	 * @return Die erreichte Punktzahl
+	 * F&uuml;
+	 * @param antwort
 	 */
-	public int korrigiere() {
-		for (Frage f : getFragen()) {
-			erreichtePunktzahl = erreichtePunktzahl + f.korrigiere();
-			f.setGeblockt(false);
-		}
-		return erreichtePunktzahl;
+	public void addAntwort(String antwort) {
+		this.antworten.add(antwort);
 	}
 	
+	/**
+	 * Vergleicht die gegebenen Antworten mit der L&oumlsung und gibt die
+	 * entsprechende Punktzahl zur&uumlck
+	 * 
+	 * @return erreichte Punktzahl
+	 */
+	public int korrigiere(){
+		erreichtePunktzahl = 0;
+		for(String s : antworten){
+			String[] parts = s.split(";!!;!");
+			int frage_id = Integer.parseInt(parts[0]);
+			String antwort = parts[1];
+			for (Frage f : fragen){
+				Set<String> loesungtemp = f.getLoesung();
+				if(f.getId()==frage_id){
+					if(loesungtemp.contains(antwort)){
+						erreichtePunktzahl += 3;
+						loesungtemp.remove(antwort);
+					}else{
+						erreichtePunktzahl -= 3;
+					}
+					erreichtePunktzahl -= loesungtemp.size()*3; 
+				}
+			}
+			if (erreichtePunktzahl < 0) {
+				return 0;
+			} else {
+				return erreichtePunktzahl;
+			}
+		}
+		return 0;
+	}
+
 	public Set<Frage> getFragen(){
 		return fragen;
 	}
@@ -92,5 +128,13 @@ public class Quest extends Challenge implements java.io.Serializable {
 	
 	public void setGruppe(Gruppe gruppe){
 		this.gruppe = gruppe;
+	}
+	
+	public Set<String> getAntworten() {
+		return antworten;
+	}
+	
+	public void setAntworten(Set<String> antworten){
+		this.antworten = antworten;
 	}
 }

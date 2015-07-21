@@ -169,7 +169,9 @@ public class Gruppe implements java.io.Serializable {
 				fights.add(bf);
 			}
 			int zufallsindex = (int) (Math.random() * fights.size());
-			return fights.get(zufallsindex);
+			Bossfight bossfight = fights.get(zufallsindex);
+			bossfight.setDatum(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+			return bossfight;
 		} else {
 			return null;
 		}

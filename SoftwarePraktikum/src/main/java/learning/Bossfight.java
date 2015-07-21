@@ -52,6 +52,7 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	 */
 	public Bossfight() {
 		antworten = new HashSet<String>();
+		datum = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 	}
 
 	/**

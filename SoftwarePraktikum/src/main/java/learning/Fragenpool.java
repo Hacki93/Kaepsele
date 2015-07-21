@@ -63,16 +63,11 @@ public class Fragenpool implements java.io.Serializable {
 	 */
 	public Quest getQuest(Gruppe gruppe) {
 		Quest quest = new Quest();
-		System.out.println("In Fragenpool");
 		quest.setDatum(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 		quest.setGruppe(gruppe);
 		ArrayList<Frage> fragenliste = new ArrayList<Frage>();
 		for (Frage f : getFragen()) {
-			System.out.println("Fragenliste ausgeben");
-			if (!f.isGeblockt()){
-				System.out.println("frage ist nicht geblockt");
 			fragenliste.add(f);
-			}
 		}
 		while (quest.getFragen().size() < Math.min(fragenanzahl, fragenliste.size())) {
 			int zufallsindex = (int) (Math.random() * fragenliste.size());
@@ -87,17 +82,12 @@ public class Fragenpool implements java.io.Serializable {
 		quest.setGruppe(gruppe);
 		ArrayList<Frage> fragenliste = new ArrayList<Frage>();
 		for (Frage f : fragen) {
-			if (!f.isGeblockt()){
 			fragenliste.add(f);
-			}
 		}
-		System.out.println();
 		while (quest.fragen.size() < Math.min(fragenanzahl, fragenliste.size())) {
 			int zufallsindex = (int) (Math.random() * fragenliste.size());
 			Frage frage = fragenliste.get(zufallsindex);
-			if (quest.addFrage(frage)){
-				frage.setGeblockt(true);
-			}
+			quest.addFrage(frage);
 		}
 		return quest;
 	}
