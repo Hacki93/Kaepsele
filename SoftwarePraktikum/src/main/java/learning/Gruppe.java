@@ -48,6 +48,9 @@ public class Gruppe implements java.io.Serializable {
 	@Column(name = "profilbildurl")
 	private String profilbildurl;
 	
+	@Column(name = "fachrichtungsname")
+	private String fachrichtungsname;
+	
 	@Transient
 	public int anzahlMitglieder;
 
@@ -407,5 +410,13 @@ public class Gruppe implements java.io.Serializable {
 	
 	public int getAnzahlMitglieder(){
 		return anzahlMitglieder;
+	}
+	
+	public String getFachrichtungsname(){
+		return fachrichtungsname;
+	}
+	
+	public void setFachrichtungsname(String name){
+		fachrichtungsname = name;
 	}
 }

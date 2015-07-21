@@ -116,6 +116,7 @@ public class TestKlasse {
 				mbis.moderatorHinzufuegen(hannes);
 				mbis.pinnwand.themaHinzufuegen(thema);
 				mbis.fragenpool.addFrage(frage);
+				mbis.setFachrichtungsname("WI");
 				mbis.addBossfight(bossfight);
 				
 				mbis.setFachrichtung(wi);
@@ -128,6 +129,7 @@ public class TestKlasse {
 				biks.setFachrichtung(wi);
 				biks.setKlausurname("MBIS 1");
 				biks.setName("Management betrieblicher Informationssysteme");
+				biks.setFachrichtungsname("WI");
 				
 				kommentar.setBenutzer(lena);
 				kommentar.setBewertung(0);
