@@ -9,7 +9,7 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
 
-    <title>Freelancer - Start Bootstrap Theme</title>
+    <title>K&auml;psele</title>
 
     <link href="resources/css/bootstrap.min.css" rel="stylesheet"/>
 
@@ -24,7 +24,7 @@
 </head>
 
 <body>
-
+<div id="divForm">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header page-scroll">
@@ -93,7 +93,7 @@
                      
                     </tbody>
                   </table>
-                  <Form th:action="@{/ProfilDaten}" th:object="${benutzer}" method="post">
+                  <Form th:action="@{/ProfilDaten}" th:object="${benutzer}" method="post" name="datenAendern">
                         <label>E-Mail Adresse:</label>
                         <input th:field="*{emailAdresse}" type="email" id="inputEmail" class="form-control" th:placeholder="${angemeldeterBenutzer.emailAdresse}"/>
                       	<div style="width:100%; height:5px; font-size:5pt;"></div> 
@@ -109,7 +109,7 @@
                         <label>Studiengang:</label>
                         <input th:field="*{studiengang}" type="text" id="inputEmail" class="form-control" th:placeholder="${angemeldeterBenutzer.studiengang}"/>
 						<div style="width:100%; height:5px; font-size:5pt;"></div> 
-						<button class="btn btn-primary btn-sm btn-block" type="submit">Daten &auml;ndern</button>
+						<button class="btn btn-primary btn-sm btn-block" type="submit" onclick="closeSelf();">Daten &auml;ndern</button>
 				</Form>
           
                 </div>
@@ -198,7 +198,10 @@
 	</div>
   </div>
   </div> 
-    
+  </div>
+  <div  id="closelink" style="display:none">
+            <a href="javascript:window.close()">Click Here to Close this Page</a>
+        </div>  
     <script src="resources/js/jquery.js"></script>
 
     <script src="resources/js/bootstrap.min.js"></script>
@@ -251,6 +254,12 @@ $(function() {
     
 	   });
 </script>   
+<script type="text/javascript">
+function closeSelf(){
+    document.forms['datenAendern'].submit();
+    hide(document.getElementById('divForm'));
+    unHide(document.getElementById('closelink'));
 
+}</script>
 </body>
 </html>
