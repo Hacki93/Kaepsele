@@ -1,6 +1,7 @@
 package kommunikation;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -58,6 +60,20 @@ public class Aufgabe extends Nachricht implements java.io.Serializable{
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Gruppe anhangGruppe;
 	
+	@Transient 
+	private Gruppe gegnerischeGruppenInfo;
+	
+	@Transient 
+	public int hilfsIdTeamcombat; 
+	
+	public int getHilfsIdTeamcombat() {
+		return hilfsIdTeamcombat;
+	}
+
+	public void setHilfsIdTeamcombat(int hilsIdTeamcombat) {
+		this.hilfsIdTeamcombat = hilsIdTeamcombat;
+	}
+
 	/**
 	 * Leerer Konstruktor f&uuml;r Hibernate
 	 */
@@ -162,5 +178,25 @@ public class Aufgabe extends Nachricht implements java.io.Serializable{
 	
 	public void setEmpfaengerBenutzer(Benutzer empfaenger){
 		empfaengerBenutzer = empfaenger;
+	}
+
+	public Gruppe getGegnerischeGruppenInfo() {
+		return gegnerischeGruppenInfo;
+	}
+
+	public void setGegnerischeGruppenInfo(Gruppe gegnerischeGruppeInfo) {
+		this.gegnerischeGruppenInfo = gegnerischeGruppeInfo;
+	}
+
+	public Benutzer getEmpfaengerBenutzer() {
+		return empfaengerBenutzer;
+	}
+
+	public void setAnhangTeamcombat(Teamcombat anhangTeamcombat) {
+		this.anhangTeamcombat = anhangTeamcombat;
+	}
+
+	public void setAnhangGruppe(Gruppe anhangGruppe) {
+		this.anhangGruppe = anhangGruppe;
 	}
 }

@@ -189,17 +189,34 @@ public class LenasController {
 		ArrayList<Aufgabe> aufgaben = new ArrayList<Aufgabe>();
 		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
 			if (a.getTyp() == Nachricht.TEAMHERAUSFORDERUNG){
-				System.out.println(a.getInhalt());
+				Teamcombat teamcombat = a.getAnhangTeamcombat(); 
+				System.out.println(teamcombat.getId());
+				a.setHilfsIdTeamcombat(teamcombat.getId());
+				
+				// prüft in welcher Gruppe der angemeldete Benutzer ist, damit die Gruppeninfo der gegnerischen Gruppe ausgegeben wird 
+				if (!teamcombat.getHerausforderer().getMitglieder().contains(angemeldeterBenutzer)){
+					teamcombat.getHerausforderer().setAnzahlMitglieder(teamcombat.getHerausforderer().anzahl());
+					a.setGegnerischeGruppenInfo(teamcombat.getHerausforderer());
+				} else {
+					teamcombat.getHerausgeforderter().setAnzahlMitglieder(teamcombat.getHerausgeforderter().anzahl());
+					a.setGegnerischeGruppenInfo(teamcombat.getHerausgeforderter());
+				}
 				aufgaben.add(a);
 			}
 		}
 		
-		for (Aufgabe au: aufgaben){
-			System.out.println("Aufgabe gespeichert: " + au.getTitel());
-		}
-		
-		model.addAttribute(aufgaben);
+	
+		model.addAttribute("aufgaben", aufgaben);
+		model.addAttribute("aufgabe1", new Aufgabe());
 		return "TeamcombatListe";
+	}
+	
+	@RequestMapping(value = "/TeamcombatBearbeiten")
+	public String teamcombatBearbeiten(@ModelAttribute Aufgabe aufgabe1, Model model){
+		System.err.println(aufgabe1.getHilfsIdTeamcombat());
+		System.out.println("Teamcombat wurde  übergeben");
+		return "Menu";
+		
 	}
 	
 }
