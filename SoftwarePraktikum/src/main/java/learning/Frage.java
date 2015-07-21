@@ -141,6 +141,15 @@ public class Frage implements java.io.Serializable {
 		if (loesung2.size() > 0) {
 			punkte = punkte - 3 * loesung2.size();
 		}
+		
+		for (String a: antworten){
+			System.out.println(a);
+		}
+		this.antworten.clear();
+		System.out.println("Fragen gelöscht");
+		for (String a: antworten){
+			System.out.println("Antworten: " + a);
+		} 
 
 		if (punkte < 0) {
 			return 0;

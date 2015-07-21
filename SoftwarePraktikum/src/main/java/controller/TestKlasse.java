@@ -223,6 +223,12 @@ public class TestKlasse {
 				db.eintragAktualisieren(quest.getClass(), quest);
 				db.eintragAktualisieren(bossfight.getClass(), bossfight);
 				
+				for (Frage f: quest.getFragen()){
+					f.addAntwort("eine Antwort");
+					db.eintragAktualisieren(f.getClass(), f);
+				}
+				System.out.println(quest.korrigiere());
+				db.eintragAktualisieren(quest.getClass(), quest);
 				hannes.freundHinzufuegen(lena);
 				
 				lena.freundHinzufuegen(hannes);
