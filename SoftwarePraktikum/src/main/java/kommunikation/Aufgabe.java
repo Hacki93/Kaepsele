@@ -48,7 +48,7 @@ public class Aufgabe extends Nachricht implements java.io.Serializable{
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "anhangTeamcombat_id")
 	@Cascade(CascadeType.SAVE_UPDATE)
-	private Teamcombat anhangTeamcombat;
+	public Teamcombat anhangTeamcombat;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "anhangBossfight_id")

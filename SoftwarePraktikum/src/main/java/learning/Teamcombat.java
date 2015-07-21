@@ -272,6 +272,14 @@ public class Teamcombat implements java.io.Serializable {
 		return gewinner;
 	}
 
+	public void setTeamcombat_id(int id) {
+		teamcombat_id = id;
+	}
+
+	public int getTeamcombat_id() {
+		return teamcombat_id;
+	}
+	
 	public void setId(int id) {
 		teamcombat_id = id;
 	}
