@@ -211,9 +211,9 @@ public class LenasController {
 		return "TeamcombatListe";
 	}
 	
-	@RequestMapping(value = "/TeamcombatBearbeiten")
-	public String teamcombatBearbeiten(@ModelAttribute Aufgabe aufgabe1, Model model){
-		System.err.println(aufgabe1.anhangTeamcombat.getId());
+	@RequestMapping(value = "/TeamcombatBearbeiten/{aufgabe.anhangTeamcombat.teamcombat_id}")
+	public String teamcombatBearbeiten(@PathVariable("aufgabe.anhangTeamcombat.teamcombat_id") int teamcombat_id, @ModelAttribute Aufgabe aufgabe1, Model model){
+		System.err.println(teamcombat_id);
 		System.out.println("Teamcombat wurde  übergeben");
 		return "Menu";
 		

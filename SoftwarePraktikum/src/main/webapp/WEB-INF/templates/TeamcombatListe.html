@@ -38,7 +38,7 @@
 </head>
 
 <body>
-<div id ="divForm">
+
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -85,12 +85,13 @@
 					</div>
 					<div class="panel-body">
 						<div class="row">
-						<form th:action= "@{/TeamcombatBearbeiten}" th:object="${aufgabe1}" name="teamcombatForm" method="post">
+						
 						<table class="table table-user-information">
 <tbody>
 <tr th:each ="aufgabe : ${aufgaben}">
-<td>
 
+<td>
+						
 							<div class="container">
 								<div
 									class="well col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
@@ -106,7 +107,7 @@
 											data-for=".cyruxx">
 											<i class="glyphicon glyphicon-chevron-down text-muted"></i>
 										</div>
-										<input type = "hidden" th:text = "${aufgabe.anhangTeamcombat.teamcombat_id}" th:field = "*{anhangTeamcombat.teamcombat_id}"/>
+									<!--  	<input type = "hidden" th:text = "${aufgabe.anhangTeamcombat.teamcombat_id}" th:field = "*{anhangTeamcombat.teamcombat_id}"/> -->
 									</div>
 									<div class="row user-infos cyruxx">
 										<div
@@ -172,11 +173,11 @@
 													</button>
 													<span class="pull-right">
 													
-														<button class="btn btn-sm btn-danger" type="submit"
-															data-toggle="tooltip"
-															data-original-title="Teamcombat antreten"  onclick="closeSelf();">
-															<i class="glyphicon glyphicon-ok"></i>
-														</button>
+														<a th:href="@{/TeamcombatBearbeiten/__${aufgabe.anhangTeamcombat.teamcombat_id}__}" 
+															class="btn btn-sm btn-danger" type="button" data-toggle="tooltip"
+															data-original-title="Teamcombat antreten"  ><i
+															class="glyphicon glyphicon-ok"></i></a>
+														
 													</span>
 												</div>
 											</div>
@@ -184,14 +185,14 @@
 									</div>
 							</div>
 
-
-
 						</div>
 					</td>
+		
 	</tr>
+	
 	</tbody>
-	</table>	
-	</form>
+	
+	</table>
 						
 					</div>
 				</div>
@@ -202,10 +203,7 @@
 		</div>
 	</div>
 	</div>
-	</div>
-	 <div  id="closelink" style="display:none">
-            <a href="javascript:window.close()">Click Here to Close this Page</a>
-        </div>
+
 
 
 	<script src="resources/js/jquery.js"></script>
@@ -229,13 +227,7 @@
 
 	<!-- Custom Theme JavaScript -->
 	<script src="resources/js/profil.js" type="text/javascript"></script>
-<script type="text/javascript">
-function closeSelf(){
-    document.forms['teamcombatForm'].submit();
-    hide(document.getElementById('divForm'));
-    unHide(document.getElementById('closelink'));
 
-}</script>
 
 </body>
 </html>
