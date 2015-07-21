@@ -303,6 +303,11 @@ public class Benutzer extends Account implements java.io.Serializable {
 		gruppen.remove(gruppe);
 		gruppe.mitgliedLoeschen(this);
 		gruppe.pinnwand.erlaubteBenutzer.remove(this);
+		
+		if (this.moderierteGruppen.contains(gruppe)){
+			this.moderierteGruppen.remove(gruppe);
+			gruppe.moderatoren.remove(this);
+		}
 	}
 
 	/**

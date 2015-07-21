@@ -727,6 +727,39 @@ public class GreetingController {
 		
 	}
 	
+	@RequestMapping(value = "/GruppeVerlassen")
+	public String gruppeVerlassen(Model model){
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = gruppe.pinnwand.sortiereNachDatum();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : gruppe.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+		}
+		
+		model.addAttribute("frage", new Frage());
+	    model.addAttribute("thema", new Thema());
+	    model.addAttribute("themen", themenList);
+	    model.addAttribute("gruppenAnzahl", gruppe.anzahl());
+	    model.addAttribute("gruppe", gruppe);
+	    
+	    for(Benutzer benutzer : gruppe.mitglieder){
+	    	if(benutzer.getId() == angemeldeterBenutzer.getId()){
+	    		angemeldeterBenutzer.gruppeVerlassen(gruppe);
+	    		
+	    		db.eintragAktualisieren(angemeldeterBenutzer.getClass(), angemeldeterBenutzer);
+	    		db.eintragAktualisieren(gruppe.getClass(), gruppe);
+	    		
+	    		model.addAttribute("nachricht", "Sie haben die Gruppe verlassen");
+	    		return "GruppenProfil";
+	    	}
+	    }
+	    model.addAttribute("nachricht", "Sie sind bereits kein Mitglied der Gruppe");
+		
+		return "GruppenProfil";
+	}
+	
 	@RequestMapping(value = "/GruppenProfil/{gruppe.gruppen_id}", method =RequestMethod.GET)
 	public String gruppenProfilAnzeigen(@PathVariable("gruppe.gruppen_id") int gruppe_id, Model model){
 		Gruppe hilfsGruppe = new Gruppe();
