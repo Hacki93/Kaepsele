@@ -74,7 +74,7 @@ public class Nachricht implements java.io.Serializable{
 		switch (typ) {
 		case 0:
 			titel = "Du hast einen neuen Freund";
-			inhalt = (String) nachricht + " hat Dich zu seiner Freundesliste hinzugefügt";
+			inhalt = (String) nachricht + " hat Dich zur Freundesliste hinzugefügt";
 			break;
 		case 3:
 			titel = (String) nachricht + "möchte der Gruppe beitreten";
