@@ -1341,12 +1341,6 @@ public class HauptController {
 		return "Bossfight";
 	}
 	
-//	@RequestMapping (value = "/medium", method = RequestMethod.GET)
-//	public String getForm(Model model) {
-//		Medium mediumModel = new Medium();
-//		model.addAttribute("medium", mediumModel);
-//		return "medium";
-//	}
 	
 	@RequestMapping (value = "/MediumHochladen", method = RequestMethod.POST)
 	public String mediumHochladen(Model model, Medium medium, BindingResult result, HttpServletRequest request) {
