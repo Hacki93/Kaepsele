@@ -111,11 +111,22 @@ public class HauptController {
 	
 	@RequestMapping(value="/Menu")
 	public String getMenu(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
 		return "Menu2";
 	}
 	
 	@RequestMapping(value="/profil", method=RequestMethod.GET)
 	public String eigenesProfil(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
@@ -139,6 +150,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/profil/{benutzername}", method=RequestMethod.GET)
 	public String getProfil(@PathVariable("benutzername") String benutzername, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		// Es wird die Profilseite eines anderen Benutzers aufgerufen
 		Benutzer benutzer = new Benutzer();
 		for(Object obj : db.tabelleAusgeben(benutzer.getClass())){
@@ -170,9 +187,11 @@ public class HauptController {
 	
 	@RequestMapping(value="/ProfilDaten", method = RequestMethod.POST)
 	public String datenAendern(@ModelAttribute Benutzer benutzer, Model model){
-		System.out.println("test");
-		System.out.println(benutzer.getAdresse());
-		System.out.println(benutzer.getBeruf());;
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
 		
 		// angemeldeterBenutzer wird aktualisiert
 		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
@@ -212,6 +231,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/sortiereLikes/eigenesProfil")
 	public String sortiereLikesEigenesProfil(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		// die Pinnwand wird nach Likes sortiert
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = angemeldeterBenutzer.pinnwand.sortiereNachBewertung();
@@ -233,6 +258,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/sortiereLikes")
 	public String sortiereLikes(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		// die Pinnwand wird nach Likes sortiert
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = profilBenutzer.pinnwand.sortiereNachBewertung();
@@ -253,6 +284,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/sortierDatum/eigenesProfil")
 	public String sortierDatumEigenesProfil(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		// die Pinnwand wird nach Datum sortiert
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = angemeldeterBenutzer.pinnwand.sortiereNachDatum();
@@ -274,6 +311,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/sortierDatum")
 	public String sortierDatum(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		// die Pinnwand wird nach Datum sortiert
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
@@ -294,6 +337,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/hinzufuegen")
 	public String freundHizufuegen(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		// angemeldeterBenutzer und profilBenutzer werden aktualisiert
 		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
@@ -346,6 +395,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/entfernen")
 	public String freundEntfernen(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		// Pinnwand wird nach Datum sortiert
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
@@ -386,6 +441,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/bewertet/eigenesProfil/{thema.inhalt_id}")
 	public String erhoeheLikeEigenesProfil(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		// Inhalt wird geliked
 		Inhalt inhalt = new Inhalt();
 		for(Object obj : db.tabelleAusgeben(inhalt.getClass())){
@@ -426,6 +487,11 @@ public class HauptController {
 	
 	@RequestMapping(value="/bewertet/{thema.inhalt_id}")
 	public String erhoeheLike(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
 		
 		// Inhalt wird geliked
 		Inhalt inhalt = new Inhalt();
@@ -466,6 +532,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/themaLoeschen/{thema.inhalt_id}")
 	public String themaLoeschen(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		Inhalt themaLoeschen = new Thema();
 		for(Object obj : db.tabelleAusgeben(themaLoeschen.getClass())){
 			Thema t = (Thema) obj;
@@ -509,6 +581,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/beitragSchreiben", method = RequestMethod.POST)
 	public String beitragSchreiben(@ModelAttribute Thema thema, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		Thema neuesThema = new Thema();
 		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
 		neuesThema.setTitel(thema.getTitel());
@@ -549,6 +627,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/EigenerBeitragSchreiben", method = RequestMethod.POST)
 	public String eigenerBeitragSchreiben(@ModelAttribute Thema thema, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		Thema neuesThema = new Thema();
 		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
 		neuesThema.setTitel(thema.getTitel());
@@ -586,6 +670,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/Mitgliederliste")
 	public String getMitgliederliste(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		ArrayList<Benutzer> benutzerliste = new ArrayList<Benutzer>();
 		for(Object obj : db.tabelleAusgeben(angemeldeterBenutzer.getClass())){
 			Benutzer b = (Benutzer) obj;
@@ -597,6 +687,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/Gruppenliste")
 	public String getGruppenliste(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		ArrayList<Gruppe> Gruppenliste = new ArrayList<Gruppe>(); 
 		Gruppe gruppe = new Gruppe();
 		for(Object obj : db.tabelleAusgeben(gruppe.getClass())){
@@ -611,6 +707,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/eigeneGruppen")
 	public String getEigeneGruppen(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		Fachrichtung fachrichtung = new Fachrichtung();
 		ArrayList<Fachrichtung> fachrichtungen = new ArrayList<Fachrichtung>();
 		for(Object obj : db.tabelleAusgeben(fachrichtung.getClass())){
@@ -629,6 +731,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/GruppeErstellen", method=RequestMethod.POST)
 	public String gruppeErstellen(@ModelAttribute Gruppe gruppe, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		Gruppe neueGruppe = new Gruppe();
 		db.eintragHinzufuegen(neueGruppe.getClass(), neueGruppe);
 		neueGruppe.setName(gruppe.getName());
@@ -648,6 +756,12 @@ public class HauptController {
 	
 	@RequestMapping(value = "/GruppenBeitreten/{gruppe.gruppen_id}")
 	public String gruppenBeitreten(@PathVariable("gruppe.gruppen_id") int gruppe_id, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		Gruppe gruppeBeitreten = new Gruppe();
 		ArrayList<Gruppe> Gruppenliste = new ArrayList<Gruppe>();
 		
@@ -698,6 +812,12 @@ public class HauptController {
 	
 	@RequestMapping(value ="/GruppeBeitreten")
 	public String gruppeBeitreten(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = gruppe.pinnwand.sortiereNachDatum();
 		
@@ -732,6 +852,12 @@ public class HauptController {
 	
 	@RequestMapping(value = "/GruppeVerlassen")
 	public String gruppeVerlassen(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = gruppe.pinnwand.sortiereNachDatum();
 		
@@ -765,6 +891,12 @@ public class HauptController {
 	
 	@RequestMapping(value = "/GruppenPinnwandSortiereLikes")
 	public String gruppenPinnwandSortiereLikes(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = gruppe.pinnwand.sortiereNachBewertung();
 		
@@ -786,6 +918,12 @@ public class HauptController {
 	
 	@RequestMapping(value = "/GruppenPinnwandSortiereDatum")
 	public String gruppenPinnwandSortiereDatum(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = gruppe.pinnwand.sortiereNachDatum();
 		
@@ -807,6 +945,12 @@ public class HauptController {
 	
 	@RequestMapping(value ="/Loeschen/GruppenProfil/{thema.inhalt_id}")
 	public String loescheGruppenBeitrag(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		Inhalt themaLoeschen = new Thema();
 		for(Object obj : db.tabelleAusgeben(themaLoeschen.getClass())){
 			Thema t = (Thema) obj;
@@ -846,6 +990,12 @@ public class HauptController {
 	
 	@RequestMapping(value="/GruppenBeitragSchreiben", method = RequestMethod.POST)
 	public String gruppenBeitragSchreiben(@ModelAttribute Thema thema, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		Thema neuesThema = new Thema();
 		db.eintragHinzufuegen(neuesThema.getClass(), neuesThema);
 		neuesThema.setTitel(thema.getTitel());
@@ -883,6 +1033,12 @@ public class HauptController {
 	
 	@RequestMapping(value ="/bewertet/GruppenProfil/{thema.inhalt_id}")
 	public String bewerteGruppeProfil(@PathVariable("thema.inhalt_id") int inhalt_id, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		// Inhalt wird geliked
 		Inhalt inhalt = new Inhalt();
 		for(Object obj : db.tabelleAusgeben(inhalt.getClass())){
@@ -921,6 +1077,12 @@ public class HauptController {
 	
 	@RequestMapping(value = "/GruppenProfil/{gruppe.gruppen_id}", method =RequestMethod.GET)
 	public String gruppenProfilAnzeigen(@PathVariable("gruppe.gruppen_id") int gruppe_id, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		Gruppe hilfsGruppe = new Gruppe();
 		for(Object obj : db.tabelleAusgeben(hilfsGruppe.getClass())){
 			Gruppe g = (Gruppe) obj;
@@ -949,6 +1111,12 @@ public class HauptController {
 	
 	@RequestMapping(value = "/frageErst", method=RequestMethod.POST)
 	public String frageErstellen(@ModelAttribute Frage frage, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		if (frage.getText() != null){
 		Frage neueFrage = new Frage();
 		db.eintragZusammenfuehren(neueFrage.getClass(), neueFrage);
@@ -1011,7 +1179,12 @@ public class HauptController {
 	
 	@RequestMapping(value = "/QuestStarten")
 	public String questStarten(Model model){
-		System.out.println("Neuer Quest angelegt");
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+
 		Quest quest =  gruppe.questAntreten(angemeldeterBenutzer);
 		db.eintragZusammenfuehren(quest.getClass(), quest);
 		this.quest = quest;
@@ -1028,6 +1201,12 @@ public class HauptController {
 	
 	@RequestMapping(value = "/questBeenden")
 	public String questBeenden(@ModelAttribute Frage frage, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		System.out.println("questBeenden-Methode");
 		ArrayList<String> zwischenSpeicherAntworten = frage.getZwischenSpeicherAntworten();
 		Frage mryFrage = new Frage();
@@ -1136,6 +1315,12 @@ public class HauptController {
 	
 	@RequestMapping(value = "/GruppeAuswaehlen")
 	public String gruppeAuswaehlen(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		ArrayList<Gruppe> Gruppenliste = new ArrayList<Gruppe>(); 
 		Gruppe gruppe = new Gruppe();
 		for(Object obj : db.tabelleAusgeben(gruppe.getClass())){
@@ -1150,6 +1335,12 @@ public class HauptController {
 	
 	@RequestMapping(value = "/Gegnerischegruppe/{gruppe.gruppen_id}")
 	public String teamcombatErstellen(@PathVariable("gruppe.gruppen_id") int gruppen_id, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		Gruppe gegnerGruppe = new Gruppe();
 		gegnerGruppe = (Gruppe) db.eintragAusgeben(gegnerGruppe.getClass(), gruppen_id);
 		
