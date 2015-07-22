@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -36,6 +37,9 @@ public class Thema extends Inhalt implements java.io.Serializable{
 	@JoinColumn(name="pinnwand_id")
 	@Cascade(CascadeType.SAVE_UPDATE)
     public Pinnwand pinnwand;
+	
+	@Transient
+	public ArrayList<Kommentar> hilfListeKommentare;
 	
     /**
      * Konstruktor f&uuml;r Hibernate
@@ -98,24 +102,26 @@ public class Thema extends Inhalt implements java.io.Serializable{
 	 * 
 	 * @return die sortierte Kommentarliste
 	 */
-	public ArrayList<Kommentar> sortiereNachDatum(){
-		ArrayList<Kommentar> tempArrayList = new ArrayList<Kommentar>();
+	public boolean sortiereNachDatum(){
 		Stack<Kommentar> tempStack = new Stack<Kommentar>();
-		
+		hilfListeKommentare = new ArrayList<Kommentar>();
+		if (this.kommentare == null){
+			return false;
+		}
 		for(Kommentar kommentar : this.kommentare){
-			tempArrayList.add(kommentar);
+			hilfListeKommentare.add(kommentar);
 		}
 		
-		for(int i = 1; i < tempArrayList.size(); i++){
-			for(int j = 0; j < tempArrayList.size() - 1; j++){
-				if (tempArrayList.get(j).getDatum().compareTo(tempArrayList.get(j+1).getDatum()) > 0){
-					tempStack.push(tempArrayList.get(j));
-					tempArrayList.set(j, tempArrayList.get(j+1));
-					tempArrayList.set(j+1, tempStack.pop());
+		for(int i = 1; i < hilfListeKommentare.size(); i++){
+			for(int j = 0; j < hilfListeKommentare.size() - 1; j++){
+				if (hilfListeKommentare.get(j).getDatum().compareTo(hilfListeKommentare.get(j+1).getDatum()) > 0){
+					tempStack.push(hilfListeKommentare.get(j));
+					hilfListeKommentare.set(j, hilfListeKommentare.get(j+1));
+					hilfListeKommentare.set(j+1, tempStack.pop());
 				}
 			}
-		}		
-		return tempArrayList;
+		}
+		return true;
 	}
 	
 	/**
@@ -149,4 +155,12 @@ public class Thema extends Inhalt implements java.io.Serializable{
     public void setPinnwand(Pinnwand pinnwand){
     	this.pinnwand = pinnwand;
     }
+    
+    public ArrayList<Kommentar> getHilfListeKommentare() {
+		return hilfListeKommentare;
+	}
+
+	public void setHilfListeKommentare(ArrayList<Kommentar> hilfListeKommentare) {
+		this.hilfListeKommentare = hilfListeKommentare;
+	}
 }

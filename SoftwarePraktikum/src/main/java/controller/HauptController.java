@@ -18,6 +18,7 @@ import learning.Fachrichtung;
 import learning.Frage;
 import learning.Gruppe;
 import learning.Inhalt;
+import learning.Kommentar;
 import learning.Medium;
 import learning.Quest;
 import learning.Teamcombat;
@@ -131,6 +132,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		// Pinnwand wird nach Datum sortiert
@@ -169,12 +171,15 @@ public class HauptController {
 		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : profilBenutzer.pinnwand.themen){
-			thema.hilfsDatum = simple.format(thema.datum);
+			thema.hilfsDatum = simple.format(thema.datum);		
+			thema.sortiereNachDatum();
 		}
 		
 		// Pinnwand wird nach Datum sortiert
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = profilBenutzer.pinnwand.sortiereNachDatum();
+		
+		
 		
 		// dem Model müssen die Daten des ProfilBenutzer übergeben werden,
 		// damit diese angezeigt werden können
@@ -214,6 +219,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 				
 		// Pinnwand wird nach Datum sortiert
@@ -245,6 +251,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 				
 		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
@@ -272,6 +279,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : profilBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
@@ -298,6 +306,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
@@ -325,6 +334,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : profilBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		// dem Model werden alle wichtigen Daten zur Darstellung der Seite übergeben
@@ -358,6 +368,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : profilBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		// Pinnwand wird nach Datum sortiert
@@ -409,6 +420,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : profilBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		// Überprüfung ob sich der profilBenutzer in der Freundesliste befindet
@@ -470,6 +482,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 				
 		// Pinnwand wird nach Datum sortiert
@@ -516,6 +529,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : profilBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		// Pinnwand wird nach Datum sortiert
@@ -564,6 +578,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : angemeldeterBenutzer.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 						
 		// Pinnwand wird nach Datum sortiert
@@ -610,6 +625,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema themaDatum : profilBenutzer.pinnwand.themen){
 			themaDatum.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 								
 		// Pinnwand wird nach Datum sortiert
@@ -653,6 +669,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema themaDatum : angemeldeterBenutzer.pinnwand.themen){
 			themaDatum.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 								
 		// Pinnwand wird nach Datum sortiert
@@ -786,6 +803,7 @@ public class HauptController {
 			SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 			for(Thema thema : gruppe.pinnwand.themen){
 				thema.hilfsDatum = simple.format(thema.datum);
+				thema.sortiereNachDatum();
 			}
 			
 			model.addAttribute("frage", new Frage());
@@ -819,6 +837,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : gruppe.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		model.addAttribute("frage", new Frage());
@@ -859,6 +878,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : gruppe.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		model.addAttribute("frage", new Frage());
@@ -898,6 +918,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : gruppe.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		model.addAttribute("themen", themenList);
@@ -925,6 +946,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : gruppe.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		model.addAttribute("themen", themenList);
@@ -970,6 +992,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : gruppe.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		model.addAttribute("themen", themenList);
@@ -1014,6 +1037,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema2 : gruppe.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema2.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		model.addAttribute("themen", themenList);
@@ -1058,6 +1082,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : gruppe.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		model.addAttribute("themen", themenList);
@@ -1092,6 +1117,7 @@ public class HauptController {
 		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
 		for(Thema thema : gruppe.pinnwand.themen){
 			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
 		model.addAttribute("themen", themenList);

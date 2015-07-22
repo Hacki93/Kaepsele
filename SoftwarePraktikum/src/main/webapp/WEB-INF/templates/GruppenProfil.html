@@ -170,6 +170,22 @@
                         </span>
                     	</div>
                         </td>
+                         <td></td>
+                          <tr th:each="kommentar : ${thema.hilfListeKommentare}">
+										<td>
+											<div class="normalertext">Kommentar</div>
+										</td>
+										<td>
+											<div class="panel-footer">
+												<a  data-original-title="Gef&auml;llt mir"
+													data-toggle="tooltip" type="button"
+													class="btn btn-sm btn-primary"><i
+													class="glyphicon glyphicon-thumbs-up"></i></a>&nbsp;&nbsp;&nbsp; <div class="normalertext" th:text="'Von ' + ${kommentar.benutzer.benutzername} + ': ' + ${kommentar.inhalt}"></div>
+												<span class="pull-right" th:text="${kommentar.bewertung} + ' Personen gef&auml;llt das'"></span> 
+											</div>
+											
+										</td>
+									</tr>
                           
                       </tr>
                       

@@ -64,7 +64,7 @@
 
 <div class="container">
        <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1 toppad" >
    
    
           <div class="panel panel-info">
@@ -151,9 +151,22 @@
                        		</span>
                     	</div>
                         </td>
-                          
-                     
                       <td></td>
+                      <tr th:each="kommentar : ${thema.hilfListeKommentare}">
+										<td>
+											<div class="normalertext">Kommentar</div>
+										</td>
+										<td>
+											<div class="panel-footer">
+												<a  data-original-title="Gef&auml;llt mir"
+													data-toggle="tooltip" type="button"
+													class="btn btn-sm btn-primary"><i
+													class="glyphicon glyphicon-thumbs-up"></i></a>&nbsp;&nbsp;&nbsp; <div class="normalertext" th:text="'Von ' + ${kommentar.benutzer.benutzername} + ': ' + ${kommentar.inhalt}"></div>
+												<span class="pull-right" th:text="${kommentar.bewertung} + ' Personen gef&auml;llt das'"></span> 
+											</div>
+											
+										</td>
+									</tr>
                       </tr>
                       <!--bis hier -->
                       </tbody>
