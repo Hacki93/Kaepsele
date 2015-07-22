@@ -33,7 +33,6 @@ public class Challenge implements java.io.Serializable{
 	@ManyToOne(fetch = FetchType.EAGER)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name="benutzer_id")
-	
 	public Benutzer benutzer; //Bearbeiter 
 	
 	@Column(name = "erreichbarePunktzahl")

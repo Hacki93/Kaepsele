@@ -90,6 +90,7 @@ public class Quest extends Challenge implements java.io.Serializable {
 	public int korrigiere(){
 		erreichtePunktzahl = 0;
 		for(String s : antworten){
+			System.out.println("Antwort: "+ s);
 			String[] parts = s.split(";!!;!");
 			int frage_id = Integer.parseInt(parts[0]);
 			String antwort = parts[1];
@@ -105,13 +106,11 @@ public class Quest extends Challenge implements java.io.Serializable {
 					erreichtePunktzahl -= loesungtemp.size()*3; 
 				}
 			}
-			if (erreichtePunktzahl < 0) {
-				return 0;
-			} else {
-				return erreichtePunktzahl;
-			}
 		}
-		return 0;
+		if (erreichtePunktzahl < 0) {
+			erreichtePunktzahl = 0; 
+		}
+		return erreichtePunktzahl; 
 	}
 
 	public Set<Frage> getFragen(){

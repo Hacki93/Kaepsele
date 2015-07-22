@@ -32,7 +32,6 @@ public class LenasController {
 	Benutzer profilBenutzer;
 	Gruppe gruppe;
 	Quest quest;
-	ArrayList<Frage> questFragen; 
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
 	public String greeting(Model model) {
@@ -53,6 +52,9 @@ public class LenasController {
 			}
 		}
 		this.gruppe = gruppe;
+		int punkte = this.gruppe.aktuellerPunktestand(angemeldeterBenutzer);
+		
+		model.addAttribute("punkte", punkte);
 		model.addAttribute("frage", new Frage());
 	    model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);
@@ -126,12 +128,12 @@ public class LenasController {
 		Quest quest =  gruppe.questAntreten(angemeldeterBenutzer);
 		db.eintragZusammenfuehren(quest.getClass(), quest);
 		this.quest = quest;
+		System.out.println("QuestID: " + quest.getId());
 		ArrayList<Frage> fragen = new ArrayList<Frage>();
 		for (Frage f: quest.getFragen()){
 			fragen.add(f);
 			System.out.println(f.getText());
 		}
-		questFragen=fragen;
 		model.addAttribute("fragen", fragen);
 		model.addAttribute("quest", new Quest());
 		return "Quest";
@@ -148,16 +150,21 @@ public class LenasController {
 	
 	@RequestMapping(value = "/questBeenden")
 	public String questBeenden(@ModelAttribute Quest quest, Model model){
+		Quest neuerQuest = new Quest(); 
+		int questId = this.quest.getId(); 
+		neuerQuest = (Quest) db.eintragAusgeben(neuerQuest.getClass(), questId);
 		if (quest.getAntworten() != null){
 			for (String a: quest.getAntworten()){
-				this.quest.addAntwort(a);
+				neuerQuest.addAntwort(a);
 			}
 		}
-		
-		int punkte = this.quest.korrigiere();
-		db.eintragZusammenfuehren(this.quest.getClass(), this.quest);
+		db.eintragZusammenfuehren(neuerQuest.getClass(), neuerQuest);
+		int punkte = neuerQuest.korrigiere();
+		db.eintragZusammenfuehren(neuerQuest.getClass(), neuerQuest);
 		this.quest = null; 
+		int aktuellerPunktestand = gruppe.aktuellerPunktestand(angemeldeterBenutzer);
 		
+		model.addAttribute("punkte", aktuellerPunktestand);
 		model.addAttribute("nachricht", "Sie haben " + punkte + " Punkte erreicht"); 
 		model.addAttribute("frage", new Frage());
 		model.addAttribute("thema", new Thema());
@@ -221,7 +228,6 @@ public class LenasController {
 			}
 		}
 		
-		questFragen=fragen;
 		model.addAttribute("fragen", fragen);
 		model.addAttribute("quest", new Quest());
 		return "QuestTeamcombat";
@@ -317,7 +323,6 @@ public class LenasController {
 				}
 			}
 			
-			questFragen=fragen;
 			model.addAttribute("fragen", fragen);
 			model.addAttribute("quest", new Quest());
 			return "QuestTeamcombat";
