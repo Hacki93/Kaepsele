@@ -1153,7 +1153,10 @@ public class HauptController {
 		Gruppe gegnerGruppe = new Gruppe();
 		gegnerGruppe = (Gruppe) db.eintragAusgeben(gegnerGruppe.getClass(), gruppen_id);
 		
-		gruppe.teamcombatAntreten(gegnerGruppe);
+		Teamcombat neuesTeamcombat = new Teamcombat();
+		db.eintragHinzufuegen(neuesTeamcombat.getClass(), neuesTeamcombat);
+		neuesTeamcombat = gruppe.teamcombatAntreten(gegnerGruppe);
+		db.eintragAktualisieren(neuesTeamcombat.getClass(), neuesTeamcombat);
 		
 		ArrayList<Aufgabe> aufgaben = new ArrayList<Aufgabe>();
 		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
