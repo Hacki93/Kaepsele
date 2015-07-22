@@ -149,4 +149,12 @@ public class Nachricht implements java.io.Serializable{
 	public void setEmpfaenger(Benutzer empfaenger){
 		this.empfaenger = empfaenger;
 	}
+	
+	public void setId(int id){
+		this.nachricht_id = id; 
+	}
+	
+	public int getId(){
+		return nachricht_id;
+	}
 }

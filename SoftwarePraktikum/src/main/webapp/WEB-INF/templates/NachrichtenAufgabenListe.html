@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -84,7 +84,9 @@
 
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<h1 class="panel-title">Deine Aufgaben <i class="fa fa-check-square-o"></i></h1>
+						<h1 class="panel-title">
+							Deine Aufgaben <i class="fa fa-check-square-o"></i>
+						</h1>
 					</div>
 					<div class="panel-body">
 						<div class="row">
@@ -93,86 +95,33 @@
 
 								<div class="inbox-body">
 
-									<table class="table table-inbox table-hover">
-										<tbody>
-											<tr class="unread">
-												<td class="inbox-small-cells"><input type="checkbox"
-													class="mail-checkbox" /></td>
+									<form th:action="@{/AufgabeErledigen}" th:object="${aufgabe}"
+										id="aufgabeForm" method="post">
+										<table class="table table-inbox table-hover">
+											<tbody>
+												<tr class="unread" th:each="aufgabe : ${aufgaben}">
+													<td class="inbox-small-cells"><div id="ck-button">
+															<label>
+														<input type="checkbox" class="mail-checkbox"
+														th:value="${aufgabe.nachricht_id}"
+														th:field="*{hilfsIdTeamcombat}"
+														onchange="document.getElementById('aufgabeForm').submit()" /><span>Bearbeiten</span>
+															</label>
+														</div></td>
 
-												<td class="view-message  dont-show">Gruppenmitgliedschaft</td>
-												<td class="view-message ">Du wurdest aus der Gruppe
-													"WI_Lerngang" gel&ouml;scht. Grund: Deine Leistungen
-													entsprechen nicht den Erwartungen deiner Gruppe.</td>
-												<td class="view-message  inbox-small-cells"></td>
-												<td class="view-message  text-right">9:27</td>
-											</tr>
-											<tr class="unread">
-												<td class="inbox-small-cells"><input type="checkbox"
-													class="mail-checkbox" /></td>
-												<td class="view-message dont-show">System</td>
-												<td class="view-message">Fehlerhafter Loginversuch um
-													13:43</td>
-												<td class="view-message inbox-small-cells"></td>
-												<td class="view-message text-right">14.Juli</td>
-											</tr>
-											<tr class="unread">
-												<td class="inbox-small-cells"><input type="checkbox"
-													class="mail-checkbox" /></td>
-												<td class="view-message dont-show">Teamcombat</td>
-												<td class="view-message">HannesPlayboy hat deine Gruppe
-													"WI_Lerngang" zu einem Teamcombat herausgefordert</td>
-												<td class="view-message inbox-small-cells"></td>
-												<td class="view-message text-right">12.Juli</td>
-											</tr>
-											<tr class="unread">
-												<td class="inbox-small-cells"><input type="checkbox"
-													class="mail-checkbox" /></td>
-												<td class="view-message dont-show">Gruppenmitgliedschaft</td>
-												<td class="view-message">Du bist der Gruppe
-													"WI_Lerngang" erfolgreich beigetreten.</td>
-												<td class="view-message inbox-small-cells"></td>
-												<td class="view-message text-right">12.Juli</td>
-											</tr>
-											<tr class="unread">
-												<td class="inbox-small-cells"><input type="checkbox"
-													class="mail-checkbox" /></td>
-
-												<td class="view-message  dont-show">Gruppenmitgliedschaft</td>
-												<td class="view-message ">Du wurdest aus der Gruppe
-													"WI_Lerngang" gel&ouml;scht. Grund: Deine Leistungen
-													entsprechen nicht den Erwartungen deiner Gruppe.</td>
-												<td class="view-message  inbox-small-cells"></td>
-												<td class="view-message  text-right">9:27</td>
-											</tr>
-											<tr class="unread">
-												<td class="inbox-small-cells"><input type="checkbox"
-													class="mail-checkbox" /></td>
-												<td class="view-message dont-show">System</td>
-												<td class="view-message">Fehlerhafter Loginversuch um
-													13:43</td>
-												<td class="view-message inbox-small-cells"></td>
-												<td class="view-message text-right">14.Juli</td>
-											</tr>
-											<tr class="unread">
-												<td class="inbox-small-cells"><input type="checkbox"
-													class="mail-checkbox" /></td>
-												<td class="view-message dont-show">Teamcombat</td>
-												<td class="view-message">HannesPlayboy hat deine Gruppe
-													"WI_Lerngang" zu einem Teamcombat herausgefordert</td>
-												<td class="view-message inbox-small-cells"></td>
-												<td class="view-message text-right">12.Juli</td>
-											</tr>
-											<tr class="unread">
-												<td class="inbox-small-cells"><input type="checkbox"
-													class="mail-checkbox" /></td>
-												<td class="view-message dont-show">Gruppenmitgliedschaft</td>
-												<td class="view-message">Du bist der Gruppe
-													"WI_Lerngang" erfolgreich beigetreten.</td>
-												<td class="view-message inbox-small-cells"></td>
-												<td class="view-message text-right">12.Juli</td>
-											</tr>
-										</tbody>
-									</table>
+													<td class="view-message  dont-show"
+														th:text="${aufgabe.titel}">Gruppenmitgliedschaft</td>
+													<td class="view-message " th:text="${aufgabe.inhalt}">Du
+														wurdest aus der Gruppe "WI_Lerngang" gel&ouml;scht. Grund:
+														Deine Leistungen entsprechen nicht den Erwartungen deiner
+														Gruppe.</td>
+													<td class="view-message  inbox-small-cells"></td>
+													<td class="view-message  text-right"
+														th:text="${aufgabe.datum}">9:27</td>
+												</tr>
+											</tbody>
+										</table>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -180,8 +129,8 @@
 					<div class="panel-footer">
 
 
-						<a data-original-title="Aufgabe l&ouml;schen"
-							data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i
+						<a data-original-title="Aufgabe bearbeiten" data-toggle="tooltip"
+							type="button" class="btn btn-sm btn-danger"><i
 							class="fa fa-trash-o"></i></a>
 
 					</div>
@@ -201,7 +150,9 @@
 			<div class="row">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<h1 class="panel-title">Deine Nachrichten <i class="fa fa-envelope-o"></i></h1>
+						<h1 class="panel-title">
+							Deine Nachrichten <i class="fa fa-envelope-o"></i>
+						</h1>
 					</div>
 					<div class="panel-body">
 						<div class="row">
@@ -212,43 +163,19 @@
 
 									<table class="table table-inbox table-hover">
 										<tbody>
-											<tr class="unread">
+											<tr class="unread" th:each="nachricht : ${nachrichten}">
 												<td class="inbox-small-cells"><input type="checkbox"
 													class="mail-checkbox" /></td>
 
-												<td class="view-message  dont-show">Gruppenmitgliedschaft</td>
-												<td class="view-message ">Du wurdest aus der Gruppe
-													"WI_Lerngang" gel&ouml;scht. Grund: Deine Leistungen
-													entsprechen nicht den Erwartungen deiner Gruppe.</td>
+												<td class="view-message  dont-show"
+													th:text="${nachricht.titel}">Gruppenmitgliedschaft</td>
+												<td class="view-message " th:text="${nachricht.inhalt}">Du
+													wurdest aus der Gruppe "WI_Lerngang" gel&ouml;scht. Grund:
+													Deine Leistungen entsprechen nicht den Erwartungen deiner
+													Gruppe.</td>
 												<td class="view-message  inbox-small-cells"></td>
-												<td class="view-message  text-right">9:27</td>
-											</tr>
-											<tr class="unread">
-												<td class="inbox-small-cells"><input type="checkbox"
-													class="mail-checkbox" /></td>
-												<td class="view-message dont-show">System</td>
-												<td class="view-message">Fehlerhafter Loginversuch um
-													13:43</td>
-												<td class="view-message inbox-small-cells"></td>
-												<td class="view-message text-right">14.Juli</td>
-											</tr>
-											<tr class="unread">
-												<td class="inbox-small-cells"><input type="checkbox"
-													class="mail-checkbox" /></td>
-												<td class="view-message dont-show">Teamcombat</td>
-												<td class="view-message">HannesPlayboy hat deine Gruppe
-													"WI_Lerngang" zu einem Teamcombat herausgefordert</td>
-												<td class="view-message inbox-small-cells"></td>
-												<td class="view-message text-right">12.Juli</td>
-											</tr>
-											<tr class="unread">
-												<td class="inbox-small-cells"><input type="checkbox"
-													class="mail-checkbox" /></td>
-												<td class="view-message dont-show">Gruppenmitgliedschaft</td>
-												<td class="view-message">Du bist der Gruppe
-													"WI_Lerngang" erfolgreich beigetreten.</td>
-												<td class="view-message inbox-small-cells"></td>
-												<td class="view-message text-right">12.Juli</td>
+												<td class="view-message  text-right"
+													th:text="${nachricht.datum}">9:27</td>
 											</tr>
 										</tbody>
 									</table>
