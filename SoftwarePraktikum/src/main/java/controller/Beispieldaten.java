@@ -33,6 +33,11 @@ public class Beispieldaten {
 			Thema thema = new Thema();
 			Kommentar kommentar = new Kommentar();
 			Fachrichtung wi = new Fachrichtung();
+			Fachrichtung agrar = new Fachrichtung();
+			Fachrichtung medizin = new Fachrichtung();
+			Fachrichtung ingenieur = new Fachrichtung();
+			Fachrichtung philosophie = new Fachrichtung();
+			
 			Frage frage = new Frage();
 			
 			// Fragen nach Kategorien instanziieren
@@ -102,6 +107,16 @@ public class Beispieldaten {
 			Frage fvwl9 = new Frage();
 			Frage fvwl10 = new Frage();
 
+			Frage fbwl1 = new Frage();
+			Frage fbwl2 = new Frage();
+			Frage fbwl3 = new Frage();
+			Frage fbwl4 = new Frage();
+			Frage fbwl5 = new Frage();
+			Frage fbwl6 = new Frage();
+			Frage fbwl7 = new Frage();
+			Frage fbwl8 = new Frage();
+			Frage fbwl9 = new Frage();
+			Frage fbwl10 = new Frage();
 			// Eintrag hinzufügen zur Datenbank
 
 			db.eintragHinzufuegen(thema.getClass(), thema);
@@ -112,6 +127,75 @@ public class Beispieldaten {
 			db.eintragHinzufuegen(biks.getClass(), biks);
 			db.eintragHinzufuegen(wi.getClass(), wi);
 			db.eintragHinzufuegen(frage.getClass(), frage);
+			
+			db.eintragHinzufuegen(agrar.getClass(), agrar);
+			db.eintragHinzufuegen(philosophie.getClass(), philosophie);
+			db.eintragHinzufuegen(ingenieur.getClass(), ingenieur);
+			db.eintragHinzufuegen(medizin.getClass(), medizin);
+			
+			
+
+			
+			db.eintragHinzufuegen(finformatik1.getClass(), finformatik1);
+			db.eintragHinzufuegen(finformatik2.getClass(), finformatik2);
+			db.eintragHinzufuegen(finformatik3.getClass(), finformatik3);
+			db.eintragHinzufuegen(finformatik4.getClass(), finformatik4);
+			db.eintragHinzufuegen(finformatik5.getClass(), finformatik5);
+			db.eintragHinzufuegen(finformatik6.getClass(), finformatik6);
+			db.eintragHinzufuegen(finformatik7.getClass(), finformatik7);
+			db.eintragHinzufuegen(finformatik8.getClass(), finformatik8);
+			db.eintragHinzufuegen(finformatik9.getClass(), finformatik9);
+			db.eintragHinzufuegen(finformatik10.getClass(), finformatik10);	
+			db.eintragHinzufuegen(fvwl1.getClass(), fvwl1);
+			db.eintragHinzufuegen(fvwl2.getClass(), fvwl2);
+			db.eintragHinzufuegen(fvwl3.getClass(), fvwl3);
+			db.eintragHinzufuegen(fvwl4.getClass(), fvwl4);
+			db.eintragHinzufuegen(fvwl5.getClass(), fvwl5);
+			db.eintragHinzufuegen(fvwl6.getClass(), fvwl6);
+			db.eintragHinzufuegen(fvwl7.getClass(), fvwl7);
+			db.eintragHinzufuegen(fvwl8.getClass(), fvwl8);
+			db.eintragHinzufuegen(fvwl9.getClass(), fvwl9);
+			db.eintragHinzufuegen(fvwl10.getClass(), fvwl10);		
+			db.eintragHinzufuegen(fphilosophie1.getClass(), fphilosophie1);
+			db.eintragHinzufuegen(fphilosophie2.getClass(), fphilosophie2);
+			db.eintragHinzufuegen(fphilosophie3.getClass(), fphilosophie3);
+			db.eintragHinzufuegen(fphilosophie4.getClass(), fphilosophie4);
+			db.eintragHinzufuegen(fphilosophie5.getClass(), fphilosophie5);
+			db.eintragHinzufuegen(fphilosophie6.getClass(), fphilosophie6);
+			db.eintragHinzufuegen(fphilosophie7.getClass(), fphilosophie7);
+			db.eintragHinzufuegen(fphilosophie8.getClass(), fphilosophie8);
+			db.eintragHinzufuegen(fphilosophie9.getClass(), fphilosophie9);
+			db.eintragHinzufuegen(fphilosophie10.getClass(), fphilosophie10);
+			db.eintragHinzufuegen(fagrar1.getClass(), fagrar1);
+			db.eintragHinzufuegen(fagrar2.getClass(), fagrar2);
+			db.eintragHinzufuegen(fagrar3.getClass(), fagrar3);
+			db.eintragHinzufuegen(fagrar4.getClass(), fagrar4);
+			db.eintragHinzufuegen(fagrar5.getClass(), fagrar5);
+			db.eintragHinzufuegen(fagrar6.getClass(), fagrar6);
+			db.eintragHinzufuegen(fagrar7.getClass(), fagrar7);
+			db.eintragHinzufuegen(fagrar8.getClass(), fagrar8);
+			db.eintragHinzufuegen(fagrar9.getClass(), fagrar9);
+			db.eintragHinzufuegen(fagrar10.getClass(), fagrar10);
+			db.eintragHinzufuegen(fmedizin1.getClass(), fmedizin1);
+			db.eintragHinzufuegen(fmedizin2.getClass(), fmedizin2);
+			db.eintragHinzufuegen(fmedizin3.getClass(), fmedizin3);
+			db.eintragHinzufuegen(fmedizin4.getClass(), fmedizin4);
+			db.eintragHinzufuegen(fmedizin5.getClass(), fmedizin5);
+			db.eintragHinzufuegen(fmedizin6.getClass(), fmedizin6);
+			db.eintragHinzufuegen(fmedizin7.getClass(), fmedizin7);
+			db.eintragHinzufuegen(fmedizin8.getClass(), fmedizin8);
+			db.eintragHinzufuegen(fmedizin9.getClass(), fmedizin9);
+			db.eintragHinzufuegen(fmedizin10.getClass(), fmedizin10);
+			db.eintragHinzufuegen(ffestigkeitslehre1.getClass(), ffestigkeitslehre1);
+			db.eintragHinzufuegen(ffestigkeitslehre2.getClass(), ffestigkeitslehre2);
+			db.eintragHinzufuegen(ffestigkeitslehre3.getClass(), ffestigkeitslehre3);
+			db.eintragHinzufuegen(ffestigkeitslehre4.getClass(), ffestigkeitslehre4);
+			db.eintragHinzufuegen(ffestigkeitslehre5.getClass(), ffestigkeitslehre5);
+			db.eintragHinzufuegen(ffestigkeitslehre6.getClass(), ffestigkeitslehre6);
+			db.eintragHinzufuegen(ffestigkeitslehre7.getClass(), ffestigkeitslehre7);
+			db.eintragHinzufuegen(ffestigkeitslehre8.getClass(), ffestigkeitslehre8);
+			db.eintragHinzufuegen(ffestigkeitslehre9.getClass(), ffestigkeitslehre9);
+			db.eintragHinzufuegen(ffestigkeitslehre10.getClass(), ffestigkeitslehre10);
 
 			// Objekte füllen und verbinden
 
@@ -673,6 +757,96 @@ public class Beispieldaten {
 			fvwl10.addLoesung("4.5 %");
 			fvwl10.setBenutzer(lena);
 			
+			
+/// MC Fragen
+			
+			fbwl1.setText("Bei welchen Lösungsmöglichkeiten von asymmetrischer Information entstehen vor allem beim Agenten Agency-Kosten ?");
+			fbwl1.addAntwortmoeglichkeiten("Signaling");
+			fbwl1.addAntwortmoeglichkeiten("Leistungsabhängige Entlohnung");
+			fbwl1.addAntwortmoeglichkeiten("Monitoring");
+			fbwl1.addAntwortmoeglichkeiten("Screening");
+			fbwl1.addLoesung("Signaling");
+			fbwl1.addLoesung("Screening");
+			fbwl1.setBenutzer(lena);
+
+			fbwl2.setText("Welche Art der Tenten erzielt ein Unternehmen, wenn es mit Hilfe siener Ressourcen Innovationen hervorbringt und sich die daraus entstandenen Innovationsgewinne aneignet?");
+			fbwl2.addAntwortmoeglichkeiten("Ricardo-Renten");
+			fbwl2.addAntwortmoeglichkeiten("Quasirenten");
+			fbwl2.addAntwortmoeglichkeiten("Schumpeter-Renten");
+			fbwl2.addAntwortmoeglichkeiten("Monopolrenten");
+			fbwl2.addLoesung("Schumpeter-Renten");
+			fbwl2.setBenutzer(lena);
+
+			fbwl3.setText("Ein schwäbisches Metallbauunternehmen beschließt gewisse Einzelteile bei einem bestimmten Lieferanten einzukaufen, da diese qualitativ hochwertiger und kostengünstiger zugekauft werden können. Ordenen Sie die richtigen beschaffungspolitischen Instrumente zu.");
+			fbwl3.addAntwortmoeglichkeiten("Beschaffungsprogrammpolitik");
+			fbwl3.addAntwortmoeglichkeiten("Beschaffungskonditionenpolitik");
+			fbwl3.addAntwortmoeglichkeiten("Kommunikationspolitik");
+			fbwl3.addAntwortmoeglichkeiten("Bezugspolitik");
+			fbwl3.addLoesung("Beschaffungsprogrammpolitik");
+			fbwl3.addLoesung("Bezugspolitik");
+			fbwl3.setBenutzer(lena);
+
+			fbwl4.setText("Unter welche Güterarten werden Patente und Lizenzen eingeordnet?");
+			fbwl4.addAntwortmoeglichkeiten("Wirtschaftsgüter");
+			fbwl4.addAntwortmoeglichkeiten("Immaterielle Güter");
+			fbwl4.addAntwortmoeglichkeiten("Realgüter");
+			fbwl4.addAntwortmoeglichkeiten("Reine Güterformen");
+			fbwl4.addLoesung("Wirtschaftsgüter");
+			fbwl4.addLoesung("Immaterielle Güter");
+			fbwl4.addLoesung("Realgüter");
+			fbwl4.addLoesung("Reine Güterformen");
+			fbwl4.setBenutzer(lena);
+
+			fbwl5.setText("Welche Zwecke efüllt das Inventar?");
+			fbwl5.addAntwortmoeglichkeiten("Das Inventar dient dem Abgleich von Buch- und Ist-Beständen.");
+			fbwl5.addAntwortmoeglichkeiten("Das Inventar kontrolliert die ordnungsgemäße Verbuchung aller Geschäftsvorfälle des Jahres");
+			fbwl5.addAntwortmoeglichkeiten("Das Inventar dient der Kontrolle des Unternehmens durch das Finanzamt");
+			fbwl5.addAntwortmoeglichkeiten("Das Inventar garantiert die Wahrheit der Werte in der Bilanz");
+			fbwl5.addLoesung("Das Inventar dient dem Abgleich von Buch- und Ist-Beständen.");
+			fbwl5.addLoesung("Das Inventar garantiert die Wahrheit der Werte in der Bilanz");
+			fbwl5.setBenutzer(lena);
+
+			fbwl6.setText("Welche Geschäftsvorfälle sind erfolgswirksam?");
+			fbwl6.addAntwortmoeglichkeiten("Bildung einer Rückstellung für unterlassene Aufwendungen für Instandhaltung.");
+			fbwl6.addAntwortmoeglichkeiten("Auszahlung eines Gehaltsvorschusses an einen Mitarbeiter.");
+			fbwl6.addAntwortmoeglichkeiten("Private Warenentnahme des Unternehmers über den Einkaufspreis der Waren:");
+			fbwl6.addAntwortmoeglichkeiten("Private Bareinlage des Unternehmers zur Erhöhung des Eigenkapitals des Unternehmens.");
+			fbwl6.addLoesung("Bildung einer Rückstellung für unterlassene Aufwendungen für Instandhaltung.");
+			fbwl6.setBenutzer(lena);
+
+			fbwl7.setText("Welche der folgenden Aussagen ist richtig ?");
+			fbwl7.addAntwortmoeglichkeiten("Der Aufwand ist der gesamte Wertezuwachs. ");
+			fbwl7.addAntwortmoeglichkeiten("Die indirekte Abschreibung erfolgt als Sollbuchung auf dem passivem Verrechnungskonto.");
+			fbwl7.addAntwortmoeglichkeiten("Abschlussbuchungen des EK-Kontos erfolgen direkt in das GuV-Konto. ");
+			fbwl7.addAntwortmoeglichkeiten("Warenrücksendungen werden im gemischten Warenkonto im Soll gebucht.");
+			fbwl7.setBenutzer(lena);
+
+			fbwl8.setText("Ein periodenfremder Aufwand entsteht, wenn…");
+			fbwl8.addAntwortmoeglichkeiten("…das Unternehmen die vertraglich vereinbarte Miete für das vergangene Jahr erst in diesem Jahr zahlt.");
+			fbwl8.addAntwortmoeglichkeiten("…der im letzten Jahr geschätzte Forderungsverlust größer als der tatsächliche Forderungsverlust ist. ");
+			fbwl8.addAntwortmoeglichkeiten("…die Pauschalwertberichtigungen auf Forderungen im letzten Jahr zu niedrig gebildet wurden.");
+			fbwl8.addAntwortmoeglichkeiten("…das Unternehmen mehr Steuern nachzahlen muss als im letzten Jahr angenommen.");
+			fbwl8.addLoesung("…die Pauschalwertberichtigungen auf Forderungen im letzten Jahr zu niedrig gebildet wurden.");
+			fbwl8.addLoesung("…das Unternehmen mehr Steuern nachzahlen muss als im letzten Jahr angenommen.");
+			fbwl8.setBenutzer(lena);
+
+			fbwl9.setText("Was sind Grunde für Abschreibungen?");
+			fbwl9.addAntwortmoeglichkeiten("Wir schicken eine Mahnung an einen Kunden, weil er bisher seine Rechnung nicht gezahlt hat.");
+			fbwl9.addAntwortmoeglichkeiten("Die Fristen zur Nutzung eines Markennamen für die eigenen Produkte laufen aus.");
+			fbwl9.addAntwortmoeglichkeiten("Der Buchwert liegt unter den Wiederbeschaffungskosten eines Vermögensgutes.");
+			fbwl9.addAntwortmoeglichkeiten("Der technische Verschleiß einer Maschine ist in diesem Jahr höher als Angenommen.");
+			fbwl9.addLoesung("Die Fristen zur Nutzung eines Markennamen für die eigenen Produkte laufen aus.");
+			fbwl9.setBenutzer(lena);
+
+			fbwl10.setText(" Bei welchen der folgenden Geschäftsvorfälle ist die Umsatzsteuer (in Form der Vorsteuer bzw. Mehrwertsteuer, ggf. auch als Korrektur der Umsatzsteuer) zu berücksichtigen? ");
+			fbwl10.addAntwortmoeglichkeiten("Bildung einer Rückstellung für unterlassene Aufwendungen für Instandhaltung, die im folgenden Geschäftsjahr innerhalb von 3 Monaten nachgeholt werden.");
+			fbwl10.addAntwortmoeglichkeiten("Pauschale Abschreibung des Forderungsbestands um 5%.");
+			fbwl10.addAntwortmoeglichkeiten("Eine dubiose Forderung wird aufgrund der Einstellung des Insolvenzverfahrens endgültig uneinbringlich und damit endgültig abgeschrieben.");
+			fbwl10.addAntwortmoeglichkeiten("Private Warenentnahme des Unternehmers zu Einkaufspreisen.");
+			fbwl10.addLoesung("Eine dubiose Forderung wird aufgrund der Einstellung des Insolvenzverfahrens endgültig uneinbringlich und damit endgültig abgeschrieben.");
+			fbwl10.addLoesung("Private Warenentnahme des Unternehmers zu Einkaufspreisen.");
+			fbwl10.setBenutzer(lena);
+			
 			// Einträge aktualisieren
 
 			db.eintragAktualisieren(thema.getClass(), thema);
@@ -683,7 +857,80 @@ public class Beispieldaten {
 			db.eintragAktualisieren(biks.getClass(), biks);
 			db.eintragAktualisieren(wi.getClass(), wi);
 			db.eintragAktualisieren(frage.getClass(), frage);
-
+			
+			db.eintragAktualisieren(finformatik1.getClass(), finformatik1);
+			db.eintragAktualisieren(finformatik2.getClass(), finformatik2);
+			db.eintragAktualisieren(finformatik3.getClass(), finformatik3);
+			db.eintragAktualisieren(finformatik4.getClass(), finformatik4);
+			db.eintragAktualisieren(finformatik5.getClass(), finformatik5);
+			db.eintragAktualisieren(finformatik6.getClass(), finformatik6);
+			db.eintragAktualisieren(finformatik7.getClass(), finformatik7);
+			db.eintragAktualisieren(finformatik8.getClass(), finformatik8);
+			db.eintragAktualisieren(finformatik9.getClass(), finformatik9);
+			db.eintragAktualisieren(finformatik10.getClass(), finformatik10);	
+			db.eintragAktualisieren(fvwl1.getClass(), fvwl1);
+			db.eintragAktualisieren(fvwl2.getClass(), fvwl2);
+			db.eintragAktualisieren(fvwl3.getClass(), fvwl3);
+			db.eintragAktualisieren(fvwl4.getClass(), fvwl4);
+			db.eintragAktualisieren(fvwl5.getClass(), fvwl5);
+			db.eintragAktualisieren(fvwl6.getClass(), fvwl6);
+			db.eintragAktualisieren(fvwl7.getClass(), fvwl7);
+			db.eintragAktualisieren(fvwl8.getClass(), fvwl8);
+			db.eintragAktualisieren(fvwl9.getClass(), fvwl9);
+			db.eintragAktualisieren(fvwl10.getClass(), fvwl10);		
+			db.eintragAktualisieren(fphilosophie1.getClass(), fphilosophie1);
+			db.eintragAktualisieren(fphilosophie2.getClass(), fphilosophie2);
+			db.eintragAktualisieren(fphilosophie3.getClass(), fphilosophie3);
+			db.eintragAktualisieren(fphilosophie4.getClass(), fphilosophie4);
+			db.eintragAktualisieren(fphilosophie5.getClass(), fphilosophie5);
+			db.eintragAktualisieren(fphilosophie6.getClass(), fphilosophie6);
+			db.eintragAktualisieren(fphilosophie7.getClass(), fphilosophie7);
+			db.eintragAktualisieren(fphilosophie8.getClass(), fphilosophie8);
+			db.eintragAktualisieren(fphilosophie9.getClass(), fphilosophie9);
+			db.eintragAktualisieren(fphilosophie10.getClass(), fphilosophie10);
+			db.eintragAktualisieren(fagrar1.getClass(), fagrar1);
+			db.eintragAktualisieren(fagrar2.getClass(), fagrar2);
+			db.eintragAktualisieren(fagrar3.getClass(), fagrar3);
+			db.eintragAktualisieren(fagrar4.getClass(), fagrar4);
+			db.eintragAktualisieren(fagrar5.getClass(), fagrar5);
+			db.eintragAktualisieren(fagrar6.getClass(), fagrar6);
+			db.eintragAktualisieren(fagrar7.getClass(), fagrar7);
+			db.eintragAktualisieren(fagrar8.getClass(), fagrar8);
+			db.eintragAktualisieren(fagrar9.getClass(), fagrar9);
+			db.eintragAktualisieren(fagrar10.getClass(), fagrar10);
+			db.eintragAktualisieren(fmedizin1.getClass(), fmedizin1);
+			db.eintragAktualisieren(fmedizin2.getClass(), fmedizin2);
+			db.eintragAktualisieren(fmedizin3.getClass(), fmedizin3);
+			db.eintragAktualisieren(fmedizin4.getClass(), fmedizin4);
+			db.eintragAktualisieren(fmedizin5.getClass(), fmedizin5);
+			db.eintragAktualisieren(fmedizin6.getClass(), fmedizin6);
+			db.eintragAktualisieren(fmedizin7.getClass(), fmedizin7);
+			db.eintragAktualisieren(fmedizin8.getClass(), fmedizin8);
+			db.eintragAktualisieren(fmedizin9.getClass(), fmedizin9);
+			db.eintragAktualisieren(fmedizin10.getClass(), fmedizin10);
+			db.eintragAktualisieren(ffestigkeitslehre1.getClass(), ffestigkeitslehre1);
+			db.eintragAktualisieren(ffestigkeitslehre2.getClass(), ffestigkeitslehre2);
+			db.eintragAktualisieren(ffestigkeitslehre3.getClass(), ffestigkeitslehre3);
+			db.eintragAktualisieren(ffestigkeitslehre4.getClass(), ffestigkeitslehre4);
+			db.eintragAktualisieren(ffestigkeitslehre5.getClass(), ffestigkeitslehre5);
+			db.eintragAktualisieren(ffestigkeitslehre6.getClass(), ffestigkeitslehre6);
+			db.eintragAktualisieren(ffestigkeitslehre7.getClass(), ffestigkeitslehre7);
+			db.eintragAktualisieren(ffestigkeitslehre8.getClass(), ffestigkeitslehre8);
+			db.eintragAktualisieren(ffestigkeitslehre9.getClass(), ffestigkeitslehre9);
+			db.eintragAktualisieren(ffestigkeitslehre10.getClass(), ffestigkeitslehre10);
+			db.eintragAktualisieren(fbwl1.getClass(), fbwl1);
+			db.eintragAktualisieren(fbwl2.getClass(), fbwl2);
+			db.eintragAktualisieren(fbwl3.getClass(), fbwl3);
+			db.eintragAktualisieren(fbwl4.getClass(), fbwl4);
+			db.eintragAktualisieren(fbwl5.getClass(), fbwl5);
+			db.eintragAktualisieren(fbwl6.getClass(), fbwl6);
+			db.eintragAktualisieren(fbwl7.getClass(), fbwl7);
+			db.eintragAktualisieren(fbwl8.getClass(), fbwl8);
+			db.eintragAktualisieren(fbwl9.getClass(), fbwl9);
+			db.eintragAktualisieren(fbwl10.getClass(), fbwl10);
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
