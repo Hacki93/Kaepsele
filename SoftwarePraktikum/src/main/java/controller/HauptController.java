@@ -713,17 +713,10 @@ public class HauptController {
 			return "Anmelden";
 		}
 		
-		Fachrichtung fachrichtung = new Fachrichtung();
-		ArrayList<Fachrichtung> fachrichtungen = new ArrayList<Fachrichtung>();
-		for(Object obj : db.tabelleAusgeben(fachrichtung.getClass())){
-			Fachrichtung f = (Fachrichtung) obj;
-			fachrichtungen.add(f);
-		}
 		for(Gruppe gruppe : angemeldeterBenutzer.gruppen){
 			gruppe.setAnzahlMitglieder(gruppe.anzahl());
 		}
 		
-		model.addAttribute("fachrichtungen", fachrichtungen);
 		model.addAttribute("gruppen", angemeldeterBenutzer.gruppen);
 		model.addAttribute("gruppe", new Gruppe());
 		return "eigeneGruppenListe";
@@ -741,6 +734,7 @@ public class HauptController {
 		db.eintragHinzufuegen(neueGruppe.getClass(), neueGruppe);
 		neueGruppe.setName(gruppe.getName());
 		neueGruppe.setKlausurname(gruppe.getKlausurname());
+		neueGruppe.setFachrichtungsname(gruppe.getFachrichtungsname());
 		angemeldeterBenutzer.gruppen.add(neueGruppe);
 		neueGruppe.mitgliedHinzufuegen(angemeldeterBenutzer);
 		neueGruppe.moderatoren.add(angemeldeterBenutzer);

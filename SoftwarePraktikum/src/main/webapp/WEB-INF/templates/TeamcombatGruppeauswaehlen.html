@@ -112,7 +112,7 @@
             <tr th:each="gruppe : ${gruppen}">
                 <td th:text="${gruppe.name}"></td>
                 <td th:text="${gruppe.klausurname}"></td>
-                <td th:text="${gruppe.fachrichtung.name}"></td>
+                <td th:text="${gruppe.fachrichtungsname}"></td>
                 <td th:text="${gruppe.anzahlMitglieder}"></td>
                 <td th:text="${gruppe.erstelltAm}"></td>
                 <td><a th:href="@{/Gegnerischegruppe/__${gruppe.gruppen_id}__}" data-original-title="Gruppe herausfordern" data-toggle="tooltip" type="button" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-log-in"></i></a></td>
