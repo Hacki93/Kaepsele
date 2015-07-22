@@ -100,7 +100,7 @@ public class Gruppe implements java.io.Serializable {
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "gruppe")
 	@Cascade(CascadeType.SAVE_UPDATE)
-	Set<Bossfight> bossfights;
+	public Set<Bossfight> bossfights;
 
 	/**
 	 * Konstruktor f&uuml;r Hibernate

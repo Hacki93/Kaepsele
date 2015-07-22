@@ -109,6 +109,7 @@ public class TestKlasse {
 				wi.setFreigegeben(false);
 
 				bossfight.addAntwort("42");
+				bossfight.setMedium(medium);
 				
 				mbis.setFachrichtung(wi);
 				mbis.setKlausurname("MBIS 1");

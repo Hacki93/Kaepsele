@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import kommunikation.Aufgabe;
 import kommunikation.Nachricht;
 import learning.Benutzer;
+import learning.Bossfight;
 import learning.Fachrichtung;
 import learning.Frage;
 import learning.Gruppe;
@@ -1260,41 +1261,178 @@ public class HauptController {
 	    return "GruppenProfil";
 	}
 	
-	@RequestMapping (value = "/medium", method = RequestMethod.GET)
-	public String getForm(Model model) {
-		Medium mediumModel = new Medium();
-		model.addAttribute("medium", mediumModel);
-		return "medium";
+	
+	
+	@RequestMapping(value = "/GruppeAuswaehlen")
+	public String gruppeAuswaehlen(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
+		ArrayList<Gruppe> Gruppenliste = new ArrayList<Gruppe>(); 
+		Gruppe gruppe = new Gruppe();
+		for(Object obj : db.tabelleAusgeben(gruppe.getClass())){
+			Gruppe g = (Gruppe) obj;
+			g.setAnzahlMitglieder(g.anzahl());
+			Gruppenliste.add(g);
+		}
+		
+		model.addAttribute("gruppen", Gruppenliste);
+		return "TeamcombatGruppeauswaehlen";
 	}
 	
-	@RequestMapping (value = "/medium", method = RequestMethod.POST)
+	@RequestMapping(value = "/Gegnerischegruppe/{gruppe.gruppen_id}")
+	public String teamcombatErstellen(@PathVariable("gruppe.gruppen_id") int gruppen_id, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
+		Gruppe gegnerGruppe = new Gruppe();
+		gegnerGruppe = (Gruppe) db.eintragAusgeben(gegnerGruppe.getClass(), gruppen_id);
+		
+		Teamcombat teamcombat = gruppe.teamcombatAntreten(gegnerGruppe);
+		db.eintragHinzufuegen(teamcombat.getClass(), teamcombat);
+		for(Benutzer benutzer : teamcombat.getHerausforderer().mitglieder){
+			for(Aufgabe aufgabe : benutzer.aufgaben){
+				db.eintragAktualisieren(aufgabe.getClass(), aufgabe);
+			}
+		}
+		for(Benutzer benutzer : teamcombat.getHerausgeforderter().mitglieder){
+			for(Aufgabe aufgabe : benutzer.aufgaben){
+				db.eintragAktualisieren(aufgabe.getClass(), aufgabe);
+			}
+		}
+		db.eintragZusammenfuehren(gegnerGruppe.getClass(), gegnerGruppe);
+		db.eintragZusammenfuehren(gruppe.getClass(), gruppe);
+		
+		ArrayList<Aufgabe> aufgaben = new ArrayList<Aufgabe>();
+		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
+			if (a.getTyp() == Nachricht.TEAMHERAUSFORDERUNG){
+				Teamcombat teamcombat1 = a.getAnhangTeamcombat(); 
+				System.out.println(teamcombat1.getId());
+				a.setHilfsIdTeamcombat(teamcombat1.getId());
+				
+				// prüft in welcher Gruppe der angemeldete Benutzer ist, damit die Gruppeninfo der gegnerischen Gruppe ausgegeben wird 
+				if (!teamcombat1.getHerausforderer().getMitglieder().contains(angemeldeterBenutzer)){
+					teamcombat1.getHerausforderer().setAnzahlMitglieder(teamcombat1.getHerausforderer().anzahl());
+					a.setGegnerischeGruppenInfo(teamcombat1.getHerausforderer());
+				} else {
+					teamcombat1.getHerausgeforderter().setAnzahlMitglieder(teamcombat1.getHerausgeforderter().anzahl());
+					a.setGegnerischeGruppenInfo(teamcombat1.getHerausgeforderter());
+				}
+				aufgaben.add(a);
+			}
+		}
+		
+		model.addAttribute("aufgaben", aufgaben);
+		model.addAttribute("aufgabe1", new Aufgabe());
+		return "TeamcombatListe";
+	}
+	
+	@RequestMapping (value ="/Bossfight", method = RequestMethod.GET)
+	public String bossfight(Model model){
+		model.addAttribute("bossfights", gruppe.bossfights);
+		model.addAttribute("medium", new Medium());
+		
+		return "Bossfight";
+	}
+	
+//	@RequestMapping (value = "/medium", method = RequestMethod.GET)
+//	public String getForm(Model model) {
+//		Medium mediumModel = new Medium();
+//		model.addAttribute("medium", mediumModel);
+//		return "medium";
+//	}
+	
+	@RequestMapping (value = "/MediumHochladen", method = RequestMethod.POST)
 	public String mediumHochladen(Model model, Medium medium, BindingResult result, HttpServletRequest request) {
-		String ergebnisStatus = "erfolgmedium";
 		
 		if(result.hasErrors()){
-			ergebnisStatus = "medium";
+			return "Bossfight";
 		}
 		else{
-			MultipartFile multipartMedium = medium.getFile();
+			MultipartFile file = medium.getFile();
+			
+			Medium neuesMedium = new Medium();
+			db.eintragHinzufuegen(neuesMedium.getClass(), neuesMedium);
+			Bossfight neuerBossfight = new Bossfight();
+			db.eintragHinzufuegen(neuerBossfight.getClass(), neuerBossfight);
+			
 			
 			ServletContext context = request.getServletContext();
 	        String projektPfad = context.getRealPath("");
 	        String [] pfad = projektPfad.split("Kaepsele");
-			String orgName = multipartMedium.getOriginalFilename();
+			String orgName = file.getOriginalFilename();
 			String speicherort = pfad[0] + "/Kaepsele/SoftwarePraktikum/Challenge uploads/" + orgName;
 			File desk = new File(speicherort);
 			
+
+			neuesMedium.setDateiname(orgName);
+			neuerBossfight.setMedium(neuesMedium);
+			gruppe.addBossfight(neuerBossfight);
+			
+			db.eintragAktualisieren(gruppe.getClass(), gruppe);
+			db.eintragAktualisieren(neuesMedium.getClass(), neuesMedium);
+			db.eintragAktualisieren(neuerBossfight.getClass(), neuerBossfight);
+			
 			try{
-				multipartMedium.transferTo(desk);
+				file.transferTo(desk);
 			}
 			catch(IllegalStateException | IOException e){
 				e.printStackTrace();
 			}
 		}
-		return ergebnisStatus;
+		model.addAttribute("bossfights", gruppe.bossfights);
+		model.addAttribute("medium", new Medium());
+		return "Bossfight";
 	}
 	
-	@RequestMapping(value = "/mediumrunterladen", method = RequestMethod.GET)
+	@RequestMapping(value = "/bossfightRunterladen/{bossfight.medium.medium_id}", method = RequestMethod.GET)
+	public @ResponseBody void bossfightRunterladen(@PathVariable(value="bossfight.medium.medium_id") int medium_id, HttpServletRequest request, HttpServletResponse response){
+		ServletContext context = request.getServletContext();
+        String projektPfad = context.getRealPath("");
+        String [] pfad = projektPfad.split("Kaepsele");
+        Medium medium = new Medium();
+        medium = (Medium) db.eintragAusgeben(medium.getClass(), medium_id);
+        
+        String mediumPfad = pfad[0] + "/Kaepsele/SoftwarePraktikum/Challenge uploads/" + medium.getDateiname();
+
+		File ladeMedium = new File(mediumPfad);
+		FileInputStream inputStream = null;
+		OutputStream outStream = null;
+		
+		try {
+			inputStream = new FileInputStream(ladeMedium);		
+ 
+			String headerKey = "Content-Disposition";
+			String headerValue = String.format("attachment; filename=\"%s\"",ladeMedium.getName());
+			response.setHeader(headerKey, headerValue);
+ 
+			outStream = response.getOutputStream();
+			IOUtils.copy(inputStream, outStream);
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
+		finally {
+			try {
+				if (null != inputStream)
+					inputStream.close();
+				if (null != inputStream)
+					outStream.close();
+			} 
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+ 
+		}
+	}
+	
+	@RequestMapping(value = "/mediumherunterladen", method = RequestMethod.GET)
 	public @ResponseBody void mediumRunterladen(HttpServletRequest request, HttpServletResponse response) {
 		
 		ServletContext context = request.getServletContext();
@@ -1333,64 +1471,5 @@ public class HauptController {
 		}
 	}
 	
-	@RequestMapping(value = "/GruppeAuswaehlen")
-	public String gruppeAuswaehlen(Model model){
-		if (angemeldeterBenutzer == null){
-			model.addAttribute("nachricht", "Bitte melden Sie sich an");
-			model.addAttribute("benutzer", new Benutzer());
-			return "Anmelden";
-		}
-		
-		ArrayList<Gruppe> Gruppenliste = new ArrayList<Gruppe>(); 
-		Gruppe gruppe = new Gruppe();
-		for(Object obj : db.tabelleAusgeben(gruppe.getClass())){
-			Gruppe g = (Gruppe) obj;
-			g.setAnzahlMitglieder(g.anzahl());
-			Gruppenliste.add(g);
-		}
-		
-		model.addAttribute("gruppen", Gruppenliste);
-		return "TeamcombatGruppeauswaehlen";
-	}
-	
-	@RequestMapping(value = "/Gegnerischegruppe/{gruppe.gruppen_id}")
-	public String teamcombatErstellen(@PathVariable("gruppe.gruppen_id") int gruppen_id, Model model){
-		if (angemeldeterBenutzer == null){
-			model.addAttribute("nachricht", "Bitte melden Sie sich an");
-			model.addAttribute("benutzer", new Benutzer());
-			return "Anmelden";
-		}
-		
-		Gruppe gegnerGruppe = new Gruppe();
-		gegnerGruppe = (Gruppe) db.eintragAusgeben(gegnerGruppe.getClass(), gruppen_id);
-		
-		Teamcombat neuesTeamcombat = new Teamcombat();
-		db.eintragHinzufuegen(neuesTeamcombat.getClass(), neuesTeamcombat);
-		neuesTeamcombat = gruppe.teamcombatAntreten(gegnerGruppe);
-		db.eintragAktualisieren(neuesTeamcombat.getClass(), neuesTeamcombat);
-		
-		ArrayList<Aufgabe> aufgaben = new ArrayList<Aufgabe>();
-		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
-			if (a.getTyp() == Nachricht.TEAMHERAUSFORDERUNG){
-				Teamcombat teamcombat = a.getAnhangTeamcombat(); 
-				System.out.println(teamcombat.getId());
-				a.setHilfsIdTeamcombat(teamcombat.getId());
-				
-				// prüft in welcher Gruppe der angemeldete Benutzer ist, damit die Gruppeninfo der gegnerischen Gruppe ausgegeben wird 
-				if (!teamcombat.getHerausforderer().getMitglieder().contains(angemeldeterBenutzer)){
-					teamcombat.getHerausforderer().setAnzahlMitglieder(teamcombat.getHerausforderer().anzahl());
-					a.setGegnerischeGruppenInfo(teamcombat.getHerausforderer());
-				} else {
-					teamcombat.getHerausgeforderter().setAnzahlMitglieder(teamcombat.getHerausgeforderter().anzahl());
-					a.setGegnerischeGruppenInfo(teamcombat.getHerausgeforderter());
-				}
-				aufgaben.add(a);
-			}
-		}
-		
-		model.addAttribute("aufgaben", aufgaben);
-		model.addAttribute("aufgabe1", new Aufgabe());
-		return "TeamcombatListe";
-	}
 	
 }

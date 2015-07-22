@@ -40,7 +40,7 @@
 </head>
 
 <body>
-
+<div id="divForm">
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -59,8 +59,12 @@
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
 					<li class="hidden"><a href="#page-top"></a></li>
-					<li class="page-scroll"><a href="#portfolio">Lernen</a></li>
-					<li class="page-scroll"><a href="#about">&Uuml;ber uns</a></li>
+					<li>
+                        <a th:href="@{/Menu}">Men&uuml;</a>
+                    </li>
+                    <li>
+                         <a th:href="@{/}">abmelden</a>
+                    </li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -95,26 +99,24 @@
 									<div class="panel-body">
 										<div class="js-upload-finished">
 											<h3>Vorhandene Bossfights</h3>
-											<p>
+										 <table class="table table-user-information">
+                    					<tbody>
+										<tr th:each= "bossfight : ${bossfights}">
+											<td>
 											    Klausur downloaden:
-												<button type="button" class="btn btn-primary">PSE 2015</button>
+											    <b th:text="${bossfight.medium.dateiname}"></b>&nbsp;
+												<a th:href="@{/bossfightRunterladen/__${bossfight.medium.medium_id}__}" class="btn btn-primary">herunterladen</a>
+												
 												<br/>
 												Bitte gib hier deine Antworten ein:
 												<br/>
 												<textarea cols="100" rows="10"></textarea>
 												<br/>
 												<button type="button" class="btn btn-primary">L&ouml;sung an Korrektor abschicken</button>
-											</p>
-											<p>
-											    Klausur downloaden:
-												<button type="button" class="btn btn-primary">DSA 2014</button>
-												<br/>
-												Bitte gib hier deine Antworten ein:
-												<br/>
-												<textarea cols="100" rows="10"></textarea>
-												<br/>
-												<button type="button" class="btn btn-primary">L&ouml;sung an Korrektor abschicken</button>
-											</p>
+											</td>
+										</tr>
+										</tbody>
+                  						</table>
 										</div>
 									</div>
 								</div>
@@ -138,16 +140,13 @@
 										<h3>Lade eine Klausur von deinem Computer hoch</h3>
 
 										<div class="form-inline">
-											<form method="POST" commandName="medium"
-												enctype="multipart/form-data">
-												<div class="form-group">
-													<input type="file" name="file" />
-												</div>
-												<input type="submit" class="btn btn-sm btn-primary"
-													value="Hochladen" />
+											<form th:action="@{/MediumHochladen}" commandName="medium" method="post" enctype="multipart/form-data" name="MediumHochladen">
+       										<div class="form-group">
+       										<input type="file" name="file" />
+       										</div>
+       										<input type="submit" value="Hochladen" onclick="closeSelf();"/>
+    										</form>
 
-												<form:errors path="file" />
-											</form>
 										</div>
 
 
@@ -186,7 +185,10 @@
 			</div>
 		</div>
 	</div>
-
+	</div>
+<div  id="closelink" style="display:none">
+            <a href="javascript:window.close()">Click Here to Close this Page</a>
+        </div>  
 
 	<script src="resources/js/jquery.js"></script>
 
@@ -210,5 +212,13 @@
 	<!-- Custom Theme JavaScript -->
 	<script src="resources/js/profil.js" type="text/javascript"></script>
 	<script src="resources/js/Bossfight.js" type="text/javascript"></script>
+	
+	<script type="text/javascript">
+function closeSelf(){
+    document.forms['MediumHochladen'].submit();
+    hide(document.getElementById('divForm'));
+    unHide(document.getElementById('closelink'));
+
+}</script>
 </body>
 </html>
