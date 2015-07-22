@@ -31,7 +31,7 @@ import kommunikation.Nachricht;
 @PrimaryKeyJoinColumn(name = "bossfight_id", referencedColumnName = "challenge_id")
 public class Bossfight extends Challenge implements java.io.Serializable {
 
-	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER)
 	@Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name="medium_id")
 	private Medium medium;

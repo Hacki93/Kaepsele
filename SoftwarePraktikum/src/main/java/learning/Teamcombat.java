@@ -47,12 +47,12 @@ public class Teamcombat implements java.io.Serializable {
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Gruppe herausgeforderter;
 	
-	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "herausforderer_quest_id")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Quest questFuerHerausforderer;
 	
-	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "herausgeforderter_quest_id")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Quest questFuerHerausgeforderter;

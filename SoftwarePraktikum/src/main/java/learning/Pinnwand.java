@@ -33,7 +33,7 @@ public class Pinnwand implements java.io.Serializable{
 	@Column(name = "pinnwand_id")
 	public int pinnwand_id;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="pinnwand", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="pinnwand")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Thema> themen;
 		

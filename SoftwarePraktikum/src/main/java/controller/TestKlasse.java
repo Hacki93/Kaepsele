@@ -18,6 +18,9 @@ import learning.Teamcombat;
 import learning.Thema;
 import datenhaltung.Datenbank;
 
+import kommunikation.Aufgabe;
+import kommunikation.Nachricht;
+
 public class TestKlasse {
 
 	// Klasse zum Testen von Codebausteinen
@@ -237,12 +240,42 @@ public class TestKlasse {
 				
 				lena.freundHinzufuegen(hannes);
 				db.eintragAktualisieren(lena.getClass(), lena);
-				db.eintragAktualisieren(hannes.getClass(), hannes);
+				db.eintragZusammenfuehren(hannes.getClass(), hannes);
+				
+				//----------------------------------------------------------------
 				
 				Teamcombat teamcombat = biks.teamcombatAntreten(mbis);
+				db.eintragHinzufuegen(teamcombat.getClass(), teamcombat);
+				for(Benutzer benutzer : teamcombat.getHerausforderer().mitglieder){
+					for(Aufgabe aufgabe : benutzer.aufgaben){
+						db.eintragAktualisieren(aufgabe.getClass(), aufgabe);
+					}
+				}
+				for(Benutzer benutzer : teamcombat.getHerausgeforderter().mitglieder){
+					for(Aufgabe aufgabe : benutzer.aufgaben){
+						db.eintragAktualisieren(aufgabe.getClass(), aufgabe);
+					}
+				}
+				db.eintragZusammenfuehren(mbis.getClass(), mbis);
+				db.eintragZusammenfuehren(biks.getClass(), biks);
+				
+				//------------------------------------------------------------------
+				
 				teamcombat.auswerten(); 
-				db.eintragAktualisieren(mbis.getClass(), mbis);
-				db.eintragAktualisieren(biks.getClass(), biks);
+				for(Benutzer benutzer : teamcombat.getHerausforderer().mitglieder){
+					for(Nachricht nachricht : benutzer.nachrichten){
+						db.eintragZusammenfuehren(nachricht.getClass(), nachricht);
+					}
+				}
+				for(Benutzer benutzer : teamcombat.getHerausgeforderter().mitglieder){
+					for(Nachricht nachricht : benutzer.nachrichten){
+						db.eintragZusammenfuehren(nachricht.getClass(), nachricht);
+					}
+				}
+				db.eintragZusammenfuehren(mbis.getClass(), mbis);
+				db.eintragZusammenfuehren(biks.getClass(), biks);
+				
+				//------------------------------------------------------------------
 				
 				kommentar.entfernen();
 				db.eintragAktualisieren(kommentar.getClass(), kommentar);

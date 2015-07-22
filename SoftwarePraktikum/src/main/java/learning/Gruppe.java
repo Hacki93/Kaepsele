@@ -63,42 +63,42 @@ public class Gruppe implements java.io.Serializable {
 	public boolean freigegeben;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinTable(name = "GRUPPEN_MITGLIEDER", joinColumns = 
 	@JoinColumn(name = "gruppen_id"), inverseJoinColumns = 
 	@JoinColumn(name = "benutzer_id"))
 	public Set<Benutzer> mitglieder;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinTable(name = "GRUPPEN_MODERATOREN", joinColumns = 
 	@JoinColumn(name = "gruppen_id"), inverseJoinColumns = 
 	@JoinColumn(name = "benutzer_id"))
 	public Set<Benutzer> moderatoren;
 
-	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name = "fragenpool_id")
 	public Fragenpool fragenpool;
 
-	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name = "pinnwand_id")
 	public Pinnwand pinnwand;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="herausforderer", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="herausforderer")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Teamcombat> gestarteteTeamcombats; //Teamcombats, zu der diese Gruppe herausgefordert hat
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="herausgeforderter", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="herausgeforderter")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Teamcombat> eingeladeneTeamcombats; //Teamcombats, zu der diese Gruppe herausgefordert wurde
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="gruppe", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="gruppe")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	private Set<Quest> quests;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "gruppe", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "gruppe")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	Set<Bossfight> bossfights;
 

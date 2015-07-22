@@ -31,7 +31,7 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 	@Column(name = "inhalt_id")
 	public int inhalt_id;
 	
-	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="benutzer_id")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Benutzer benutzer; //Autor
@@ -45,7 +45,7 @@ public class Inhalt implements Comparable<Inhalt>, java.io.Serializable{
 	@Column(name = "erstelltAm")
 	public Date datum;
 	
-	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="medium_id")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Medium medium;

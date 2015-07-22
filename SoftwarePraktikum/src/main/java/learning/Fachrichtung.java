@@ -32,7 +32,7 @@ public class Fachrichtung implements java.io.Serializable{
 	@Column(name = "freigegeben")
 	private boolean freigegeben;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="fachrichtung", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="fachrichtung")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	Set<Gruppe> gruppen;
 	

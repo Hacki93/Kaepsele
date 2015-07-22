@@ -28,7 +28,7 @@ import org.hibernate.annotations.CascadeType;
 @PrimaryKeyJoinColumn(name="thema_id", referencedColumnName = "inhalt_id")
 public class Thema extends Inhalt implements java.io.Serializable{
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="thema", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="thema")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Kommentar> kommentare;
     

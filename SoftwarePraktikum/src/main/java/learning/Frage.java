@@ -34,7 +34,7 @@ public class Frage implements java.io.Serializable {
 	@Column(name = "frage_id")
 	public int frage_id;
 	
-	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER)
 	@Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name="medium_id")
 	public Medium medium;
@@ -54,7 +54,7 @@ public class Frage implements java.io.Serializable {
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<String> loesung;
 	
-	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="benutzer_id")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Benutzer benutzer; //Autor

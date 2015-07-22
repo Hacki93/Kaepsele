@@ -32,7 +32,7 @@ public class Fragenpool implements java.io.Serializable {
 	@Column(name = "fragenpool_id")
 	public int fragenpool_id;
 
-	@OneToMany(mappedBy="fragenpool", fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy="fragenpool", fetch = FetchType.EAGER)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Frage> fragen;
 	

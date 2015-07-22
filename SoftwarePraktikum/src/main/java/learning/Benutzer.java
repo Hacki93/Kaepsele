@@ -75,7 +75,7 @@ public class Benutzer extends Account implements java.io.Serializable {
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "moderatoren")
 	public Set<Gruppe> moderierteGruppen;
 
-	@OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER)
 	@Cascade(CascadeType.SAVE_UPDATE)
 	@JoinColumn(name = "pinnwand_id")
 	public Pinnwand pinnwand;
@@ -83,15 +83,15 @@ public class Benutzer extends Account implements java.io.Serializable {
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "erlaubteBenutzer")
 	public Set<Pinnwand> erlaubtePinnwaende;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="benutzer", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="benutzer")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Inhalt> inhalte;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaenger", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaenger")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Nachricht> nachrichten; 
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaengerBenutzer", orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="empfaengerBenutzer")
 	@Cascade(CascadeType.SAVE_UPDATE)
 	public Set<Aufgabe> aufgaben; 
 
