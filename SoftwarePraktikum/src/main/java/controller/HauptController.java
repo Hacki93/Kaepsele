@@ -1291,8 +1291,7 @@ public class HauptController {
 			return "Anmelden";
 		}
 		
-		Gruppe gegnerGruppe = new Gruppe();
-		gegnerGruppe = (Gruppe) db.eintragAusgeben(gegnerGruppe.getClass(), gruppen_id);
+		Gruppe gegnerGruppe = (Gruppe) db.eintragAusgeben(new Gruppe().getClass(), gruppen_id);
 		
 		Teamcombat teamcombat = gruppe.teamcombatAntreten(gegnerGruppe);
 		db.eintragHinzufuegen(teamcombat.getClass(), teamcombat);
