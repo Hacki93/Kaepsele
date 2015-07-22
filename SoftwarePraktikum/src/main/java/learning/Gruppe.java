@@ -273,8 +273,10 @@ public class Gruppe implements java.io.Serializable {
 	 * @param loesungen Die L&ouml;sung
 	 */
 	public void frageErstellen(String text, HashSet<String> antwortmoeglichkeiten, HashSet<String> loesungen, Benutzer autor) {
+		if (this.getMitglieder().contains(autor)){
 		Frage frage = new Frage(text, antwortmoeglichkeiten, loesungen, autor);
 		this.fragenpool.addFrage(frage);
+		}
 	}
 
 	/**
@@ -283,7 +285,6 @@ public class Gruppe implements java.io.Serializable {
 	 * @return Quest Das erzeugte Quest
 	 */
 	public Quest questAntreten(Benutzer bearbeiter) {
-		System.out.println("in Gruppe");
 		Quest quest = this.getFragenpool().getQuest(this);
 		quest.setBenutzer(bearbeiter);
 		quests.add(quest);
