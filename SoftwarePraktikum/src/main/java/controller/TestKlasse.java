@@ -244,42 +244,34 @@ public class TestKlasse {
 				
 				//----------------------------------------------------------------
 				
+				mbis.addBossfight(bossfight);
+				Bossfight bf = mbis.bossfightAntreten(hannes);
+				if(bf!=null){
+					System.out.println("Bossfight !null");
+					db.eintragHinzufuegen(bf.getClass(), bf);
+					db.eintragAktualisieren(hannes.getClass(), hannes);
+					db.eintragZusammenfuehren(mbis.getClass(), mbis);
+				}
+				
+				//----------------------------------------------------------------
+				
 				Teamcombat teamcombat = biks.teamcombatAntreten(mbis);
 				db.eintragHinzufuegen(teamcombat.getClass(), teamcombat);
-				for(Benutzer benutzer : teamcombat.getHerausforderer().mitglieder){
-					for(Aufgabe aufgabe : benutzer.aufgaben){
-						db.eintragAktualisieren(aufgabe.getClass(), aufgabe);
-					}
-				}
-				for(Benutzer benutzer : teamcombat.getHerausgeforderter().mitglieder){
-					for(Aufgabe aufgabe : benutzer.aufgaben){
-						db.eintragAktualisieren(aufgabe.getClass(), aufgabe);
-					}
-				}
 				db.eintragZusammenfuehren(mbis.getClass(), mbis);
 				db.eintragZusammenfuehren(biks.getClass(), biks);
 				
 				//------------------------------------------------------------------
 				
 				teamcombat.auswerten(); 
-				for(Benutzer benutzer : teamcombat.getHerausforderer().mitglieder){
-					for(Nachricht nachricht : benutzer.nachrichten){
-						db.eintragZusammenfuehren(nachricht.getClass(), nachricht);
-					}
-				}
-				for(Benutzer benutzer : teamcombat.getHerausgeforderter().mitglieder){
-					for(Nachricht nachricht : benutzer.nachrichten){
-						db.eintragZusammenfuehren(nachricht.getClass(), nachricht);
-					}
-				}
+				db.eintragAktualisieren(teamcombat.getClass(), teamcombat);
 				db.eintragZusammenfuehren(mbis.getClass(), mbis);
 				db.eintragZusammenfuehren(biks.getClass(), biks);
 				
 				//------------------------------------------------------------------
 				
-				kommentar.entfernen();
-				db.eintragAktualisieren(kommentar.getClass(), kommentar);
-				db.eintragEntfernen(kommentar.getClass(), kommentar.getId());
+//				kommentar.entfernen();
+//				db.eintragAktualisieren(kommentar.getClass(), kommentar);
+//				db.eintragEntfernen(kommentar.getClass(), kommentar.getId());
 				
 				
 			} catch (Exception e) {
