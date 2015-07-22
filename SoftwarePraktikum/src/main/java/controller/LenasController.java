@@ -123,8 +123,6 @@ public class LenasController {
 	
 	@RequestMapping(value = "/QuestStarten")
 	public String questStarten(Model model){
-		System.out.println("Neuer Quest angelegt");
-		System.out.println(gruppe.getName());
 		Quest quest =  gruppe.questAntreten(angemeldeterBenutzer);
 		db.eintragZusammenfuehren(quest.getClass(), quest);
 		this.quest = quest;
@@ -135,7 +133,7 @@ public class LenasController {
 		}
 		questFragen=fragen;
 		model.addAttribute("fragen", fragen);
-		model.addAttribute("frage1", new Frage());
+		model.addAttribute("quest", new Quest());
 		return "Quest";
 	}
 	
@@ -149,38 +147,20 @@ public class LenasController {
 	}
 	
 	@RequestMapping(value = "/questBeenden")
-	public String questBeenden(@ModelAttribute Frage frage1, Model model){
-		System.out.println("questBeenden-Methode");
-		ArrayList<String> zwischenSpeicherAntworten = frage1.getZwischenSpeicherAntworten();
-		Frage mryFrage = new Frage();
-		if (zwischenSpeicherAntworten != null){
-		for (String s:zwischenSpeicherAntworten){
-			String[] result; 
-			result = s.split(";!!;!");
-			int frageId = Integer.parseInt(result[0]);
-			System.out.println(frageId);
-			String loesung = result[1];
-			System.out.println(loesung);
-				for (Frage f: questFragen){
-					int id = f.getId();
-					if (id == frageId){
-						mryFrage = f;
-				} 
+	public String questBeenden(@ModelAttribute Quest quest, Model model){
+		if (quest.getAntworten() != null){
+			for (String a: quest.getAntworten()){
+				this.quest.addAntwort(a);
 			}
-				
-				mryFrage.addAntwort(loesung);
-				db.eintragZusammenfuehren(mryFrage.getClass(), mryFrage);
-		}
 		}
 		
-		System.out.println(quest.korrigiere());
-		db.eintragAktualisieren(quest.getClass(), quest);
-		
+		System.out.println(this.quest.korrigiere());
+		db.eintragAktualisieren(this.quest.getClass(), this.quest);
+		this.quest = null; 
 			
 		model.addAttribute("frage", new Frage());
 		model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);
-	    System.out.println("jetzt hier");
 	    return "GruppenProfil";
 	}
 	
@@ -207,16 +187,80 @@ public class LenasController {
 		
 	
 		model.addAttribute("aufgaben", aufgaben);
-		model.addAttribute("aufgabe1", new Aufgabe());
 		return "TeamcombatListe";
 	}
 	
 	@RequestMapping(value = "/TeamcombatBearbeiten/{aufgabe.anhangTeamcombat.teamcombat_id}")
 	public String teamcombatBearbeiten(@PathVariable("aufgabe.anhangTeamcombat.teamcombat_id") int teamcombat_id, @ModelAttribute Aufgabe aufgabe1, Model model){
-		System.err.println(teamcombat_id);
-		System.out.println("Teamcombat wurde  übergeben");
-		return "Menu";
+		Teamcombat teamcombat = new Teamcombat(); 
+		Quest quest = new Quest();
+		teamcombat = (Teamcombat) db.eintragAusgeben(teamcombat.getClass(), teamcombat_id);
+		if (teamcombat.getHerausforderer().getMitglieder().contains(angemeldeterBenutzer)){
+			quest = teamcombat.getQuestFuerHerausforderer(); 
+		} else {
+			quest = teamcombat.getQuestFuerHerausgeforderter();
+		}
+
+		this.quest = quest;
+		ArrayList<Frage> fragen = new ArrayList<Frage>();
+		for (Frage f: quest.getFragen()){
+			fragen.add(f);
+		}
 		
+		if (this.quest.getAntworten() != null){
+			for (String a: this.quest.getAntworten()){
+				String[] parts = a.split(";!!;!");
+				int frage_id = Integer.parseInt(parts[0]);
+				String antwort = parts[1];
+				for (Frage f: fragen){
+					if (f.getId() == frage_id){
+						f.getZwischenSpeicherAntworten().add(antwort);
+					}
+				}
+			}
+		}
+		
+		questFragen=fragen;
+		model.addAttribute("fragen", fragen);
+		model.addAttribute("quest", new Quest());
+		return "QuestTeamcombat";
+	}
+	
+	@RequestMapping(value = "/questTeamcombatSpeichern")
+	public String questTeamcombatSpeichern(@ModelAttribute Quest quest, Model model){
+		if (quest.getAntworten() != null){
+			this.quest.getAntworten().clear();
+			for (String a: quest.getAntworten()){
+				this.quest.addAntwort(a);
+			}
+		}
+		
+		db.eintragAktualisieren(this.quest.getClass(), this.quest);
+		this.quest = null; 
+	    
+	    
+		ArrayList<Aufgabe> aufgaben = new ArrayList<Aufgabe>();
+		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
+			if (a.getTyp() == Nachricht.TEAMHERAUSFORDERUNG){
+				Teamcombat teamcombat = a.getAnhangTeamcombat(); 
+				System.out.println(teamcombat.getId());
+				a.setHilfsIdTeamcombat(teamcombat.getId());
+				
+				// prüft in welcher Gruppe der angemeldete Benutzer ist, damit die Gruppeninfo der gegnerischen Gruppe ausgegeben wird 
+				if (!teamcombat.getHerausforderer().getMitglieder().contains(angemeldeterBenutzer)){
+					teamcombat.getHerausforderer().setAnzahlMitglieder(teamcombat.getHerausforderer().anzahl());
+					a.setGegnerischeGruppenInfo(teamcombat.getHerausforderer());
+				} else {
+					teamcombat.getHerausgeforderter().setAnzahlMitglieder(teamcombat.getHerausgeforderter().anzahl());
+					a.setGegnerischeGruppenInfo(teamcombat.getHerausgeforderter());
+				}
+				aufgaben.add(a);
+			}
+		}
+		
+		System.out.println("Teamcombat wurde gespeichert");
+		model.addAttribute("aufgaben", aufgaben);
+		return "TeamcombatListe";
 	}
 	
 }

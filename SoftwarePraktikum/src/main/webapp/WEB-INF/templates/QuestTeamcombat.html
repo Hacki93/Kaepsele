@@ -74,7 +74,7 @@
         </div>
     </header>
 
-<form th:action= "@{/questBeenden}" th:object="${quest}" name="questForm" method="post">
+<form th:action= "@{/questTeamcombatSpeichern}" th:object="${quest}" name="questForm" method="post">
 <table class="table table-user-information">
 <tbody>
 <tr th:each ="frage : ${fragen}">
@@ -103,7 +103,11 @@
 <tr th:each = "antwort : ${frage.antwortmoeglichkeiten}">
 <td>
           <div class="quiz" id="quiz" data-toggle="buttons">
-          <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right" th:text="${antwort}"></i></span> <input type="checkbox" name="q_answer" th:value="${frage.frage_id} + ';!!;!' + ${antwort}" th:field ="*{antworten}" /></label>
+          <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right" th:text="${antwort}"></i></span> 
+          <input type="checkbox" name="q_answer" th:value="${frage.frage_id} + ';!!;!' + ${antwort}" th:field ="*{antworten}"/></label>
+          <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right" th:text="${#lists.contains(frage.zwischenSpeicherAntworten, antwort)}"></i></span></label> 
+          
+    
         </div>
         </td>
         </tr>
@@ -125,7 +129,7 @@
       <div class="modal-content">
          <div class="modal-header">
            <div class="quiz" id="quiz" data-toggle="buttons">
-           <div><button type="submit" onclick="closeSelf();">Quest beenden</button></div>
+           <div><button type="submit" onclick="closeSelf();">Antworten speichern</button></div>
            
            </div>          
           </div>
