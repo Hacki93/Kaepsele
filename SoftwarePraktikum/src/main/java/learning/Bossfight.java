@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,11 +37,8 @@ public class Bossfight extends Challenge implements java.io.Serializable {
     @JoinColumn(name="medium_id")
 	private Medium medium;
 
-	@ElementCollection(targetClass = String.class)
-	@CollectionTable(name="BOSSFIGHT_ANTWORTEN", joinColumns=
-	@JoinColumn(name="bossfight_id"))
-	@Cascade(CascadeType.SAVE_UPDATE)
-	private Set<String> antworten;
+	@Column(name = "antwort")
+	private String antwort;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@Cascade(CascadeType.SAVE_UPDATE)
@@ -51,7 +49,6 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	 * Konstruktor f&uuml;r Hibernate
 	 */
 	public Bossfight() {
-		antworten = new HashSet<String>();
 		datum = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 	}
 
@@ -69,7 +66,6 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 		this.erreichbarePunktzahl = erreichbarePunktzahl;
 		this.gruppe = gruppe;
 		datum = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-		antworten = new HashSet<String>();
 	}
 
 	/**
@@ -87,7 +83,7 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 	 * @param antwort
 	 */
 	public void addAntwort(String antwort) {
-		antworten.add(antwort);
+		this.antwort = antwort;
 	}
 
 	/**
@@ -145,10 +141,10 @@ public class Bossfight extends Challenge implements java.io.Serializable {
 		this.gruppe = gruppe;
 	}
 	
-	public Set<String> getAntworten(){
-		return antworten;
+	public String getAntwort(){
+		return antwort;
 	}
-	public void setAntworten(Set<String> antworten){
-		this.antworten = antworten;
+	public void setAntworten(String antworten){
+		this.antwort = antworten;
 	}
 }

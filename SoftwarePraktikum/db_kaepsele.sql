@@ -155,6 +155,7 @@ CREATE TABLE `bossfight` (
   `bossfight_id` int(11) NOT NULL AUTO_INCREMENT,
   `medium_id` int(11) DEFAULT NULL,
   `gruppe_id` int(11) DEFAULT NULL,
+  `antwort` varchar(20000) DEFAULT NULL,
   PRIMARY KEY (`bossfight_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -166,29 +167,6 @@ CREATE TABLE `bossfight` (
 LOCK TABLES `bossfight` WRITE;
 /*!40000 ALTER TABLE `bossfight` DISABLE KEYS */;
 /*!40000 ALTER TABLE `bossfight` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bossfight_antworten`
---
-
-DROP TABLE IF EXISTS `bossfight_antworten`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bossfight_antworten` (
-  `bossfight_id` int(11) NOT NULL DEFAULT '0',
-  `antworten` varchar(20000) DEFAULT NULL,
-  PRIMARY KEY (`bossfight_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bossfight_antworten`
---
-
-LOCK TABLES `bossfight_antworten` WRITE;
-/*!40000 ALTER TABLE `bossfight_antworten` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bossfight_antworten` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -689,4 +667,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-22 16:28:14
+-- Dump completed on 2015-07-23  8:23:25
