@@ -1637,7 +1637,7 @@ public class HauptController {
 		Bossfight bearbeiteterBossfight = new Bossfight();
 		bearbeiteterBossfight = (Bossfight) db.eintragAusgeben(bearbeiteterBossfight.getClass(), bossfight_id);
 		
-		bearbeiteterBossfight.setAntworten(bossfightZuBearbeiten.getAntworten());
+		bearbeiteterBossfight.setAntworten(bossfightZuBearbeiten.getAntwort());
 		bearbeiteterBossfight.setBenutzer(angemeldeterBenutzer);
 		
 		db.eintragAktualisieren(bearbeiteterBossfight.getClass(), bearbeiteterBossfight);
