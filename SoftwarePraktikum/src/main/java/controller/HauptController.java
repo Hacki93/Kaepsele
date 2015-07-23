@@ -1182,17 +1182,6 @@ public class HauptController {
 		//Datenbank wird aktualisiert
 		db.eintragZusammenfuehren(gruppe.getFragenpool().getClass(), gruppe.getFragenpool());
 		db.eintragZusammenfuehren(gruppe.getClass(), gruppe);
-		
-		
-		for (String s:neueFrage.getAntwortmoeglichkeiten()){
-			System.out.println("Antwort:");
-			System.out.println(s);
-		
-		}
-		for (String s:neueFrage.getLoesung()){
-			System.out.println("Lösung: ");
-			System.out.println(s);
-		}
 		}
 		ArrayList<Thema> themenList = new ArrayList<Thema>();
 		themenList = gruppe.pinnwand.sortiereNachDatum();
@@ -1229,7 +1218,6 @@ public class HauptController {
 		ArrayList<Frage> fragen = new ArrayList<Frage>();
 		for (Frage f: klassenQuest.getFragen()){
 			fragen.add(f);
-			System.out.println(f.getText());
 		}
 		model.addAttribute("fragen", fragen);
 		model.addAttribute("quest", new Quest());
@@ -1243,20 +1231,9 @@ public class HauptController {
 			model.addAttribute("benutzer", new Benutzer());
 			return "Anmelden";
 		}
-		
-//		Quest neuerQuest = new Quest(); 
-		System.out.println(questId);
-//		for (Object obj : db.tabelleAusgeben(neuerQuest.getClass())){
-//			Quest quest2 = (Quest) obj;
-//			if (quest2.getId() == questId){
-//				neuerQuest = quest2; 
-//			}
-//		}
-//		neuerQuest = (Quest) db.eintragAusgeben(neuerQuest.getClass(), questId);
 		if (quest.getAntworten() != null){
 			for (String a: quest.getAntworten()){
 				
-				System.out.println("Antwort: " + a);
 				klassenQuest.addAntwort(a);
 			}
 		}
@@ -1292,7 +1269,6 @@ public class HauptController {
 		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
 			if (a.getTyp() == Nachricht.TEAMHERAUSFORDERUNG){
 				Teamcombat teamcombat = a.getAnhangTeamcombat(); 
-				System.out.println(teamcombat.getId());
 				a.setHilfsIdTeamcombat(teamcombat.getId());
 				
 				// prüft in welcher Gruppe der angemeldete Benutzer ist, damit die Gruppeninfo der gegnerischen Gruppe ausgegeben wird 
@@ -1362,7 +1338,6 @@ public class HauptController {
 		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
 			if (a.getTyp() == Nachricht.TEAMHERAUSFORDERUNG){
 				Teamcombat teamcombat1 = a.getAnhangTeamcombat(); 
-				System.out.println(teamcombat1.getId());
 				a.setHilfsIdTeamcombat(teamcombat1.getId());
 				
 				// prüft in welcher Gruppe der angemeldete Benutzer ist, damit die Gruppeninfo der gegnerischen Gruppe ausgegeben wird 
@@ -1444,7 +1419,6 @@ public class HauptController {
 		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
 			if (a.getTyp() == Nachricht.TEAMHERAUSFORDERUNG){
 				Teamcombat teamcombat = a.getAnhangTeamcombat(); 
-				System.out.println(teamcombat.getId());
 				a.setHilfsIdTeamcombat(teamcombat.getId());
 				
 				// prüft in welcher Gruppe der angemeldete Benutzer ist, damit die Gruppeninfo der gegnerischen Gruppe ausgegeben wird 
@@ -1459,7 +1433,6 @@ public class HauptController {
 			}
 		}
 		
-		System.out.println("Teamcombat wurde gespeichert");
 		model.addAttribute("aufgaben", aufgaben);
 		return "TeamcombatListe";
 	}
@@ -1475,7 +1448,6 @@ public class HauptController {
 		ArrayList<Nachricht> nachrichten = new ArrayList<Nachricht>(); 
 		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
 			aufgaben.add(a);
-			System.out.println("Aufgabe: " + a.getTitel());
 		}
 		for (Nachricht n: angemeldeterBenutzer.getNachrichten()){
 			nachrichten.add(n);
@@ -1493,9 +1465,7 @@ public class HauptController {
 			model.addAttribute("benutzer", new Benutzer());
 			return "Anmelden";
 		}
-		System.out.println(aufgabe.getHilfsIdTeamcombat());
 		Aufgabe neueAufgabe = new Aufgabe();
-		System.out.println(aufgabe.getHilfsIdTeamcombat());
 		neueAufgabe = (Aufgabe) db.eintragAusgeben(neueAufgabe.getClass(), aufgabe.getHilfsIdTeamcombat());
 		
 		if (neueAufgabe.getTyp() == Nachricht.TEAMHERAUSFORDERUNG){

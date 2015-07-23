@@ -188,11 +188,9 @@ public class Gruppe implements java.io.Serializable {
 	 */
 	public int aktuellerPunktestand(Benutzer benutzer) {
 		int punkte = 0;
-		System.out.println(quests.size());
 		for (Quest q : quests) {
 			if (q.getBenutzer() != null){
 			if (q.getBenutzer().getId() == benutzer.getId()) {
-				System.out.println("Quests: " + punkte);
 				punkte = punkte + q.getErreichtePunktzahl();
 			}
 			}

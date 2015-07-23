@@ -4,10 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import learning.Benutzer;
+import learning.Bossfight;
 import learning.Fachrichtung;
 import learning.Frage;
 import learning.Gruppe;
 import learning.Kommentar;
+import learning.Medium;
 import learning.Thema;
 import datenhaltung.Datenbank;
 
@@ -35,6 +37,9 @@ public class Beispieldaten {
 			Benutzer philipp = new Benutzer();
 			Benutzer nicole = new Benutzer();
 			
+			Bossfight bossfight = new Bossfight();
+			Medium	medium = new Medium();
+			
 			Gruppe mbis = new Gruppe();
 			Gruppe biks = new Gruppe();
 			
@@ -47,19 +52,17 @@ public class Beispieldaten {
 			
 			
 			Thema thema = new Thema();
-			Thema themahannes1 = new Thema();
-			Thema themahannes2 = new Thema();
-			Thema themahannes3 = new Thema();
+			Thread.sleep(10L);
 			Thema themalena1 = new Thema();
-			Thema themalena2 = new Thema();
-			Thema themamedizin1 = new Thema();
-			Thema themamedizin2 = new Thema();
+			Thread.sleep(10L);
 			Thema themabwl1 = new Thema();
+			Thread.sleep(10L);
 			Thema themabwl2 = new Thema();
+			Thread.sleep(10L);
 			Thema themabwl3 = new Thema();
-			Thema themabwl4 = new Thema();
 			
 			Kommentar kommentar = new Kommentar();
+			Kommentar kommentar2 = new Kommentar();
 			Fachrichtung wi = new Fachrichtung();
 			Fachrichtung agrar = new Fachrichtung();
 			Fachrichtung medizin = new Fachrichtung();
@@ -148,20 +151,16 @@ public class Beispieldaten {
 			// Eintrag hinzufügen zur Datenbank
 
 			db.eintragHinzufuegen(thema.getClass(), thema);
-			db.eintragHinzufuegen(themahannes1.getClass(), themahannes1);
-			db.eintragHinzufuegen(themahannes2.getClass(), themahannes2);
-			db.eintragHinzufuegen(themahannes3.getClass(), themahannes3);
 			db.eintragHinzufuegen(themalena1.getClass(), themalena1);
-			db.eintragHinzufuegen(themalena2.getClass(), themalena2);
-			db.eintragHinzufuegen(themamedizin1.getClass(), themamedizin1);
-			db.eintragHinzufuegen(themamedizin2.getClass(), themamedizin2);
 			db.eintragHinzufuegen(themabwl1.getClass(), themabwl1);
 			db.eintragHinzufuegen(themabwl2.getClass(), themabwl2);
 			db.eintragHinzufuegen(themabwl3.getClass(), themabwl3);
-			db.eintragHinzufuegen(themabwl4.getClass(), themabwl4);
 			
+			db.eintragHinzufuegen(bossfight.getClass(), bossfight);
+			db.eintragHinzufuegen(medium.getClass(), medium);
 			
 			db.eintragHinzufuegen(kommentar.getClass(), kommentar);
+			db.eintragHinzufuegen(kommentar2.getClass(), kommentar2);
 			db.eintragHinzufuegen(hannes.getClass(), hannes);
 			db.eintragHinzufuegen(lena.getClass(), lena);
 			db.eintragHinzufuegen(richard.getClass(), richard);
@@ -180,9 +179,6 @@ public class Beispieldaten {
 			db.eintragHinzufuegen(philosophie.getClass(), philosophie);
 			db.eintragHinzufuegen(ingenieur.getClass(), ingenieur);
 			db.eintragHinzufuegen(medizin.getClass(), medizin);
-			
-			
-
 			
 			db.eintragHinzufuegen(finformatik1.getClass(), finformatik1);
 			db.eintragHinzufuegen(finformatik2.getClass(), finformatik2);
@@ -257,13 +253,6 @@ public class Beispieldaten {
 			hannes.setGeburtsdatum("01/26/1995");
 			hannes.setProfilbildURL("/Bild.png");
 			hannes.erstelltAm = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-			hannes.freundHinzufuegen(lena);
-			hannes.freundHinzufuegen(richard);
-			hannes.freundHinzufuegen(stefanie);
-			hannes.freundHinzufuegen(paula);
-			hannes.freundHinzufuegen(hans);
-			hannes.freundHinzufuegen(philipp);
-			hannes.freundHinzufuegen(nicole);
 
 			lena.registrieren("lenchen", "12345678");
 			lena.setEmailAdresse("lenamai.er@web.de");
@@ -279,19 +268,19 @@ public class Beispieldaten {
 			
 			//richard
 			richard.registrieren("richard", "12345678");
-			richard.setEmailAdresse("r.laumayer@gmail.com");
+			richard.setEmailAdresse("lenamai.er@web.de");
 			richard.setName("Richard Laumayer");
 			richard.setAdresse("Bielefeld");
 			richard.setRang(20);
 			richard.setBeruf("Student");
-			richard.setStudiengang("Bauingeneiur B.Sc.");
+			richard.setStudiengang("Bauingenieur B.Sc.");
 			richard.setGeburtsdatum("16/06/1995");
 			richard.setProfilbildURL("/Bild.png");
 			richard.erstelltAm = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 			richard.freundHinzufuegen(lena);
-// stefanie
+			// stefanie
 			stefanie.registrieren("stefanie", "12345678");
-			stefanie.setEmailAdresse("r.laumayer@gmail.com");
+			stefanie.setEmailAdresse("lenamai.er@web.de");
 			stefanie.setName("Stefanie Bieler");
 			stefanie.setAdresse("Stuttgart");
 			stefanie.setRang(430);
@@ -303,7 +292,7 @@ public class Beispieldaten {
 			stefanie.freundHinzufuegen(lena);
 			// paula
 			paula.registrieren("paula", "12345678");
-			paula.setEmailAdresse("pauli94@gmx.de");
+			paula.setEmailAdresse("lenamai.er@web.de");
 			paula.setName("Paula Frei");
 			paula.setAdresse("Stuttgart");
 			paula.setRang(520);
@@ -315,8 +304,8 @@ public class Beispieldaten {
 			paula.freundHinzufuegen(lena);
 			//Hans
 			hans.registrieren("hans", "12345678");
-			hans.setEmailAdresse("r.laumayer@gmail.com");
-			hans.setName("Richard Laumayer");
+			hans.setEmailAdresse("lenamai.er@web.de");
+			hans.setName("Hans Zimmer");
 			hans.setAdresse("Bielefeld");
 			hans.setRang(20);
 			hans.setBeruf("Student");
@@ -328,8 +317,8 @@ public class Beispieldaten {
 			
 		// philipp
 			philipp.registrieren("philipp", "12345678");
-			philipp.setEmailAdresse("r.laumayer@gmail.com");
-			philipp.setName("Richard Laumayer");
+			philipp.setEmailAdresse("lenamai.er@web.de");
+			philipp.setName("Philipp Peters");
 			philipp.setAdresse("Bielefeld");
 			philipp.setRang(20);
 			philipp.setBeruf("Student");
@@ -341,8 +330,8 @@ public class Beispieldaten {
 			
 			// nicole
 			nicole.registrieren("nicole", "12345678");
-			nicole.setEmailAdresse("r.laumayer@gmail.com");
-			nicole.setName("nicole Laumayer");
+			nicole.setEmailAdresse("lenamai.er@web.de");
+			nicole.setName("Nicole Laumayer");
 			nicole.setAdresse("Bielefeld");
 			nicole.setRang(20);
 			nicole.setBeruf("Student");
@@ -352,12 +341,24 @@ public class Beispieldaten {
 			nicole.erstelltAm = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 			nicole.freundHinzufuegen(lena);
 
+			hannes.freundHinzufuegen(lena);
+			hannes.freundHinzufuegen(richard);
+			hannes.freundHinzufuegen(stefanie);
+			hannes.freundHinzufuegen(paula);
+			hannes.freundHinzufuegen(hans);
+			hannes.freundHinzufuegen(philipp);
+			hannes.freundHinzufuegen(nicole);
 			
-			wi.setName("vwlsinformatik");
+			medium.setDateiname("Musterklausur.pdf");
+			medium.setName("Musterklausur");
+			
+			bossfight.setMedium(medium);
+			
+			wi.setName("Wirtschaftsinformatik");
 			wi.setFreigegeben(false);
 
 			mbis.setFachrichtung(wi);
-			mbis.setKlausurname("MBIS 1");
+			mbis.setKlausurname("MBIS");
 			mbis.setName("Management betrieblicher Informationssysteme");
 			mbis.setProfilbildURL("/Gruppenbild.png");
 			mbis.mitgliedHinzufuegen(lena);
@@ -365,19 +366,22 @@ public class Beispieldaten {
 			mbis.moderatorHinzufuegen(hannes);
 			mbis.pinnwand.themaHinzufuegen(thema);
 			mbis.fragenpool.addFrage(frage);
+			mbis.setFachrichtungsname("WI");
 
-			mbis.setFachrichtung(wi);
-			mbis.setKlausurname("BIKS 1");
-			mbis.setName("Betriebliche Informations- und Kommunikationssyseme");
+			biks.setFachrichtung(wi);
+			biks.setKlausurname("BIKS");
+			biks.setName("Betriebliche Informations- und Kommunikationssyseme");
 			biks.setProfilbildURL("/BIKS.png");
 			biks.mitgliedHinzufuegen(hannes);
 			biks.moderatorHinzufuegen(hannes);
 			biks.setFachrichtung(wi);
 			biks.setKlausurname("MBIS 1");
-			biks.setName("Management betrieblicher Informationssysteme");
+			mbis.setFachrichtungsname("WI");
+			
+			biks.teamcombatAntreten(mbis);
 			
 			bwl.setFachrichtung(wi);
-			bwl.setKlausurname("bwl 1");
+			bwl.setKlausurname("BWL");
 			bwl.setName("Betriebswirtschaftslehre");
 			bwl.setProfilbildURL("/Gruppenbild.png");
 			bwl.mitgliedHinzufuegen(lena);
@@ -400,10 +404,12 @@ public class Beispieldaten {
 			bwl.fragenpool.addFrage(fbwl8);
 			bwl.fragenpool.addFrage(fbwl9);
 			bwl.fragenpool.addFrage(fbwl10);
+			mbis.setFachrichtungsname("WiWi");
+			bwl.addBossfight(bossfight);
 			
 			vwl.setFachrichtung(wi);
-			vwl.setKlausurname("vwl 1");
-			vwl.setName("Betriebswirtschaftslehre");
+			vwl.setKlausurname("VWL");
+			vwl.setName("Volkswirtschaftslehre");
 			vwl.setProfilbildURL("/Gruppenbild.png");
 			vwl.mitgliedHinzufuegen(lena);
 			vwl.mitgliedHinzufuegen(hannes);
@@ -425,9 +431,10 @@ public class Beispieldaten {
 			vwl.fragenpool.addFrage(fvwl8);
 			vwl.fragenpool.addFrage(fvwl9);
 			vwl.fragenpool.addFrage(fvwl10);
+			mbis.setFachrichtungsname("WiWi");
 			
 			infobasics.setFachrichtung(wi);
-			infobasics.setKlausurname("infobasics 1");
+			infobasics.setKlausurname("InfoBasic");
 			infobasics.setName("Grundwissen Informatik");
 			infobasics.setProfilbildURL("/Gruppenbild.png");
 			infobasics.mitgliedHinzufuegen(lena);
@@ -447,12 +454,13 @@ public class Beispieldaten {
 			infobasics.fragenpool.addFrage(finformatik8);
 			infobasics.fragenpool.addFrage(finformatik9);
 			infobasics.fragenpool.addFrage(finformatik10);
+			mbis.setFachrichtungsname("Info");
 			
 			
 			
 			ärztlichePrüfung.setFachrichtung(wi);
-			ärztlichePrüfung.setKlausurname("ärztlichePrüfung 1");
-			ärztlichePrüfung.setName("Betriebswirtschaftslehre");
+			ärztlichePrüfung.setKlausurname("Staatsexamen Medizin");
+			ärztlichePrüfung.setName("Anatomie");
 			ärztlichePrüfung.setProfilbildURL("/Gruppenbild.png");
 			ärztlichePrüfung.mitgliedHinzufuegen(lena);
 			ärztlichePrüfung.mitgliedHinzufuegen(hannes);
@@ -470,12 +478,13 @@ public class Beispieldaten {
 			ärztlichePrüfung.fragenpool.addFrage(fmedizin8);
 			ärztlichePrüfung.fragenpool.addFrage(fmedizin9);
 			ärztlichePrüfung.fragenpool.addFrage(fmedizin10);
+			mbis.setFachrichtungsname("Medizin");
 			
 			
 			
 			agrareinführung.setFachrichtung(agrar);
-			agrareinführung.setKlausurname("agrareinführung 1");
-			agrareinführung.setName("Betriebswirtschaftslehre");
+			agrareinführung.setKlausurname("AGRA");
+			agrareinführung.setName("Agrarwirtschaft 2");
 			agrareinführung.setProfilbildURL("/Gruppenbild.png");
 			agrareinführung.mitgliedHinzufuegen(lena);
 			agrareinführung.mitgliedHinzufuegen(hannes);
@@ -494,12 +503,13 @@ public class Beispieldaten {
 			agrareinführung.fragenpool.addFrage(fagrar8);
 			agrareinführung.fragenpool.addFrage(fagrar9);
 			agrareinführung.fragenpool.addFrage(fagrar10);
+			mbis.setFachrichtungsname("Agrar");
 			
 
 			
 			festigkeitslehre.setFachrichtung(ingenieur);
-			festigkeitslehre.setKlausurname("festigkeitslehre 1");
-			festigkeitslehre.setName("Betriebswirtschaftslehre");
+			festigkeitslehre.setKlausurname("Festigkeitslehre 1");
+			festigkeitslehre.setName("Festigkeitslehre");
 			festigkeitslehre.setProfilbildURL("/Gruppenbild.png");
 			festigkeitslehre.mitgliedHinzufuegen(lena);
 			festigkeitslehre.mitgliedHinzufuegen(hannes);
@@ -516,19 +526,50 @@ public class Beispieldaten {
 			festigkeitslehre.fragenpool.addFrage(ffestigkeitslehre8);
 			festigkeitslehre.fragenpool.addFrage(ffestigkeitslehre9);
 			festigkeitslehre.fragenpool.addFrage(ffestigkeitslehre10);
+			mbis.setFachrichtungsname("Ing");
 
-			kommentar.setBenutzer(lena);
+			kommentar2.setBenutzer(lena);
+			kommentar2.setBewertung(0);
+			kommentar2.setInhalt("Gerne!");
+			kommentar2.setThema(thema);
+			
+			kommentar.setBenutzer(hannes);
 			kommentar.setBewertung(0);
-			kommentar.setInhalt("Dankeschön lieber Hannes");
-			kommentar.setTitel("Danke!");
+			kommentar.setInhalt("Dankeschön!");
 			kommentar.setThema(thema);
 
-			thema.setPinnwand(lena.pinnwand);
-			thema.setBenutzer(hannes);
+			
+			
+			thema.setPinnwand(hannes.pinnwand);
+			thema.setBenutzer(lena);
 			thema.setBewertung(5);
 			thema.setTitel("Happy Birthday");
 			thema.setInhalt("Ich wünsch Dir alles Gute zum Geburtstag!");
 			thema.kommentieren(kommentar);
+			
+			themabwl1.setPinnwand(bwl.pinnwand);
+			themabwl1.setBenutzer(hannes);
+			themabwl1.setBewertung(4);
+			themabwl1.setInhalt("Vorlesung morgen fällt aus!");
+			themabwl1.setTitel("WICHTIG");
+			
+			themabwl2.setPinnwand(bwl.pinnwand);
+			themabwl2.setBenutzer(lena);
+			themabwl2.setBewertung(0);
+			themabwl2.setInhalt("Hat jemand Aufgabe 8.2 verstanden? :/");
+			themabwl2.setTitel("Frage");
+			
+			themabwl3.setPinnwand(bwl.pinnwand);
+			themabwl3.setBenutzer(hannes);
+			themabwl3.setBewertung(4);
+			themabwl3.setInhalt("Hey Leute, unter wikipedia.de findet ihr einige cooles Infos.");
+			themabwl3.setTitel("Link zur Aufgabe");
+			
+			themalena1.setPinnwand(lena.pinnwand);
+			themalena1.setBenutzer(lena);
+			themalena1.setBewertung(1);
+			themalena1.setInhalt("Hey Leute, hab leider mein Handy verloren");
+			themalena1.setTitel("Nur per Facebook erreichbar");
 
 			// Fragen
 
@@ -1121,17 +1162,10 @@ public class Beispieldaten {
 			// Einträge aktualisieren
 
 			db.eintragAktualisieren(thema.getClass(), thema);
-			db.eintragAktualisieren(themahannes1.getClass(), themahannes1);
-			db.eintragAktualisieren(themahannes2.getClass(), themahannes2);
-			db.eintragAktualisieren(themahannes3.getClass(), themahannes3);
 			db.eintragAktualisieren(themalena1.getClass(), themalena1);
-			db.eintragAktualisieren(themalena2.getClass(), themalena2);
-			db.eintragAktualisieren(themamedizin1.getClass(), themamedizin1);
-			db.eintragAktualisieren(themamedizin2.getClass(), themamedizin2);
 			db.eintragAktualisieren(themabwl1.getClass(), themabwl1);
 			db.eintragAktualisieren(themabwl2.getClass(), themabwl2);
 			db.eintragAktualisieren(themabwl3.getClass(), themabwl3);
-			db.eintragAktualisieren(themabwl4.getClass(), themabwl4);
 			db.eintragAktualisieren(kommentar.getClass(), kommentar);
 			db.eintragAktualisieren(lena.getClass(), lena);
 			db.eintragAktualisieren(hannes.getClass(), hannes);
@@ -1217,6 +1251,8 @@ public class Beispieldaten {
 			db.eintragAktualisieren(fbwl8.getClass(), fbwl8);
 			db.eintragAktualisieren(fbwl9.getClass(), fbwl9);
 			db.eintragAktualisieren(fbwl10.getClass(), fbwl10);
+			db.eintragAktualisieren(medium.getClass(), medium);
+			db.eintragAktualisieren(bossfight.getClass(), bossfight);
 			
 			
 			

@@ -90,7 +90,6 @@ public class Quest extends Challenge implements java.io.Serializable {
 	public int korrigiere(){
 		erreichtePunktzahl = 0;
 		for(String s : antworten){
-			System.out.println("Antwort: "+ s);
 			String[] parts = s.split(";!!;!");
 			int frage_id = Integer.parseInt(parts[0]);
 			String antwort = parts[1];
