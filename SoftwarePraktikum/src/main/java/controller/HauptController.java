@@ -1235,7 +1235,7 @@ public class HauptController {
 	}
 	
 	@RequestMapping(value = "/questBeenden")
-	public String questBeenden(@ModelAttribute Quest quest, Model model){
+	public String questBeenden(@ModelAttribute Quest quest1, Model model){
 		if (angemeldeterBenutzer == null){
 			model.addAttribute("nachricht", "Bitte melden Sie sich an");
 			model.addAttribute("benutzer", new Benutzer());
@@ -1243,10 +1243,10 @@ public class HauptController {
 		}
 		
 		Quest neuerQuest = new Quest(); 
-		int questId = this.quest.getId(); 
+		int questId = quest.getId(); 
 		neuerQuest = (Quest) db.eintragAusgeben(neuerQuest.getClass(), questId);
-		if (quest.getAntworten() != null){
-			for (String a: quest.getAntworten()){
+		if (quest1.getAntworten() != null){
+			for (String a: quest1.getAntworten()){
 				neuerQuest.addAntwort(a);
 			}
 		}
@@ -1626,8 +1626,8 @@ public class HauptController {
 		}
 	}
 	
-	@RequestMapping(value= "/BossfightAbgeben/{bossfight.bossfight_id}", method = RequestMethod.POST)
-	public String bossfightAbgeben(@PathVariable(value="bossfight.bossfight_id") int bossfight_id, @ModelAttribute Bossfight bossfightZuBearbeiten, Model model){
+	@RequestMapping(value= "/BossfightAbgeben/{bossfight.challenge_id}", method = RequestMethod.POST)
+	public String bossfightAbgeben(@PathVariable(value="bossfight.challenge_id") int challenge_id, @ModelAttribute Bossfight bossfightZuBearbeiten, Model model){
 		if (angemeldeterBenutzer == null){
 			model.addAttribute("nachricht", "Bitte melden Sie sich an");
 			model.addAttribute("benutzer", new Benutzer());
@@ -1635,7 +1635,7 @@ public class HauptController {
 		}
 		
 		Bossfight bearbeiteterBossfight = new Bossfight();
-		bearbeiteterBossfight = (Bossfight) db.eintragAusgeben(bearbeiteterBossfight.getClass(), bossfight_id);
+		bearbeiteterBossfight = (Bossfight) db.eintragAusgeben(bearbeiteterBossfight.getClass(), challenge_id);
 		
 		bearbeiteterBossfight.setAntworten(bossfightZuBearbeiten.getAntwort());
 		bearbeiteterBossfight.setBenutzer(angemeldeterBenutzer);

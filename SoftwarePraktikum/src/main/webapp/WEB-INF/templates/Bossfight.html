@@ -40,7 +40,7 @@
 </head>
 
 <body>
-<div id="divForm">
+
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -110,11 +110,11 @@
 												<br/>
 												Bitte gib hier deine Antworten ein:
 												<br/>
-												<form th:action="@{/BossfightAbgeben/__${bossfight.bossfight_id}__}" th:object="${bossfightZuBearbeiten}" method="post" >
-												<textarea cols="100" rows="10" th:field="*{antworten}"></textarea>
+												<Form th:action="@{/BossfightAbgeben/__${bossfight.challenge_id}__}" th:object="${bossfightZuBearbeiten}" method="post" >
+												<textarea cols="100" rows="10" th:field="*{antwort}"></textarea>
 												<br/>
-												<button type="button" class="btn btn-primary">L&ouml;sung an Korrektor abschicken</button>
-												</form>
+												<button type="submit" class="btn btn-primary" >L&ouml;sung an Korrektor abschicken</button>
+												</Form>
 											</td>
 										</tr>
 										</tbody>
@@ -141,7 +141,7 @@
 										<!-- Standar Form -->
 										<h3>Lade eine Klausur von deinem Computer hoch</h3>
 
-										<div class="form-inline">
+										<div class="form-inline" id="divForm">
 											<form th:action="@{/MediumHochladen}" commandName="medium" method="post" enctype="multipart/form-data" name="MediumHochladen">
        										<div class="form-group">
        										<input type="file" name="file" />
@@ -187,7 +187,6 @@
 			</div>
 		</div>
 	</div>
-	</div>
 <div  id="closelink" style="display:none">
             <a href="javascript:window.close()">Click Here to Close this Page</a>
         </div>  
@@ -222,5 +221,7 @@ function closeSelf(){
     unHide(document.getElementById('closelink'));
 
 }</script>
+
+
 </body>
 </html>
