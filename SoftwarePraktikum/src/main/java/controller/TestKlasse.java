@@ -263,7 +263,7 @@ public class TestKlasse {
 				
 				//------------------------------------------------------------------
 				
-				teamcombat.auswerten(); 
+//				teamcombat.auswerten(); 
 				db.eintragAktualisieren(teamcombat.getClass(), teamcombat);
 				db.eintragZusammenfuehren(mbis.getClass(), mbis);
 				db.eintragZusammenfuehren(biks.getClass(), biks);
