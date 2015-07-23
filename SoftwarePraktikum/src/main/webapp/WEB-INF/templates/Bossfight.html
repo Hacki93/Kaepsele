@@ -110,9 +110,11 @@
 												<br/>
 												Bitte gib hier deine Antworten ein:
 												<br/>
-												<textarea cols="100" rows="10"></textarea>
+												<form th:action="@{/BossfightAbgeben/__${bossfight.bossfight_id}__}" th:object="${bossfightZuBearbeiten}" method="post" >
+												<textarea cols="100" rows="10" th:field="*{antworten}"></textarea>
 												<br/>
 												<button type="button" class="btn btn-primary">L&ouml;sung an Korrektor abschicken</button>
+												</form>
 											</td>
 										</tr>
 										</tbody>

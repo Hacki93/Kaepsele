@@ -1120,10 +1120,11 @@ public class HauptController {
 			thema.hilfsDatum = simple.format(thema.datum);
 			thema.sortiereNachDatum();
 		}
+		int punkte = this.gruppe.aktuellerPunktestand(angemeldeterBenutzer);
 		
+		model.addAttribute("punkte", punkte);
 		model.addAttribute("themen", themenList);
 		model.addAttribute("gruppenAnzahl", gruppe.anzahl());
-	    model.addAttribute("gruppe", gruppe);
 		model.addAttribute("frage", new Frage());
 	    model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);
@@ -1192,6 +1193,20 @@ public class HauptController {
 			System.out.println(s);
 		}
 		}
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = gruppe.pinnwand.sortiereNachDatum();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : gruppe.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
+		}
+		int punkte = this.gruppe.aktuellerPunktestand(angemeldeterBenutzer);
+		
+		model.addAttribute("punkte", punkte);
+		model.addAttribute("themen", themenList);
+		model.addAttribute("gruppenAnzahl", gruppe.anzahl());
 		model.addAttribute("frage", new Frage());
 		model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);
@@ -1214,50 +1229,50 @@ public class HauptController {
 			fragen.add(f);
 			System.out.println(f.getText());
 		}
-		questFragen=fragen;
 		model.addAttribute("fragen", fragen);
-		model.addAttribute("frage1", new Frage());
+		model.addAttribute("quest", new Quest());
 		return "Quest";
 	}
 	
 	@RequestMapping(value = "/questBeenden")
-	public String questBeenden(@ModelAttribute Frage frage, Model model){
+	public String questBeenden(@ModelAttribute Quest quest, Model model){
 		if (angemeldeterBenutzer == null){
 			model.addAttribute("nachricht", "Bitte melden Sie sich an");
 			model.addAttribute("benutzer", new Benutzer());
 			return "Anmelden";
 		}
 		
-		System.out.println("questBeenden-Methode");
-		ArrayList<String> zwischenSpeicherAntworten = frage.getZwischenSpeicherAntworten();
-		Frage mryFrage = new Frage();
-		for (String s:zwischenSpeicherAntworten){
-			String[] result; 
-			result = s.split(";!!;!");
-			int frageId = Integer.parseInt(result[0]);
-			System.out.println(frageId);
-			String loesung = result[1];
-			System.out.println(loesung);
-				for (Frage f: questFragen){
-					int id = f.getId();
-					if (id == frageId){
-						mryFrage = f;
-				} 
+		Quest neuerQuest = new Quest(); 
+		int questId = this.quest.getId(); 
+		neuerQuest = (Quest) db.eintragAusgeben(neuerQuest.getClass(), questId);
+		if (quest.getAntworten() != null){
+			for (String a: quest.getAntworten()){
+				neuerQuest.addAntwort(a);
 			}
-				
-//				mryFrage.addAntwort(loesung);
-				db.eintragZusammenfuehren(mryFrage.getClass(), mryFrage);
+		}
+		db.eintragZusammenfuehren(neuerQuest.getClass(), neuerQuest);
+		int punkte = neuerQuest.korrigiere();
+		db.eintragZusammenfuehren(neuerQuest.getClass(), neuerQuest);
+		this.quest = null; 
+		
+		int aktuellerPunktestand = gruppe.aktuellerPunktestand(angemeldeterBenutzer);
+		
+		ArrayList<Thema> themenList = new ArrayList<Thema>();
+		themenList = gruppe.pinnwand.sortiereNachDatum();
+		
+		// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+		SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+		for(Thema thema : gruppe.pinnwand.themen){
+			thema.hilfsDatum = simple.format(thema.datum);
+			thema.sortiereNachDatum();
 		}
 		
-		int punkte = quest.korrigiere();
-//		mryFrage.getAntworten().clear();
-		db.eintragZusammenfuehren(mryFrage.getClass(), mryFrage);
-			
+	    model.addAttribute("themen", themenList);
+		model.addAttribute("punkte", aktuellerPunktestand);
+		model.addAttribute("nachricht", "Sie haben " + punkte + " Punkte erreicht"); 
 		model.addAttribute("frage", new Frage());
 		model.addAttribute("thema", new Thema());
 	    model.addAttribute("gruppe", gruppe);
-	    System.out.println("jetzt hier");
-	    System.out.println(punkte);
 	    return "GruppenProfil";
 	}
 	
@@ -1291,7 +1306,7 @@ public class HauptController {
 			return "Anmelden";
 		}
 		
-		Gruppe gegnerGruppe = (Gruppe) db.eintragAusgeben(new Gruppe().getClass(), gruppen_id);
+		Gruppe gegnerGruppe = (Gruppe) db.eintragAusgeben(new Gruppe().getClass(), gruppen_id); 
 		
 		Teamcombat teamcombat = gruppe.teamcombatAntreten(gegnerGruppe);
 		db.eintragHinzufuegen(teamcombat.getClass(), teamcombat);
@@ -1328,14 +1343,194 @@ public class HauptController {
 		}
 		
 		model.addAttribute("aufgaben", aufgaben);
-		model.addAttribute("aufgabe1", new Aufgabe());
+//		model.addAttribute("aufgabe1", new Aufgabe());
 		return "TeamcombatListe";
+	}
+	
+	@RequestMapping(value = "/TeamcombatBearbeiten/{aufgabe.anhangTeamcombat.teamcombat_id}")
+	public String teamcombatBearbeiten(@PathVariable("aufgabe.anhangTeamcombat.teamcombat_id") int teamcombat_id, @ModelAttribute Aufgabe aufgabe1, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		Teamcombat teamcombat = new Teamcombat(); 
+		Quest quest = new Quest();
+		teamcombat = (Teamcombat) db.eintragAusgeben(teamcombat.getClass(), teamcombat_id);
+		if (teamcombat.getHerausforderer().getMitglieder().contains(angemeldeterBenutzer)){
+			quest = teamcombat.getQuestFuerHerausforderer(); 
+		} else {
+			quest = teamcombat.getQuestFuerHerausgeforderter();
+		}
+
+		this.quest = quest;
+		ArrayList<Frage> fragen = new ArrayList<Frage>();
+		for (Frage f: quest.getFragen()){
+			fragen.add(f);
+		}
+		
+		if (this.quest.getAntworten() != null){
+			for (String a: this.quest.getAntworten()){
+				String[] parts = a.split(";!!;!");
+				int frage_id = Integer.parseInt(parts[0]);
+				String antwort = parts[1];
+				for (Frage f: fragen){
+					if (f.getId() == frage_id){
+						f.getZwischenSpeicherAntworten().add(antwort);
+					}
+				}
+			}
+		}
+		
+		model.addAttribute("fragen", fragen);
+		model.addAttribute("quest", new Quest());
+		return "QuestTeamcombat";
+	}
+	
+	@RequestMapping(value = "/questTeamcombatSpeichern")
+	public String questTeamcombatSpeichern(@ModelAttribute Quest quest, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		if (quest.getAntworten() != null){
+			this.quest.getAntworten().clear();
+			for (String a: quest.getAntworten()){
+				this.quest.addAntwort(a);
+			}
+		}
+		
+		db.eintragAktualisieren(this.quest.getClass(), this.quest);
+		this.quest = null; 
+	    
+	    
+		ArrayList<Aufgabe> aufgaben = new ArrayList<Aufgabe>();
+		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
+			if (a.getTyp() == Nachricht.TEAMHERAUSFORDERUNG){
+				Teamcombat teamcombat = a.getAnhangTeamcombat(); 
+				System.out.println(teamcombat.getId());
+				a.setHilfsIdTeamcombat(teamcombat.getId());
+				
+				// prüft in welcher Gruppe der angemeldete Benutzer ist, damit die Gruppeninfo der gegnerischen Gruppe ausgegeben wird 
+				if (!teamcombat.getHerausforderer().getMitglieder().contains(angemeldeterBenutzer)){
+					teamcombat.getHerausforderer().setAnzahlMitglieder(teamcombat.getHerausforderer().anzahl());
+					a.setGegnerischeGruppenInfo(teamcombat.getHerausforderer());
+				} else {
+					teamcombat.getHerausgeforderter().setAnzahlMitglieder(teamcombat.getHerausgeforderter().anzahl());
+					a.setGegnerischeGruppenInfo(teamcombat.getHerausgeforderter());
+				}
+				aufgaben.add(a);
+			}
+		}
+		
+		System.out.println("Teamcombat wurde gespeichert");
+		model.addAttribute("aufgaben", aufgaben);
+		return "TeamcombatListe";
+	}
+	
+	@RequestMapping(value = "/NachrichtenAnzeigen")
+	public String nachrichtenAnzeigen(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		ArrayList<Aufgabe> aufgaben = new ArrayList<Aufgabe>(); 
+		ArrayList<Nachricht> nachrichten = new ArrayList<Nachricht>(); 
+		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
+			aufgaben.add(a);
+			System.out.println("Aufgabe: " + a.getTitel());
+		}
+		for (Nachricht n: angemeldeterBenutzer.getNachrichten()){
+			nachrichten.add(n);
+		}
+		model.addAttribute("aufgaben", aufgaben);
+		model.addAttribute("nachrichten", nachrichten);
+		model.addAttribute("aufgabe", new Aufgabe());
+		return "NachrichtenAufgabenListe";
+	}
+	
+	@RequestMapping(value = "/AufgabeErledigen")
+	public String aufgabeErledigen(@ModelAttribute Aufgabe aufgabe, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		System.out.println(aufgabe.getHilfsIdTeamcombat());
+		Aufgabe neueAufgabe = new Aufgabe();
+		System.out.println(aufgabe.getHilfsIdTeamcombat());
+		neueAufgabe = (Aufgabe) db.eintragAusgeben(neueAufgabe.getClass(), aufgabe.getHilfsIdTeamcombat());
+		
+		if (neueAufgabe.getTyp() == Nachricht.TEAMHERAUSFORDERUNG){
+			Teamcombat teamcombat = neueAufgabe.getAnhangTeamcombat(); 
+			Quest quest = new Quest();
+			if (teamcombat.getHerausforderer().getMitglieder().contains(angemeldeterBenutzer)){
+				quest = teamcombat.getQuestFuerHerausforderer(); 
+			} 
+			else {
+				quest = teamcombat.getQuestFuerHerausgeforderter();
+			}
+
+			this.quest = quest;
+			ArrayList<Frage> fragen = new ArrayList<Frage>();
+			for (Frage f: quest.getFragen()){
+				fragen.add(f);
+			}
+			
+			if (this.quest.getAntworten() != null){
+				for (String a: this.quest.getAntworten()){
+					String[] parts = a.split(";!!;!");
+					int frage_id = Integer.parseInt(parts[0]);
+					String antwort = parts[1];
+					for (Frage f: fragen){
+						if (f.getId() == frage_id){
+							f.getZwischenSpeicherAntworten().add(antwort);
+						}
+					}
+				}
+			}
+			
+			model.addAttribute("fragen", fragen);
+			model.addAttribute("quest", new Quest());
+			return "QuestTeamcombat";
+		} else if (aufgabe.getTyp() == Nachricht.GRUPPENEINLADUNG){
+			Gruppe gruppe = aufgabe.getAnhangGruppe();
+			ArrayList<Thema> themenList = new ArrayList<Thema>();
+			themenList = gruppe.pinnwand.sortiereNachDatum();
+			
+			// Das Datum der Pinnwandbeiträge wird auf die Minute genau formatiert
+			SimpleDateFormat simple = new SimpleDateFormat("dd/MM/yy HH:mm");
+			for(Thema thema : gruppe.pinnwand.themen){
+				thema.hilfsDatum = simple.format(thema.datum);
+			}
+			
+			model.addAttribute("themen", themenList);
+			model.addAttribute("gruppenAnzahl", gruppe.anzahl());
+		    model.addAttribute("gruppe", gruppe);
+			model.addAttribute("frage", new Frage());
+		    model.addAttribute("thema", new Thema());
+		    model.addAttribute("gruppe", gruppe);
+			 return "GruppenProfil";
+		} else {
+			//weiterleiten zu Bossfight
+		model.addAttribute("benutzer", new Benutzer());
+		return "Startseite"; 
+		}
 	}
 	
 	@RequestMapping (value ="/Bossfight", method = RequestMethod.GET)
 	public String bossfight(Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
+		
 		model.addAttribute("bossfights", gruppe.bossfights);
 		model.addAttribute("medium", new Medium());
+		model.addAttribute("bossfightZuBearbeiten", new Bossfight());
 		
 		return "Bossfight";
 	}
@@ -1343,6 +1538,11 @@ public class HauptController {
 	
 	@RequestMapping (value = "/MediumHochladen", method = RequestMethod.POST)
 	public String mediumHochladen(Model model, Medium medium, BindingResult result, HttpServletRequest request) {
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
+		}
 		
 		if(result.hasErrors()){
 			return "Bossfight";
@@ -1381,6 +1581,7 @@ public class HauptController {
 		}
 		model.addAttribute("bossfights", gruppe.bossfights);
 		model.addAttribute("medium", new Medium());
+		model.addAttribute("bossfightZuBearbeiten", new Bossfight());
 		return "Bossfight";
 	}
 	
@@ -1425,43 +1626,25 @@ public class HauptController {
 		}
 	}
 	
-	@RequestMapping(value = "/mediumherunterladen", method = RequestMethod.GET)
-	public @ResponseBody void mediumRunterladen(HttpServletRequest request, HttpServletResponse response) {
-		
-		ServletContext context = request.getServletContext();
-        String projektPfad = context.getRealPath("");
-        String [] pfad = projektPfad.split("Kaepsele");
-        String mediumPfad = pfad[0] + "/Kaepsele/SoftwarePraktikum/Challenge uploads/Entwurf.pdf";
-
-		File ladeMedium = new File(mediumPfad);
-		FileInputStream inputStream = null;
-		OutputStream outStream = null;
-		
-		try {
-			inputStream = new FileInputStream(ladeMedium);		
- 
-			String headerKey = "Content-Disposition";
-			String headerValue = String.format("attachment; filename=\"%s\"",ladeMedium.getName());
-			response.setHeader(headerKey, headerValue);
- 
-			outStream = response.getOutputStream();
-			IOUtils.copy(inputStream, outStream);
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		} 
-		finally {
-			try {
-				if (null != inputStream)
-					inputStream.close();
-				if (null != inputStream)
-					outStream.close();
-			} 
-			catch (IOException e) {
-				e.printStackTrace();
-			}
- 
+	@RequestMapping(value= "/BossfightAbgeben/{bossfight.bossfight_id}", method = RequestMethod.POST)
+	public String bossfightAbgeben(@PathVariable(value="bossfight.bossfight_id") int bossfight_id, @ModelAttribute Bossfight bossfightZuBearbeiten, Model model){
+		if (angemeldeterBenutzer == null){
+			model.addAttribute("nachricht", "Bitte melden Sie sich an");
+			model.addAttribute("benutzer", new Benutzer());
+			return "Anmelden";
 		}
+		
+		Bossfight bearbeiteterBossfight = new Bossfight();
+		bearbeiteterBossfight = (Bossfight) db.eintragAusgeben(bearbeiteterBossfight.getClass(), bossfight_id);
+		
+		bearbeiteterBossfight.setAntworten(bossfightZuBearbeiten.getAntworten());
+		bearbeiteterBossfight.setBenutzer(angemeldeterBenutzer);
+		
+		db.eintragAktualisieren(bearbeiteterBossfight.getClass(), bearbeiteterBossfight);
+		bearbeiteterBossfight.beenden();
+		db.eintragAktualisieren(bearbeiteterBossfight.getClass(), bearbeiteterBossfight);
+		// Aufgabe db.neuerEintrag und db.eintragAktualisieren
+		return "GruppenProfil";
 	}
 	
 	
