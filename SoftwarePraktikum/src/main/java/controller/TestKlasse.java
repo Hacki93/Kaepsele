@@ -228,6 +228,7 @@ public class TestKlasse {
 				db.eintragAktualisieren(biks.getClass(), biks);
 				db.eintragAktualisieren(wi.getClass(), wi);
 				db.eintragAktualisieren(frage.getClass(), frage);
+				db.eintragAktualisieren(frage2.getClass(), frage2);
 				db.eintragAktualisieren(quest.getClass(), quest);
 				db.eintragAktualisieren(bossfight.getClass(), bossfight);
 				

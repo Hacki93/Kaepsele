@@ -45,7 +45,8 @@ public class HauptController {
 	Benutzer angemeldeterBenutzer;
 	Benutzer profilBenutzer;
 	Gruppe gruppe;
-	Quest quest;
+	Quest klassenQuest;
+	int questId; 
 	ArrayList<Frage> questFragen;
 	
 	@RequestMapping(value = "/", method=RequestMethod.GET)
@@ -1221,11 +1222,12 @@ public class HauptController {
 			return "Anmelden";
 		}
 
-		Quest quest =  gruppe.questAntreten(angemeldeterBenutzer);
-		db.eintragZusammenfuehren(quest.getClass(), quest);
-		this.quest = quest;
+		klassenQuest =  gruppe.questAntreten(angemeldeterBenutzer);
+		int id = db.eintragHinzufuegen(klassenQuest.getClass(), klassenQuest);
+		db.eintragZusammenfuehren(klassenQuest.getClass(), klassenQuest);
+		this.questId = id;
 		ArrayList<Frage> fragen = new ArrayList<Frage>();
-		for (Frage f: quest.getFragen()){
+		for (Frage f: klassenQuest.getFragen()){
 			fragen.add(f);
 			System.out.println(f.getText());
 		}
@@ -1235,25 +1237,33 @@ public class HauptController {
 	}
 	
 	@RequestMapping(value = "/questBeenden")
-	public String questBeenden(@ModelAttribute Quest quest1, Model model){
+	public String questBeenden(@ModelAttribute Quest quest, Model model){
 		if (angemeldeterBenutzer == null){
 			model.addAttribute("nachricht", "Bitte melden Sie sich an");
 			model.addAttribute("benutzer", new Benutzer());
 			return "Anmelden";
 		}
 		
-		Quest neuerQuest = new Quest(); 
-		int questId = quest.getId(); 
-		neuerQuest = (Quest) db.eintragAusgeben(neuerQuest.getClass(), questId);
-		if (quest1.getAntworten() != null){
-			for (String a: quest1.getAntworten()){
-				neuerQuest.addAntwort(a);
+//		Quest neuerQuest = new Quest(); 
+		System.out.println(questId);
+//		for (Object obj : db.tabelleAusgeben(neuerQuest.getClass())){
+//			Quest quest2 = (Quest) obj;
+//			if (quest2.getId() == questId){
+//				neuerQuest = quest2; 
+//			}
+//		}
+//		neuerQuest = (Quest) db.eintragAusgeben(neuerQuest.getClass(), questId);
+		if (quest.getAntworten() != null){
+			for (String a: quest.getAntworten()){
+				
+				System.out.println("Antwort: " + a);
+				klassenQuest.addAntwort(a);
 			}
 		}
-		db.eintragZusammenfuehren(neuerQuest.getClass(), neuerQuest);
-		int punkte = neuerQuest.korrigiere();
-		db.eintragZusammenfuehren(neuerQuest.getClass(), neuerQuest);
-		this.quest = null; 
+		db.eintragZusammenfuehren(klassenQuest.getClass(), klassenQuest);
+		int punkte = klassenQuest.korrigiere();
+		db.eintragZusammenfuehren(klassenQuest.getClass(), klassenQuest);
+//		this.klassenQuest = null; 
 		
 		int aktuellerPunktestand = gruppe.aktuellerPunktestand(angemeldeterBenutzer);
 		
@@ -1276,6 +1286,31 @@ public class HauptController {
 	    return "GruppenProfil";
 	}
 	
+	@RequestMapping(value = "/TeamcombatsAnzeigen")
+	public String teamcombatsAnzeigen(Model model){
+		ArrayList<Aufgabe> aufgaben = new ArrayList<Aufgabe>();
+		for (Aufgabe a: angemeldeterBenutzer.getAufgaben()){
+			if (a.getTyp() == Nachricht.TEAMHERAUSFORDERUNG){
+				Teamcombat teamcombat = a.getAnhangTeamcombat(); 
+				System.out.println(teamcombat.getId());
+				a.setHilfsIdTeamcombat(teamcombat.getId());
+				
+				// prüft in welcher Gruppe der angemeldete Benutzer ist, damit die Gruppeninfo der gegnerischen Gruppe ausgegeben wird 
+				if (!teamcombat.getHerausforderer().getMitglieder().contains(angemeldeterBenutzer)){
+					teamcombat.getHerausforderer().setAnzahlMitglieder(teamcombat.getHerausforderer().anzahl());
+					a.setGegnerischeGruppenInfo(teamcombat.getHerausforderer());
+				} else {
+					teamcombat.getHerausgeforderter().setAnzahlMitglieder(teamcombat.getHerausgeforderter().anzahl());
+					a.setGegnerischeGruppenInfo(teamcombat.getHerausgeforderter());
+				}
+				aufgaben.add(a);
+			}
+		}
+		
+	
+		model.addAttribute("aufgaben", aufgaben);
+		return "TeamcombatListe";
+	}
 	
 	
 	@RequestMapping(value = "/GruppeAuswaehlen")
@@ -1363,14 +1398,14 @@ public class HauptController {
 			quest = teamcombat.getQuestFuerHerausgeforderter();
 		}
 
-		this.quest = quest;
+		this.klassenQuest = quest;
 		ArrayList<Frage> fragen = new ArrayList<Frage>();
 		for (Frage f: quest.getFragen()){
 			fragen.add(f);
 		}
 		
-		if (this.quest.getAntworten() != null){
-			for (String a: this.quest.getAntworten()){
+		if (this.klassenQuest.getAntworten() != null){
+			for (String a: this.klassenQuest.getAntworten()){
 				String[] parts = a.split(";!!;!");
 				int frage_id = Integer.parseInt(parts[0]);
 				String antwort = parts[1];
@@ -1395,14 +1430,14 @@ public class HauptController {
 			return "Anmelden";
 		}
 		if (quest.getAntworten() != null){
-			this.quest.getAntworten().clear();
+			this.klassenQuest.getAntworten().clear();
 			for (String a: quest.getAntworten()){
-				this.quest.addAntwort(a);
+				this.klassenQuest.addAntwort(a);
 			}
 		}
 		
-		db.eintragAktualisieren(this.quest.getClass(), this.quest);
-		this.quest = null; 
+		db.eintragAktualisieren(this.klassenQuest.getClass(), this.klassenQuest);
+		this.klassenQuest = null; 
 	    
 	    
 		ArrayList<Aufgabe> aufgaben = new ArrayList<Aufgabe>();
@@ -1473,14 +1508,14 @@ public class HauptController {
 				quest = teamcombat.getQuestFuerHerausgeforderter();
 			}
 
-			this.quest = quest;
+			this.klassenQuest = quest;
 			ArrayList<Frage> fragen = new ArrayList<Frage>();
 			for (Frage f: quest.getFragen()){
 				fragen.add(f);
 			}
 			
-			if (this.quest.getAntworten() != null){
-				for (String a: this.quest.getAntworten()){
+			if (this.klassenQuest.getAntworten() != null){
+				for (String a: this.klassenQuest.getAntworten()){
 					String[] parts = a.split(";!!;!");
 					int frage_id = Integer.parseInt(parts[0]);
 					String antwort = parts[1];
